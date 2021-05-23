@@ -1,3 +1,22 @@
+@font-face{
+    font-family:'poppinsmedium';
+    src:url("../fonts/poppins-medium-webfont.woff2") format("woff2"),
+        url("../fonts/poppins-medium-webfont.woff") format("woff");
+    font-weight:normal;
+    font-style:normal
+}
+@font-face{
+    font-family:'poppinsregular';
+    src:url("../fonts/poppins-regular-webfont.woff2") format("woff2"),
+        url("../fonts/poppins-regular-webfont.woff") format("woff");
+    font-weight:normal;
+    font-style:normal
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
+body {
+    font-family: 'poppinsregular','Helvetica Neue',Helvetica,Arial,sans-serif !important;
+    font-weight: 400;
+}
 html,
 body {
     height: 100%;
@@ -112,4 +131,43 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+.sidebar-menu.tree a > i.fa,
+.sidebar-menu a > i.fa,
+.dropdown.notifications-menu a > i,
+.nav.navbar-nav li a > i{
+    font-size: 20px !important;
+    width: 25px !important;
+}
+.navbar-nav > li > a {
+    padding-bottom: 10px;
+}
+.small-box .icon{
+    top: 0 !important;
+}
+.rc-handle-container{
+    margin-top: 10px;
+}
+.btns a {
+    margin: 0 5px;
+}   
+.row-field{
+    float: left;
+    width: 100%;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    margin-top:0px !important;
+}
+.bootstrap-tagsinput{
+    width: 100%;
+}
+.letterUpper:first-letter{
+    text-transform: uppercase;
+}
+.container-map{
+    float: left; 
+    width: 100%; 
+    padding: 0 15px; 
+    box-sizing: border-box; 
+    height: 500px;
 }
