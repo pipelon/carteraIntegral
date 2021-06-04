@@ -38,6 +38,7 @@ if (\Yii::$app->user->can('/report-temp/*') || \Yii::$app->user->can('/*')) {
             'id',
             'col1',
             'col2',
+            'col17',
             'col3',
             'col4',
             
@@ -69,6 +70,7 @@ if (\Yii::$app->user->can('/report-temp/*') || \Yii::$app->user->can('/*')) {
             'id',
             'col1',
             'col2',
+            'col17',
             'col3',
             'col4',
             'col5',
@@ -83,7 +85,7 @@ if (\Yii::$app->user->can('/report-temp/*') || \Yii::$app->user->can('/*')) {
             'col14',
             'col15',
             'col16',
-            'col17',
+            
         ];
         //TIPOS DE EXPORTACION
         $exportConfig = [
