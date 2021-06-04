@@ -104,7 +104,7 @@ CREATE TABLE `menu` (
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'Configuración',NULL,NULL,3,' flaticon-cogwheel'),(2,'Asignaciones',1,'/admin/assignment/index',2,' flaticon-user-ok'),(3,'Usuarios',1,'/users/index',1,' flaticon-users'),(4,'Maestros',NULL,NULL,2,NULL),(5,'Tipos de procesos',4,'/process-types/index',1,NULL),(6,'Informes',NULL,NULL,1,NULL),(7,'Informe',6,'/report-temp/index',1,NULL);
+insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'Configuración',NULL,NULL,3,' flaticon-cogwheel'),(2,'Asignaciones',1,'/admin/assignment/index',2,' flaticon-user-ok'),(3,'Usuarios',1,'/users/index',1,' flaticon-users'),(4,'General',NULL,NULL,2,' flaticon-add'),(5,'Tipos de procesos',4,'/process-types/index',1,' flaticon-squares-2'),(6,'Informes',NULL,NULL,1,' flaticon-statistics'),(7,'Informe',6,'/report-temp/index',1,' flaticon-interface-6');
 
 /*Table structure for table `migration` */
 
