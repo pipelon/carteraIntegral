@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Prueba;
-use app\models\PruebaSearch;
+use app\models\ProcessTypes;
+use app\models\ProcessTypesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PruebaController implements the CRUD actions for Prueba model.
+ * ProcessTypesController implements the CRUD actions for ProcessTypes model.
  */
-class PruebaController extends Controller
+class ProcessTypesController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class PruebaController extends Controller
     }
 
     /**
-     * Lists all Prueba models.
+     * Lists all ProcessTypes models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PruebaSearch();
+        $searchModel = new ProcessTypesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class PruebaController extends Controller
     }
 
     /**
-     * Displays a single Prueba model.
+     * Displays a single ProcessTypes model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class PruebaController extends Controller
     }
 
     /**
-     * Creates a new Prueba model.
+     * Creates a new ProcessTypes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Prueba();
+        $model = new ProcessTypes();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class PruebaController extends Controller
     }
 
     /**
-     * Updates an existing Prueba model.
+     * Updates an existing ProcessTypes model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class PruebaController extends Controller
     }
 
     /**
-     * Deletes an existing Prueba model.
+     * Deletes an existing ProcessTypes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class PruebaController extends Controller
     }
 
     /**
-     * Finds the Prueba model based on its primary key value.
+     * Finds the ProcessTypes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Prueba the loaded model
+     * @return ProcessTypes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Prueba::findOne($id)) !== null) {
+        if (($model = ProcessTypes::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
