@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Prueba;
+use app\models\ProcessTypes;
 
 /**
- * PruebaSearch represents the model behind the search form of `app\models\Prueba`.
+ * ProcessTypesSearch represents the model behind the search form of `app\models\ProcessTypes`.
  */
-class PruebaSearch extends Prueba
+class ProcessTypesSearch extends ProcessTypes
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class PruebaSearch extends Prueba
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'active'], 'integer'],
+            [['name', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class PruebaSearch extends Prueba
      */
     public function search($params)
     {
-        $query = Prueba::find();
+        $query = ProcessTypes::find();
 
         // add conditions that should always apply here
 
@@ -61,9 +61,14 @@ class PruebaSearch extends Prueba
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'active' => $this->active,
+            'created' => $this->created,
+            'modified' => $this->modified,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'created_by', $this->created_by])
+            ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 
         return $dataProvider;
     }
