@@ -23,6 +23,7 @@ $config = [
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
+            'mainLayout' => '@app/views/layouts/main.php',            
             'controllerMap' => [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
@@ -83,7 +84,7 @@ $config = [
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '@vendor/mdmsoft/yii2-admin/views' => '@app/views/yii2-admin'
+                    '@vendor/mdmsoft/yii2-admin/views' => '@app/views/admin'
                 ],
             ],
         ],

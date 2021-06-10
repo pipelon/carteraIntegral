@@ -14,7 +14,11 @@ use yii\helpers\Html;
                         'alt' => 'User Image',
                         'class' => 'img-circle'
             ]) . '</span><span class="logo-lg">' .
-            \yii\helpers\Html::img('@web/images/logo-cartera-integral-grande.png', ['alt' => 'User Image'])
+            \yii\helpers\Html::img('@web/images/logo-cartera-integral-grande.jpg',
+                    [
+                        'alt' => 'User Image',
+                        'style' => 'width: 115px; padding: 0; margin-top: -15px; max-height: none;'
+                    ])
             . '</span>', Yii::$app->homeUrl, ['class' => 'logo'])
     ?>
 
@@ -265,7 +269,7 @@ use yii\helpers\Html;
                                     Rol: 
                                     <b>
                                         <?php
-                                        if(!Yii::$app->user->isGuest){
+                                        if (!Yii::$app->user->isGuest) {
                                             $roles = implode(", ", array_keys(Yii::$app->user->identity->getRoles()));
                                             echo trim(strtolower(preg_replace("/[A-Z]/", ' $0', $roles)));
                                         }
