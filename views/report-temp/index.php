@@ -8,7 +8,7 @@ use kartik\export\ExportMenu;
 /* @var $searchModel app\models\ReportTempSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Report Temps';
+$this->title = 'Informe de gestión';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';

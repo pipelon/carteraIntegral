@@ -2,52 +2,22 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Panel principal';
 ?>
-<div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <!-- Content Wrapper. Contains page content -->
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+        <!-- Main content -->
+        <section class="content">
+            
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
+		<div class="row">
+			<div class="col-lg-4 col-xs-6">
+				<div id="w0" class="info-box"><span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span><div class="info-box-content"><span class="info-box-text">Alertas</span><span class="info-box-number">1,410</span><span class="progress-description"></span></div></div><div><a href="#">Ver detalle</a></div>    </div>
+			<div class="col-lg-4 col-xs-6">
+				<div id="w1" class="info-box"><span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span><div class="info-box-content"><span class="info-box-text">Procesos en curso</span><span class="info-box-number">410</span><span class="progress-description"></span></div></div><div><a href="#">Ver detalle</a></div>    </div>
+			<div class="col-lg-4 col-xs-6">
+				<div id="w2" class="info-box"><span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span><div class="info-box-content"><span class="info-box-text">Acciones realizadas</span><span class="info-box-number">13,648</span><span class="progress-description"></span></div></div><div><a href="#">Ver detalle</a></div>    </div>
+		</div>
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
-</div>
+        </section><!-- /.content -->
