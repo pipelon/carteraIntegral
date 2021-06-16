@@ -15,14 +15,17 @@ $template = '';
 if (\Yii::$app->user->can('/report-temp/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/report-temp/update')) {
-    $template .= '{update} ';
-}
-if (\Yii::$app->user->can('/report-temp/delete')) {
-    $template .= '{delete} ';
-}
+// if (\Yii::$app->user->can('/report-temp/update')) {
+    // $template .= '{update} ';
+// }
+// if (\Yii::$app->user->can('/report-temp/delete')) {
+    // $template .= '{delete} ';
+// }
+// if (\Yii::$app->user->can('/report-temp/*') || \Yii::$app->user->can('/*')) {
+    // $template = '{view}  {delete}';
+// }
 if (\Yii::$app->user->can('/report-temp/*') || \Yii::$app->user->can('/*')) {
-    $template = '{view}  {delete}';
+    $template = '{view}';
 }
 ?>
 <div class="report-temp-index box box-primary">
