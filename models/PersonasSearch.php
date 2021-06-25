@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ProcessTypes;
+use app\models\Personas;
 
 /**
- * ProcessTypesSearch represents the model behind the search form of `app\models\ProcessTypes`.
+ * PersonasSearch represents the model behind the search form of `app\models\Personas`.
  */
-class ProcessTypesSearch extends ProcessTypes
+class PersonasSearch extends Personas
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ProcessTypesSearch extends ProcessTypes
     public function rules()
     {
         return [
-            [['id', 'active'], 'integer'],
-            [['name', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['id', 'nit', 'digverifica', 'representantelegal'], 'integer'],
+            [['tipodeudor', 'firstname', 'lastname', 'razonsocial', 'direccion', 'telefonofijo', 'celular', 'email', 'ciudad', 'marcas', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ProcessTypesSearch extends ProcessTypes
      */
     public function search($params)
     {
-        $query = ProcessTypes::find();
+        $query = Personas::find();
 
         // add conditions that should always apply here
 
@@ -61,12 +61,23 @@ class ProcessTypesSearch extends ProcessTypes
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'active' => $this->active,
+            'nit' => $this->nit,
+            'digverifica' => $this->digverifica,
+            'representantelegal' => $this->representantelegal,
             'created' => $this->created,
             'modified' => $this->modified,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'tipodeudor', $this->tipodeudor])
+            ->andFilterWhere(['like', 'firstname', $this->firstname])
+            ->andFilterWhere(['like', 'lastname', $this->lastname])
+            ->andFilterWhere(['like', 'razonsocial', $this->razonsocial])
+            ->andFilterWhere(['like', 'direccion', $this->direccion])
+            ->andFilterWhere(['like', 'telefonofijo', $this->telefonofijo])
+            ->andFilterWhere(['like', 'celular', $this->celular])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'ciudad', $this->ciudad])
+            ->andFilterWhere(['like', 'marcas', $this->marcas])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 

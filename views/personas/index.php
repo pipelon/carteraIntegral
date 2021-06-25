@@ -4,30 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ProcessTypesSearch */
+/* @var $searchModel app\models\PersonasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tipos de procesos';
+$this->title = 'Personas';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/process-types/view')) {
+if (\Yii::$app->user->can('/personas/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/process-types/update')) {
+if (\Yii::$app->user->can('/personas/update')) {
     $template .= '{update} ';
 }
-if (\Yii::$app->user->can('/process-types/delete')) {
+if (\Yii::$app->user->can('/personas/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/process-types/*') || \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/personas/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
-<div class="process-types-index box box-primary">
+<div class="personas-index box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/process-types/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear tipo de proceso', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/personas/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear persona', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -39,15 +39,11 @@ if (\Yii::$app->user->can('/process-types/*') || \Yii::$app->user->can('/*')) {
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
                 'id',
-                'name',
-                [
-                    'attribute' => 'active',
-                    'format' => 'raw',
-                    'value' => function ($data) {
-                        return Yii::$app->utils->getConditional($data->active);
-                    },
-                    'filter' => Yii::$app->utils->getFilterConditional()
-                ],
+                'nit',
+                'digverifica',
+                'tipodeudor',
+                'firstname',
+                'lastname',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,

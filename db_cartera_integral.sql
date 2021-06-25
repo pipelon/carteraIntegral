@@ -21,13 +21,13 @@ USE `db_cartera_integral`;
 DROP TABLE IF EXISTS `auth_assignment`;
 
 CREATE TABLE `auth_assignment` (
-  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `item_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `created_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`item_name`,`user_id`),
   KEY `idx-auth_assignment-user_id` (`user_id`),
   CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `auth_assignment` */
 
@@ -38,10 +38,10 @@ insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('Supe
 DROP TABLE IF EXISTS `auth_item`;
 
 CREATE TABLE `auth_item` (
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `type` smallint(6) NOT NULL,
-  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `rule_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` blob DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
@@ -49,24 +49,24 @@ CREATE TABLE `auth_item` (
   KEY `rule_name` (`rule_name`),
   KEY `idx-auth_item-type` (`type`),
   CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `auth_item` */
 
-insert  into `auth_item`(`name`,`type`,`description`,`rule_name`,`data`,`created_at`,`updated_at`) values ('/*',2,NULL,NULL,NULL,1621800748,1621800748),('/admin/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/assignment/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/assignment/assign',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/index',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/revoke',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/view',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/default/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/default/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/assign',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/get-users',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/remove',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/get-users',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/refresh',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/user/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/activate',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/change-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/delete',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/index',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/login',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/logout',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/request-password-reset',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/reset-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/signup',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/view',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/default/*',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/db-explain',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/download-mail',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/index',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/toolbar',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/view',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/user/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/reset-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/set-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/action',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/diff',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/index',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/preview',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/view',2,NULL,NULL,NULL,1621800747,1621800747),('/gridview/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/download',2,NULL,NULL,NULL,1622834672,1622834672),('/process-types/*',2,NULL,NULL,NULL,1622832194,1622832194),('/process-types/create',2,NULL,NULL,NULL,1622832194,1622832194),('/process-types/delete',2,NULL,NULL,NULL,1622832194,1622832194),('/process-types/index',2,NULL,NULL,NULL,1622832194,1622832194),('/process-types/update',2,NULL,NULL,NULL,1622832194,1622832194),('/process-types/view',2,NULL,NULL,NULL,1622832194,1622832194),('/report-temp/*',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/create',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/delete',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/index',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/update',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/view',2,NULL,NULL,NULL,1622833076,1622833076),('/site/*',2,NULL,NULL,NULL,1621800748,1621800748),('/site/about',2,NULL,NULL,NULL,1621800748,1621800748),('/site/captcha',2,NULL,NULL,NULL,1621800747,1621800747),('/site/contact',2,NULL,NULL,NULL,1621800748,1621800748),('/site/error',2,NULL,NULL,NULL,1621800747,1621800747),('/site/index',2,NULL,NULL,NULL,1621800747,1621800747),('/site/login',2,NULL,NULL,NULL,1621800747,1621800747),('/site/logout',2,NULL,NULL,NULL,1621800747,1621800747),('/users/*',2,NULL,NULL,NULL,1621802631,1621802631),('/users/create',2,NULL,NULL,NULL,1621802631,1621802631),('/users/delete',2,NULL,NULL,NULL,1621802631,1621802631),('/users/index',2,NULL,NULL,NULL,1621802631,1621802631),('/users/update',2,NULL,NULL,NULL,1621802631,1621802631),('/users/view',2,NULL,NULL,NULL,1621802631,1621802631),('fullPermission',2,'Todos los permisos asignados',NULL,NULL,1621800859,1621800859),('SuperAdministrador',1,'Super Administrador con acceso a todas las rutas',NULL,NULL,1621801114,1621801128);
+insert  into `auth_item`(`name`,`type`,`description`,`rule_name`,`data`,`created_at`,`updated_at`) values ('/*',2,NULL,NULL,NULL,1621800748,1621800748),('/admin/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/assignment/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/assignment/assign',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/index',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/revoke',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/view',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/default/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/default/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/assign',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/get-users',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/remove',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/get-users',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/refresh',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/user/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/activate',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/change-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/delete',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/index',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/login',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/logout',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/request-password-reset',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/reset-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/signup',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/view',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/default/*',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/db-explain',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/download-mail',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/index',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/toolbar',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/view',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/user/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/reset-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/set-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/action',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/diff',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/index',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/preview',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/view',2,NULL,NULL,NULL,1621800747,1621800747),('/gridview/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/download',2,NULL,NULL,NULL,1622834672,1622834672),('/personas/*',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/create',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/delete',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/index',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/update',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/view',2,NULL,NULL,NULL,1624631252,1624631252),('/report-temp/*',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/create',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/delete',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/index',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/update',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/view',2,NULL,NULL,NULL,1622833076,1622833076),('/site/*',2,NULL,NULL,NULL,1621800748,1621800748),('/site/about',2,NULL,NULL,NULL,1621800748,1621800748),('/site/captcha',2,NULL,NULL,NULL,1621800747,1621800747),('/site/contact',2,NULL,NULL,NULL,1621800748,1621800748),('/site/error',2,NULL,NULL,NULL,1621800747,1621800747),('/site/index',2,NULL,NULL,NULL,1621800747,1621800747),('/site/login',2,NULL,NULL,NULL,1621800747,1621800747),('/site/logout',2,NULL,NULL,NULL,1621800747,1621800747),('/tipo-procesos/*',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/create',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/delete',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/index',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/update',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/view',2,NULL,NULL,NULL,1624631252,1624631252),('/users/*',2,NULL,NULL,NULL,1621802631,1621802631),('/users/create',2,NULL,NULL,NULL,1621802631,1621802631),('/users/delete',2,NULL,NULL,NULL,1621802631,1621802631),('/users/index',2,NULL,NULL,NULL,1621802631,1621802631),('/users/update',2,NULL,NULL,NULL,1621802631,1621802631),('/users/view',2,NULL,NULL,NULL,1621802631,1621802631),('fullPermission',2,'Todos los permisos asignados',NULL,NULL,1621800859,1621800859),('SuperAdministrador',1,'Super Administrador con acceso a todas las rutas',NULL,NULL,1621801114,1621801128);
 
 /*Table structure for table `auth_item_child` */
 
 DROP TABLE IF EXISTS `auth_item_child`;
 
 CREATE TABLE `auth_item_child` (
-  `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `parent` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `child` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`parent`,`child`),
   KEY `child` (`child`),
   CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `auth_item_child` */
 
@@ -77,12 +77,12 @@ insert  into `auth_item_child`(`parent`,`child`) values ('fullPermission','/*'),
 DROP TABLE IF EXISTS `auth_rule`;
 
 CREATE TABLE `auth_rule` (
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `data` blob DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `auth_rule` */
 
@@ -100,44 +100,53 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'Configuración',NULL,NULL,3,' flaticon-cogwheel'),(2,'Asignaciones',1,'/admin/assignment/index',2,' flaticon-user-ok'),(3,'Usuarios',1,'/users/index',1,' flaticon-users'),(4,'General',NULL,NULL,2,' flaticon-add'),(5,'Tipos de procesos',4,'/process-types/index',1,' flaticon-squares-2'),(6,'Informes',NULL,NULL,1,' flaticon-statistics'),(7,'Informe',6,'/report-temp/index',1,' flaticon-interface-6');
+insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'Configuración',NULL,NULL,3,' flaticon-cogwheel'),(2,'Asignaciones',1,'/admin/assignment/index',2,' flaticon-user-ok'),(3,'Usuarios',1,'/users/index',1,' flaticon-users'),(4,'General',NULL,NULL,2,' flaticon-add'),(5,'Tipos de procesos',4,'/tipo-procesos/index',2,' flaticon-squares-2'),(6,'Informes',NULL,NULL,1,' flaticon-statistics'),(7,'Informe',6,'/report-temp/index',1,' flaticon-interface-6'),(8,'Personas',4,'/personas/index',1,' flaticon-users');
 
 /*Table structure for table `migration` */
 
 DROP TABLE IF EXISTS `migration`;
 
 CREATE TABLE `migration` (
-  `version` varchar(180) NOT NULL,
+  `version` varchar(180) CHARACTER SET latin1 NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Data for the table `migration` */
 
 insert  into `migration`(`version`,`apply_time`) values ('m000000_000000_base',1621799116),('m140506_102106_rbac_init',1621799261),('m170907_052038_rbac_add_index_on_auth_assignment_user_id',1621799261),('m180523_151638_rbac_updates_indexes_without_prefix',1621799262),('m200409_110543_rbac_update_mssql_trigger',1621799262),('m140602_111327_create_menu_table',1621799900),('m160312_050000_create_user',1621799900);
 
-/*Table structure for table `process_types` */
+/*Table structure for table `personas` */
 
-DROP TABLE IF EXISTS `process_types`;
+DROP TABLE IF EXISTS `personas`;
 
-CREATE TABLE `process_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(15) NOT NULL COMMENT 'Nombre',
-  `active` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Activo',
-  `created` datetime NOT NULL COMMENT 'Creado',
-  `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
-  `modified` datetime NOT NULL COMMENT 'Modificado',
-  `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
+CREATE TABLE `personas` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `nit` int(12) NOT NULL COMMENT 'Nit de la persona natural o jurídica',
+  `digverifica` tinyint(1) NOT NULL COMMENT 'Digito de verificación',
+  `tipodeudor` varchar(50) NOT NULL COMMENT 'Tipo del deudor',
+  `firstname` varchar(120) NOT NULL COMMENT 'Nombres de la persona natural o jurídica',
+  `lastname` varchar(120) NOT NULL COMMENT 'Apellidos de la persona natural o jurídica',
+  `razonsocial` varchar(300) NOT NULL COMMENT 'Razón social',
+  `direccion` varchar(300) NOT NULL COMMENT 'Dirección de la persona natural o jurídica',
+  `telefonofijo` varchar(15) NOT NULL COMMENT 'Teléfono fijo',
+  `celular` varchar(20) NOT NULL COMMENT 'Número celular',
+  `email` varchar(120) NOT NULL COMMENT 'Correo electrónico',
+  `ciudad` varchar(120) NOT NULL COMMENT 'Ciudad',
+  `marcas` varchar(300) NOT NULL COMMENT 'Marcas asociadas',
+  `representantelegal` int(10) NOT NULL COMMENT 'Nit del representante legal',
+  `created` datetime NOT NULL COMMENT 'Fecha de creación del registro',
+  `created_by` varchar(50) NOT NULL COMMENT 'Quien creó el registro',
+  `modified` datetime NOT NULL COMMENT 'Fecha de modificación del registro',
+  `modified_by` varchar(50) NOT NULL COMMENT 'Quien modificó el registro',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `process_types` */
-
-insert  into `process_types`(`id`,`name`,`active`,`created`,`created_by`,`modified`,`modified_by`) values (1,'Ejecutivo',1,'2021-06-04 13:54:01','admin','2021-06-04 13:54:15','admin');
+/*Data for the table `personas` */
 
 /*Table structure for table `report_temp` */
 
@@ -168,6 +177,25 @@ CREATE TABLE `report_temp` (
 /*Data for the table `report_temp` */
 
 insert  into `report_temp`(`id`,`col1`,`col2`,`col3`,`col4`,`col5`,`col6`,`col7`,`col8`,`col9`,`col10`,`col11`,`col12`,`col13`,`col14`,`col15`,`col16`,`col17`) values (1,'21/01/2016','GUATAPURÍ\r\n','Marca 1','900258465\r\n','$15,000,000','$15,000,000',NULL,'Ejecutivo','2 PEQUEÑAS Y COMPETENCIA MULTIPLE VALLEDUPAR\r','MEDELLIN\r\n','123456','JURÍDICO: 15-02-16 Radicación de proceso, Juz','No renueva desde el año 2015. Pendiente respu','Negociacion','50%','Se solicitan las siguientes medidas','PABLO LOPERA'),(2,'15/11/2018\r\n','GUATAPURÍ\r\n','Marca 3','900265964\r\n','$83,120,000\r\n','$83,120,000\r\n',NULL,'Tipo 2','37 CVIL MUNICIPAL\r\n','BOGOTÁ\r\n','6765','JURÍDICO: 15-02-16 Radicación de proceso, Juz','A',NULL,'25%','Se solicitan las siguientes medidas','SILVIA ORTIZ'),(3,NULL,'GUATAPURÍ\r\n','Marca 2','70215489\r\n','$6,565,000\r\n','$6,565,000\r\n',NULL,'Ejecutivo','37 CVIL MUNICIPAL\r\n','CALI\r\n','3465546','JURÍDICO: 15-02-16 Radicación de proceso, Juz','No renueva desde el año 2015. Pendiente respu','Negociacion','50%','Se solicitan las siguientes medidas','JAIRO PALACIO'),(4,'30/01/2020','ALCARAVAN YOPAL\r\n','Marca 2','71532988\r\n','$18,000,000\r\n','$18,000,000\r\n',NULL,'Ejecutivo','37 CVIL MUNICIPAL\r\n','CALI\r\n','234234','JURÍDICO: 15-02-16 Radicación de proceso, Juz','No renueva desde el año 2015. Pendiente respu','Negociacion','50%','Se solicitan las siguientes medidas','WILLIAM SERNA'),(5,'30/01/2020\r\n','ALCARAVAN YOPAL\r\n','Marca 2','43960567\r\n','$13,000,000\r\n','$13,000,000\r\n',NULL,'Tipo 2','03 CIVIL MUNICIPAL\r\n','CALI','234324324','JURÍDICO: 15-02-16 Radicación de proceso, Juz','No renueva desde el año 2015. Pendiente respu','No Negociacion','25%','Se solicitan las siguientes medidas','LUZ DARY MONSALVE'),(6,'30/01/2020\r\n','ALCARAVAN YOPAL\r\n','Marca 2','42875658\r\n','$20,000,000\r\n','$20,000,000\r\n',NULL,'Ejecutivo','03 CIVIL MUNICIPAL\r\n','CALI\r\n','46576587668','JURÍDICO: 15-02-16 Radicación de proceso, Juz','No renueva desde el año 2015. Pendiente respu','NO Negociacion','50%','Se solicitan las siguientes medidas','BEATRIZ CARMONA'),(7,NULL,'ALCARAVAN YOPAL\r\n','Marca 1','900258465\r\n','$15,000,000','$15,000,000',NULL,'Ejecutivo','02 CIVIL MUNICIPAL\r\n','MEDELLIN\r\n','12323242324','JURÍDICO: 15-02-16 Radicación de proceso, Juz','A','Negociacion','25%','Se solicitan las siguientes medidas','JAIME BETANCUR'),(8,'14/11/2019','ALCARAVAN YOPAL\r\n','Marca 1','70858456\r\n','$13,000,000\r\n','$13,000,000\r\n',NULL,'Ejecutivo','07 CIVIL MUNICIPAL\r\n','MEDELLIN\r\n','8658746','JURÍDICO: 15-02-16 Radicación de proceso, Juz','A','Negociacion','75%','Se solicitan las siguientes medidas','GONZALO ARANGO'),(9,'31/03/2019\r\n','ALCARAVAN YOPAL\r\n','Marca 1','43564266\r\n','$20,000,000\r\n','$20,000,000\r\n',NULL,'Ejecutivo','02 CIVIL MUNICIPAL\r\n','MEDELLIN\r\n','5434543','JURÍDICO: 15-02-16 Radicación de proceso, Juz','A','Negociacion','50%','Se solicitan las siguientes medidas','INDUSTRIAS LA CASITA'),(10,'5/02/2016\r\n','ALCARAVAN YOPAL\r\n','Marca 3','890362745\r\n','$16,898,755\r\n','$16,898,755\r\n',NULL,'Tipo 2','37 CVIL MUNICIPAL\r\n','BOGOTÁ\r\n','768786','JURÍDICO: 15-02-16 Radicación de proceso, Juz','A',NULL,'50%','Se solicitan las siguientes medidas','FERRETERIA EL GANCHO');
+
+/*Table structure for table `tipo_procesos` */
+
+DROP TABLE IF EXISTS `tipo_procesos`;
+
+CREATE TABLE `tipo_procesos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `nombre` varchar(15) NOT NULL COMMENT 'Nombre',
+  `activo` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Activo',
+  `created` datetime NOT NULL COMMENT 'Creado',
+  `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
+  `modified` datetime NOT NULL COMMENT 'Modificado',
+  `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `tipo_procesos` */
+
+insert  into `tipo_procesos`(`id`,`nombre`,`activo`,`created`,`created_by`,`modified`,`modified_by`) values (2,'Proceso 1',1,'2021-06-25 09:47:21','admin','2021-06-25 09:47:21','admin');
 
 /*Table structure for table `users` */
 

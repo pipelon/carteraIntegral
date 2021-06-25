@@ -5,23 +5,23 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "process_types".
+ * This is the model class for table "tipo_procesos".
  *
  * @property int $id ID
- * @property string $name Nombre
- * @property int $active Activo
+ * @property string $nombre Nombre
+ * @property int $activo Activo
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
  */
-class ProcessTypes extends BeforeModel {
+class TipoProcesos extends BeforeModel {
 
     /**
      * {@inheritdoc}
      */
     public static function tableName() {
-        return 'process_types';
+        return 'tipo_procesos';
     }
 
     /**
@@ -29,10 +29,10 @@ class ProcessTypes extends BeforeModel {
      */
     public function rules() {
         return [
-            [['name'], 'required'],
-            [['active'], 'integer'],
+            [['nombre'], 'required'],
+            [['activo'], 'integer'],
             [['created', 'modified'], 'safe'],
-            [['name'], 'string', 'max' => 15],
+            [['nombre'], 'string', 'max' => 15],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
         ];
     }
@@ -43,8 +43,8 @@ class ProcessTypes extends BeforeModel {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'name' => 'Nombre',
-            'active' => 'Activo',
+            'nombre' => 'Nombre',
+            'activo' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',

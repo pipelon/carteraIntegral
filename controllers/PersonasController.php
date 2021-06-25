@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ProcessTypes;
-use app\models\ProcessTypesSearch;
+use app\models\Personas;
+use app\models\PersonasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ProcessTypesController implements the CRUD actions for ProcessTypes model.
+ * PersonasController implements the CRUD actions for Personas model.
  */
-class ProcessTypesController extends Controller
+class PersonasController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class ProcessTypesController extends Controller
     }
 
     /**
-     * Lists all ProcessTypes models.
+     * Lists all Personas models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProcessTypesSearch();
+        $searchModel = new PersonasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class ProcessTypesController extends Controller
     }
 
     /**
-     * Displays a single ProcessTypes model.
+     * Displays a single Personas model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class ProcessTypesController extends Controller
     }
 
     /**
-     * Creates a new ProcessTypes model.
+     * Creates a new Personas model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ProcessTypes();
+        $model = new Personas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class ProcessTypesController extends Controller
     }
 
     /**
-     * Updates an existing ProcessTypes model.
+     * Updates an existing Personas model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class ProcessTypesController extends Controller
     }
 
     /**
-     * Deletes an existing ProcessTypes model.
+     * Deletes an existing Personas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class ProcessTypesController extends Controller
     }
 
     /**
-     * Finds the ProcessTypes model based on its primary key value.
+     * Finds the Personas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ProcessTypes the loaded model
+     * @return Personas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ProcessTypes::findOne($id)) !== null) {
+        if (($model = Personas::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
