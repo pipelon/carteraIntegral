@@ -53,7 +53,7 @@
                 'items' => $items,
                 'submenuTemplate' => "<ul class='treeview-menu'>\n{items}\n</ul>\n",
                 'encodeLabels' => false,
-                'activateParents' => false,]);
+                'activateParents' => true,]);
             ?>
             <ul class="sidebar-menu">
                 <li>
