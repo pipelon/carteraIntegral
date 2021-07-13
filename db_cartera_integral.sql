@@ -21,13 +21,13 @@ USE `db_cartera_integral`;
 DROP TABLE IF EXISTS `auth_assignment`;
 
 CREATE TABLE `auth_assignment` (
-  `item_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`item_name`,`user_id`),
   KEY `idx-auth_assignment-user_id` (`user_id`),
   CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `auth_assignment` */
 
@@ -38,10 +38,10 @@ insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('Supe
 DROP TABLE IF EXISTS `auth_item`;
 
 CREATE TABLE `auth_item` (
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` smallint(6) NOT NULL,
-  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-  `rule_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` blob DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
@@ -49,24 +49,24 @@ CREATE TABLE `auth_item` (
   KEY `rule_name` (`rule_name`),
   KEY `idx-auth_item-type` (`type`),
   CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `auth_item` */
 
-insert  into `auth_item`(`name`,`type`,`description`,`rule_name`,`data`,`created_at`,`updated_at`) values ('/*',2,NULL,NULL,NULL,1621800748,1621800748),('/admin/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/assignment/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/assignment/assign',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/index',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/revoke',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/view',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/default/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/default/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/assign',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/get-users',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/remove',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/get-users',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/refresh',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/user/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/activate',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/change-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/delete',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/index',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/login',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/logout',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/request-password-reset',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/reset-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/signup',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/view',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/default/*',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/db-explain',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/download-mail',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/index',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/toolbar',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/view',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/user/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/reset-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/set-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/action',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/diff',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/index',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/preview',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/view',2,NULL,NULL,NULL,1621800747,1621800747),('/gridview/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/download',2,NULL,NULL,NULL,1622834672,1622834672),('/personas/*',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/create',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/delete',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/index',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/update',2,NULL,NULL,NULL,1624631252,1624631252),('/personas/view',2,NULL,NULL,NULL,1624631252,1624631252),('/report-temp/*',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/create',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/delete',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/index',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/update',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/view',2,NULL,NULL,NULL,1622833076,1622833076),('/site/*',2,NULL,NULL,NULL,1621800748,1621800748),('/site/about',2,NULL,NULL,NULL,1621800748,1621800748),('/site/captcha',2,NULL,NULL,NULL,1621800747,1621800747),('/site/contact',2,NULL,NULL,NULL,1621800748,1621800748),('/site/error',2,NULL,NULL,NULL,1621800747,1621800747),('/site/index',2,NULL,NULL,NULL,1621800747,1621800747),('/site/login',2,NULL,NULL,NULL,1621800747,1621800747),('/site/logout',2,NULL,NULL,NULL,1621800747,1621800747),('/tipo-procesos/*',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/create',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/delete',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/index',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/update',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/view',2,NULL,NULL,NULL,1624631252,1624631252),('/users/*',2,NULL,NULL,NULL,1621802631,1621802631),('/users/create',2,NULL,NULL,NULL,1621802631,1621802631),('/users/delete',2,NULL,NULL,NULL,1621802631,1621802631),('/users/index',2,NULL,NULL,NULL,1621802631,1621802631),('/users/update',2,NULL,NULL,NULL,1621802631,1621802631),('/users/view',2,NULL,NULL,NULL,1621802631,1621802631),('fullPermission',2,'Todos los permisos asignados',NULL,NULL,1621800859,1621800859),('SuperAdministrador',1,'Super Administrador con acceso a todas las rutas',NULL,NULL,1621801114,1621801128);
+insert  into `auth_item`(`name`,`type`,`description`,`rule_name`,`data`,`created_at`,`updated_at`) values ('/*',2,NULL,NULL,NULL,1621800748,1621800748),('/admin/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/assignment/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/assignment/assign',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/index',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/revoke',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/assignment/view',2,NULL,NULL,NULL,1621800743,1621800743),('/admin/default/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/default/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/menu/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/*',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/assign',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/create',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/delete',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/get-users',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/remove',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/update',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/permission/view',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/get-users',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/index',2,NULL,NULL,NULL,1621800744,1621800744),('/admin/role/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/role/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/assign',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/refresh',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/route/remove',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/*',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/create',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/delete',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/index',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/update',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/rule/view',2,NULL,NULL,NULL,1621800745,1621800745),('/admin/user/*',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/activate',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/change-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/delete',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/index',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/login',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/logout',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/request-password-reset',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/reset-password',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/signup',2,NULL,NULL,NULL,1621800746,1621800746),('/admin/user/view',2,NULL,NULL,NULL,1621800746,1621800746),('/clientes/*',2,NULL,NULL,NULL,1626185079,1626185079),('/clientes/create',2,NULL,NULL,NULL,1626185079,1626185079),('/clientes/delete',2,NULL,NULL,NULL,1626185079,1626185079),('/clientes/index',2,NULL,NULL,NULL,1626185079,1626185079),('/clientes/update',2,NULL,NULL,NULL,1626185079,1626185079),('/clientes/view',2,NULL,NULL,NULL,1626185079,1626185079),('/debug/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/default/*',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/db-explain',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/download-mail',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/index',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/toolbar',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/default/view',2,NULL,NULL,NULL,1621800746,1621800746),('/debug/user/*',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/reset-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/debug/user/set-identity',2,NULL,NULL,NULL,1621800747,1621800747),('/deudores/*',2,NULL,NULL,NULL,1626193987,1626193987),('/deudores/create',2,NULL,NULL,NULL,1626193987,1626193987),('/deudores/delete',2,NULL,NULL,NULL,1626193987,1626193987),('/deudores/index',2,NULL,NULL,NULL,1626193986,1626193986),('/deudores/update',2,NULL,NULL,NULL,1626193987,1626193987),('/deudores/view',2,NULL,NULL,NULL,1626193987,1626193987),('/gii/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/*',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/action',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/diff',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/index',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/preview',2,NULL,NULL,NULL,1621800747,1621800747),('/gii/default/view',2,NULL,NULL,NULL,1621800747,1621800747),('/gridview/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/*',2,NULL,NULL,NULL,1622834672,1622834672),('/gridview/export/download',2,NULL,NULL,NULL,1622834672,1622834672),('/report-temp/*',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/create',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/delete',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/index',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/update',2,NULL,NULL,NULL,1622833076,1622833076),('/report-temp/view',2,NULL,NULL,NULL,1622833076,1622833076),('/site/*',2,NULL,NULL,NULL,1621800748,1621800748),('/site/about',2,NULL,NULL,NULL,1621800748,1621800748),('/site/captcha',2,NULL,NULL,NULL,1621800747,1621800747),('/site/contact',2,NULL,NULL,NULL,1621800748,1621800748),('/site/error',2,NULL,NULL,NULL,1621800747,1621800747),('/site/index',2,NULL,NULL,NULL,1621800747,1621800747),('/site/login',2,NULL,NULL,NULL,1621800747,1621800747),('/site/logout',2,NULL,NULL,NULL,1621800747,1621800747),('/tipo-procesos/*',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/create',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/delete',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/index',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/update',2,NULL,NULL,NULL,1624631252,1624631252),('/tipo-procesos/view',2,NULL,NULL,NULL,1624631252,1624631252),('/users/*',2,NULL,NULL,NULL,1621802631,1621802631),('/users/create',2,NULL,NULL,NULL,1621802631,1621802631),('/users/delete',2,NULL,NULL,NULL,1621802631,1621802631),('/users/index',2,NULL,NULL,NULL,1621802631,1621802631),('/users/update',2,NULL,NULL,NULL,1621802631,1621802631),('/users/view',2,NULL,NULL,NULL,1621802631,1621802631),('fullPermission',2,'Todos los permisos asignados',NULL,NULL,1621800859,1621800859),('SuperAdministrador',1,'Super Administrador con acceso a todas las rutas',NULL,NULL,1621801114,1621801128);
 
 /*Table structure for table `auth_item_child` */
 
 DROP TABLE IF EXISTS `auth_item_child`;
 
 CREATE TABLE `auth_item_child` (
-  `parent` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`parent`,`child`),
   KEY `child` (`child`),
   CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `auth_item_child` */
 
@@ -77,14 +77,89 @@ insert  into `auth_item_child`(`parent`,`child`) values ('fullPermission','/*'),
 DROP TABLE IF EXISTS `auth_rule`;
 
 CREATE TABLE `auth_rule` (
-  `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `data` blob DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `auth_rule` */
+
+/*Table structure for table `clientes` */
+
+DROP TABLE IF EXISTS `clientes`;
+
+CREATE TABLE `clientes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `tipo_documento` char(5) NOT NULL COMMENT 'Tipo de documento',
+  `documento` varchar(20) NOT NULL COMMENT 'Documento',
+  `direccion` varchar(100) NOT NULL COMMENT 'Dirección física',
+  `nombre_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Nombres',
+  `telefono_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Teléfonos',
+  `email_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Correo electrónico',
+  `cargo_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Cargo',
+  `nombre_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Nombres',
+  `telefono_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Teléfonos',
+  `email_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Correo electrónico',
+  `cargo_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Cargo',
+  `nombre_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Nombres',
+  `telefono_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Teléfonos',
+  `email_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Correo electrónico',
+  `cargo_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Cargo',
+  `created` datetime NOT NULL COMMENT 'Creado',
+  `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
+  `modified` datetime NOT NULL COMMENT 'Modificado',
+  `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `clientes` */
+
+insert  into `clientes`(`id`,`tipo_documento`,`documento`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`created`,`created_by`,`modified`,`modified_by`) values (1,'NIT','98766496','Calle 40 A sur # 24 B - 105','Felipe Echeverri','12345','pipe.echeverri.1@gmail.com','Analista','Diego Castaño','54321','diego@gmail.com','Gerente','','','','','2021-07-13 10:37:55','admin','2021-07-13 10:37:55','admin');
+
+/*Table structure for table `deudores` */
+
+DROP TABLE IF EXISTS `deudores`;
+
+CREATE TABLE `deudores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `nombre` varchar(45) NOT NULL COMMENT 'Nombres',
+  `marca` varchar(45) NOT NULL COMMENT 'Marca',
+  `direccion` varchar(100) NOT NULL COMMENT 'Dirección física',
+  `nombre_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Nombres',
+  `telefono_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Teléfonos',
+  `email_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Correo electrónico',
+  `cargo_persona_contacto_1` varchar(45) NOT NULL COMMENT 'Cargo',
+  `nombre_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Nombre',
+  `telefono_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Teléfonos',
+  `email_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Correo electrónico',
+  `cargo_persona_contacto_2` varchar(45) DEFAULT NULL COMMENT 'Cargo',
+  `nombre_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Nombres',
+  `telefono_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Teléfonos',
+  `email_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Correo electrónico',
+  `cargo_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Cargo',
+  `nombre_codeudor_1` varchar(45) NOT NULL COMMENT 'Nombres',
+  `documento_codeudor_1` varchar(45) NOT NULL COMMENT 'Documento',
+  `direccion_codeudor_1` varchar(45) NOT NULL COMMENT 'Dirección física',
+  `email_codeudor_1` varchar(45) NOT NULL COMMENT 'Correo electrónico',
+  `telefono_codeudor_1` varchar(45) NOT NULL COMMENT 'Teléfonos',
+  `nombre_codeudor_2` varchar(45) DEFAULT NULL COMMENT 'Nombres',
+  `documento_codeudor_2` varchar(45) DEFAULT NULL COMMENT 'Documento',
+  `direccion_codeudor_2` varchar(45) DEFAULT NULL COMMENT 'Dirección física',
+  `email_codeudor_2` varchar(45) DEFAULT NULL COMMENT 'Correo electrónico',
+  `telefonol_codeudor_2` varchar(45) DEFAULT NULL COMMENT 'Teléfonos',
+  `comentarios` text DEFAULT NULL COMMENT 'Comentarios',
+  `created` datetime NOT NULL COMMENT 'Creado',
+  `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
+  `modified` datetime NOT NULL COMMENT 'Modificado',
+  `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `deudores` */
+
+insert  into `deudores`(`id`,`nombre`,`marca`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`nombre_codeudor_1`,`documento_codeudor_1`,`direccion_codeudor_1`,`email_codeudor_1`,`telefono_codeudor_1`,`nombre_codeudor_2`,`documento_codeudor_2`,`direccion_codeudor_2`,`email_codeudor_2`,`telefonol_codeudor_2`,`comentarios`,`created`,`created_by`,`modified`,`modified_by`) values (1,'1','2','3','4','5','6@6.com','7','8','9','|0@10.com','11','12','13','14@14.com','15','16','17','18','19@19.com','20','21','22','23','24@24.com','25','26','2021-07-13 13:55:15','admin','2021-07-13 13:55:15','admin');
 
 /*Table structure for table `menu` */
 
@@ -100,53 +175,42 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'Configuración',NULL,NULL,3,' flaticon-cogwheel'),(2,'Asignaciones',1,'/admin/assignment/index',2,' flaticon-user-ok'),(3,'Usuarios',1,'/users/index',1,' flaticon-users'),(4,'General',NULL,NULL,2,' flaticon-add'),(5,'Tipos de procesos',4,'/tipo-procesos/index',2,' flaticon-squares-2'),(6,'Informes',NULL,NULL,1,' flaticon-statistics'),(7,'Informe',6,'/report-temp/index',1,' flaticon-interface-6'),(8,'Personas',4,'/personas/index',1,' flaticon-users');
+insert  into `menu`(`id`,`name`,`parent`,`route`,`order`,`data`) values (1,'Configuración',NULL,NULL,3,' flaticon-cogwheel'),(2,'Asignaciones',1,'/admin/assignment/index',2,' flaticon-user-ok'),(3,'Usuarios',1,'/users/index',1,' flaticon-users'),(4,'General',NULL,NULL,2,' flaticon-add'),(5,'Tipos de procesos',4,'/tipo-procesos/index',4,' flaticon-squares-2'),(6,'Informes',NULL,NULL,1,' flaticon-statistics'),(7,'Informe',6,'/report-temp/index',1,' flaticon-interface-6'),(9,'Clientes',4,'/clientes/index',1,' flaticon-users'),(10,'Deudores',4,'/deudores/index',2,' flaticon-coins');
 
 /*Table structure for table `migration` */
 
 DROP TABLE IF EXISTS `migration`;
 
 CREATE TABLE `migration` (
-  `version` varchar(180) CHARACTER SET latin1 NOT NULL,
+  `version` varchar(180) NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 /*Data for the table `migration` */
 
 insert  into `migration`(`version`,`apply_time`) values ('m000000_000000_base',1621799116),('m140506_102106_rbac_init',1621799261),('m170907_052038_rbac_add_index_on_auth_assignment_user_id',1621799261),('m180523_151638_rbac_updates_indexes_without_prefix',1621799262),('m200409_110543_rbac_update_mssql_trigger',1621799262),('m140602_111327_create_menu_table',1621799900),('m160312_050000_create_user',1621799900);
 
-/*Table structure for table `personas` */
+/*Table structure for table `process_types` */
 
-DROP TABLE IF EXISTS `personas`;
+DROP TABLE IF EXISTS `process_types`;
 
-CREATE TABLE `personas` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `nit` int(12) NOT NULL COMMENT 'Nit de la persona natural o jurídica',
-  `digverifica` tinyint(1) NOT NULL COMMENT 'Digito de verificación',
-  `tipodeudor` varchar(50) NOT NULL COMMENT 'Tipo del deudor',
-  `firstname` varchar(120) NOT NULL COMMENT 'Nombres de la persona natural o jurídica',
-  `lastname` varchar(120) NOT NULL COMMENT 'Apellidos de la persona natural o jurídica',
-  `razonsocial` varchar(300) NOT NULL COMMENT 'Razón social',
-  `direccion` varchar(300) NOT NULL COMMENT 'Dirección de la persona natural o jurídica',
-  `telefonofijo` varchar(15) NOT NULL COMMENT 'Teléfono fijo',
-  `celular` varchar(20) NOT NULL COMMENT 'Número celular',
-  `email` varchar(120) NOT NULL COMMENT 'Correo electrónico',
-  `ciudad` varchar(120) NOT NULL COMMENT 'Ciudad',
-  `marcas` varchar(300) NOT NULL COMMENT 'Marcas asociadas',
-  `representantelegal` int(10) NOT NULL COMMENT 'Nit del representante legal',
-  `created` datetime NOT NULL COMMENT 'Fecha de creación del registro',
-  `created_by` varchar(50) NOT NULL COMMENT 'Quien creó el registro',
-  `modified` datetime NOT NULL COMMENT 'Fecha de modificación del registro',
-  `modified_by` varchar(50) NOT NULL COMMENT 'Quien modificó el registro',
+CREATE TABLE `process_types` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(15) NOT NULL COMMENT 'Nombre',
+  `active` tinyint(1) NOT NULL DEFAULT 1 COMMENT 'Activo',
+  `created` datetime NOT NULL COMMENT 'Creado',
+  `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
+  `modified` datetime NOT NULL COMMENT 'Modificado',
+  `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `personas` */
+/*Data for the table `process_types` */
 
 /*Table structure for table `report_temp` */
 

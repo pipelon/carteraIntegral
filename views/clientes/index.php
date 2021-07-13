@@ -4,30 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PersonasSearch */
+/* @var $searchModel app\models\ClientesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Personas';
+$this->title = 'Clientes';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/personas/view')) {
+if (\Yii::$app->user->can('/clientes/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/personas/update')) {
+if (\Yii::$app->user->can('/clientes/update')) {
     $template .= '{update} ';
 }
-if (\Yii::$app->user->can('/personas/delete')) {
+if (\Yii::$app->user->can('/clientes/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/personas/*') || \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/clientes/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
-<div class="personas-index box box-primary">
+<div class="clientes-index box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/personas/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear persona', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/clientes/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" style="font-size: 20px"></i> ' . 'Crear Cliente', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -38,12 +38,32 @@ if (\Yii::$app->user->can('/personas/*') || \Yii::$app->user->can('/*')) {
             'filterModel' => $searchModel,
             'layout' => "{items}\n{summary}\n{pager}",
             'columns' => [
-                'id',
-                'nit',
-                'digverifica',
-                'tipodeudor',
-                'firstname',
-                'lastname',
+                [
+                    'attribute' => 'tipo_documento',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->tipo_documento;
+                    },
+                    'filter' => Yii::$app->utils->filtroTipoDocumento()
+                ],
+                'documento',
+                'direccion',
+                'nombre_persona_contacto_1',
+                'telefono_persona_contacto_1',
+                'email_persona_contacto_1:email',
+                'cargo_persona_contacto_1',
+                // 'nombre_persona_contacto_2',
+                // 'telefono_persona_contacto_2',
+                // 'email_persona_contacto_2:email',
+                // 'cargo_persona_contacto_2',
+                // 'nombre_persona_contacto_3',
+                // 'telefono_persona_contacto_3',
+                // 'email_persona_contacto_3:email',
+                // 'cargo_persona_contacto_3',
+                // 'created',
+                // 'created_by',
+                // 'modified',
+                // 'modified_by',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,

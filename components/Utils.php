@@ -40,4 +40,21 @@ class Utils extends Component {
             '0' => 'NO',
         ];
     }
+
+    /**
+     * Funcion para pintar tipo de documento
+     * 
+     * @author Felipe Echeverri <felipe.echeverri@ingeneo.com.co>
+     * @copyright 2019 INGENEO S.A.S.
+     * @link http://www.ingeneo.com.co 
+     * @param int $condition
+     * @return string
+     */
+    public function filtroTipoDocumento() {
+        return [
+            'NIT' => 'NIT',
+            'CC' => 'CÉDULA',
+        ];
+    }
+
 }

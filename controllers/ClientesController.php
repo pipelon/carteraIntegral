@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Personas;
-use app\models\PersonasSearch;
+use app\models\Clientes;
+use app\models\ClientesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PersonasController implements the CRUD actions for Personas model.
+ * ClientesController implements the CRUD actions for Clientes model.
  */
-class PersonasController extends Controller
+class ClientesController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class PersonasController extends Controller
     }
 
     /**
-     * Lists all Personas models.
+     * Lists all Clientes models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PersonasSearch();
+        $searchModel = new ClientesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class PersonasController extends Controller
     }
 
     /**
-     * Displays a single Personas model.
+     * Displays a single Clientes model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +57,13 @@ class PersonasController extends Controller
     }
 
     /**
-     * Creates a new Personas model.
+     * Creates a new Clientes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Personas();
+        $model = new Clientes();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +75,7 @@ class PersonasController extends Controller
     }
 
     /**
-     * Updates an existing Personas model.
+     * Updates an existing Clientes model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +94,7 @@ class PersonasController extends Controller
     }
 
     /**
-     * Deletes an existing Personas model.
+     * Deletes an existing Clientes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +107,15 @@ class PersonasController extends Controller
     }
 
     /**
-     * Finds the Personas model based on its primary key value.
+     * Finds the Clientes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Personas the loaded model
+     * @return Clientes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Personas::findOne($id)) !== null) {
+        if (($model = Clientes::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

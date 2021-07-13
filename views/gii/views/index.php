@@ -52,7 +52,7 @@ if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($gene
 if ($generator->indexWidgetType === 'grid'):
     echo "        <?= " ?>GridView::widget([
             'dataProvider' => $dataProvider,
-            <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n            'layout' => \"{items}\\n{summary}\\n{pager}\",\n            'columns' => [\n" : "'layout' => \"{items}\\n{summary}\\n{pager}\",\n            'columns' => [\n"; ?>
+            <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n            'layout' => \"{items}\\n{summary}\\n{pager}\",\n 'tableOptions'=>['class'=>'table table-striped table-bordered table-condensed'],\n           'columns' => [\n" : "'layout' => \"{items}\\n{summary}\\n{pager}\",\n            'columns' => [\n"; ?>
 <?php
 $count = 0;
 if (($tableSchema = $generator->getTableSchema()) === false) {

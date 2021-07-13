@@ -40,7 +40,7 @@ use yii\bootstrap\ActiveForm;
         <?= $form->field($model, 'col3')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'col4')->textInput(['maxlength' => true]) ?>
-
+            
         <?= $form->field($model, 'col5')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'col6')->textInput(['maxlength' => true]) ?>
