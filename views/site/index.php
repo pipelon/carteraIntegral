@@ -13,7 +13,7 @@ $this->title = 'CILES';
             <!-- CLIENTES-->
             <?php if (\Yii::$app->user->can('/clientes/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-aqua">
+                    <div class="info-box bg-light-blue">
                         <span class="info-box-icon"><i class="flaticon-users"></i></span>
 
                         <div class="info-box-content">
@@ -37,7 +37,7 @@ $this->title = 'CILES';
             <!-- DEUDORES -->
             <?php if (\Yii::$app->user->can('/deudores/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-aqua">
+                    <div class="info-box bg-light-blue">
                         <span class="info-box-icon"><i class="flaticon-coins"></i></span>
 
                         <div class="info-box-content">
@@ -61,7 +61,7 @@ $this->title = 'CILES';
             <!-- DEUDORES -->
             <?php if (\Yii::$app->user->can('/tipo-procesos/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-aqua">
+                    <div class="info-box bg-light-blue">
                         <span class="info-box-icon"><i class="flaticon-squares-2"></i></span>
 
                         <div class="info-box-content">

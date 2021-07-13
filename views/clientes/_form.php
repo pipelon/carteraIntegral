@@ -45,6 +45,8 @@ use yii\bootstrap\ActiveForm;
             <div class="row-field">
                 <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
             </div>
+            
+            <!-- CONTACTO PRINCIPAL -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -61,9 +63,9 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
-
+            
+            <!-- CONTACTO #2 -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -80,10 +82,9 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
-
-
+            
+            <!-- CONTACTO #3 -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -100,8 +101,8 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
+            
         </div>
     </div>
     <div class="box-footer">

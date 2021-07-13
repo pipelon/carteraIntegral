@@ -40,7 +40,7 @@ use yii\bootstrap\ActiveForm;
 
                 <?= $form->field($model, 'marca')->textInput(['maxlength' => true]) ?>
             </div>
-
+            
             <div class="row-field">
                 <?=
                 $form->field($model, 'direccion', [
@@ -49,7 +49,8 @@ use yii\bootstrap\ActiveForm;
                 ])->textInput(['maxlength' => true])
                 ?>
             </div>
-
+            
+            <!-- CONTACTO PRINCIPAL -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -66,9 +67,9 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
-
+            
+            <!-- CONTACTO #2 -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -85,10 +86,9 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
 
-
+            <!-- CONTACTO #3 -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -105,10 +105,9 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
 
-
+            <!-- CODEUDOR PRINCIPAL -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -127,9 +126,9 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
-
+            
+            <!-- CODEUDOR #2 -->
             <div class="row-field">
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -148,11 +147,7 @@ use yii\bootstrap\ActiveForm;
                     </div>
                     <!-- /.box-body -->
                 </div>
-
             </div>
-
-
-
 
             <div class="row-field">
                 <?= $form->field($model, 'comentarios', [
@@ -160,7 +155,6 @@ use yii\bootstrap\ActiveForm;
                     'options' => ['class' => 'form-group col-md-12'],
                 ])->textarea(['rows' => 6]) ?>
             </div>
-
 
         </div>
     </div>
