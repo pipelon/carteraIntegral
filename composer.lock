@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed9182be4357b99989c0a0bf83964e01",
+    "content-hash": "f367594052bd1ff9092fa7aefaba7e09",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1122,22 +1122,23 @@
         },
         {
             "name": "kartik-v/yii2-widget-select2",
-            "version": "v2.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "ee9d54f9af745c0ad7b3578bf640c12d800479e3"
+                "reference": "b30936d556639cdecd98bdd9733509a6be5dcc1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/ee9d54f9af745c0ad7b3578bf640c12d800479e3",
-                "reference": "ee9d54f9af745c0ad7b3578bf640c12d800479e3",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/b30936d556639cdecd98bdd9733509a6be5dcc1c",
+                "reference": "b30936d556639cdecd98bdd9733509a6be5dcc1c",
                 "shasum": ""
             },
             "require": {
                 "kartik-v/yii2-krajee-base": ">=1.9",
                 "select2/select2": ">=4.0"
             },
+            "default-branch": true,
             "type": "yii2-extension",
             "extra": {
                 "branch-alias": {
@@ -1174,7 +1175,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kartik-v/yii2-widget-select2/issues",
-                "source": "https://github.com/kartik-v/yii2-widget-select2/tree/v2.2.0"
+                "source": "https://github.com/kartik-v/yii2-widget-select2/tree/v2.2.1"
             },
             "funding": [
                 {
@@ -1182,7 +1183,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2020-09-28T15:15:52+00:00"
+            "time": "2021-06-09T07:29:31+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -7081,7 +7082,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kartik-v/yii2-export": 20
+        "kartik-v/yii2-export": 20,
+        "kartik-v/yii2-widget-select2": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

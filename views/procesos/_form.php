@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Procesos */
@@ -54,6 +55,30 @@ $form = ActiveForm::begin(
     </div>
     <div class="box-body">
         <?= $form->field($model, 'deudor_id')->textInput() ?>
+    </div>
+</div>
+
+<!-- COLABORADORES -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">COLABORADORES</h3>
+    </div>
+    <div class="box-body">
+        <?php
+        $dataList = yii\helpers\ArrayHelper::map(
+                        \Yii::$app->user->identity->getUserNamesByRole("Colaboradores")
+                        , 'id', 'name');
+        ?>
+        <?=
+        Select2::widget([
+            'name' => 'colaboradores',
+            'data' => $dataList,
+            'options' => [
+                'placeholder' => 'Seleccione los colaborardores ...',
+                'multiple' => true
+            ],
+        ]);
+        ?>
     </div>
 </div>
 
