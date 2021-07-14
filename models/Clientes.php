@@ -58,6 +58,13 @@ class Clientes extends BeforeModel {
             'nombre_persona_contacto_3', 'telefono_persona_contacto_3',
             'email_persona_contacto_3', 'cargo_persona_contacto_3',
             'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['tipo_documento', 'documento', 'direccion', 'nombre_persona_contacto_1',
+            'telefono_persona_contacto_1', 'email_persona_contacto_1',
+            'cargo_persona_contacto_1', 'cargo_persona_contacto_1',
+            'nombre_persona_contacto_2', 'telefono_persona_contacto_2', 'email_persona_contacto_2',
+            'cargo_persona_contacto_2', 'nombre_persona_contacto_3',
+            'telefono_persona_contacto_3', 'email_persona_contacto_3',
+            'cargo_persona_contacto_3'], 'filter', 'filter' => 'strtoupper'],
         ];
     }
 

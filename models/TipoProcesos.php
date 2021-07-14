@@ -34,6 +34,7 @@ class TipoProcesos extends BeforeModel {
             [['created', 'modified'], 'safe'],
             [['nombre'], 'string', 'max' => 15],
             [['created_by', 'modified_by'], 'string', 'max' => 45],
+            ['nombre', 'filter', 'filter' => 'strtoupper']
         ];
     }
 

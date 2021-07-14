@@ -35,24 +35,25 @@ use yii\bootstrap\ActiveForm;
 
         <div class="form-row">
 
-            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            <div class="row-field">
+                <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="row-field">
+                <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
-            
-            <?= $form->field($model, 'password_repeat')->passwordInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'password_repeat')->passwordInput(['maxlength' => true]) ?>
+            </div>
+            <div class="row-field">
+                <?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?>
-
-            <?= $form->field($model, 'active')->textInput() ?>
-
-            <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
-
+                <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
+            </div>
         </div>
     </div>
     <div class="box-footer">
-    <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
     </div>
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 </div>

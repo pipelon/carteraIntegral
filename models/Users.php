@@ -47,6 +47,7 @@ class Users extends BeforeModel {
             [['name', 'password'], 'string', 'max' => 100],
             [['username', 'mail'], 'string', 'max' => 45],
             [['created_by', 'modified_by'], 'string', 'max' => 150],
+            [['name', 'mail'], 'filter', 'filter' => 'strtoupper'],
         ];
     }
 

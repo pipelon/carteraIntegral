@@ -74,6 +74,18 @@ class Deudores extends BeforeModel {
             'nombre_codeudor_2', 'documento_codeudor_2',
             'direccion_codeudor_2', 'email_codeudor_2',
             'telefonol_codeudor_2', 'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['nombre', 'marca', 'direccion', 'nombre_persona_contacto_1',
+            'telefono_persona_contacto_1', 'email_persona_contacto_1',
+            'cargo_persona_contacto_1', 'nombre_persona_contacto_2',
+            'telefono_persona_contacto_2', 'email_persona_contacto_2',
+            'cargo_persona_contacto_2', 'nombre_persona_contacto_3',
+            'telefono_persona_contacto_3', 'email_persona_contacto_3',
+            'cargo_persona_contacto_3', 'nombre_codeudor_1',
+            'documento_codeudor_1', 'direccion_codeudor_1',
+            'email_codeudor_1', 'telefono_codeudor_1',
+            'nombre_codeudor_2', 'documento_codeudor_2',
+            'direccion_codeudor_2', 'email_codeudor_2',
+            'telefonol_codeudor_2', 'comentarios'], 'filter', 'filter' => 'strtoupper'],
             [['direccion'], 'string', 'max' => 100],
         ];
     }
