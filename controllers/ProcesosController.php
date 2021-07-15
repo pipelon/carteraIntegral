@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * ProcesosController implements the CRUD actions for Procesos model.
  */
-class ProcesosController extends Controller
-{
+class ProcesosController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +32,13 @@ class ProcesosController extends Controller
      * Lists all Procesos models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new ProcesosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -49,10 +47,9 @@ class ProcesosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -61,15 +58,31 @@ class ProcesosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Procesos();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            // SE GUARDA EL REGISTRO
+            if ($model->save()) {
+
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COLABORADORES
+                foreach ($model->colaboradores as $colaborador) {
+                    $proXcol = new \app\models\ProcesosXColaboradores();
+                    $proXcol->proceso_id = $model->id;
+                    $proXcol->user_id = $colaborador;
+                    $proXcol->save();
+                }
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                            'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -80,15 +93,41 @@ class ProcesosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        //COLABORADORES ACTUALES PARA MOSTRAR EN LA EDICION
+        $model->colaboradores = \app\models\ProcesosXColaboradores::find()
+                ->select('user_id')
+                ->where(['proceso_id' => $id])
+                ->column();
+        
+        if ($model->load(Yii::$app->request->post())) {
+            
+             // SE GUARDA EL REGISTRO
+            if ($model->save()) {
+
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
+                // SE DEBEN ELIMINARL LOS COLABORADORES ACTUALES Y 
+                // VOLVERLOS A CREAR
+                \app\models\ProcesosXColaboradores::deleteAll(['proceso_id' => $model->id]);
+                foreach ($model->colaboradores as $colaborador) {
+                    $proXcol = new \app\models\ProcesosXColaboradores();
+                    $proXcol->proceso_id = $model->id;
+                    $proXcol->user_id = $colaborador;
+                    $proXcol->save();
+                }
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                            'model' => $model,
+                ]);
+            }
+            
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -99,8 +138,7 @@ class ProcesosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -113,12 +151,12 @@ class ProcesosController extends Controller
      * @return Procesos the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Procesos::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

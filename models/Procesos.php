@@ -15,23 +15,23 @@ use Yii;
  * @property Deudores $deudor
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  */
-class Procesos extends \yii\db\ActiveRecord
-{
+class Procesos extends \yii\db\ActiveRecord {
+    
+    public $colaboradores;
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'procesos';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['cliente_id', 'deudor_id'], 'required'],
+            [['cliente_id', 'deudor_id', 'colaboradores'], 'required'],
             [['cliente_id', 'deudor_id'], 'integer'],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
@@ -41,8 +41,7 @@ class Procesos extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'cliente_id' => 'Cliente',
@@ -55,8 +54,7 @@ class Procesos extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCliente()
-    {
+    public function getCliente() {
         return $this->hasOne(Clientes::className(), ['id' => 'cliente_id']);
     }
 
@@ -65,8 +63,7 @@ class Procesos extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDeudor()
-    {
+    public function getDeudor() {
         return $this->hasOne(Deudores::className(), ['id' => 'deudor_id']);
     }
 
@@ -75,8 +72,8 @@ class Procesos extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProcesosXColaboradores()
-    {
+    public function getProcesosXColaboradores() {
         return $this->hasMany(ProcesosXColaboradores::className(), ['proceso_id' => 'id']);
     }
+
 }

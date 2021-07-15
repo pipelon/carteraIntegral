@@ -43,6 +43,7 @@ use yii\bootstrap\ActiveForm;
                 <?= $form->field($model, 'documento')->textInput(['maxlength' => true]) ?>
             </div>
             <div class="row-field">
+                <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
             </div>
             

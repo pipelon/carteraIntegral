@@ -46,6 +46,7 @@ if (\Yii::$app->user->can('/clientes/*') || \Yii::$app->user->can('/*')) {
                     },
                     'filter' => Yii::$app->utils->filtroTipoDocumento()
                 ],
+                'nombre',            
                 'documento',
                 'direccion',
                 'nombre_persona_contacto_1',

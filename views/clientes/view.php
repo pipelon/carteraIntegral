@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'id',
+                'nombre',
                 'tipo_documento',
                 'documento',
                 'direccion',

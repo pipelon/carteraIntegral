@@ -42,7 +42,7 @@ class Clientes extends BeforeModel {
      */
     public function rules() {
         return [
-            [['tipo_documento', 'documento', 'direccion', 'nombre_persona_contacto_1',
+            [['tipo_documento', 'nombre', 'documento', 'direccion', 'nombre_persona_contacto_1',
             'telefono_persona_contacto_1', 'email_persona_contacto_1',
             'cargo_persona_contacto_1'], 'required'],
             [['email_persona_contacto_1', 'email_persona_contacto_2',
@@ -51,14 +51,14 @@ class Clientes extends BeforeModel {
             [['tipo_documento'], 'string', 'max' => 5],
             [['documento'], 'string', 'max' => 20],
             [['direccion'], 'string', 'max' => 100],
-            [['nombre_persona_contacto_1', 'telefono_persona_contacto_1',
+            [['nombre', 'nombre_persona_contacto_1', 'telefono_persona_contacto_1',
             'email_persona_contacto_1', 'cargo_persona_contacto_1',
             'nombre_persona_contacto_2', 'telefono_persona_contacto_2',
             'email_persona_contacto_2', 'cargo_persona_contacto_2',
             'nombre_persona_contacto_3', 'telefono_persona_contacto_3',
             'email_persona_contacto_3', 'cargo_persona_contacto_3',
             'created_by', 'modified_by'], 'string', 'max' => 45],
-            [['tipo_documento', 'documento', 'direccion', 'nombre_persona_contacto_1',
+            [['tipo_documento', 'nombre', 'documento', 'direccion', 'nombre_persona_contacto_1',
             'telefono_persona_contacto_1', 'email_persona_contacto_1',
             'cargo_persona_contacto_1', 'cargo_persona_contacto_1',
             'nombre_persona_contacto_2', 'telefono_persona_contacto_2', 'email_persona_contacto_2',
@@ -74,6 +74,7 @@ class Clientes extends BeforeModel {
     public function attributeLabels() {
         return [
             'id' => 'ID',
+            'nombre' => 'Nombre',
             'tipo_documento' => 'Tipo de documento',
             'documento' => 'Documento',
             'direccion' => 'Dirección física',

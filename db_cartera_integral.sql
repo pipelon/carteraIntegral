@@ -92,6 +92,7 @@ DROP TABLE IF EXISTS `clientes`;
 
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `nombre` varchar(45) NOT NULL COMMENT 'Nombre',
   `tipo_documento` char(5) NOT NULL COMMENT 'Tipo de documento',
   `documento` varchar(20) NOT NULL COMMENT 'Documento',
   `direccion` varchar(100) NOT NULL COMMENT 'Dirección física',
@@ -116,7 +117,7 @@ CREATE TABLE `clientes` (
 
 /*Data for the table `clientes` */
 
-insert  into `clientes`(`id`,`tipo_documento`,`documento`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`created`,`created_by`,`modified`,`modified_by`) values (1,'NIT','98766496','CALLE 40 A SUR # 24 B - 105','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','2021-07-13 10:37:55','admin','2021-07-14 14:24:57','admin');
+insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`created`,`created_by`,`modified`,`modified_by`) values (1,'CLIENTE PRUEBA 1','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','2021-07-13 10:37:55','admin','2021-07-15 13:20:34','admin');
 
 /*Table structure for table `deudores` */
 
@@ -208,9 +209,11 @@ CREATE TABLE `procesos` (
   KEY `fk_procesos_deudores_idx` (`deudor_id`),
   CONSTRAINT `fk_procesos_clientes` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_procesos_deudores` FOREIGN KEY (`deudor_id`) REFERENCES `deudores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `procesos` */
+
+insert  into `procesos`(`id`,`cliente_id`,`deudor_id`) values (2,1,2);
 
 /*Table structure for table `procesos_x_colaboradores` */
 
@@ -225,9 +228,11 @@ CREATE TABLE `procesos_x_colaboradores` (
   KEY `fk_procesos_x_colaboradores_user_idx` (`user_id`),
   CONSTRAINT `fk_procesos_x_colaboradores_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_procesos_x_colaboradores_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 /*Data for the table `procesos_x_colaboradores` */
+
+insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (11,2,10);
 
 /*Table structure for table `report_temp` */
 

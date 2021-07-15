@@ -44,7 +44,24 @@ $form = ActiveForm::begin(
         <h3 class="box-title">CLIENTE</h3>
     </div>
     <div class="box-body">
-        <?= $form->field($model, 'cliente_id')->textInput() ?>
+        <?php
+        $clientsList = yii\helpers\ArrayHelper::map(
+                        \app\models\Clientes::find()
+                                ->all()
+                        , 'id', function($model) {
+                    return '(' . $model['documento'] . ') - ' . $model['nombre'];
+                });
+        ?>
+
+        <?=
+        $form->field($model, 'cliente_id')->widget(Select2::classname(), [
+            'data' => $clientsList,
+            'options' => ['placeholder' => '- Seleccione un cliente -'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]);
+        ?>
     </div>
 </div>
 
@@ -54,7 +71,24 @@ $form = ActiveForm::begin(
         <h3 class="box-title">DEUDOR</h3>
     </div>
     <div class="box-body">
-        <?= $form->field($model, 'deudor_id')->textInput() ?>
+        <?php
+        $deudoresList = yii\helpers\ArrayHelper::map(
+                        \app\models\Deudores::find()
+                                ->all()
+                        , 'id',  function($model) {
+                    return '(' . $model['marca'] . ') - ' . $model['nombre'];
+                });
+        ?>
+
+        <?=
+        $form->field($model, 'deudor_id')->widget(Select2::classname(), [
+            'data' => $deudoresList,
+            'options' => ['placeholder' => '- Seleccione un deudor -'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]);
+        ?>
     </div>
 </div>
 
@@ -69,16 +103,17 @@ $form = ActiveForm::begin(
                         \Yii::$app->user->identity->getUserNamesByRole("Colaboradores")
                         , 'id', 'name');
         ?>
+        
         <?=
-        Select2::widget([
-            'name' => 'colaboradores',
+        $form->field($model, 'colaboradores')->widget(Select2::classname(), [
             'data' => $dataList,
-            'options' => [
-                'placeholder' => 'Seleccione los colaborardores ...',
-                'multiple' => true
+            'options' => ['placeholder' => '- Seleccione los colaboradores -', 'multiple' => true],
+            'pluginOptions' => [
+                'allowClear' => true
             ],
         ]);
         ?>
+        
     </div>
 </div>
 
