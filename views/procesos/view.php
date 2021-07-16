@@ -50,8 +50,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->deudor->nombre;
                     },
                 ],
+                [
+                    'attribute' => 'colaboradores',
+                    'format' => 'raw',
+                    'value' => implode(", ", \yii\helpers\ArrayHelper::map(
+                                    $model->procesosXColaboradores,
+                                    'user_id', function($modelProxCol) {
+                                        return $modelProxCol->user->name;
+                                    }
+                            )
+                    ),
+                ],
             ],
-        ])
+        ]);
         ?>
     </div>
 </div>

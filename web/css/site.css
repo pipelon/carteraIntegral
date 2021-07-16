@@ -136,8 +136,8 @@ a.desc:after {
 .sidebar-menu a > i.fa,
 .dropdown.notifications-menu a > i,
 .nav.navbar-nav li a > i{
-    font-size: 20px !important;
-    width: 25px !important;
+    font-size: 18px !important;
+    width: 20px !important;
 }
 .navbar-nav > li > a {
     padding-bottom: 10px;

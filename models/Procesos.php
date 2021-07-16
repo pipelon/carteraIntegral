@@ -16,7 +16,7 @@ use Yii;
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  */
 class Procesos extends \yii\db\ActiveRecord {
-    
+
     public $colaboradores;
 
     /**
@@ -45,7 +45,7 @@ class Procesos extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'cliente_id' => 'Cliente',
-            'deudor_id' => 'Deudor ID',
+            'deudor_id' => 'Deudor',
         ];
     }
 
