@@ -113,7 +113,7 @@ class DeudoresController extends Controller {
      * Obtiene el listado de deudores
      * @param type $search
      */
-    public function actionGetdeudores($search = null) {
+    public function actionGetdeudores($search = null, $id = null) {
         $out = ['more' => false];
 
         if (!is_null($search)) {
@@ -124,6 +124,13 @@ class DeudoresController extends Controller {
                     ->asArray()
                     ->all();
             $out['results'] = array_values($data);
+        } elseif (!empty($id)) {
+            $data = Deudores::find()
+                    ->select(['id' => 'id', 'text' => 'CONCAT(nombre, " - ", marca)'])
+                    ->where(['id' => $id])
+                    ->asArray()
+                    ->one();
+            $out['results'] = $data;
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No se encontró el deudor especificado'];
         }

@@ -213,7 +213,7 @@ CREATE TABLE `procesos` (
 
 /*Data for the table `procesos` */
 
-insert  into `procesos`(`id`,`cliente_id`,`deudor_id`) values (2,1,2),(3,93,3);
+insert  into `procesos`(`id`,`cliente_id`,`deudor_id`) values (2,1,2),(3,93,2);
 
 /*Table structure for table `procesos_x_colaboradores` */
 
@@ -228,11 +228,11 @@ CREATE TABLE `procesos_x_colaboradores` (
   KEY `fk_procesos_x_colaboradores_user_idx` (`user_id`),
   CONSTRAINT `fk_procesos_x_colaboradores_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_procesos_x_colaboradores_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 /*Data for the table `procesos_x_colaboradores` */
 
-insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (18,2,7),(19,2,8),(20,2,10),(21,3,8);
+insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (18,2,7),(19,2,8),(20,2,10),(25,3,7),(26,3,8),(27,3,10);
 
 /*Table structure for table `report_temp` */
 

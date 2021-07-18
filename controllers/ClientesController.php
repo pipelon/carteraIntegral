@@ -67,7 +67,7 @@ class ClientesController extends Controller {
             $isAjax = true;
 
             //SI TODO ESTA CORRECTO SE DEBE ALMACENAR EL CLIENTE CREADO---------
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {     
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return ["status" => "ok", "msg" => "guardado"];
             } else {
@@ -113,7 +113,7 @@ class ClientesController extends Controller {
      * Obtiene el listado de clientes
      * @param type $search
      */
-    public function actionGetclientes($search = null) {
+    public function actionGetclientes($search = null, $id = null) {
         $out = ['more' => false];
 
         if (!is_null($search)) {
@@ -124,6 +124,13 @@ class ClientesController extends Controller {
                     ->asArray()
                     ->all();
             $out['results'] = array_values($data);
+        } elseif (!empty($id)) {
+            $data = Clientes::find()
+                    ->select(['id' => 'id', 'text' => 'CONCAT(documento, " - ", nombre)'])
+                    ->where(['id' => $id])
+                    ->asArray()
+                    ->one();
+            $out['results'] = $data;
         } else {
             $out['results'] = ['id' => 0, 'text' => 'No se encontró el cliente especificado'];
         }

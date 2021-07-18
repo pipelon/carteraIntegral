@@ -48,19 +48,32 @@ $form = ActiveForm::begin(
     <div class="box-body">
         <?=
                 $form->field($model, 'cliente_id')
-                ->widget(Select2::classname(), [
-                    'language' => 'es',
-                    'options' => ['placeholder' => '- Seleccione un cliente -'],
-                    'pluginOptions' => [
-                        'allowClear' => false,
-                        'minimumInputLength' => 3,
-                        'ajax' => [
-                            'url' => \yii\helpers\Url::to(['clientes/getclientes']),
-                            'dataType' => 'json',
-                            'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
-                            'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                        ],
-                    ]
+                ->widget(Select2::classname(),
+                        [
+                            'language' => 'es',
+                            'options' => ['placeholder' => '- Seleccione un cliente -'],
+                            'pluginOptions' => [
+                                'allowClear' => false,
+                                'minimumInputLength' => 3,
+                                'ajax' => [
+                                    'url' => \yii\helpers\Url::to(['clientes/getclientes']),
+                                    'dataType' => 'json',
+                                    'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
+                                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                                ],
+                                'initSelection' => new JsExpression('function (element, callback) {
+                                        let id = $(element).val();                                
+                                        if (id !== "") {                                        
+                                            $.ajax("' . Url::to(['clientes/getclientes']) . '?id=" + id, {
+                                                dataType: "json",
+                                                type: "post",
+                                            }).done(function(data) {
+                                                callback(data.results); 
+                                            });
+                                        }
+                                    }'
+                                )
+                            ]
                         ]
         );
         ?>
@@ -99,19 +112,32 @@ $form = ActiveForm::begin(
     <div class="box-body">
         <?=
                 $form->field($model, 'deudor_id')
-                ->widget(Select2::classname(), [
-                    'language' => 'es',
-                    'options' => ['placeholder' => '- Seleccione un deudor -'],
-                    'pluginOptions' => [
-                        'allowClear' => false,
-                        'minimumInputLength' => 3,
-                        'ajax' => [
-                            'url' => \yii\helpers\Url::to(['deudores/getdeudores']),
-                            'dataType' => 'json',
-                            'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
-                            'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                        ],
-                    ]
+                ->widget(Select2::classname(),
+                        [
+                            'language' => 'es',
+                            'options' => ['placeholder' => '- Seleccione un deudor -'],
+                            'pluginOptions' => [
+                                'allowClear' => false,
+                                'minimumInputLength' => 3,
+                                'ajax' => [
+                                    'url' => \yii\helpers\Url::to(['deudores/getdeudores']),
+                                    'dataType' => 'json',
+                                    'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
+                                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                                ],
+                                'initSelection' => new JsExpression('function (element, callback) {
+                                        let id = $(element).val();                                
+                                        if (id !== "") {                                        
+                                            $.ajax("' . Url::to(['deudores/getdeudores']) . '?id=" + id, {
+                                                dataType: "json",
+                                                type: "post",
+                                            }).done(function(data) {
+                                                callback(data.results); 
+                                            });
+                                        }
+                                    }'
+                                )
+                            ]
                         ]
         );
         ?>
