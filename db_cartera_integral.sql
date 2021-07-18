@@ -113,11 +113,11 @@ CREATE TABLE `clientes` (
   `modified` datetime NOT NULL COMMENT 'Modificado',
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 /*Data for the table `clientes` */
 
-insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`created`,`created_by`,`modified`,`modified_by`) values (1,'CLIENTE PRUEBA 1','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','2021-07-13 10:37:55','admin','2021-07-15 13:20:34','admin');
+insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`created`,`created_by`,`modified`,`modified_by`) values (1,'CLIENTE PRUEBA 12','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','2021-07-13 10:37:55','admin','2021-07-17 09:56:25','admin'),(93,'CLIENTE PRUEBA 1','NIT','123456','1234','ASDASD','ASDASD','2@2.COM','ASDASD','','','','','','','','','2021-07-18 09:30:21','admin','2021-07-18 09:30:21','admin');
 
 /*Table structure for table `deudores` */
 
@@ -156,11 +156,11 @@ CREATE TABLE `deudores` (
   `modified` datetime NOT NULL COMMENT 'Modificado',
   `modified_by` varchar(45) NOT NULL COMMENT 'Modificado por',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `deudores` */
 
-insert  into `deudores`(`id`,`nombre`,`marca`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`nombre_codeudor_1`,`documento_codeudor_1`,`direccion_codeudor_1`,`email_codeudor_1`,`telefono_codeudor_1`,`nombre_codeudor_2`,`documento_codeudor_2`,`direccion_codeudor_2`,`email_codeudor_2`,`telefonol_codeudor_2`,`comentarios`,`created`,`created_by`,`modified`,`modified_by`) values (1,'1','2','3','4','5','6@6.com','7','8','9','|0@10.com','11','12','13','14@14.com','15','16','17','18','19@19.com','20','21','22','23','24@24.com','25','26','2021-07-13 13:55:15','admin','2021-07-13 13:55:15','admin'),(2,'NOMBRESN','MARCA',' DIRECCIóN FíSICA ','NOMBRES','1234','CORREO1@GMAIL.COM','CARGO','NOMBRE','12345','CORREO2@GMAIL.COM','CARGO','NOMBRES','4331','CORREO3@GMAIL.COM','CARGO','NOMBRES','1234567','DIRECCIóN FíSICA','CORREO4@GMAIL.COM','1234','NOMBRES','1242','DIRECCIóN FíSICA','CORREO5@GMAIL.COM','12343','COEMNTARIOS EN GENERAL','2021-07-14 14:18:50','admin','2021-07-14 14:18:50','admin');
+insert  into `deudores`(`id`,`nombre`,`marca`,`direccion`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`nombre_codeudor_1`,`documento_codeudor_1`,`direccion_codeudor_1`,`email_codeudor_1`,`telefono_codeudor_1`,`nombre_codeudor_2`,`documento_codeudor_2`,`direccion_codeudor_2`,`email_codeudor_2`,`telefonol_codeudor_2`,`comentarios`,`created`,`created_by`,`modified`,`modified_by`) values (1,'1','2','3','4','5','6@6.com','7','8','9','|0@10.com','11','12','13','14@14.com','15','16','17','18','19@19.com','20','21','22','23','24@24.com','25','26','2021-07-13 13:55:15','admin','2021-07-13 13:55:15','admin'),(2,'NOMBRESN','MARCA',' DIRECCIóN FíSICA ','NOMBRES','1234','CORREO1@GMAIL.COM','CARGO','NOMBRE','12345','CORREO2@GMAIL.COM','CARGO','NOMBRES','4331','CORREO3@GMAIL.COM','CARGO','NOMBRES','1234567','DIRECCIóN FíSICA','CORREO4@GMAIL.COM','1234','NOMBRES','1242','DIRECCIóN FíSICA','CORREO5@GMAIL.COM','12343','COEMNTARIOS EN GENERAL','2021-07-14 14:18:50','admin','2021-07-14 14:18:50','admin'),(3,'DEUDOR PRUEBA','MARCA PRUEBA','ASDAD','SADSAD','ASD','6@6.COM','ASDASD','','','','','','','','','SADSAD','ASDASD','ASDAS','19@19.COM','ASDSADAS','','','','','','','2021-07-18 09:31:19','admin','2021-07-18 09:31:19','admin');
 
 /*Table structure for table `menu` */
 
@@ -209,11 +209,11 @@ CREATE TABLE `procesos` (
   KEY `fk_procesos_deudores_idx` (`deudor_id`),
   CONSTRAINT `fk_procesos_clientes` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_procesos_deudores` FOREIGN KEY (`deudor_id`) REFERENCES `deudores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `procesos` */
 
-insert  into `procesos`(`id`,`cliente_id`,`deudor_id`) values (2,1,2);
+insert  into `procesos`(`id`,`cliente_id`,`deudor_id`) values (2,1,2),(3,93,3);
 
 /*Table structure for table `procesos_x_colaboradores` */
 
@@ -228,11 +228,11 @@ CREATE TABLE `procesos_x_colaboradores` (
   KEY `fk_procesos_x_colaboradores_user_idx` (`user_id`),
   CONSTRAINT `fk_procesos_x_colaboradores_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_procesos_x_colaboradores_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 /*Data for the table `procesos_x_colaboradores` */
 
-insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (18,2,7),(19,2,8),(20,2,10);
+insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (18,2,7),(19,2,8),(20,2,10),(21,3,8);
 
 /*Table structure for table `report_temp` */
 

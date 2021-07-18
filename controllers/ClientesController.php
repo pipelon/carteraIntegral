@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * ClientesController implements the CRUD actions for Clientes model.
  */
-class ClientesController extends Controller
-{
+class ClientesController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +32,13 @@ class ClientesController extends Controller
      * Lists all Clientes models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new ClientesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -49,10 +47,9 @@ class ClientesController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -61,15 +58,35 @@ class ClientesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Clientes();
+
+        //RENDER PARA CUANDO SE QUIERE CREAR EL CLIENTE DESDE EL PROCESO (AJAX)
+        $isAjax = false;
+        if (Yii::$app->getRequest()->isAjax) {
+            $isAjax = true;
+
+            //SI TODO ESTA CORRECTO SE DEBE ALMACENAR EL CLIENTE CREADO---------
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {     
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return ["status" => "ok", "msg" => "guardado"];
+            } else {
+
+                return $this->renderAjax('create', [
+                            'model' => $model,
+                            'isAjax' => $isAjax
+                ]);
+            }
+            Yii::$app->end();
+        }
+        //----------------------------------------------------------------------
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
+                        'isAjax' => $isAjax
             ]);
         }
     }
@@ -80,17 +97,37 @@ class ClientesController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
+    }
+
+    /**
+     * Obtiene el listado de clientes
+     * @param type $search
+     */
+    public function actionGetclientes($search = null) {
+        $out = ['more' => false];
+
+        if (!is_null($search)) {
+            $data = Clientes::find()
+                    ->select(['id' => 'id', 'text' => 'CONCAT(documento, " - ", nombre)'])
+                    ->where('nombre LIKE "%' . $search . '%" ')
+                    ->orWhere('documento LIKE "%' . $search . '%" ')
+                    ->asArray()
+                    ->all();
+            $out['results'] = array_values($data);
+        } else {
+            $out['results'] = ['id' => 0, 'text' => 'No se encontró el cliente especificado'];
+        }
+        echo \yii\helpers\Json::encode($out);
     }
 
     /**
@@ -99,8 +136,7 @@ class ClientesController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -113,12 +149,12 @@ class ClientesController extends Controller
      * @return Clientes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Clientes::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

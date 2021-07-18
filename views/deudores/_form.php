@@ -9,14 +9,27 @@ use yii\bootstrap\ActiveForm;
 ?>
 
 <div class="deudores-form box box-primary">
+    
+    <!-- MUESTRA EL BOTON VOLVER SOLO CUANDO ESTA EN EL CRUD NORMAL -->
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/deudores/index') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if ((\Yii::$app->user->can('/deudores/index') || \Yii::$app->user->can('/*')) && (!isset($isAjax) || $isAjax == false)) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
     </div>
+    
+    <!-- MENSAJE DE ALERTA DE CREACION DE REGISTRO SOLO CUANDO ES UNA PETICION AJAX -->
+    <?php if (isset($isAjax) && $isAjax == true): ?>
+        <div class="alert alert-success alert-dismissable alert-reponse-ajax" 
+             style="display: none">            
+            <h4><i class="icon fa fa-check"></i>Creado!</h4>
+            Ya puedes encontrar tu nuevo deudor en el listado de Deudores.
+        </div>
+    <?php endif; ?>
+    
     <?php
     $form = ActiveForm::begin(
                     [
+                        'id' => isset($isAjax) && $isAjax == true ? "form_deudor" : "form", //SI ES AJAX EL FORM DEBE TENER UN ID
                         'fieldConfig' => [
                             'template' => "{label}\n{input}\n{hint}\n{error}\n",
                             'options' => ['class' => 'form-group col-md-6'],
@@ -163,3 +176,32 @@ use yii\bootstrap\ActiveForm;
     </div>
     <?php ActiveForm::end(); ?>
 </div>
+
+<!-- FUNCION AJAX PARA CREAR UN REGISTRO SOLO SI LA PETICION FUE POR AJAX -->
+<?php if (isset($isAjax) && $isAjax == true): ?>
+    <script type="text/javascript">
+        
+        $('#form_deudor').on('beforeSubmit', function (e) {
+            var form = $(this);
+            var formData = form.serialize();
+            $.ajax({
+                url: form.attr("action"),
+                type: form.attr("method"),
+                data: formData,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == "ok" && data.msg == "guardado") {
+                        $('.alert-reponse-ajax').show("slow");
+                        $('#form_deudor').hide();
+                    }
+                },
+                error: function () {
+                    alert("Something went wrong");
+                }
+            });
+        }).on('submit', function (e) {
+            e.preventDefault();
+        });
+
+    </script>
+<?php endif; ?>

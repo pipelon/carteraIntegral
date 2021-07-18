@@ -40,14 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'cliente_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->cliente->nombre;
+                        return $data->cliente->nombre . ' (' . $data->cliente->documento . ')';
                     },
                 ],
                 [
                     'attribute' => 'deudor_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->deudor->nombre;
+                        return $data->deudor->nombre . ' (' . $data->deudor->marca . ')';
                     },
                 ],
                 [

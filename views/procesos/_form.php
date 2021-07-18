@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
+use yii\helpers\Url;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Procesos */
@@ -44,24 +46,48 @@ $form = ActiveForm::begin(
         <h3 class="box-title">CLIENTE</h3>
     </div>
     <div class="box-body">
-        <?php
-        $clientsList = yii\helpers\ArrayHelper::map(
-                        \app\models\Clientes::find()
-                                ->all()
-                        , 'id', function($model) {
-                    return '(' . $model['documento'] . ') - ' . $model['nombre'];
-                });
-        ?>
-
         <?=
-        $form->field($model, 'cliente_id')->widget(Select2::classname(), [
-            'data' => $clientsList,
-            'options' => ['placeholder' => '- Seleccione un cliente -'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]);
+                $form->field($model, 'cliente_id')
+                ->widget(Select2::classname(), [
+                    'language' => 'es',
+                    'options' => ['placeholder' => '- Seleccione un cliente -'],
+                    'pluginOptions' => [
+                        'allowClear' => false,
+                        'minimumInputLength' => 3,
+                        'ajax' => [
+                            'url' => \yii\helpers\Url::to(['clientes/getclientes']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
+                            'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                        ],
+                    ]
+                        ]
+        );
         ?>
+        <div class="form-group col-md-6">
+            <label class="control-label">&nbsp;</label>
+            <?=
+            Html::a("Crear nuevo cliente",
+                    'javascript:void(0)',
+                    [
+                        'title' => 'clientes',
+                        'class' => 'btn btn-primary form-control',
+                        'onclick' => "                                    
+                                    $.ajax({
+                                        type    :'POST',
+                                        cache   : false,
+                                        url     : '" . Url::to(['clientes/create']) . "',
+                                        success : function(response) {
+                                            $('#ajax_result-clientes').html(response);
+                                        }
+                                    });
+                                    return false;",
+                    ]
+            );
+            ?>
+            <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
+        </div>
+
     </div>
 </div>
 
@@ -71,24 +97,48 @@ $form = ActiveForm::begin(
         <h3 class="box-title">DEUDOR</h3>
     </div>
     <div class="box-body">
-        <?php
-        $deudoresList = yii\helpers\ArrayHelper::map(
-                        \app\models\Deudores::find()
-                                ->all()
-                        , 'id',  function($model) {
-                    return '(' . $model['marca'] . ') - ' . $model['nombre'];
-                });
-        ?>
-
         <?=
-        $form->field($model, 'deudor_id')->widget(Select2::classname(), [
-            'data' => $deudoresList,
-            'options' => ['placeholder' => '- Seleccione un deudor -'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]);
+                $form->field($model, 'deudor_id')
+                ->widget(Select2::classname(), [
+                    'language' => 'es',
+                    'options' => ['placeholder' => '- Seleccione un deudor -'],
+                    'pluginOptions' => [
+                        'allowClear' => false,
+                        'minimumInputLength' => 3,
+                        'ajax' => [
+                            'url' => \yii\helpers\Url::to(['deudores/getdeudores']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
+                            'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                        ],
+                    ]
+                        ]
+        );
         ?>
+        <div class="form-group col-md-6">
+            <label class="control-label">&nbsp;</label>
+            <?=
+            Html::a("Crear nuevo deudor",
+                    'javascript:void(0)',
+                    [
+                        'title' => 'Deudor',
+                        'class' => 'btn btn-primary form-control',
+                        'onclick' => "                                    
+                                    $.ajax({
+                                        type    :'POST',
+                                        cache   : false,
+                                        url     : '" . Url::to(['deudores/create']) . "',
+                                        success : function(response) {
+                                            $('#ajax_result-deudores').html(response);
+                                        }
+                                    });
+                                    return false;",
+                    ]
+            );
+            ?>
+            <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
+            <?= Html::tag('div', '', ['id' => 'ajax_result-deudores']); ?>
+        </div>
     </div>
 </div>
 
@@ -103,7 +153,7 @@ $form = ActiveForm::begin(
                         \Yii::$app->user->identity->getUserNamesByRole("Colaboradores")
                         , 'id', 'name');
         ?>
-        
+
         <?=
         $form->field($model, 'colaboradores')->widget(Select2::classname(), [
             'data' => $dataList,
@@ -113,7 +163,7 @@ $form = ActiveForm::begin(
             ],
         ]);
         ?>
-        
+
     </div>
 </div>
 
