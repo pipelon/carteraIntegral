@@ -82,7 +82,7 @@ $this->title = 'CILES';
                 </div>  
             <?php endif; ?>
             
-            <!-- DEUDORES -->
+            <!-- TIPO DE PROCESO -->
             <?php if (\Yii::$app->user->can('/tipo-procesos/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box bg-light-blue">
@@ -98,6 +98,30 @@ $this->title = 'CILES';
                             <span class="progress-description">
                                 <i class="fa fa-arrow-circle-right"></i> 
                                 <?= \yii\bootstrap\Html::a('Ver más', ['/tipo-procesos/index'], ['style' => 'color: white']); ?>
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>  
+            <?php endif; ?> 
+            
+            <!-- TIPO DE CASOS -->
+            <?php if (\Yii::$app->user->can('/tipo-casos/index') || \Yii::$app->user->can('/*')) : ?>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="info-box bg-light-blue">
+                        <span class="info-box-icon"><i class="flaticon-squares-2"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Tipos de casos</span>
+                            <span class="info-box-number">&nbsp;</span>
+
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 100%"></div>
+                            </div>
+                            <span class="progress-description">
+                                <i class="fa fa-arrow-circle-right"></i> 
+                                <?= \yii\bootstrap\Html::a('Ver más', ['/tipo-casos/index'], ['style' => 'color: white']); ?>
                             </span>
                         </div>
                         <!-- /.info-box-content -->

@@ -5,6 +5,7 @@ use yii\bootstrap\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Procesos */
@@ -40,52 +41,61 @@ $form = ActiveForm::begin(
 );
 ?>
 
-<!-- MODULO DE CLIENTE -->
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">CLIENTE</h3>
-    </div>
-    <div class="box-body">
-        <?=
-                $form->field($model, 'cliente_id')
-                ->widget(Select2::classname(),
-                        [
-                            'language' => 'es',
-                            'options' => ['placeholder' => '- Seleccione un cliente -'],
-                            'pluginOptions' => [
-                                'allowClear' => false,
-                                'minimumInputLength' => 3,
-                                'ajax' => [
-                                    'url' => \yii\helpers\Url::to(['clientes/getclientes']),
-                                    'dataType' => 'json',
-                                    'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
-                                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                                ],
-                                'initSelection' => new JsExpression('function (element, callback) {
-                                        let id = $(element).val();                                
-                                        if (id !== "") {                                        
-                                            $.ajax("' . Url::to(['clientes/getclientes']) . '?id=" + id, {
-                                                dataType: "json",
-                                                type: "post",
-                                            }).done(function(data) {
-                                                callback(data.results); 
-                                            });
-                                        }
-                                    }'
-                                )
-                            ]
-                        ]
-        );
-        ?>
-        <div class="form-group col-md-6">
-            <label class="control-label">&nbsp;</label>
-            <?=
-            Html::a("Crear nuevo cliente",
-                    'javascript:void(0)',
-                    [
-                        'title' => 'clientes',
-                        'class' => 'btn btn-primary form-control',
-                        'onclick' => "                                    
+<!-- ROW PARA CLIENTES Y DEUDORES -->
+<div class="row">
+
+    <!-- MODULO DE CLIENTE -->
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">CLIENTE</h3>
+            </div>
+            <div class="box-body">
+                <?php
+                $initSelection = new JsExpression(
+                        'function (element, callback) {
+                        let id = $(element).val();                                
+                        if (id !== "") {                                        
+                            $.ajax("' . Url::to(['clientes/getclientes']) . '?id=" + id, {
+                                dataType: "json",
+                                type: "post",
+                            }).done(function(data) {
+                                callback(data.results); 
+                            });
+                        }
+                    }'
+                );
+                ?>
+                <?=
+                        $form->field($model, 'cliente_id', [
+                            'options' => ['class' => 'form-group col-md-12'],
+                        ])
+                        ->widget(Select2::classname(),
+                                [
+                                    'language' => 'es',
+                                    'options' => ['placeholder' => '- Seleccione un cliente -'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true,
+                                        'minimumInputLength' => 3,
+                                        'ajax' => [
+                                            'url' => \yii\helpers\Url::to(['clientes/getclientes']),
+                                            'dataType' => 'json',
+                                            'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
+                                            'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                                        ],
+                                        'initSelection' => !$model->isNewRecord ? $initSelection : null
+                                    ]
+                                ]
+                );
+                ?>
+                <div class="form-group col-md-12">
+                    <?=
+                    Html::a("<i class='flaticon-add'></i> Crear nuevo cliente",
+                            'javascript:void(0)',
+                            [
+                                'title' => 'clientes',
+                                'class' => 'btn btn-primary form-control',
+                                'onclick' => "                                    
                                     $.ajax({
                                         type    :'POST',
                                         cache   : false,
@@ -95,61 +105,68 @@ $form = ActiveForm::begin(
                                         }
                                     });
                                     return false;",
-                    ]
-            );
-            ?>
-            <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
-        </div>
-
-    </div>
-</div>
-
-<!-- MODULO DE DEUDOR -->
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">DEUDOR</h3>
-    </div>
-    <div class="box-body">
-        <?=
-                $form->field($model, 'deudor_id')
-                ->widget(Select2::classname(),
-                        [
-                            'language' => 'es',
-                            'options' => ['placeholder' => '- Seleccione un deudor -'],
-                            'pluginOptions' => [
-                                'allowClear' => false,
-                                'minimumInputLength' => 3,
-                                'ajax' => [
-                                    'url' => \yii\helpers\Url::to(['deudores/getdeudores']),
-                                    'dataType' => 'json',
-                                    'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
-                                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-                                ],
-                                'initSelection' => new JsExpression('function (element, callback) {
-                                        let id = $(element).val();                                
-                                        if (id !== "") {                                        
-                                            $.ajax("' . Url::to(['deudores/getdeudores']) . '?id=" + id, {
-                                                dataType: "json",
-                                                type: "post",
-                                            }).done(function(data) {
-                                                callback(data.results); 
-                                            });
-                                        }
-                                    }'
-                                )
                             ]
-                        ]
-        );
-        ?>
-        <div class="form-group col-md-6">
-            <label class="control-label">&nbsp;</label>
-            <?=
-            Html::a("Crear nuevo deudor",
-                    'javascript:void(0)',
-                    [
-                        'title' => 'Deudor',
-                        'class' => 'btn btn-primary form-control',
-                        'onclick' => "                                    
+                    );
+                    ?>
+                    <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODULO DE DEUDOR -->
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">DEUDOR</h3>
+            </div>
+            <div class="box-body">
+                <?php
+                $initSelection = new JsExpression(
+                        'function (element, callback) {
+                        let id = $(element).val();                                
+                        if (id !== "") {                                        
+                            $.ajax("' . Url::to(['deudores/getdeudores']) . '?id=" + id, {
+                                dataType: "json",
+                                type: "post",
+                            }).done(function(data) {
+                                callback(data.results); 
+                            });
+                        }
+                    }'
+                );
+                ?>
+                <?=
+                        $form->field($model, 'deudor_id', [
+                            'options' => ['class' => 'form-group col-md-12'],
+                        ])
+                        ->widget(Select2::classname(),
+                                [
+                                    'language' => 'es',
+                                    'options' => ['placeholder' => '- Seleccione un deudor -'],
+                                    'pluginOptions' => [
+                                        'allowClear' => true,
+                                        'minimumInputLength' => 3,
+                                        'ajax' => [
+                                            'url' => \yii\helpers\Url::to(['deudores/getdeudores']),
+                                            'dataType' => 'json',
+                                            'data' => new JsExpression('function(term,page) { return {search:term.term}; }'),
+                                            'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                                        ],
+                                        'initSelection' => !$model->isNewRecord ? $initSelection : null
+                                    ]
+                                ]
+                );
+                ?>
+                <div class="form-group col-md-12">
+                    <?=
+                    Html::a("<i class='flaticon-add'></i> Crear nuevo deudor",
+                            'javascript:void(0)',
+                            [
+                                'title' => 'Deudor',
+                                'class' => 'btn btn-primary form-control',
+                                'onclick' => "                                    
                                     $.ajax({
                                         type    :'POST',
                                         cache   : false,
@@ -159,11 +176,13 @@ $form = ActiveForm::begin(
                                         }
                                     });
                                     return false;",
-                    ]
-            );
-            ?>
-            <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
-            <?= Html::tag('div', '', ['id' => 'ajax_result-deudores']); ?>
+                            ]
+                    );
+                    ?>
+                    <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
+                    <?= Html::tag('div', '', ['id' => 'ajax_result-deudores']); ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -189,6 +208,35 @@ $form = ActiveForm::begin(
             ],
         ]);
         ?>
+
+    </div>
+</div>
+
+<!-- ESTUDIO PREJURIDICO -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">ESTUDIO PRE-JURÍDICO</h3>
+    </div>
+    <div class="box-body">
+        <?=
+        $form->field($model, 'prejur_fecha_recepcion')->widget(DatePicker::classname(), [
+            'options' => ['placeholder' => '- Ingrese una fecha --'],
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'todayBtn' => true,
+            ]
+        ]);
+        ?>
+        <?php
+        $tipoCasosList = yii\helpers\ArrayHelper::map(
+                        \app\models\TipoCasos::find()
+                                ->where(['activo' => 1])
+                                ->all()
+                        , 'id', 'nombre');
+        ?>
+        <?= $form->field($model, 'prejur_tipo_caso')->dropDownList($tipoCasosList, ['prompt' => '- Seleccione un tipo de caso -']) ?>
 
     </div>
 </div>

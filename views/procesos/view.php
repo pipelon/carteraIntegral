@@ -61,6 +61,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             )
                     ),
                 ],
+                [
+                    'label' => strtoupper('ESTUDIO PREJURIDICO'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                'prejur_fecha_recepcion:date',
+                [
+                    'attribute' => 'prejur_tipo_caso',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->prejurTipoCaso->nombre;
+                    },
+                ],
             ],
         ]);
         ?>
