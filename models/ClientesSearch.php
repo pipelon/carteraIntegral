@@ -18,7 +18,16 @@ class ClientesSearch extends Clientes {
     public function rules() {
         return [
             [['id'], 'integer'],
-            [['tipo_documento', 'nombre', 'documento', 'direccion', 'nombre_persona_contacto_1', 'telefono_persona_contacto_1', 'email_persona_contacto_1', 'cargo_persona_contacto_1', 'nombre_persona_contacto_2', 'telefono_persona_contacto_2', 'email_persona_contacto_2', 'cargo_persona_contacto_2', 'nombre_persona_contacto_3', 'telefono_persona_contacto_3', 'email_persona_contacto_3', 'cargo_persona_contacto_3', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['tipo_documento', 'nombre', 'documento', 'direccion',
+            'nombre_representante_legal', 'telefono_representante_legal',
+            'email_representante_legal', 'nombre_persona_contacto_1',
+            'telefono_persona_contacto_1', 'email_persona_contacto_1',
+            'cargo_persona_contacto_1', 'nombre_persona_contacto_2',
+            'telefono_persona_contacto_2', 'email_persona_contacto_2',
+            'cargo_persona_contacto_2', 'nombre_persona_contacto_3',
+            'telefono_persona_contacto_3', 'email_persona_contacto_3',
+            'cargo_persona_contacto_3', 'created', 'created_by',
+            'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -66,6 +75,9 @@ class ClientesSearch extends Clientes {
                 ->andFilterWhere(['like', 'documento', $this->documento])
                 ->andFilterWhere(['like', 'nombre', $this->nombre])
                 ->andFilterWhere(['like', 'direccion', $this->direccion])
+                ->andFilterWhere(['like', 'nombre_representante_legal', $this->nombre_representante_legal])
+                ->andFilterWhere(['like', 'telefono_representante_legal', $this->telefono_representante_legal])
+                ->andFilterWhere(['like', 'email_representante_legal', $this->email_representante_legal])
                 ->andFilterWhere(['like', 'nombre_persona_contacto_1', $this->nombre_persona_contacto_1])
                 ->andFilterWhere(['like', 'telefono_persona_contacto_1', $this->telefono_persona_contacto_1])
                 ->andFilterWhere(['like', 'email_persona_contacto_1', $this->email_persona_contacto_1])
