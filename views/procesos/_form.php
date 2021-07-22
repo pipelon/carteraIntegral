@@ -88,29 +88,6 @@ $form = ActiveForm::begin(
                                 ]
                 );
                 ?>
-                <div class="form-group col-md-12">
-                    <?=
-                    Html::a("<i class='flaticon-add'></i> Crear nuevo cliente",
-                            'javascript:void(0)',
-                            [
-                                'title' => 'clientes',
-                                'class' => 'btn btn-primary form-control',
-                                'onclick' => "                                    
-                                    $.ajax({
-                                        type    :'POST',
-                                        cache   : false,
-                                        url     : '" . Url::to(['clientes/create']) . "',
-                                        success : function(response) {
-                                            $('#ajax_result-clientes').html(response);
-                                        }
-                                    });
-                                    return false;",
-                            ]
-                    );
-                    ?>
-                    <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
-                </div>
-
             </div>
         </div>
     </div>
@@ -158,30 +135,7 @@ $form = ActiveForm::begin(
                                     ]
                                 ]
                 );
-                ?>
-                <div class="form-group col-md-12">
-                    <?=
-                    Html::a("<i class='flaticon-add'></i> Crear nuevo deudor",
-                            'javascript:void(0)',
-                            [
-                                'title' => 'Deudor',
-                                'class' => 'btn btn-primary form-control',
-                                'onclick' => "                                    
-                                    $.ajax({
-                                        type    :'POST',
-                                        cache   : false,
-                                        url     : '" . Url::to(['deudores/create']) . "',
-                                        success : function(response) {
-                                            $('#ajax_result-deudores').html(response);
-                                        }
-                                    });
-                                    return false;",
-                            ]
-                    );
-                    ?>
-                    <?= Html::tag('div', '', ['id' => 'ajax_result-clientes']); ?>
-                    <?= Html::tag('div', '', ['id' => 'ajax_result-deudores']); ?>
-                </div>
+                ?>                
             </div>
         </div>
     </div>

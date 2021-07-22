@@ -60,33 +60,11 @@ class ClientesController extends Controller {
      */
     public function actionCreate() {
         $model = new Clientes();
-
-        //RENDER PARA CUANDO SE QUIERE CREAR EL CLIENTE DESDE EL PROCESO (AJAX)
-        $isAjax = false;
-        if (Yii::$app->getRequest()->isAjax) {
-            $isAjax = true;
-
-            //SI TODO ESTA CORRECTO SE DEBE ALMACENAR EL CLIENTE CREADO---------
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                return ["status" => "ok", "msg" => "guardado"];
-            } else {
-
-                return $this->renderAjax('create', [
-                            'model' => $model,
-                            'isAjax' => $isAjax
-                ]);
-            }
-            Yii::$app->end();
-        }
-        //----------------------------------------------------------------------
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                         'model' => $model,
-                        'isAjax' => $isAjax
             ]);
         }
     }

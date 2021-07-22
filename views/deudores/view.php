@@ -40,6 +40,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'marca',
                 'direccion',
                 [
+                    'label' => strtoupper('Representante legal'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                'nombre_representante_legal',
+                'telefono_representante_legal',
+                'email_representante_legal:email',
+                [
                     'label' => strtoupper('Persona de contacto principal'),
                     'value' => '',
                     'contentOptions' => ['class' => 'bg-light-blue'],

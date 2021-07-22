@@ -11,6 +11,9 @@ use Yii;
  * @property string $nombre Nombres
  * @property string $marca Marca
  * @property string $direccion Dirección física
+ * @property string $nombre_representante_legal vNombres
+ * @property string $telefono_representante_legalTeléfonos
+ * @property string $email_representante_legal Correo electrónico
  * @property string $nombre_persona_contacto_1 Nombres
  * @property string $telefono_persona_contacto_1 Teléfonos
  * @property string $email_persona_contacto_1 Correo electrónico
@@ -53,28 +56,29 @@ class Deudores extends BeforeModel {
      */
     public function rules() {
         return [
-            [['nombre', 'marca', 'direccion', 'nombre_persona_contacto_1',
-            'telefono_persona_contacto_1', 'email_persona_contacto_1',
-            'cargo_persona_contacto_1', 'nombre_codeudor_1',
-            'documento_codeudor_1', 'direccion_codeudor_1',
-            'email_codeudor_1', 'telefono_codeudor_1'], 'required'],
-            [['email_persona_contacto_1', 'email_persona_contacto_2',
+            [['nombre', 'marca', 'direccion', 'nombre_representante_legal',
+            'telefono_representante_legal', 'email_representante_legal',
+            'nombre_persona_contacto_1', 'telefono_persona_contacto_1',
+            'email_persona_contacto_1', 'cargo_persona_contacto_1'], 'required'],
+            [['email_representante_legal', 'email_persona_contacto_1', 'email_persona_contacto_2',
             'email_persona_contacto_3', 'email_codeudor_1', 'email_codeudor_2'], 'email'],
             [['comentarios'], 'string'],
             [['created', 'modified'], 'safe'],
-            [['nombre', 'marca', 'nombre_persona_contacto_1',
-            'telefono_persona_contacto_1', 'email_persona_contacto_1',
-            'cargo_persona_contacto_1', 'nombre_persona_contacto_2',
-            'telefono_persona_contacto_2', 'email_persona_contacto_2',
-            'cargo_persona_contacto_2', 'nombre_persona_contacto_3',
-            'telefono_persona_contacto_3', 'email_persona_contacto_3',
-            'cargo_persona_contacto_3', 'nombre_codeudor_1',
-            'documento_codeudor_1', 'direccion_codeudor_1',
+            [['nombre', 'marca', 'nombre_representante_legal',
+            'telefono_representante_legal', 'email_representante_legal',
+            'nombre_persona_contacto_1', 'telefono_persona_contacto_1',
+            'email_persona_contacto_1', 'cargo_persona_contacto_1',
+            'nombre_persona_contacto_2', 'telefono_persona_contacto_2',
+            'email_persona_contacto_2', 'cargo_persona_contacto_2',
+            'nombre_persona_contacto_3', 'telefono_persona_contacto_3',
+            'email_persona_contacto_3', 'cargo_persona_contacto_3',
+            'nombre_codeudor_1', 'documento_codeudor_1', 'direccion_codeudor_1',
             'email_codeudor_1', 'telefono_codeudor_1',
             'nombre_codeudor_2', 'documento_codeudor_2',
             'direccion_codeudor_2', 'email_codeudor_2',
             'telefonol_codeudor_2', 'created_by', 'modified_by'], 'string', 'max' => 45],
-            [['nombre', 'marca', 'direccion', 'nombre_persona_contacto_1',
+            [['nombre', 'marca', 'direccion', 'nombre_representante_legal',
+            'telefono_representante_legal', 'email_representante_legal', 'nombre_persona_contacto_1',
             'telefono_persona_contacto_1', 'email_persona_contacto_1',
             'cargo_persona_contacto_1', 'nombre_persona_contacto_2',
             'telefono_persona_contacto_2', 'email_persona_contacto_2',
@@ -99,6 +103,9 @@ class Deudores extends BeforeModel {
             'nombre' => 'Nombres',
             'marca' => 'Marca',
             'direccion' => 'Dirección física',
+            'nombre_representante_legal' => 'Nombres',
+            'telefono_representante_legal' => 'Teléfonos',
+            'email_representante_legal' => 'Correo electrónico',
             'nombre_persona_contacto_1' => 'Nombres',
             'telefono_persona_contacto_1' => 'Teléfonos',
             'email_persona_contacto_1' => 'Correo electrónico',
