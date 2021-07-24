@@ -60,7 +60,7 @@ class ProcesosController extends Controller {
      */
     public function actionCreate() {
         $model = new Procesos();
-        
+
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -74,14 +74,24 @@ class ProcesosController extends Controller {
                     $proXcol->user_id = $colaborador;
                     $proXcol->save();
                 }
-                
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS ESTUDIOS DE BIENES
                 foreach ($model->prejur_estudio_bienes as $bien) {
                     $bieXpro = new \app\models\BienesXProceso();
                     $bieXpro->proceso_id = $model->id;
                     $bieXpro->bien_id = $bien;
-                    $bieXpro->comentario = $model->comentarios_prejur_estudio_bienes[$bien];
+                    $bieXpro->comentario = $model->prejur_comentarios_estudio_bienes[$bien];
                     $bieXpro->save();
+                }
+
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION PRE JURIDICA
+                if (!empty($model->prejur_gestion_prejuridica)) {
+                    $gestPreJur = new \app\models\GestionesPrejuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
+                    $gestPreJur->save();
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -111,23 +121,29 @@ class ProcesosController extends Controller {
                 ->select('user_id')
                 ->where(['proceso_id' => $id])
                 ->column();
-        
+
         //BIENES ACTUALES PARA MOSTRAR EN LA EDICION
         $model->prejur_estudio_bienes = \app\models\BienesXProceso::find()
                 ->select('bien_id')
                 ->where(['proceso_id' => $id])
                 ->column();
-        
+
         //COMENTARIO BIENES ACTUALES PARA MOSTRAR EN LA EDICION
-        $model->comentarios_prejur_estudio_bienes = \app\models\BienesXProceso::find()
+        $model->prejur_comentarios_estudio_bienes = \app\models\BienesXProceso::find()
                 ->select('comentario')
                 ->where(['proceso_id' => $id])
                 ->indexBy('bien_id')
                 ->column();
         
+        //GESTIONES PRE JURIDICAS PARA MOSTRAR 
+        $model->prejur_gestiones_prejuridicas = \app\models\GestionesPrejuridicas::find()                
+                ->where(['proceso_id' => $id])
+                ->orderBy('fecha_gestion DESC')
+                ->all();
+
         if ($model->load(Yii::$app->request->post())) {
-            
-             // SE GUARDA EL REGISTRO
+
+            // SE GUARDA EL REGISTRO
             if ($model->save()) {
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
@@ -140,7 +156,7 @@ class ProcesosController extends Controller {
                     $proXcol->user_id = $colaborador;
                     $proXcol->save();
                 }
-                
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
                 // SE DEBEN ELIMINARL LOS BIENES ACTUALES Y 
                 // VOLVERLOS A CREAR
@@ -149,17 +165,26 @@ class ProcesosController extends Controller {
                     $bieXpro = new \app\models\BienesXProceso();
                     $bieXpro->proceso_id = $model->id;
                     $bieXpro->bien_id = $bien;
-                    $bieXpro->comentario = $model->comentarios_prejur_estudio_bienes[$bien];
+                    $bieXpro->comentario = $model->prejur_comentarios_estudio_bienes[$bien];
                     $bieXpro->save();
                 }
 
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION PRE JURIDICA
+                if (!empty($model->prejur_gestion_prejuridica)) {
+                    $gestPreJur = new \app\models\GestionesPrejuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
+                    $gestPreJur->save();
+                }
+                
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [
                             'model' => $model,
                 ]);
             }
-            
         } else {
             return $this->render('update', [
                         'model' => $model,

@@ -174,3 +174,7 @@ a.desc:after {
 section.sidebar .treeview-menu > li > a {
     padding: 5px 5px 5px 30px;
 }
+.gestion-prejuridica blockquote{
+    font-size: 12px;
+    margin: 0 0 20px 20px;
+}

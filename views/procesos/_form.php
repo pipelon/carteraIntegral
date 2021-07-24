@@ -272,7 +272,7 @@ $form = ActiveForm::begin(
                                     . " </div>"
                                     . "</div>"
                                     . "<div class='col-md-8'>"
-                                    . Html::input("text", "Procesos[comentarios_prejur_estudio_bienes][{$value}]", $model->comentarios_prejur_estudio_bienes[$value],
+                                    . Html::input("text", "Procesos[prejur_comentarios_estudio_bienes][{$value}]", $model->prejur_comentarios_estudio_bienes[$value],
                                             [
                                                 "class" => "form-control comentario-bienes-{$value}",
                                                 "placeholder" => "Comentarios",
@@ -294,6 +294,27 @@ $form = ActiveForm::begin(
             ])->textarea(['rows' => 6])
             ?>
         </div>
+        <!-- GESTIONES PRE JURIDICAS -->
+        <div class="row-field gestion-prejuridica">
+            <?=
+            $form->field($model, 'prejur_gestion_prejuridica', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+            <?php if (!empty($model->prejur_gestiones_prejuridicas)): ?>
+                <?php foreach ($model->prejur_gestiones_prejuridicas as $gestion) : ?>
+                    <div class="col-md-12">
+                        <blockquote>
+                            <?= nl2br($gestion->descripcion_gestion); ?>
+                            <small><?= $gestion->usuario_gestion; ?> el <cite title="Source Title"><?= $gestion->fecha_gestion; ?></cite></small>
+                        </blockquote>
+                    </div>
+                <?php endforeach; ?>
+
+            <?php endif; ?>
+        </div>
+
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_otros', [

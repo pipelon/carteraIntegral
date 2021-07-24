@@ -26,12 +26,12 @@ use Yii;
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  */
 class Procesos extends \yii\db\ActiveRecord {
-    
+
     public $colaboradores;
-    
     public $prejur_estudio_bienes;
-    
-    public $comentarios_prejur_estudio_bienes;
+    public $prejur_comentarios_estudio_bienes;
+    public $prejur_gestion_prejuridica;
+    public $prejur_gestiones_prejuridicas;
 
     /**
      * {@inheritdoc}
@@ -47,7 +47,9 @@ class Procesos extends \yii\db\ActiveRecord {
         return [
             [['cliente_id', 'deudor_id', 'colaboradores'], 'required'],
             [['cliente_id', 'deudor_id', 'prejur_tipo_caso'], 'integer'],
-            [['prejur_fecha_recepcion', 'prejur_estudio_bienes', 'comentarios_prejur_estudio_bienes'], 'safe'],
+            [['prejur_fecha_recepcion', 'prejur_estudio_bienes',
+            'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
+            'prejur_gestiones_prejuridicas'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora', 'prejur_concepto_viabilidad', 'prejur_otros'], 'string'],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
@@ -69,6 +71,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_consulta_entidad_reguladora' => 'Consulta entidad reguladora',
             'prejur_estudio_bienes' => 'Estudio de bienes',
             'prejur_concepto_viabilidad' => 'Concepto  viabilidad',
+            'prejur_gestion_prejuridica' => 'Gestión pre jurídica',
             'prejur_otros' => 'Otros',
         ];
     }
