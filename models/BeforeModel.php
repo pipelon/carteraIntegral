@@ -30,6 +30,11 @@ use yii\behaviors\BlameableBehavior;
  */
 class BeforeModel extends \yii\db\ActiveRecord {
 
+    private static $logicalDeleteModels = [
+        'app\models\TipoCasos',
+        'app\models\Bienes',
+    ];
+
     public function behaviors() {
         return [
             [
@@ -47,6 +52,16 @@ class BeforeModel extends \yii\db\ActiveRecord {
                 '',
             ],
         ];
+    }
+
+    public static function find() {
+        if (!in_array(get_called_class(), self::$logicalDeleteModels)) {
+            return parent::find();
+        }
+        return parent::find()
+                        ->onCondition(['and',
+                            ['=', static::tableName() . '.delete', 0]
+                        ]);
     }
 
 }

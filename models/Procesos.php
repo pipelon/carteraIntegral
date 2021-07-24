@@ -18,6 +18,7 @@ use Yii;
  * @property string|null $prejur_concepto_viabilidad Concepto  viabilidad
  * @property string|null $prejur_otros Otros
  *
+ * @property BienesXProceso[] $bienesXProcesos
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
  * @property Clientes $cliente
  * @property Deudores $deudor
@@ -25,8 +26,12 @@ use Yii;
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  */
 class Procesos extends \yii\db\ActiveRecord {
-
+    
     public $colaboradores;
+    
+    public $prejur_estudio_bienes;
+    
+    public $comentarios_prejur_estudio_bienes;
 
     /**
      * {@inheritdoc}
@@ -42,9 +47,8 @@ class Procesos extends \yii\db\ActiveRecord {
         return [
             [['cliente_id', 'deudor_id', 'colaboradores'], 'required'],
             [['cliente_id', 'deudor_id', 'prejur_tipo_caso'], 'integer'],
-            [['prejur_fecha_recepcion'], 'safe'],
+            [['prejur_fecha_recepcion', 'prejur_estudio_bienes', 'comentarios_prejur_estudio_bienes'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora', 'prejur_concepto_viabilidad', 'prejur_otros'], 'string'],
-            [['prejur_estudio_bienes'], 'string', 'max' => 45],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
@@ -67,6 +71,15 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_concepto_viabilidad' => 'Concepto  viabilidad',
             'prejur_otros' => 'Otros',
         ];
+    }
+
+    /**
+     * Gets query for [[BienesXProcesos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBienesXProcesos() {
+        return $this->hasMany(BienesXProceso::className(), ['proceso_id' => 'id']);
     }
 
     /**

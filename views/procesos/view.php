@@ -75,6 +75,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->prejurTipoCaso->nombre;
                     },
                 ],
+                [
+                    'attribute' => 'prejur_estudio_bienes',
+                    'format' => 'raw',
+                    'value' => implode("<br />", \yii\helpers\ArrayHelper::map(
+                                    $model->bienesXProcesos,
+                                    'bien_id', function($modelBiexPro) {
+                                        return $modelBiexPro->bien->nombre . ": " . $modelBiexPro->comentario;
+                                    }
+                            )
+                    ),
+                ],
+                            
             ],
         ]);
         ?>

@@ -57,4 +57,21 @@ class Utils extends Component {
         ];
     }
 
+    public function mostrarToolTip($mensaje) {
+        return \yii\helpers\Html::tag('span', '<i class="flaticon-questions-circular-button"></i> ', [
+                    'title' => $mensaje,
+                    'data-toggle' => 'tooltip',
+                    'style' => 'text-decoration: underline; cursor:pointer;'
+        ]);
+    }
+
+    public function mostrarPopover($mensaje) {
+        return \yii\helpers\Html::tag('span', '<i class="flaticon-questions-circular-button"></i> ', [
+                    'data-title' => 'Ayuda',
+                    'data-content' => $mensaje,
+                    'data-toggle' => 'popover',
+                    'style' => 'cursor:pointer;'
+        ]);
+    }
+
 }

@@ -10,6 +10,38 @@ use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\Procesos */
 /* @var $form yii\widgets\ActiveForm */
+
+//JS PARA TOOLTIPS
+$js = <<<SCRIPT
+    /* To initialize BS3 tooltips set this below */
+    $(function () { 
+        $("[data-toggle='tooltip']").tooltip(); 
+    });;
+    /* To initialize BS3 popovers set this below */
+    $(function () { 
+        $("[data-toggle='popover']").popover(); 
+    });
+        
+    jQuery("document").ready(function () {
+        
+        jQuery(".check-bien").each(function (){        
+            if(jQuery(this).is(":checked")) {        
+                jQuery(".comentario-bienes-" + jQuery(this).val()).show();
+            } 
+        });
+        
+        jQuery(".check-bien").change(function (){        
+            if(jQuery(this).is(":checked")) {        
+                jQuery(".comentario-bienes-" + jQuery(this).val()).show();
+            } else {
+                jQuery(".comentario-bienes-" + jQuery(this).val()).hide();
+                jQuery(".comentario-bienes-" + jQuery(this).val()).val("");
+            }
+        });
+    });
+SCRIPT;
+// Register tooltip/popover initialization javascript
+$this->registerJs($js);
 ?>
 
 
@@ -172,26 +204,104 @@ $form = ActiveForm::begin(
         <h3 class="box-title">ESTUDIO PRE-JURÍDICO</h3>
     </div>
     <div class="box-body">
-        <?=
-        $form->field($model, 'prejur_fecha_recepcion')->widget(DatePicker::classname(), [
-            'options' => ['placeholder' => '- Ingrese una fecha --'],
-            'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'todayHighlight' => true,
-                'todayBtn' => true,
-            ]
-        ]);
-        ?>
-        <?php
-        $tipoCasosList = yii\helpers\ArrayHelper::map(
-                        \app\models\TipoCasos::find()
-                                ->where(['activo' => 1])
-                                ->all()
-                        , 'id', 'nombre');
-        ?>
-        <?= $form->field($model, 'prejur_tipo_caso')->dropDownList($tipoCasosList, ['prompt' => '- Seleccione un tipo de caso -']) ?>
-
+        <div class="row-field">
+            <?=
+            $form->field($model, 'prejur_fecha_recepcion')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => '- Ingrese una fecha --'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]);
+            ?>
+            <?php
+            $tipoCasosList = yii\helpers\ArrayHelper::map(
+                            \app\models\TipoCasos::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?=
+            $form->field($model, 'prejur_tipo_caso', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList($tipoCasosList, ['prompt' => '- Seleccione un tipo de caso -'])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'prejur_consulta_rama_judicial', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'prejur_consulta_entidad_reguladora', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
+        <!-- ESTUDIO DE BIENES -->
+        <div class="row-field">
+            <?php
+            $bienesList = yii\helpers\ArrayHelper::map(
+                            \app\models\Bienes::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?=
+            $form->field($model, 'prejur_estudio_bienes', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                "options" => ["class" => "form-group col-md-12"],
+                    //"template" => "{label} <div class='row'><div class='col-sm-4'>{input}{error}{hint}</div><div class='col-sm-4'>hola</div></div>"
+            ])->checkboxList($bienesList,
+                    [
+                        'item' => function($index, $label, $name, $checked, $value) use ($model) {
+                            $checked = $checked ? "checked" : "";
+                            return "<div class='row'>"
+                                    . "<div class='col-md-4'>"
+                                    . " <div class='checkbox'>"
+                                    . "     <label>"
+                                    . "         <input type='checkbox' {$checked} name='{$name}' value='{$value}' class='check-bien'> {$label}"
+                                    . "     </label>"
+                                    . " </div>"
+                                    . "</div>"
+                                    . "<div class='col-md-8'>"
+                                    . Html::input("text", "Procesos[comentarios_prejur_estudio_bienes][{$value}]", $model->comentarios_prejur_estudio_bienes[$value],
+                                            [
+                                                "class" => "form-control comentario-bienes-{$value}",
+                                                "placeholder" => "Comentarios",
+                                                "style" => "display: none"
+                                            ]
+                                    )
+                                    . "</div>"
+                                    . "</div>";
+                        }
+                    ]
+            )
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'prejur_concepto_viabilidad', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'prejur_otros', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
     </div>
 </div>
 

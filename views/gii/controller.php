@@ -142,7 +142,15 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
      */
     public function actionDelete(<?= $actionParams ?>)
     {
-        $this->findModel(<?= $actionParams ?>)->delete();
+        //BORRADO FISICO
+        //$this->findModel(<?= $actionParams ?>)->delete();
+        
+        //BORRADO LOGICO
+        $model = $this->findModel($id);
+        $model->delete = '1';
+        $model->deleted = new yii\db\Expression('NOW()');
+        $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
+        $model->save();
 
         return $this->redirect(['index']);
     }

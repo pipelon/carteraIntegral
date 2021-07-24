@@ -60,6 +60,7 @@ class ProcesosController extends Controller {
      */
     public function actionCreate() {
         $model = new Procesos();
+        
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -72,6 +73,15 @@ class ProcesosController extends Controller {
                     $proXcol->proceso_id = $model->id;
                     $proXcol->user_id = $colaborador;
                     $proXcol->save();
+                }
+                
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS ESTUDIOS DE BIENES
+                foreach ($model->prejur_estudio_bienes as $bien) {
+                    $bieXpro = new \app\models\BienesXProceso();
+                    $bieXpro->proceso_id = $model->id;
+                    $bieXpro->bien_id = $bien;
+                    $bieXpro->comentario = $model->comentarios_prejur_estudio_bienes[$bien];
+                    $bieXpro->save();
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -102,6 +112,19 @@ class ProcesosController extends Controller {
                 ->where(['proceso_id' => $id])
                 ->column();
         
+        //BIENES ACTUALES PARA MOSTRAR EN LA EDICION
+        $model->prejur_estudio_bienes = \app\models\BienesXProceso::find()
+                ->select('bien_id')
+                ->where(['proceso_id' => $id])
+                ->column();
+        
+        //COMENTARIO BIENES ACTUALES PARA MOSTRAR EN LA EDICION
+        $model->comentarios_prejur_estudio_bienes = \app\models\BienesXProceso::find()
+                ->select('comentario')
+                ->where(['proceso_id' => $id])
+                ->indexBy('bien_id')
+                ->column();
+        
         if ($model->load(Yii::$app->request->post())) {
             
              // SE GUARDA EL REGISTRO
@@ -116,6 +139,18 @@ class ProcesosController extends Controller {
                     $proXcol->proceso_id = $model->id;
                     $proXcol->user_id = $colaborador;
                     $proXcol->save();
+                }
+                
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
+                // SE DEBEN ELIMINARL LOS BIENES ACTUALES Y 
+                // VOLVERLOS A CREAR
+                \app\models\BienesXProceso::deleteAll(['proceso_id' => $model->id]);
+                foreach ($model->prejur_estudio_bienes as $bien) {
+                    $bieXpro = new \app\models\BienesXProceso();
+                    $bieXpro->proceso_id = $model->id;
+                    $bieXpro->bien_id = $bien;
+                    $bieXpro->comentario = $model->comentarios_prejur_estudio_bienes[$bien];
+                    $bieXpro->save();
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
