@@ -11,39 +11,10 @@ use kartik\date\DatePicker;
 /* @var $model app\models\Procesos */
 /* @var $form yii\widgets\ActiveForm */
 
-//JS PARA TOOLTIPS
-$js = <<<SCRIPT
-    /* To initialize BS3 tooltips set this below */
-    $(function () { 
-        $("[data-toggle='tooltip']").tooltip(); 
-    });;
-    /* To initialize BS3 popovers set this below */
-    $(function () { 
-        $("[data-toggle='popover']").popover(); 
-    });
-        
-    jQuery("document").ready(function () {
-        
-        jQuery(".check-bien").each(function (){        
-            if(jQuery(this).is(":checked")) {        
-                jQuery(".comentario-bienes-" + jQuery(this).val()).show();
-            } 
-        });
-        
-        jQuery(".check-bien").change(function (){        
-            if(jQuery(this).is(":checked")) {        
-                jQuery(".comentario-bienes-" + jQuery(this).val()).show();
-            } else {
-                jQuery(".comentario-bienes-" + jQuery(this).val()).hide();
-                jQuery(".comentario-bienes-" + jQuery(this).val()).val("");
-            }
-        });
-    });
-SCRIPT;
-// Register tooltip/popover initialization javascript
-$this->registerJs($js);
-?>
 
+// ARCHIVO CON TODOS LOS JS NECESARIOS PARA EL PROCESO
+$this->registerJsFile(Yii::getAlias('@web') . '/js/proceso.js', ['depends' => [yii\web\JqueryAsset::className()]]);
+?>
 
 <!-- BOTON VOLVER -->
 <div class="procesos-form box box-primary">
@@ -202,6 +173,11 @@ $form = ActiveForm::begin(
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">ESTUDIO PRE-JURÍDICO</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
     </div>
     <div class="box-body">
         <div class="row-field">
@@ -258,7 +234,6 @@ $form = ActiveForm::begin(
             $form->field($model, 'prejur_estudio_bienes', [
                 "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
                 "options" => ["class" => "form-group col-md-12"],
-                    //"template" => "{label} <div class='row'><div class='col-sm-4'>{input}{error}{hint}</div><div class='col-sm-4'>hola</div></div>"
             ])->checkboxList($bienesList,
                     [
                         'item' => function($index, $label, $name, $checked, $value) use ($model) {
@@ -272,7 +247,7 @@ $form = ActiveForm::begin(
                                     . " </div>"
                                     . "</div>"
                                     . "<div class='col-md-8'>"
-                                    . Html::input("text", "Procesos[prejur_comentarios_estudio_bienes][{$value}]", $model->prejur_comentarios_estudio_bienes[$value],
+                                    . Html::input("text", "Procesos[prejur_comentarios_estudio_bienes][{$value}]", $model->prejur_comentarios_estudio_bienes[$value] ?? null,
                                             [
                                                 "class" => "form-control comentario-bienes-{$value}",
                                                 "placeholder" => "Comentarios",

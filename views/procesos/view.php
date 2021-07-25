@@ -72,9 +72,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'prejur_tipo_caso',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->prejurTipoCaso->nombre;
+                        return $data->prejurTipoCaso->nombre ?? null;
                     },
                 ],
+                'prejur_consulta_rama_judicial:ntext',
+                'prejur_consulta_entidad_reguladora:ntext',
                 [
                     'attribute' => 'prejur_estudio_bienes',
                     'format' => 'raw',
@@ -86,7 +88,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             )
                     ),
                 ],
-                            
+                'prejur_concepto_viabilidad:ntext',
+                'prejur_otros:ntext'
             ],
         ]);
         ?>
