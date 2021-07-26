@@ -39,6 +39,7 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
             'layout' => "{items}\n{summary}\n{pager}",
             'tableOptions' => ['class' => 'table table-striped table-bordered table-condensed'],
             'columns' => [
+                'id',
                 [
                     'attribute' => 'cliente_id',
                     'format' => 'raw',

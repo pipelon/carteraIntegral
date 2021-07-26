@@ -22,7 +22,7 @@ $fieldOptions2 = [
 
 <div class="login-box">
     <div class="login-logo">
-        <?= \yii\helpers\Html::img('@web/images/logo-cartera-integral-grande.png', ['alt' => 'User Image']); ?>
+        <?= \yii\helpers\Html::img('@web/images/ciles.png', ['alt' => 'User Image','style' => 'width: 250px']); ?>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
