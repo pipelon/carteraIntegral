@@ -54,7 +54,7 @@ class ProcesosController extends Controller {
                 ->where(['proceso_id' => $id])
                 ->orderBy('fecha_gestion DESC')
                 ->all();
-        
+
         return $this->render('view', [
                     'model' => $this->findModel($id),
         ]);
@@ -107,6 +107,16 @@ class ProcesosController extends Controller {
                     }
                 }
 
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS DOCUMENTOS DE ACTIVACION
+                if (!empty($model->jur_documentos_activacion)) {
+                    foreach ($model->jur_documentos_activacion as $doc) {
+                        $docXpro = new \app\models\DocactivacionXProceso();
+                        $docXpro->proceso_id = $model->id;
+                        $docXpro->documento_activacion_id = $doc;
+                        $docXpro->save();
+                    }
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [
@@ -153,6 +163,12 @@ class ProcesosController extends Controller {
                 ->where(['proceso_id' => $id])
                 ->orderBy('fecha_gestion DESC')
                 ->all();
+        
+        //DOCUMENTOS DE ACTIVACION ACTUALES PARA MOSTRAR EN LA EDICION
+        $model->jur_documentos_activacion = \app\models\DocactivacionXProceso::find()
+                ->select('documento_activacion_id')
+                ->where(['proceso_id' => $id])
+                ->column();
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -188,13 +204,24 @@ class ProcesosController extends Controller {
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION PRE JURIDICA
                 if (!empty($model->prejur_gestion_prejuridica)) {
-                    if (!empty($model->prejur_gestion_prejuridica)) {
-                        $gestPreJur = new \app\models\GestionesPrejuridicas();
-                        $gestPreJur->proceso_id = $model->id;
-                        $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
-                        $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
-                        $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
-                        $gestPreJur->save();
+                    $gestPreJur = new \app\models\GestionesPrejuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
+                    $gestPreJur->save();
+                }
+                
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
+                // SE DEBEN ELIMINARL LOS DOCUMENTOS DE ACTIVACION ACTUALES Y 
+                // VOLVERLOS A CREAR
+                if (!empty($model->jur_documentos_activacion)) {
+                    \app\models\DocactivacionXProceso::deleteAll(['proceso_id' => $model->id]);
+                    foreach ($model->jur_documentos_activacion as $doc) {
+                        $docXpro = new \app\models\DocactivacionXProceso();
+                        $docXpro->proceso_id = $model->id;
+                        $docXpro->documento_activacion_id = $doc;
+                        $docXpro->save();
                     }
                 }
 

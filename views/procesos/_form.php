@@ -301,10 +301,53 @@ $form = ActiveForm::begin(
     </div>
 </div>
 
+<!-- JURIDICO -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">JURÍDICO</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row-field">
+            <?=
+            $form->field($model, 'jur_fecha_recepcion')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => '- Ingrese una fecha --'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]);
+            ?>
+            <?php
+            $docActList = yii\helpers\ArrayHelper::map(
+                            \app\models\DocumentosActivacion::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?=
+            $form->field($model, 'jur_documentos_activacion', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+            ])->checkboxList($docActList)
+            ?>
+        </div>
+        <div class="row-field">
+            <?= $form->field($model, 'jur_valor_activacion')->textInput() ?>
+            <?= $form->field($model, 'jur_saldo_actual')->textInput() ?>
+        </div>
+    </div>
+</div>
+
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 20px"></i> ' .'Guardar', ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
 

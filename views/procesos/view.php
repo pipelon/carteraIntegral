@@ -89,7 +89,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     ),
                 ],
                 'prejur_concepto_viabilidad:ntext',
-                'prejur_otros:ntext'
+                'prejur_otros:ntext',
+                [
+                    'label' => strtoupper('JURÍDICO'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                'jur_fecha_recepcion:date',
+                [
+                    'attribute' => 'jur_documentos_activacion',
+                    'format' => 'raw',
+                    'value' => implode("<br />", \yii\helpers\ArrayHelper::map(
+                                    $model->docactivacionXProcesos,
+                                    'documento_activacion_id', function($modelDocxPro) {
+                                        return $modelDocxPro->documentoActivacion->nombre;
+                                    }
+                            )
+                    ),
+                ],
             ],
         ]);
         ?>

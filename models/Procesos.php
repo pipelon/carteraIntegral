@@ -14,11 +14,15 @@ use Yii;
  * @property int|null $prejur_tipo_caso Tipo de caso
  * @property string|null $prejur_consulta_rama_judicial Consulta rama judicial
  * @property string|null $prejur_consulta_entidad_reguladora Consulta entidad reguladora
- * @property string|null $prejur_estudio_bienes Estudio de bienes
  * @property string|null $prejur_concepto_viabilidad Concepto  viabilidad
  * @property string|null $prejur_otros Otros
+ * @property string|null $jur_fecha_recepcion Fecha activación
+ * @property float|null $jur_valor_activacion Valor activación
+ * @property float|null $jur_saldo_actual Saldo actual
  *
  * @property BienesXProceso[] $bienesXProcesos
+ * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
+ * @property DocactivacionXProceso[] $docactivacionXProcesos
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
  * @property Clientes $cliente
  * @property Deudores $deudor
@@ -26,12 +30,13 @@ use Yii;
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  */
 class Procesos extends \yii\db\ActiveRecord {
-
+    
     public $colaboradores;
     public $prejur_estudio_bienes;
     public $prejur_comentarios_estudio_bienes;
     public $prejur_gestion_prejuridica;
     public $prejur_gestiones_prejuridicas;
+    public $jur_documentos_activacion;
 
     /**
      * {@inheritdoc}
@@ -47,10 +52,11 @@ class Procesos extends \yii\db\ActiveRecord {
         return [
             [['cliente_id', 'deudor_id', 'colaboradores'], 'required'],
             [['cliente_id', 'deudor_id', 'prejur_tipo_caso'], 'integer'],
-            [['prejur_fecha_recepcion', 'prejur_estudio_bienes',
+            [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
             'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
-            'prejur_gestiones_prejuridicas'], 'safe'],
+            'prejur_gestiones_prejuridicas', 'jur_documentos_activacion'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora', 'prejur_concepto_viabilidad', 'prejur_otros'], 'string'],
+            [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
@@ -73,6 +79,10 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_concepto_viabilidad' => 'Concepto  viabilidad',
             'prejur_gestion_prejuridica' => 'Gestión pre jurídica',
             'prejur_otros' => 'Otros',
+            'jur_fecha_recepcion' => 'Fecha activación',
+            'jur_valor_activacion' => 'Valor activación',
+            'jur_saldo_actual' => 'Saldo actual',
+            'jur_documentos_activacion' => 'Documentos de activación'
         ];
     }
 
@@ -83,6 +93,24 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getBienesXProcesos() {
         return $this->hasMany(BienesXProceso::className(), ['proceso_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ConsolidadoPagosJuridicos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConsolidadoPagosJuridicos() {
+        return $this->hasMany(ConsolidadoPagosJuridicos::className(), ['proceso_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[DocactivacionXProcesos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDocactivacionXProcesos() {
+        return $this->hasMany(DocactivacionXProceso::className(), ['proceso_id' => 'id']);
     }
 
     /**
