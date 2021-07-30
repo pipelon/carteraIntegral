@@ -33,6 +33,8 @@ class BeforeModel extends \yii\db\ActiveRecord {
     private static $logicalDeleteModels = [
         'app\models\TipoCasos',
         'app\models\Bienes',
+        'app\models\EtapasProcesales',
+        'app\models\TipoProcesos',
     ];
 
     public function behaviors() {
@@ -61,7 +63,7 @@ class BeforeModel extends \yii\db\ActiveRecord {
         return parent::find()
                         ->onCondition(['and',
                             ['=', static::tableName() . '.delete', 0]
-                        ]);
+        ]);
     }
 
 }

@@ -4,30 +4,30 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\TipoProcesosSearch */
+/* @var $searchModel app\models\EtapasProcesalesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tipo de procesos';
+$this->title = 'Etapas procesales';
 $this->params['breadcrumbs'][] = $this->title;
 
 $template = '';
-if (\Yii::$app->user->can('/tipo-procesos/view')) {
+if (\Yii::$app->user->can('/etapas-procesales/view')) {
     $template .= '{view} ';
 }
-if (\Yii::$app->user->can('/tipo-procesos/update')) {
+if (\Yii::$app->user->can('/etapas-procesales/update')) {
     $template .= '{update} ';
 }
-if (\Yii::$app->user->can('/tipo-procesos/delete')) {
+if (\Yii::$app->user->can('/etapas-procesales/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/tipo-procesos/*') || \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/etapas-procesales/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
-<div class="tipo-procesos-index box box-primary">
+<div class="etapas-procesales-index box box-primary">
     <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/tipo-procesos/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear tipo de proces', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/etapas-procesales/create') || \Yii::$app->user->can('/*')) : ?> 
+            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear etapa procesal', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -40,6 +40,18 @@ if (\Yii::$app->user->can('/tipo-procesos/*') || \Yii::$app->user->can('/*')) {
             'tableOptions' => ['class' => 'table table-striped table-bordered table-condensed'],
             'columns' => [
                 'id',
+                [
+                    'attribute' => 'tipo_proceso_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->tipoProceso->nombre;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\TipoProcesos::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre')
+                ],
                 'nombre',
                 [
                     'attribute' => 'activo',

@@ -108,6 +108,22 @@ $this->params['breadcrumbs'][] = $this->title;
                             )
                     ),
                 ],
+                'jur_valor_activacion:integer',
+                'jur_saldo_actual:integer',
+                [
+                    'attribute' => 'jur_tipo_proceso_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurTipoProceso->nombre ?? null;
+                    },
+                ],
+                [
+                    'attribute' => 'jur_etapas_procesal_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurEtapasProcesal->nombre ?? null;
+                    },
+                ],
             ],
         ]);
         ?>

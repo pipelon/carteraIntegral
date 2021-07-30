@@ -5,9 +5,10 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "tipo_procesos".
+ * This is the model class for table "etapas_procesales".
  *
  * @property int $id ID
+ * @property int $tipo_proceso_id Tipo de proceso
  * @property string $nombre Nombre
  * @property int $activo Activo
  * @property int|null $delete Borrado
@@ -18,16 +19,16 @@ use Yii;
  * @property string|null $deleted Borrado
  * @property string|null $deleted_by Borrado por
  *
- * @property EtapasProcesales[] $etapasProcesales
+ * @property TipoProcesos $tipoProceso
  * @property Procesos[] $procesos
  */
-class TipoProcesos extends BeforeModel {
+class EtapasProcesales extends BeforeModel {
 
     /**
      * {@inheritdoc}
      */
     public static function tableName() {
-        return 'tipo_procesos';
+        return 'etapas_procesales';
     }
 
     /**
@@ -35,11 +36,13 @@ class TipoProcesos extends BeforeModel {
      */
     public function rules() {
         return [
-            [['nombre'], 'required'],
-            [['activo', 'delete'], 'integer'],
+            [['tipo_proceso_id', 'nombre', 'activo'], 'required'],
+            [['tipo_proceso_id', 'activo', 'delete'], 'integer'],
             [['created', 'modified', 'deleted'], 'safe'],
-            [['nombre', 'created_by', 'modified_by', 'deleted_by'], 'string', 'max' => 45],
-            ['nombre', 'filter', 'filter' => 'strtoupper']
+            [['nombre'], 'string', 'max' => 100],
+            [['created_by', 'modified_by', 'deleted_by'], 'string', 'max' => 45],
+            ['nombre', 'filter', 'filter' => 'strtoupper'],
+            [['tipo_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoProcesos::className(), 'targetAttribute' => ['tipo_proceso_id' => 'id']],
         ];
     }
 
@@ -49,6 +52,7 @@ class TipoProcesos extends BeforeModel {
     public function attributeLabels() {
         return [
             'id' => 'ID',
+            'tipo_proceso_id' => 'Tipo de proceso',
             'nombre' => 'Nombre',
             'activo' => 'Activo',
             'delete' => 'Borrado',
@@ -62,12 +66,12 @@ class TipoProcesos extends BeforeModel {
     }
 
     /**
-     * Gets query for [[EtapasProcesales]].
+     * Gets query for [[TipoProceso]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getEtapasProcesales() {
-        return $this->hasMany(EtapasProcesales::className(), ['tipo_proceso_id' => 'id']);
+    public function getTipoProceso() {
+        return $this->hasOne(TipoProcesos::className(), ['id' => 'tipo_proceso_id']);
     }
 
     /**
@@ -76,7 +80,7 @@ class TipoProcesos extends BeforeModel {
      * @return \yii\db\ActiveQuery
      */
     public function getProcesos() {
-        return $this->hasMany(Procesos::className(), ['jur_tipo_proceso_id' => 'id']);
+        return $this->hasMany(Procesos::className(), ['jur_etapas_procesal_id' => 'id']);
     }
 
 }

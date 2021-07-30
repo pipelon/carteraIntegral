@@ -19,6 +19,8 @@ use Yii;
  * @property string|null $jur_fecha_recepcion Fecha activación
  * @property float|null $jur_valor_activacion Valor activación
  * @property float|null $jur_saldo_actual Saldo actual
+ * @property int|null $jur_tipo_proceso_id Tipo de proceso
+ * @property int|null $jur_etapas_procesal_id Etapa procesal
  *
  * @property BienesXProceso[] $bienesXProcesos
  * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
@@ -26,7 +28,9 @@ use Yii;
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
  * @property Clientes $cliente
  * @property Deudores $deudor
+ * @property EtapasProcesales $jurEtapasProcesal
  * @property TipoCasos $prejurTipoCaso
+ * @property TipoProcesos $jurTipoProceso
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  */
 class Procesos extends \yii\db\ActiveRecord {
@@ -51,7 +55,7 @@ class Procesos extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['cliente_id', 'deudor_id', 'colaboradores'], 'required'],
-            [['cliente_id', 'deudor_id', 'prejur_tipo_caso'], 'integer'],
+            [['cliente_id', 'deudor_id', 'prejur_tipo_caso', 'jur_tipo_proceso_id', 'jur_etapas_procesal_id'], 'integer'],
             [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
             'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion'], 'safe'],
@@ -59,7 +63,9 @@ class Procesos extends \yii\db\ActiveRecord {
             [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
+            [['jur_etapas_procesal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesales::className(), 'targetAttribute' => ['jur_etapas_procesal_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
+            [['jur_tipo_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoProcesos::className(), 'targetAttribute' => ['jur_tipo_proceso_id' => 'id']],
         ];
     }
 
@@ -82,7 +88,8 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_fecha_recepcion' => 'Fecha activación',
             'jur_valor_activacion' => 'Valor activación',
             'jur_saldo_actual' => 'Saldo actual',
-            'jur_documentos_activacion' => 'Documentos de activación'
+            'jur_tipo_proceso_id' => 'Tipo de proceso',
+            'jur_etapas_procesal_id' => 'Etapa procesal',
         ];
     }
 
@@ -141,12 +148,30 @@ class Procesos extends \yii\db\ActiveRecord {
     }
 
     /**
+     * Gets query for [[JurEtapasProcesal]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurEtapasProcesal() {
+        return $this->hasOne(EtapasProcesales::className(), ['id' => 'jur_etapas_procesal_id']);
+    }
+
+    /**
      * Gets query for [[PrejurTipoCaso]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getPrejurTipoCaso() {
         return $this->hasOne(TipoCasos::className(), ['id' => 'prejur_tipo_caso']);
+    }
+
+    /**
+     * Gets query for [[JurTipoProceso]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurTipoProceso() {
+        return $this->hasOne(TipoProcesos::className(), ['id' => 'jur_tipo_proceso_id']);
     }
 
     /**

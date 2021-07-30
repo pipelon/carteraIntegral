@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\TipoProcesos;
+use app\models\EtapasProcesales;
 
 /**
- * TipoProcesosSearch represents the model behind the search form of `app\models\TipoProcesos`.
+ * EtapasProcesalesSearch represents the model behind the search form of `app\models\EtapasProcesales`.
  */
-class TipoProcesosSearch extends TipoProcesos
+class EtapasProcesalesSearch extends EtapasProcesales
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class TipoProcesosSearch extends TipoProcesos
     public function rules()
     {
         return [
-            [['id', 'activo', 'delete'], 'integer'],
+            [['id', 'tipo_proceso_id', 'activo', 'delete'], 'integer'],
             [['nombre', 'created', 'created_by', 'modified', 'modified_by', 'deleted', 'deleted_by'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class TipoProcesosSearch extends TipoProcesos
      */
     public function search($params)
     {
-        $query = TipoProcesos::find();
+        $query = EtapasProcesales::find();
 
         // add conditions that should always apply here
 
@@ -61,6 +61,7 @@ class TipoProcesosSearch extends TipoProcesos
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'tipo_proceso_id' => $this->tipo_proceso_id,
             'activo' => $this->activo,
             'delete' => $this->delete,
             'created' => $this->created,

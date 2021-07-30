@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\TipoProcesosSearch */
+/* @var $model app\models\EtapasProcesalesSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="tipo-procesos-search">
+<div class="etapas-procesales-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,13 +17,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
+    <?= $form->field($model, 'tipo_proceso_id') ?>
+
     <?= $form->field($model, 'nombre') ?>
 
     <?= $form->field($model, 'activo') ?>
 
     <?= $form->field($model, 'delete') ?>
 
-    <?= $form->field($model, 'created') ?>
+    <?php // echo $form->field($model, 'created') ?>
 
     <?php // echo $form->field($model, 'created_by') ?>
 

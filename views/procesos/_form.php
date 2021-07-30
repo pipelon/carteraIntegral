@@ -6,6 +6,7 @@ use kartik\select2\Select2;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\date\DatePicker;
+use kartik\depdrop\DepDrop;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Procesos */
@@ -341,13 +342,36 @@ $form = ActiveForm::begin(
             <?= $form->field($model, 'jur_valor_activacion')->textInput() ?>
             <?= $form->field($model, 'jur_saldo_actual')->textInput() ?>
         </div>
+        <div class="row-field">
+            <?php
+            $tipoProcesosList = yii\helpers\ArrayHelper::map(
+                            \app\models\TipoProcesos::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?= $form->field($model, 'jur_tipo_proceso_id')->dropDownList($tipoProcesosList, ['id' => 'tipo-proceso-id']) ?>
+            <?=
+            $form->field($model, 'jur_etapas_procesal_id')->widget(DepDrop::classname(), [
+                'options' => ['id' => 'etapa-procesal-id'],
+                'data' => [$model->jur_etapas_procesal_id => 'default'], 
+                'pluginOptions' => [
+                    'depends' => ['tipo-proceso-id'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una etapa procesal -',
+                    'url' => Url::to(['/etapas-procesales/etapasprocesalesporprocesoid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+        </div>
     </div>
 </div>
 
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">
-        <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 20px"></i> ' .'Guardar', ['class' => 'btn btn-primary']) ?>
+<?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 20px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
     </div>
 </div>
 
