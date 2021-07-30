@@ -354,7 +354,7 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_etapas_procesal_id')->widget(DepDrop::classname(), [
                 'options' => ['id' => 'etapa-procesal-id'],
-                'data' => [$model->jur_etapas_procesal_id => 'default'], 
+                'data' => [$model->jur_etapas_procesal_id => 'default'],
                 'pluginOptions' => [
                     'depends' => ['tipo-proceso-id'],
                     'initialize' => true,
@@ -371,7 +371,10 @@ $form = ActiveForm::begin(
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">
-<?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 20px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 20px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
+            <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
+        <?php endif; ?> 
     </div>
 </div>
 
