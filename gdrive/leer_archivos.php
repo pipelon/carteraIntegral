@@ -20,8 +20,8 @@ include '../vendor/google/apiclient/vendor/autoload.php';
 putenv('GOOGLE_APPLICATION_CREDENTIALS=../ciles-202107-c88b43086408.json');
 
 $folderId = '1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX';
-$folderId = '1Pa5F0ApNeHeAW6uUTvgfurU6W1t6Hx3M';
-showFiles($folderId);
+
+leerArchivosCarpeta($folderId);
 
 // $optParams = array(
         // 'pageSize' => 10,
@@ -30,7 +30,7 @@ showFiles($folderId);
         // 'q' => "'".$folderId."' in parents"
         // );
 
-function showFiles($folderId){
+function leerArchivosCarpeta($folderId){
 	
 	
 	$client = new Google_Client();
@@ -69,7 +69,7 @@ function showFiles($folderId){
 					 echo "<div class='carpeta'>";
 					 echo '<div class="name"><input type="checkbox" id="'.$elemento->id.'" name="'.$elemento->id.'" value="'.$elemento->name.'"><a href="https://drive.google.com/open?id='. $elemento->id .'" target="_blank">'.$elemento->name.'</a></div>';
 					 echo "</div>";
-					 showFiles($elemento->id);
+					 leerArchivosCarpeta($elemento->id);
 				// }
 				 // else{
 					// echo "<div class='archivo'>";
