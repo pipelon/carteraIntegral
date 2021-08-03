@@ -92,7 +92,9 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_saldo_actual' => 'Saldo actual',
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',
+            'jur_documentos_activacion' => 'Documentos de activación',
             'carpeta' => 'Carpeta Google Drive',
+            
         ];
     }
 
