@@ -122,11 +122,11 @@ CREATE TABLE `bienes_x_proceso` (
   KEY `fk_bienes_x_proceso_bienes_idx` (`bien_id`),
   CONSTRAINT `fk_bienes_x_proceso_bienes` FOREIGN KEY (`bien_id`) REFERENCES `bienes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_bienes_x_proceso_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 
 /*Data for the table `bienes_x_proceso` */
 
-insert  into `bienes_x_proceso`(`id`,`proceso_id`,`bien_id`,`comentario`) values (20,4,1,'Inmuebles'),(21,4,4,'Comentario 22222'),(22,4,5,'Comentario 33333'),(23,5,1,'Inmueble 1'),(24,5,6,'Establecimiento 1'),(25,6,1,'Inmueble 1'),(26,6,6,'Establecimiento 1'),(27,7,1,'Inmueble 1'),(28,7,6,'Establecimiento 1'),(29,8,1,'Inmueble 1'),(30,8,6,'Establecimiento 1'),(96,11,1,'Comentario inmueble'),(97,11,3,'Comentario creditos a favor'),(98,11,4,'Comentario bienes maquinaria'),(113,9,1,'Inmueble 13'),(114,9,6,'Establecimiento 14');
+insert  into `bienes_x_proceso`(`id`,`proceso_id`,`bien_id`,`comentario`) values (20,4,1,'Inmuebles'),(21,4,4,'Comentario 22222'),(22,4,5,'Comentario 33333'),(23,5,1,'Inmueble 1'),(24,5,6,'Establecimiento 1'),(25,6,1,'Inmueble 1'),(26,6,6,'Establecimiento 1'),(27,7,1,'Inmueble 1'),(28,7,6,'Establecimiento 1'),(29,8,1,'Inmueble 1'),(30,8,6,'Establecimiento 1'),(96,11,1,'Comentario inmueble'),(97,11,3,'Comentario creditos a favor'),(98,11,4,'Comentario bienes maquinaria'),(127,9,1,'Inmueble 13'),(128,9,6,'Establecimiento 14');
 
 /*Table structure for table `clientes` */
 
@@ -153,6 +153,7 @@ CREATE TABLE `clientes` (
   `telefono_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Teléfonos',
   `email_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Correo electrónico',
   `cargo_persona_contacto_3` varchar(45) DEFAULT NULL COMMENT 'Cargo',
+  `carpeta` varchar(100) DEFAULT NULL COMMENT 'Carpeta Google Drive',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -162,7 +163,7 @@ CREATE TABLE `clientes` (
 
 /*Data for the table `clientes` */
 
-insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`created`,`created_by`,`modified`,`modified_by`) values (1,'CLIENTE PRUEBA 12','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FULANITO','123','FULANIT@GMIAL.COM','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','2021-07-13 10:37:55','admin','2021-07-22 16:07:53','admin'),(93,'CLIENTE PRUEBA 1','NIT','123456','1234','','','','ASDASD','ASDASD','2@2.COM','ASDASD','','','','','','','','','2021-07-18 09:30:21','admin','2021-07-18 09:30:21','admin');
+insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`carpeta`,`created`,`created_by`,`modified`,`modified_by`) values (1,'CLIENTE PRUEBA 12','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FULANITO','123','FULANIT@GMIAL.COM','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO',NULL,'2021-07-13 10:37:55','admin','2021-07-22 16:07:53','admin'),(93,'CLIENTE PRUEBA 1','NIT','123456','1234','REPRESENTANTE','12345','REPRESENTANTE@GMAIL.COM','ASDASD','ASDASD','2@2.COM','ASDASD','','','','','','','','','1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','2021-07-18 09:30:21','admin','2021-08-03 11:02:56','admin');
 
 /*Table structure for table `consolidado_pagos_juridicos` */
 
@@ -239,11 +240,11 @@ CREATE TABLE `docactivacion_x_proceso` (
   KEY `fk_docactivacion_x_proceso_documentos_activacion_idx` (`documento_activacion_id`),
   CONSTRAINT `fk_docactivacion_x_proceso_documentos_activacion` FOREIGN KEY (`documento_activacion_id`) REFERENCES `documentos_activacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_docactivacion_x_proceso_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
 
 /*Data for the table `docactivacion_x_proceso` */
 
-insert  into `docactivacion_x_proceso`(`id`,`proceso_id`,`documento_activacion_id`) values (19,11,1),(20,11,2),(21,11,8),(40,9,1),(41,9,2),(42,9,3);
+insert  into `docactivacion_x_proceso`(`id`,`proceso_id`,`documento_activacion_id`) values (19,11,1),(20,11,2),(21,11,8),(61,9,1),(62,9,2),(63,9,3);
 
 /*Table structure for table `documentos_activacion` */
 
@@ -364,6 +365,7 @@ CREATE TABLE `procesos` (
   `jur_saldo_actual` decimal(10,0) DEFAULT NULL COMMENT 'Saldo actual',
   `jur_tipo_proceso_id` int(11) DEFAULT NULL COMMENT 'Tipo de proceso',
   `jur_etapas_procesal_id` int(11) DEFAULT NULL COMMENT 'Etapa procesal',
+  `carpeta` varchar(100) DEFAULT NULL COMMENT 'Carpeta Google Drive',
   PRIMARY KEY (`id`),
   KEY `fk_procesos_clientes_idx` (`cliente_id`),
   KEY `fk_procesos_deudores_idx` (`deudor_id`),
@@ -379,7 +381,7 @@ CREATE TABLE `procesos` (
 
 /*Data for the table `procesos` */
 
-insert  into `procesos`(`id`,`cliente_id`,`deudor_id`,`prejur_fecha_recepcion`,`prejur_tipo_caso`,`prejur_consulta_rama_judicial`,`prejur_consulta_entidad_reguladora`,`prejur_concepto_viabilidad`,`prejur_otros`,`jur_fecha_recepcion`,`jur_valor_activacion`,`jur_saldo_actual`,`jur_tipo_proceso_id`,`jur_etapas_procesal_id`) values (2,1,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(3,93,3,'2021-07-15',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(4,1,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0),(5,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0),(6,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0),(7,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0),(8,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0),(9,1,3,'2021-07-25',1,'1LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','2LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','5LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','6LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.',NULL,'23850000','45672120',2,1),(10,1,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0),(11,1,3,'2021-07-25',6,'Consulta rama judicial','Consulta entidad reguladora','Concepto viabilidad','Otros','2021-07-28',NULL,NULL,0,0);
+insert  into `procesos`(`id`,`cliente_id`,`deudor_id`,`prejur_fecha_recepcion`,`prejur_tipo_caso`,`prejur_consulta_rama_judicial`,`prejur_consulta_entidad_reguladora`,`prejur_concepto_viabilidad`,`prejur_otros`,`jur_fecha_recepcion`,`jur_valor_activacion`,`jur_saldo_actual`,`jur_tipo_proceso_id`,`jur_etapas_procesal_id`,`carpeta`) values (2,1,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,NULL),(3,93,3,'2021-07-15',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,NULL),(4,1,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0,NULL),(5,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0,NULL),(6,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0,NULL),(7,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0,NULL),(8,93,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0,NULL),(9,1,3,'2021-07-25',1,'1LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','2LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','5LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','6LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.',NULL,'23850000','45672120',14,148,'1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX'),(10,1,3,NULL,NULL,'','','','',NULL,NULL,NULL,0,0,NULL),(11,1,3,'2021-07-25',6,'Consulta rama judicial','Consulta entidad reguladora','Concepto viabilidad','Otros','2021-07-28',NULL,NULL,0,0,NULL);
 
 /*Table structure for table `procesos_x_colaboradores` */
 
@@ -394,11 +396,11 @@ CREATE TABLE `procesos_x_colaboradores` (
   KEY `fk_procesos_x_colaboradores_user_idx` (`user_id`),
   CONSTRAINT `fk_procesos_x_colaboradores_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_procesos_x_colaboradores_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8;
 
 /*Data for the table `procesos_x_colaboradores` */
 
-insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (18,2,7),(19,2,8),(20,2,10),(37,3,7),(38,3,8),(39,3,10),(61,4,7),(62,4,8),(63,4,10),(64,5,7),(65,5,8),(66,5,10),(67,6,7),(68,6,8),(69,6,10),(70,7,7),(71,7,8),(72,7,10),(73,8,7),(74,8,8),(75,8,10),(115,10,7),(116,10,8),(117,10,10),(152,11,7),(174,9,7),(175,9,8),(176,9,10);
+insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (18,2,7),(19,2,8),(20,2,10),(37,3,7),(38,3,8),(39,3,10),(61,4,7),(62,4,8),(63,4,10),(64,5,7),(65,5,8),(66,5,10),(67,6,7),(68,6,8),(69,6,10),(70,7,7),(71,7,8),(72,7,10),(73,8,7),(74,8,8),(75,8,10),(115,10,7),(116,10,8),(117,10,10),(152,11,7),(195,9,7),(196,9,8),(197,9,10);
 
 /*Table structure for table `tipo_casos` */
 

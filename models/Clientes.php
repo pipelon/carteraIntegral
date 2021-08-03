@@ -26,6 +26,7 @@ use Yii;
  * @property string|null $telefono_persona_contacto_3 Teléfonos
  * @property string|null $email_persona_contacto_3 Correo electrónico
  * @property string|null $cargo_persona_contacto_3 Cargo
+ * @property string|null $carpeta
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
@@ -55,7 +56,7 @@ class Clientes extends BeforeModel {
             [['created', 'modified'], 'safe'],
             [['tipo_documento'], 'string', 'max' => 5],
             [['documento'], 'string', 'max' => 20],
-            [['direccion'], 'string', 'max' => 100],
+            [['direccion', 'carpeta'], 'string', 'max' => 100],
             [['nombre', 'nombre_representante_legal', 'telefono_representante_legal',
             'email_representante_legal','nombre_persona_contacto_1', 'telefono_persona_contacto_1',
             'email_persona_contacto_1', 'cargo_persona_contacto_1',
@@ -101,6 +102,7 @@ class Clientes extends BeforeModel {
             'telefono_persona_contacto_3' => 'Teléfonos',
             'email_persona_contacto_3' => 'Correo electrónico',
             'cargo_persona_contacto_3' => 'Cargo',
+            'carpeta' => 'Carpeta Google Drive',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',

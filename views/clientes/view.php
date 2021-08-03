@@ -79,6 +79,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'telefono_persona_contacto_3',
                 'email_persona_contacto_3:email',
                 'cargo_persona_contacto_3',
+                [
+                    'label' => strtoupper('Documentos'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                [
+                    'attribute' => 'carpeta',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        $url = 'https://drive.google.com/open?id=' . $data->carpeta;
+                        return Html::a($url, $url, ['target' => '_blank']);
+                    },
+                ],
                 'created:datetime',
                 'created_by',
                 'modified:datetime',

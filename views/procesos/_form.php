@@ -368,6 +368,24 @@ $form = ActiveForm::begin(
     </div>
 </div>
 
+<!-- CARPETA GOOGLE DRIVE -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Documentos</h3>
+    </div>
+    <div class="box-body">
+        <div class="row-field">
+            <?=
+            $form->field($model, 'carpeta', [
+                'template' => "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textInput(['maxlength' => true])
+            ?>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">

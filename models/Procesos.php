@@ -21,6 +21,7 @@ use Yii;
  * @property float|null $jur_saldo_actual Saldo actual
  * @property int|null $jur_tipo_proceso_id Tipo de proceso
  * @property int|null $jur_etapas_procesal_id Etapa procesal
+ * @property string|null $carpeta
  *
  * @property BienesXProceso[] $bienesXProcesos
  * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
@@ -59,6 +60,7 @@ class Procesos extends \yii\db\ActiveRecord {
             [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
             'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion'], 'safe'],
+            [['carpeta'], 'string', 'max' => 100],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora', 'prejur_concepto_viabilidad', 'prejur_otros'], 'string'],
             [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
@@ -90,6 +92,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_saldo_actual' => 'Saldo actual',
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',
+            'carpeta' => 'Carpeta Google Drive',
         ];
     }
 

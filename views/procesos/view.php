@@ -124,6 +124,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->jurEtapasProcesal->nombre ?? null;
                     },
                 ],
+                [
+                    'label' => strtoupper('Documentos'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                [
+                    'attribute' => 'carpeta',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        $url = 'https://drive.google.com/open?id=' . $data->carpeta;
+                        return Html::a($url, $url, ['target' => '_blank']);
+                    },
+                ],
             ],
         ]);
         ?>
