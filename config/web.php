@@ -37,6 +37,9 @@ $config = [
         ]
     ],
     'components' => [
+		'gdrive' => [
+            'class' => 'app\components\Gdrive',
+        ],
         'utils' => [
             'class' => 'app\components\Utils',
         ],

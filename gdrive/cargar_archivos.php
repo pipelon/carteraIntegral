@@ -16,35 +16,35 @@ $client->SetScopes("https://www.googleapis.com/auth/drive.file");
 try {
 	$service = new Google_Service_Drive($client);
 	$file_path = "modelo.jpg";
-	$file_path = "1mIhzkdatSOIN4nMGnOfWNY8atEGdUaxk";
+	//$file_path = "1mIhzkdatSOIN4nMGnOfWNY8atEGdUaxk";
 	
 	$file = new Google_Service_Drive_DriveFile();
 	$file->setName($file_path);
 	
 	$file->setParents(array(
-		"1Hy1RlD-AVVW-SejqU5BbEmOVYJuuDu-g"
+		"1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX"
 	));
 	$file->setDescription("Archivo de prueba de carga");
 	$file->setMimeType("image/jpg");
 	
-	// $resultado = $service->files->create(
-		// $file,
-		// array(
-			// 'data' => file_get_contents($file_path),
-			// 'mimeType' => 'image/jpg',
-			// 'uploadType' => 'media'			
-		// )
-	// );
+	$resultado = $service->files->create(
+		$file,
+		array(
+			'data' => file_get_contents($file_path),
+			'mimeType' => 'image/jpg',
+			'uploadType' => 'media'			
+		)
+	);
 	
-	$resultado = $service->files->delete($file_path);
+	//$resultado = $service->files->delete($file_path);
 	
-	var_dump($resultado);
+	//var_dump($resultado);
 	
 	echo '<a href="https://drive.google.com/open?id='. $resultado->id .'" target="_blank">'.$resultado->name.'</a>';
 	
 } catch (Google_Service_Exception $gs){
 	$mensaje =  json_decode($gs->getMessage());
-	var_dump($mensaje);
+	//var_dump($mensaje);
 	//echo $mensaje->error->message();	
 } catch (Exception $e){	
 	echo $e->getMessage();
