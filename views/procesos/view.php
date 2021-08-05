@@ -134,8 +134,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'carpeta',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        $url = 'https://drive.google.com/open?id=' . $data->carpeta;
-                        return Html::a($url, $url, ['target' => '_blank']);
+                        if ($data->carpeta){
+                            $url = 'https://drive.google.com/open?id=' . $data->carpeta;
+                            return Html::a($url, $url, ['target' => '_blank']);
+                        }
                     },
                 ],
                 [
@@ -148,8 +150,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => strtoupper('Archivos'),
                     'format' => 'raw',
                     'value' => function ($data) {
-                        $url = 'https://drive.google.com/open?id=' . $data->carpeta;
-                        return Yii::$app->gdrive->leerArchivosCarpeta($data->carpeta);
+                        if ($data->carpeta){
+                            return Yii::$app->gdrive->leerArchivosCarpeta($data->carpeta);
+                        }                        
                     },
                 ],
             ],
