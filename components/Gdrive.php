@@ -35,16 +35,37 @@ class Gdrive extends Component {
      */
     public function leerArchivosCarpeta($folderId) {
         $resultado = $this->service->files->listFiles(array("q" => "'{$folderId}' in parents"));
-        $this->out .= "<div style='padding-left:20px;'>";
+        $this->out .= "<div class='drive_files'>";
         foreach ($resultado as $elemento) {
             if ($elemento->mimeType == "application/vnd.google-apps.folder") {
                 $this->out .= "<div class='carpeta'>";
-                $this->out .= '<div class="name"><input type="checkbox" id="' . $elemento->id . '" name="' . $elemento->id . '" value="' . $elemento->name . '"><a href="https://drive.google.com/open?id=' . $elemento->id . '" target="_blank">' . $elemento->name . '</a></div>';
+                $this->out .= '<div class="name">' . \yii\helpers\Html::img("@web/images/folder_icon.png") . '<a href="https://drive.google.com/open?id=' . $elemento->id . '" target="_blank">' . $elemento->name . '</a></div>';
                 $this->out .= "</div>";
                 $this->leerArchivosCarpeta($elemento->id);
             } else {
+
+                $ext = explode(".", $elemento->name);
+                $ext = end($ext);
+                switch ($ext) {
+                    case "pdf":
+                        $icon = "pdf_icon.png";
+                        break;
+                    case "xlsx":
+                    case "xlsm":
+                    case "xlsb":
+                    case "xls":
+                        $icon = "excel_icon.png";
+                        break;
+                    case "docx":
+                    case "doc":
+                        $icon = "word_icon.png";
+                        break;
+                    default:
+                        $icon = "plain_icon.png";
+                        break;
+                }
                 $this->out .= "<div class='archivo'>";
-                $this->out .= '<div class="name"><a href="https://drive.google.com/open?id=' . $elemento->id . '" target="_blank">' . $elemento->name . '</a></div>';
+                $this->out .= '<div class="name">' . \yii\helpers\Html::img("@web/images/$icon") . '<a href="https://drive.google.com/open?id=' . $elemento->id . '" target="_blank">' . $elemento->name . '</a></div>';
                 $this->out .= "</div>";
             }
         }

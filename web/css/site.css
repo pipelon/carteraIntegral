@@ -178,3 +178,19 @@ section.sidebar .treeview-menu > li > a {
     font-size: 12px;
     margin: 0 0 20px 20px;
 }
+.drive_files{
+    padding-left:20px;
+}
+.drive_files .name{
+    padding: 3px 0;
+}
+.drive_files img{
+    font-size: 1.0em;
+    vertical-align: middle; 
+    padding-right: 5px;
+    width: 20px;
+}
+.drive_files a{
+    font-size: 1.0em;
+    vertical-align: middle;
+}
