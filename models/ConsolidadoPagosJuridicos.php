@@ -9,8 +9,8 @@ use Yii;
  *
  * @property int $id ID
  * @property int $proceso_id Proceso
- * @property float $valor Valor
- * @property string $fecha Fecha de pago
+ * @property float $valor_pago Valor
+ * @property string $fecha_pago Fecha de pago
  *
  * @property Procesos $proceso
  */
@@ -28,10 +28,10 @@ class ConsolidadoPagosJuridicos extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['proceso_id', 'valor', 'fecha'], 'required'],
+            [['proceso_id', 'valor_pago', 'fecha_pago'], 'required'],
             [['proceso_id'], 'integer'],
-            [['valor'], 'number'],
-            [['fecha'], 'safe'],
+            [['valor_pago'], 'number'],
+            [['fecha_pago'], 'safe'],
             [['proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => Procesos::className(), 'targetAttribute' => ['proceso_id' => 'id']],
         ];
     }
@@ -42,9 +42,9 @@ class ConsolidadoPagosJuridicos extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'proceso_id' => 'Proceso',
-            'valor' => 'Valor',
-            'fecha' => 'Fecha de pago',
+            'proceso_id' => 'Proceso ID',
+            'valor_pago' => 'Valor Pago',
+            'fecha_pago' => 'Fecha Pago',
         ];
     }
 

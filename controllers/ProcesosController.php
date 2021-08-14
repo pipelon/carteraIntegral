@@ -8,6 +8,7 @@ use app\models\ProcesosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\ConsolidadoPagosJuridicos;
 
 /**
  * ProcesosController implements the CRUD actions for Procesos model.
@@ -55,8 +56,12 @@ class ProcesosController extends Controller {
                 ->orderBy('fecha_gestion DESC')
                 ->all();
 
+        //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
+        $pagos = $model->consolidadoPagosJuridicos;
+
         return $this->render('view', [
                     'model' => $this->findModel($id),
+                    'pagos' => $pagos,
         ]);
     }
 
@@ -67,6 +72,9 @@ class ProcesosController extends Controller {
      */
     public function actionCreate() {
         $model = new Procesos();
+        //MODELO DE CONSOLIDADO DE PAGOS
+        $modelPagos = [new ConsolidadoPagosJuridicos];
+
 
 
         if ($model->load(Yii::$app->request->post())) {
@@ -117,15 +125,28 @@ class ProcesosController extends Controller {
                     }
                 }
 
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO
+                if (isset($_POST['ConsolidadoPagosJuridicos'])) {
+                    foreach ($_POST['ConsolidadoPagosJuridicos'] as $pago) {
+                        $mdlPagos = new ConsolidadoPagosJuridicos();
+                        $mdlPagos->valor_pago = $pago['valor_pago'];
+                        $mdlPagos->fecha_pago = $pago['fecha_pago'];
+                        $mdlPagos->proceso_id = $model->id;
+                        $mdlPagos->save();
+                    }
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [
                             'model' => $model,
+                            'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos
                 ]);
             }
         } else {
             return $this->render('create', [
                         'model' => $model,
+                        'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos
             ]);
         }
     }
@@ -150,6 +171,7 @@ class ProcesosController extends Controller {
                 ->select('bien_id')
                 ->where(['proceso_id' => $id])
                 ->column();
+        $model->prejur_estudio_bienes = $model->bienesXProcesos;
 
         //COMENTARIO BIENES ACTUALES PARA MOSTRAR EN LA EDICION
         $model->prejur_comentarios_estudio_bienes = \app\models\BienesXProceso::find()
@@ -159,16 +181,16 @@ class ProcesosController extends Controller {
                 ->column();
 
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
-        $model->prejur_gestiones_prejuridicas = \app\models\GestionesPrejuridicas::find()
-                ->where(['proceso_id' => $id])
-                ->orderBy('fecha_gestion DESC')
-                ->all();
-        
+        $model->prejur_gestiones_prejuridicas = $model->gestionesPrejuridicas;
+
         //DOCUMENTOS DE ACTIVACION ACTUALES PARA MOSTRAR EN LA EDICION
         $model->jur_documentos_activacion = \app\models\DocactivacionXProceso::find()
                 ->select('documento_activacion_id')
                 ->where(['proceso_id' => $id])
                 ->column();
+
+        //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR EN LA EDICION
+        $modelPagos = $model->consolidadoPagosJuridicos;
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -211,7 +233,7 @@ class ProcesosController extends Controller {
                     $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
                     $gestPreJur->save();
                 }
-                
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
                 // SE DEBEN ELIMINARL LOS DOCUMENTOS DE ACTIVACION ACTUALES Y 
                 // VOLVERLOS A CREAR
@@ -225,6 +247,18 @@ class ProcesosController extends Controller {
                     }
                 }
 
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO
+                ConsolidadoPagosJuridicos::deleteAll(['proceso_id' => $model->id]);
+                if (isset($_POST['ConsolidadoPagosJuridicos'])) {
+                    foreach ($_POST['ConsolidadoPagosJuridicos'] as $pago) {
+                        $mdlPagos = new ConsolidadoPagosJuridicos();
+                        $mdlPagos->valor_pago = $pago['valor_pago'];
+                        $mdlPagos->fecha_pago = $pago['fecha_pago'];
+                        $mdlPagos->proceso_id = $model->id;
+                        $mdlPagos->save();
+                    }
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [
@@ -234,6 +268,7 @@ class ProcesosController extends Controller {
         } else {
             return $this->render('update', [
                         'model' => $model,
+                        'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos
             ]);
         }
     }

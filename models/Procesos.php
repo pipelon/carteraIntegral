@@ -35,7 +35,7 @@ use Yii;
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  */
 class Procesos extends \yii\db\ActiveRecord {
-    
+
     public $colaboradores;
     public $prejur_estudio_bienes;
     public $prejur_comentarios_estudio_bienes;
@@ -94,7 +94,6 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_etapas_procesal_id' => 'Etapa procesal',
             'jur_documentos_activacion' => 'Documentos de activación',
             'carpeta' => 'Carpeta Google Drive',
-            
         ];
     }
 
@@ -131,7 +130,7 @@ class Procesos extends \yii\db\ActiveRecord {
      * @return \yii\db\ActiveQuery
      */
     public function getGestionesPrejuridicas() {
-        return $this->hasMany(GestionesPrejuridicas::className(), ['proceso_id' => 'id']);
+        return $this->hasMany(GestionesPrejuridicas::className(), ['proceso_id' => 'id'])->orderBy(['fecha_gestion' => SORT_DESC]);
     }
 
     /**

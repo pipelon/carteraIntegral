@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use kartik\date\DatePicker;
 use kartik\depdrop\DepDrop;
+use wbraganca\dynamicform\DynamicFormWidget;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Procesos */
@@ -30,6 +31,7 @@ $this->registerJsFile(Yii::getAlias('@web') . '/js/proceso.js', ['depends' => [y
 <?php
 $form = ActiveForm::begin(
                 [
+                    'id' => 'dynamic-form',
                     'fieldConfig' => [
                         'template' => "{label}\n{input}\n{hint}\n{error}\n",
                         'options' => ['class' => 'form-group col-md-6'],
@@ -342,6 +344,69 @@ $form = ActiveForm::begin(
             <?= $form->field($model, 'jur_valor_activacion')->textInput() ?>
             <?= $form->field($model, 'jur_saldo_actual')->textInput() ?>
         </div>
+
+        <!-- CONSOLIDADO DE PAGOS -->
+        <div class="row-field col-md-12">
+            <?php
+            DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items', // required: css class selector
+                'widgetItem' => '.item', // required: css class
+                'limit' => 4, // the maximum times, an element can be cloned (default 999)
+                'min' => 0, // 0 or 1 (default 1)
+                'insertButton' => '.add-item', // css class
+                'deleteButton' => '.remove-item', // css class
+                'model' => $modelPagos[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'fecha_pago',
+                    'valor',
+                ],
+            ]);
+            ?>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="flaticon-coins"></i> Consolidado de pagos
+                    <button type="button" class="pull-right add-item btn btn-primary btn-xs"><i class="flaticon-add"></i> Agregar pago</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body container-items"><!-- widgetContainer -->
+                    <?php foreach ($modelPagos as $index => $mdlPago): ?>
+                        <div class="item panel panel-default"><!-- widgetBody -->
+                            <div class="panel-heading">
+                                <span class="panel-title-pagos">Pago: <?= ($index + 1) ?></span>
+                                <button type="button" class="pull-right remove-item btn btn-danger btn-xs"><i class="flaticon-circle"></i></button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-body">
+                                <?php
+                                // necessary for update action.
+                                if (!$mdlPago->isNewRecord) {
+                                    echo Html::activeHiddenInput($mdlPago, "[{$index}]id");
+                                }
+                                ?>
+                                <?=
+                                $form->field($mdlPago, "[{$index}]fecha_pago")->widget(DatePicker::classname(), [
+                                    'options' => ['placeholder' => '- Ingrese una fecha --'],
+                                    'pluginOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'yyyy-mm-dd',
+                                        'todayHighlight' => true,
+                                        'todayBtn' => true,
+                                    ]
+                                ]);
+                                ?>
+                                <?= $form->field($mdlPago, "[{$index}]valor_pago")->textInput() ?>                                
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php DynamicFormWidget::end(); ?>
+        </div>
+        <!-- FIN CONSOLIDADO DE PAGOS -->
+
         <div class="row-field">
             <?php
             $tipoProcesosList = yii\helpers\ArrayHelper::map(

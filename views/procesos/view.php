@@ -108,6 +108,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             )
                     ),
                 ],
+                [
+                    'label' => 'Consolidado de pagos',
+                    'format' => 'raw',
+                    'value' => function ($data) use ($pagos) {
+                        $htmlPago = '';
+                        foreach ($pagos as $pago) {
+                            $htmlPago .= '<b>Fecha:</b> ' . $pago->fecha_pago . ' <b>Valor:</b> ' . $pago->valor_pago . '<br />';
+                        }
+                        return $htmlPago;
+                    }
+                ],
                 'jur_valor_activacion:integer',
                 'jur_saldo_actual:integer',
                 [
