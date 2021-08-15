@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => implode("<br />", \yii\helpers\ArrayHelper::map(
                                     $model->bienesXProcesos,
                                     'bien_id', function($modelBiexPro) {
-                                        return $modelBiexPro->bien->nombre . ": " . $modelBiexPro->comentario;
+                                        return "<b>" . $modelBiexPro->bien->nombre . ": </b>" . $modelBiexPro->comentario;
                                     }
                             )
                     ),
@@ -114,13 +114,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function ($data) use ($pagos) {
                         $htmlPago = '';
                         foreach ($pagos as $pago) {
-                            $htmlPago .= '<b>Fecha:</b> ' . $pago->fecha_pago . ' <b>Valor:</b> ' . $pago->valor_pago . '<br />';
+                            $htmlPago .= '<b>Fecha:</b> ' . $pago->fecha_pago . ' <b>Valor:</b> ' . number_format($pago->valor_pago, 2, ",", ".") . '<br />';
                         }
                         return $htmlPago;
                     }
                 ],
-                'jur_valor_activacion:integer',
-                'jur_saldo_actual:integer',
+                'jur_valor_activacion:decimal',
+                'jur_saldo_actual:decimal',
                 [
                     'attribute' => 'jur_tipo_proceso_id',
                     'format' => 'raw',
@@ -158,6 +158,29 @@ $this->params['breadcrumbs'][] = $this->title;
                         if ($data->carpeta) {
                             return Yii::$app->gdrive->leerArchivosCarpeta($data->carpeta);
                         }
+                    },
+                ],
+                [
+                    'label' => strtoupper('ESTADO DE RECUPERACIÓN'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                'estrec_probabilidad_recuperacion',
+                'estrec_pretenciones:ntext',
+                'estrec_tiempo_recuperacion:ntext',
+                'estrec_comentarios:ntext',
+                [
+                    'label' => strtoupper('ESTADO DEL PROCESO'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                [
+                    'attribute' => 'estado_proceso_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->estadoProceso->nombre ?? null;
                     },
                 ],
             ],

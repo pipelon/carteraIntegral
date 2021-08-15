@@ -451,13 +451,82 @@ $form = ActiveForm::begin(
     <!-- /.box-body -->
 </div>
 
+<!-- ESTADO DE RECUPERACIÓN -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Estado de recuperación</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
+                <i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row-field">
+            <?=
+            $form->field($model, 'estrec_pretenciones', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'estrec_probabilidad_recuperacion')->dropDownList([
+                '25%' => '25%',
+                '50%' => '50%',
+                '75%' => '75%',
+                '100%' => '100%'
+                    ], ['prompt' => '- Seleccion un estado -'])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'estrec_tiempo_recuperacion', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'estrec_comentarios', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<!-- ESTADO DEL PROCESO -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Estado del proceso</h3>
+    </div>
+    <div class="box-body">
+        <div class="row-field">
+            <?php
+            $estadosProcesoList = yii\helpers\ArrayHelper::map(
+                            \app\models\EstadosProceso::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+<?= $form->field($model, 'estado_proceso_id')->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -']) ?>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">
         <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 20px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
         <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
-            <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
-        <?php endif; ?> 
+    <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
+<?php endif; ?> 
     </div>
 </div>
 

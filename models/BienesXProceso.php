@@ -32,6 +32,7 @@ class BienesXProceso extends \yii\db\ActiveRecord {
             [['proceso_id', 'bien_id'], 'required'],
             [['proceso_id', 'bien_id'], 'integer'],
             [['comentario'], 'string'],
+            ['comentario', 'filter', 'filter' => 'strtoupper'],
             [['bien_id'], 'exist', 'skipOnError' => true, 'targetClass' => Bienes::className(), 'targetAttribute' => ['bien_id' => 'id']],
             [['proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => Procesos::className(), 'targetAttribute' => ['proceso_id' => 'id']],
         ];

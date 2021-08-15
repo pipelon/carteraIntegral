@@ -14,10 +14,10 @@ use yii\helpers\Html;
                         'alt' => 'User Image',
                         'class' => 'img-circle'
             ]) . '</span><span class="logo-lg">' .
-            \yii\helpers\Html::img('@web/images/logo-cartera-integral-grande.jpg',
+            \yii\helpers\Html::img('@web/images/ciles.png',
                     [
                         'alt' => 'User Image',
-                        'style' => 'width: 115px; padding: 0; margin-top: -15px; max-height: none;'
+                        'style' => 'width: 96px; padding: 0; margin-top: -15px; max-height: none;'
                     ])
             . '</span>', Yii::$app->homeUrl, ['class' => 'logo'])
     ?>

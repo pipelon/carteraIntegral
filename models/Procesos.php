@@ -21,7 +21,12 @@ use Yii;
  * @property float|null $jur_saldo_actual Saldo actual
  * @property int|null $jur_tipo_proceso_id Tipo de proceso
  * @property int|null $jur_etapas_procesal_id Etapa procesal
- * @property string|null $carpeta
+ * @property string|null $carpeta Carpeta Google Drive
+ * @property string|null $estrec_pretenciones Estado de recuperación
+ * @property string|null $estrec_probabilidad_recuperacion Probabilidad de recuperación
+ * @property string|null $estrec_tiempo_recuperacion
+ * @property string|null $estrec_comentarios
+ * @property int $estado_proceso_id
  *
  * @property BienesXProceso[] $bienesXProcesos
  * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
@@ -29,6 +34,7 @@ use Yii;
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
  * @property Clientes $cliente
  * @property Deudores $deudor
+ * @property EstadosProceso $estadoProceso
  * @property EtapasProcesales $jurEtapasProcesal
  * @property TipoCasos $prejurTipoCaso
  * @property TipoProcesos $jurTipoProceso
@@ -55,19 +61,28 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['cliente_id', 'deudor_id', 'colaboradores'], 'required'],
-            [['cliente_id', 'deudor_id', 'prejur_tipo_caso', 'jur_tipo_proceso_id', 'jur_etapas_procesal_id'], 'integer'],
+            [['cliente_id', 'deudor_id', 'estado_proceso_id'], 'required'],
+            [['cliente_id', 'deudor_id', 'prejur_tipo_caso',
+            'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
+            'estado_proceso_id'], 'integer'],
             [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
             'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion'], 'safe'],
-            [['carpeta'], 'string', 'max' => 100],
-            [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora', 'prejur_concepto_viabilidad', 'prejur_otros'], 'string'],
+            [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
+            'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
+            'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
             [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
+            [['carpeta'], 'string', 'max' => 100],
+            [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
+            [['estado_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => EstadosProceso::className(), 'targetAttribute' => ['estado_proceso_id' => 'id']],
             [['jur_etapas_procesal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesales::className(), 'targetAttribute' => ['jur_etapas_procesal_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
             [['jur_tipo_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoProcesos::className(), 'targetAttribute' => ['jur_tipo_proceso_id' => 'id']],
+            [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
+            'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
+            'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'filter', 'filter' => 'strtoupper']
         ];
     }
 
@@ -94,6 +109,11 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_etapas_procesal_id' => 'Etapa procesal',
             'jur_documentos_activacion' => 'Documentos de activación',
             'carpeta' => 'Carpeta Google Drive',
+            'estrec_pretenciones' => 'Pretenciones',
+            'estrec_probabilidad_recuperacion' => 'Probabilidad de recuperación',
+            'estrec_tiempo_recuperacion' => 'Tiempo estimado de recuperación',
+            'estrec_comentarios' => 'Comentarios',
+            'estado_proceso_id' => 'Estado proceso',
         ];
     }
 
@@ -149,6 +169,15 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getDeudor() {
         return $this->hasOne(Deudores::className(), ['id' => 'deudor_id']);
+    }
+
+    /**
+     * Gets query for [[EstadoProceso]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEstadoProceso() {
+        return $this->hasOne(EstadosProceso::className(), ['id' => 'estado_proceso_id']);
     }
 
     /**

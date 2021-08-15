@@ -171,7 +171,6 @@ class ProcesosController extends Controller {
                 ->select('bien_id')
                 ->where(['proceso_id' => $id])
                 ->column();
-        $model->prejur_estudio_bienes = $model->bienesXProcesos;
 
         //COMENTARIO BIENES ACTUALES PARA MOSTRAR EN LA EDICION
         $model->prejur_comentarios_estudio_bienes = \app\models\BienesXProceso::find()
