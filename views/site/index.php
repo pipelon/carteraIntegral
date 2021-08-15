@@ -85,7 +85,7 @@ $this->title = 'CILES';
             <?php if (\Yii::$app->user->can('/tipo-procesos/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-squares-2"></i></span>
+                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Tipos de procesos</span>
@@ -109,7 +109,7 @@ $this->title = 'CILES';
             <?php if (\Yii::$app->user->can('/tipo-casos/index') || \Yii::$app->user->can('/*')) : ?>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-squares-2"></i></span>
+                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Tipos de casos</span>
