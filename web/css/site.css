@@ -194,3 +194,33 @@ section.sidebar .treeview-menu > li > a {
     font-size: 1.0em;
     vertical-align: middle;
 }
+
+/* OVERRIDE AZUL DE ADMIN LTE */
+div.box.box-primary{
+    border-top-color: #1c3655;
+}
+button.btn-primary,
+a.btn-primary{
+    background-color: #1c3655;
+    border-color: #1c3655;
+}
+button.btn-primary:hover, 
+button.btn-primary:active, 
+button.btn-primary.hover,
+a.btn-primary:hover, 
+a.btn-primary:active, 
+a.btn-primary.hover{
+    background-color: #214670;
+}
+button.btn-primary:hover,
+a.btn-primary:hover{
+    border-color: #214670;
+}
+div.bg-light-blue, 
+div.label-primary, 
+div.modal-primary .modal-body {
+    background-color: #1c3655 !important;
+}
+div.info-box .progress .progress-bar{
+    background: #E5C032
+}
