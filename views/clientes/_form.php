@@ -6,6 +6,20 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Clientes */
 /* @var $form yii\widgets\ActiveForm */
+
+$js = '
+    /* FUNCION PARA CALCULAR EL DIGITO DE VERIFICACION */
+    jQuery("#documento").blur(function () {
+        let documento = jQuery(this).val();
+        $.ajax("' . yii\helpers\Url::to(['clientes/digitoverificacion']) . '?id=" + documento, {
+            dataType: "json",
+            type: "post",
+        }).done(function(data) {        
+            jQuery("#documento").val(documento + \'-\' + data);
+        });
+    });
+';
+$this->registerJs($js);
 ?>
 
 <div class="clientes-form box box-primary">    
@@ -40,7 +54,7 @@ use yii\bootstrap\ActiveForm;
                 $form->field($model, 'tipo_documento')->dropDownList(Yii::$app->utils->filtroTipoDocumento())
                 ?>
 
-                <?= $form->field($model, 'documento')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'documento')->textInput(['maxlength' => true, 'id' => 'documento']) ?>
             </div>
             <div class="row-field">
                 <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
