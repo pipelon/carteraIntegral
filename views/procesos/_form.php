@@ -477,7 +477,7 @@ $form = ActiveForm::begin(
                 '50%' => '50%',
                 '75%' => '75%',
                 '100%' => '100%'
-                    ], ['prompt' => '- Seleccion un estado -'])
+                    ], ['prompt' => '- Seleccion un porcentaje -'])
             ?>
         </div>
         <div class="row-field">
