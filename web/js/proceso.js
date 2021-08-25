@@ -39,8 +39,6 @@ jQuery("document").ready(function () {
     jQuery(".dynamicform_wrapper").on("afterInsert", function (e, item) {
         jQuery(".dynamicform_wrapper .panel-title-pagos").each(function (index) {
             jQuery(this).html("Pago: " + (index + 1));
-
-
         });
         $(".krajee-datepicker").each(function () {
             $(this).kvDatepicker({
@@ -53,14 +51,12 @@ jQuery("document").ready(function () {
                 todayHighlight: true
             });
         });
-
     });
-
     jQuery(".dynamicform_wrapper").on("afterDelete", function (e) {
         jQuery(".dynamicform_wrapper .panel-title-pagos").each(function (index) {
             jQuery(this).html("Pago: " + (index + 1));
         });
-    });
+    });    
 
 });
 

@@ -51,6 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
+                    'attribute' => 'jefe_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jefe->name;
+                    },
+                ],
+                [
                     'attribute' => 'colaboradores',
                     'format' => 'raw',
                     'value' => implode(", ", \yii\helpers\ArrayHelper::map(

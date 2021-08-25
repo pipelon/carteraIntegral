@@ -224,3 +224,6 @@ div.modal-primary .modal-body {
 div.info-box .progress .progress-bar{
     background: #E5C032
 }
+.vcenter{
+    vertical-align: middle !important;
+}

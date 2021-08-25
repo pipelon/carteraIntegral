@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int $cliente_id Cliente
  * @property int $deudor_id Deudor
+ * @property int $jefe_id Jefe
  * @property string|null $prejur_fecha_recepcion Fecha recepción
  * @property int|null $prejur_tipo_caso Tipo de caso
  * @property string|null $prejur_consulta_rama_judicial Consulta rama judicial
@@ -38,7 +39,10 @@ use Yii;
  * @property EtapasProcesales $jurEtapasProcesal
  * @property TipoCasos $prejurTipoCaso
  * @property TipoProcesos $jurTipoProceso
+ * @property Users $jefe
  * @property ProcesosXColaboradores[] $procesosXColaboradores
+ * @property Tareas[] $tareas
+
  */
 class Procesos extends \yii\db\ActiveRecord {
 
@@ -61,13 +65,13 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['cliente_id', 'deudor_id', 'estado_proceso_id'], 'required'],
-            [['cliente_id', 'deudor_id', 'prejur_tipo_caso',
+            [['cliente_id', 'deudor_id', 'jefe_id', 'estado_proceso_id'], 'required'],
+            [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
             'estado_proceso_id'], 'integer'],
             [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
             'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
-            'prejur_gestiones_prejuridicas', 'jur_documentos_activacion'], 'safe'],
+            'prejur_gestiones_prejuridicas', 'jur_documentos_activacion', 'colaboradores'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -80,6 +84,7 @@ class Procesos extends \yii\db\ActiveRecord {
             [['jur_etapas_procesal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesales::className(), 'targetAttribute' => ['jur_etapas_procesal_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
             [['jur_tipo_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoProcesos::className(), 'targetAttribute' => ['jur_tipo_proceso_id' => 'id']],
+            [['jefe_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['jefe_id' => 'id']],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'filter', 'filter' => 'strtoupper']
@@ -94,6 +99,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'cliente_id' => 'Cliente',
             'deudor_id' => 'Deudor',
+            'jefe_id' => 'Jefe',
             'prejur_fecha_recepcion' => 'Fecha recepción',
             'prejur_tipo_caso' => 'Tipo de caso',
             'prejur_consulta_rama_judicial' => 'Consulta rama judicial',
@@ -208,12 +214,30 @@ class Procesos extends \yii\db\ActiveRecord {
     }
 
     /**
+     * Gets query for [[Jefe]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJefe() {
+        return $this->hasOne(Users::className(), ['id' => 'jefe_id']);
+    }
+
+    /**
      * Gets query for [[ProcesosXColaboradores]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getProcesosXColaboradores() {
         return $this->hasMany(ProcesosXColaboradores::className(), ['proceso_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tareas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTareas() {
+        return $this->hasMany(Tareas::className(), ['proceso_id' => 'id']);
     }
 
 }

@@ -17,6 +17,10 @@ use Yii;
  * @property string $created_by Creado por
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
+
+ * @property Procesos[] $proceso
+ * @property ProcesosXColaboradores[] $procesosXColaboradores
+ * @property Tareas[] $tareas
  */
 class Users extends BeforeModel {
 
@@ -72,6 +76,33 @@ class Users extends BeforeModel {
 
     public static function findIdentity($id) {
         return Users::findOne($id);
+    }
+    
+    /**
+     * Gets query for [[Procesos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProcesos() {
+        return $this->hasMany(Procesos::className(), ['jefe_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ProcesosXColaboradores]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProcesosXColaboradores() {
+        return $this->hasMany(ProcesosXColaboradores::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tareas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTareas() {
+        return $this->hasMany(Tareas::className(), ['user_id' => 'id']);
     }
 
 }

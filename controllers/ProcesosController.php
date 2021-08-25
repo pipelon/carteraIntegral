@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\ConsolidadoPagosJuridicos;
+use yii\helpers\ArrayHelper;
 
 /**
  * ProcesosController implements the CRUD actions for Procesos model.
@@ -74,12 +75,12 @@ class ProcesosController extends Controller {
         $model = new Procesos();
         //MODELO DE CONSOLIDADO DE PAGOS
         $modelPagos = [new ConsolidadoPagosJuridicos];
-
-
+        //MODELO DE TAREAS
+        $modelTareas = [new \app\models\Tareas];
 
         if ($model->load(Yii::$app->request->post())) {
 
-            // SE GUARDA EL REGISTRO
+            // SE GUARDA EL REGISTRO PRINCIPAL DEL PROCESO
             if ($model->save()) {
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COLABORADORES
@@ -140,13 +141,15 @@ class ProcesosController extends Controller {
             } else {
                 return $this->render('create', [
                             'model' => $model,
-                            'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos
+                            'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
+                            'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
                 ]);
             }
         } else {
             return $this->render('create', [
                         'model' => $model,
-                        'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos
+                        'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
+                        'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
             ]);
         }
     }
@@ -160,36 +163,34 @@ class ProcesosController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        //COLABORADORES ACTUALES PARA MOSTRAR EN LA EDICION
-        $model->colaboradores = \app\models\ProcesosXColaboradores::find()
-                ->select('user_id')
-                ->where(['proceso_id' => $id])
-                ->column();
+        //COLABORADORES ACTUALES PARA MOSTRAR EN LA EDICION        
+        $model->colaboradores = ArrayHelper::map(
+                        $model->procesosXColaboradores, 'user_id', 'user_id'
+        );
 
-        //BIENES ACTUALES PARA MOSTRAR EN LA EDICION
-        $model->prejur_estudio_bienes = \app\models\BienesXProceso::find()
-                ->select('bien_id')
-                ->where(['proceso_id' => $id])
-                ->column();
+        //BIENES ACTUALES PARA MOSTRAR EN LA EDICION        
+        $model->prejur_estudio_bienes = ArrayHelper::map(
+                        $model->bienesXProcesos, 'bien_id', 'bien_id'
+        );
 
-        //COMENTARIO BIENES ACTUALES PARA MOSTRAR EN LA EDICION
-        $model->prejur_comentarios_estudio_bienes = \app\models\BienesXProceso::find()
-                ->select('comentario')
-                ->where(['proceso_id' => $id])
-                ->indexBy('bien_id')
-                ->column();
+        //COMENTARIO BIENES ACTUALES PARA MOSTRAR EN LA EDICION        
+        $model->prejur_comentarios_estudio_bienes = ArrayHelper::map(
+                        $model->bienesXProcesos, 'bien_id', 'comentario'
+        );
 
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
         $model->prejur_gestiones_prejuridicas = $model->gestionesPrejuridicas;
 
-        //DOCUMENTOS DE ACTIVACION ACTUALES PARA MOSTRAR EN LA EDICION
-        $model->jur_documentos_activacion = \app\models\DocactivacionXProceso::find()
-                ->select('documento_activacion_id')
-                ->where(['proceso_id' => $id])
-                ->column();
+        //DOCUMENTOS DE ACTIVACION ACTUALES PARA MOSTRAR EN LA EDICION        
+        $model->jur_documentos_activacion = ArrayHelper::map(
+                        $model->docactivacionXProcesos, 'documento_activacion_id', 'documento_activacion_id'
+        );
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR EN LA EDICION
         $modelPagos = $model->consolidadoPagosJuridicos;
+
+        //TAREAS ACTUALES PARA MOSTRAR EN LA EDICION
+        $modelTareas = $model->tareas;
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -200,12 +201,16 @@ class ProcesosController extends Controller {
                 // SE DEBEN ELIMINARL LOS COLABORADORES ACTUALES Y 
                 // VOLVERLOS A CREAR
                 if (!empty($model->colaboradores)) {
-                    \app\models\ProcesosXColaboradores::deleteAll(['proceso_id' => $model->id]);
-                    foreach ($model->colaboradores as $colaborador) {
-                        $proXcol = new \app\models\ProcesosXColaboradores();
-                        $proXcol->proceso_id = $model->id;
-                        $proXcol->user_id = $colaborador;
-                        $proXcol->save();
+                    $oldIDs = ArrayHelper::map($model->procesosXColaboradores, 'user_id', 'user_id');
+                    $deletedColIDs = array_merge(array_diff($oldIDs, $model->colaboradores), array_diff($model->colaboradores, $oldIDs));
+                    if (!empty($deletedColIDs)) {
+                        \app\models\ProcesosXColaboradores::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($model->colaboradores as $colaborador) {
+                            $proXcol = new \app\models\ProcesosXColaboradores();
+                            $proXcol->proceso_id = $model->id;
+                            $proXcol->user_id = $colaborador;
+                            $proXcol->save();
+                        }
                     }
                 }
 
@@ -213,13 +218,32 @@ class ProcesosController extends Controller {
                 // SE DEBEN ELIMINARL LOS BIENES ACTUALES Y 
                 // VOLVERLOS A CREAR
                 if (!empty($model->prejur_estudio_bienes)) {
-                    \app\models\BienesXProceso::deleteAll(['proceso_id' => $model->id]);
-                    foreach ($model->prejur_estudio_bienes as $bien) {
-                        $bieXpro = new \app\models\BienesXProceso();
-                        $bieXpro->proceso_id = $model->id;
-                        $bieXpro->bien_id = $bien;
-                        $bieXpro->comentario = $model->prejur_comentarios_estudio_bienes[$bien];
-                        $bieXpro->save();
+                    $oldIDs = ArrayHelper::map($model->bienesXProcesos, 'bien_id', 'bien_id');
+                    $deletedBienIDs = array_merge(array_diff($oldIDs, $model->prejur_estudio_bienes), array_diff($model->prejur_estudio_bienes, $oldIDs));
+                    if (!empty($deletedBienIDs)) {
+                        \app\models\BienesXProceso::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($model->prejur_estudio_bienes as $bien) {
+                            $bieXpro = new \app\models\BienesXProceso();
+                            $bieXpro->proceso_id = $model->id;
+                            $bieXpro->bien_id = $bien;
+                            $bieXpro->comentario = $model->prejur_comentarios_estudio_bienes[$bien];
+                            $bieXpro->save();
+                        }
+                    }
+                }
+                // COMENTARIOS
+                if (!empty($model->prejur_comentarios_estudio_bienes)) {
+                    $oldIDs = ArrayHelper::map($model->bienesXProcesos, 'bien_id', 'comentario');
+                    $deletedComBienIDs = array_merge(array_diff($oldIDs, array_filter($model->prejur_comentarios_estudio_bienes)), array_diff(array_filter($model->prejur_comentarios_estudio_bienes), $oldIDs));
+                    if (!empty($deletedComBienIDs)) {
+                        \app\models\BienesXProceso::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($model->prejur_estudio_bienes as $bien) {
+                            $bieXpro = new \app\models\BienesXProceso();
+                            $bieXpro->proceso_id = $model->id;
+                            $bieXpro->bien_id = $bien;
+                            $bieXpro->comentario = $model->prejur_comentarios_estudio_bienes[$bien];
+                            $bieXpro->save();
+                        }
                     }
                 }
 
@@ -237,27 +261,44 @@ class ProcesosController extends Controller {
                 // SE DEBEN ELIMINARL LOS DOCUMENTOS DE ACTIVACION ACTUALES Y 
                 // VOLVERLOS A CREAR
                 if (!empty($model->jur_documentos_activacion)) {
-                    \app\models\DocactivacionXProceso::deleteAll(['proceso_id' => $model->id]);
-                    foreach ($model->jur_documentos_activacion as $doc) {
-                        $docXpro = new \app\models\DocactivacionXProceso();
-                        $docXpro->proceso_id = $model->id;
-                        $docXpro->documento_activacion_id = $doc;
-                        $docXpro->save();
+                    $oldIDs = ArrayHelper::map($model->docactivacionXProcesos, 'documento_activacion_id', 'documento_activacion_id');
+                    $deletedDocIDs = array_merge(array_diff($oldIDs, $model->jur_documentos_activacion), array_diff($model->jur_documentos_activacion, $oldIDs));
+                    if (!empty($deletedDocIDs)) {
+                        \app\models\DocactivacionXProceso::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($model->jur_documentos_activacion as $doc) {
+                            $docXpro = new \app\models\DocactivacionXProceso();
+                            $docXpro->proceso_id = $model->id;
+                            $docXpro->documento_activacion_id = $doc;
+                            $docXpro->save();
+                        }
                     }
                 }
 
-                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO
-                ConsolidadoPagosJuridicos::deleteAll(['proceso_id' => $model->id]);
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO                
                 if (isset($_POST['ConsolidadoPagosJuridicos'])) {
-                    foreach ($_POST['ConsolidadoPagosJuridicos'] as $pago) {
-                        $mdlPagos = new ConsolidadoPagosJuridicos();
-                        $mdlPagos->valor_pago = $pago['valor_pago'];
-                        $mdlPagos->fecha_pago = $pago['fecha_pago'];
-                        $mdlPagos->proceso_id = $model->id;
-                        $mdlPagos->save();
+                    $oldValues = array_merge(
+                            ArrayHelper::map($modelPagos, 'id', 'id'),
+                            ArrayHelper::map($modelPagos, 'id', 'valor_pago'),
+                            ArrayHelper::map($modelPagos, 'id', 'fecha_pago')
+                    );
+                    $newValues = array_merge(
+                            ArrayHelper::map($_POST['ConsolidadoPagosJuridicos'], 'id', 'id'),
+                            ArrayHelper::map($_POST['ConsolidadoPagosJuridicos'], 'id', 'valor_pago'),
+                            ArrayHelper::map($_POST['ConsolidadoPagosJuridicos'], 'id', 'fecha_pago')
+                    );
+                    $deletedPagos = array_merge(array_diff($oldValues, $newValues), array_diff($newValues, $oldValues));
+                    if (!empty($deletedPagos)) {
+                        ConsolidadoPagosJuridicos::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($_POST['ConsolidadoPagosJuridicos'] as $pago) {
+                            $mdlPagos = new ConsolidadoPagosJuridicos();
+                            $mdlPagos->valor_pago = $pago['valor_pago'];
+                            $mdlPagos->fecha_pago = $pago['fecha_pago'];
+                            $mdlPagos->proceso_id = $model->id;
+                            $mdlPagos->save();
+                        }
                     }
-                }
-
+                }                
+                
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [
@@ -267,7 +308,8 @@ class ProcesosController extends Controller {
         } else {
             return $this->render('update', [
                         'model' => $model,
-                        'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos
+                        'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
+                        'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
             ]);
         }
     }

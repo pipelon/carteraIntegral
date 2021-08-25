@@ -150,13 +150,20 @@ $form = ActiveForm::begin(
 <!-- COLABORADORES -->
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">COLABORADORES</h3>
+        <h3 class="box-title">JEFE Y COLABORADORES</h3>
     </div>
     <div class="box-body">
         <?php
+        $jefesList = yii\helpers\ArrayHelper::map(
+                        \Yii::$app->user->identity->getUserNamesByRole("Jefes")
+                        , 'id', 'name');
         $dataList = yii\helpers\ArrayHelper::map(
                         \Yii::$app->user->identity->getUserNamesByRole("Colaboradores")
                         , 'id', 'name');
+        ?>
+
+        <?=
+        $form->field($model, 'jefe_id')->dropDownList($jefesList, ['prompt' => '- Seleccione un jefe -'])
         ?>
 
         <?=
@@ -514,7 +521,7 @@ $form = ActiveForm::begin(
                                     ->all()
                             , 'id', 'nombre');
             ?>
-<?= $form->field($model, 'estado_proceso_id')->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -']) ?>
+            <?= $form->field($model, 'estado_proceso_id')->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -']) ?>
         </div>
     </div>
     <!-- /.box-body -->
@@ -525,8 +532,8 @@ $form = ActiveForm::begin(
     <div class="box-footer">
         <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 20px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
         <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
-    <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
-<?php endif; ?> 
+            <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
+        <?php endif; ?> 
     </div>
 </div>
 
