@@ -443,19 +443,24 @@ DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE `tareas` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `proceso_id` int(11) NOT NULL COMMENT 'Proceso',
-  `user_id` int(11) NOT NULL COMMENT 'Usuario',
-  `fecha_tarea` date NOT NULL COMMENT 'Fecha',
+  `user_id` int(11) NOT NULL COMMENT 'Asignada a',
+  `jefe_id` int(11) NOT NULL COMMENT 'Jefe del proceso',
+  `fecha_esperada` date NOT NULL,
+  `fecha_finalizacion` date DEFAULT NULL COMMENT 'Fecha finalización de la tarea',
   `descripcion` varchar(100) NOT NULL COMMENT 'Descripción',
   `estado` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Estado',
-  `fecha_finalizacion_tarea` datetime DEFAULT NULL COMMENT 'Fecha finalización de la tarea',
   PRIMARY KEY (`id`),
   KEY `fk_tareas_procesos_idx` (`proceso_id`),
   KEY `fk_tareas_users_idx` (`user_id`),
+  KEY `fk_tareas_users1_idx` (`jefe_id`),
   CONSTRAINT `fk_tareas_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tareas_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_tareas_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tareas_users1` FOREIGN KEY (`jefe_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tareas` */
+
+insert  into `tareas`(`id`,`proceso_id`,`user_id`,`jefe_id`,`fecha_esperada`,`fecha_finalizacion`,`descripcion`,`estado`) values (61,9,10,7,'2021-08-29',NULL,'LLAMAR AL JUEZ',0),(62,9,10,7,'2021-08-31',NULL,'IR LA JUZGADO',0),(63,9,8,7,'2021-09-01',NULL,'VISITAR AL CLIENTE',1);
 
 /*Table structure for table `tipo_casos` */
 

@@ -56,7 +56,40 @@ jQuery("document").ready(function () {
         jQuery(".dynamicform_wrapper .panel-title-pagos").each(function (index) {
             jQuery(this).html("Pago: " + (index + 1));
         });
-    });    
+    });
+
+    /* FUNCIONES PARA LAS TAREAS */
+    jQuery(".dynamicform_wrapper_tareas").on("afterInsert", function (e, item) {
+        jQuery(".dynamicform_wrapper_tareas .panel-title-tareas").each(function (index) {
+            jQuery(this).html("Tarea: " + (index + 1));
+        });
+        $(".krajee-datepicker").each(function () {
+            $(this).kvDatepicker({
+                format: 'yyyy-mm-dd',
+                language: 'es',
+                changeMonth: true,
+                changeYear: true,
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true
+            });
+        });
+        $(".dynamicform_wrapper_tareas .item:last input").removeAttr("disabled");
+        $(".dynamicform_wrapper_tareas .item:last select").removeAttr("disabled");
+        $(".dynamicform_wrapper_tareas .item:last input").removeAttr("readonly");
+        $(".dynamicform_wrapper_tareas .item:last .removeTarea").show();
+    });
+    jQuery(".dynamicform_wrapper_tareas").on("afterDelete", function (e) {
+        jQuery(".dynamicform_wrapper_tareas .panel-title-tareas").each(function (index) {
+            jQuery(this).html("Tarea: " + (index + 1));
+        });
+    });
+
+    $('#dynamic-form').submit(function () {
+        jQuery(".dynamicform_wrapper_tareas select, .dynamicform_wrapper_tareas input").each(function () {
+            jQuery(this).removeAttr("disabled");
+        });
+    });
 
 });
 

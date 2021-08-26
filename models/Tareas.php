@@ -9,14 +9,16 @@ use Yii;
  *
  * @property int $id ID
  * @property int $proceso_id Proceso
- * @property int $user_id Usuario
- * @property string $fecha_tarea Fecha
+ * @property int $user_id Asignada a
+ * @property int $jefe_id Jefe del proceso
+ * @property string $fecha_esperada
+ * @property string|null $fecha_finalizacion Fecha finalización de la tarea
  * @property string $descripcion Descripción
  * @property int $estado Estado
- * @property string|null $fecha_finalizacion_tarea Fecha finalización de la tarea
  *
  * @property Procesos $proceso
  * @property Users $user
+ * @property Users $jefe
  */
 class Tareas extends \yii\db\ActiveRecord {
 
@@ -32,13 +34,14 @@ class Tareas extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['proceso_id', 'user_id', 'fecha_tarea', 'descripcion'], 'required'],
-            [['proceso_id', 'user_id', 'estado'], 'integer'],
-            [['fecha_tarea', 'fecha_finalizacion_tarea'], 'safe'],
+            [['proceso_id', 'user_id', 'jefe_id', 'fecha_esperada', 'descripcion'], 'required'],
+            [['proceso_id', 'user_id', 'jefe_id', 'estado'], 'integer'],
+            [['fecha_esperada', 'fecha_finalizacion'], 'safe'],
             [['descripcion'], 'string', 'max' => 100],
             ['descripcion', 'filter', 'filter' => 'strtoupper'],
             [['proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => Procesos::className(), 'targetAttribute' => ['proceso_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['jefe_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['jefe_id' => 'id']],
         ];
     }
 
@@ -49,11 +52,12 @@ class Tareas extends \yii\db\ActiveRecord {
         return [
             'id' => 'ID',
             'proceso_id' => 'Proceso',
-            'user_id' => 'Usuario',
-            'fecha_tarea' => 'Fecha',
+            'user_id' => 'Asignada a',
+            'jefe_id' => 'Jefe del proceso',
+            'fecha_esperada' => 'Fecha Esperada',
+            'fecha_finalizacion' => 'Fecha finalización de la tarea',
             'descripcion' => 'Descripción',
             'estado' => 'Estado',
-            'fecha_finalizacion_tarea' => 'Fecha finalización de la tarea',
         ];
     }
 
@@ -73,6 +77,15 @@ class Tareas extends \yii\db\ActiveRecord {
      */
     public function getUser() {
         return $this->hasOne(Users::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * Gets query for [[Jefe]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJefe() {
+        return $this->hasOne(Users::className(), ['id' => 'jefe_id']);
     }
 
 }

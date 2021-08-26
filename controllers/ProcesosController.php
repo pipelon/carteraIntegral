@@ -297,8 +297,25 @@ class ProcesosController extends Controller {
                             $mdlPagos->save();
                         }
                     }
-                }                
-                
+                }
+
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LAS TAREAS
+                if (isset($_POST['Tareas'])) {
+                    //var_dump($_POST['Tareas']);exit;
+                    \app\models\Tareas::deleteAll(['proceso_id' => $model->id]);
+                    foreach ($_POST['Tareas'] as $tarea) {
+                        $mdlTareas = new \app\models\Tareas();
+                        $mdlTareas->proceso_id = $model->id;
+                        $mdlTareas->user_id = $tarea['user_id'];
+                        $mdlTareas->jefe_id = $model->jefe_id;                        
+                        $mdlTareas->fecha_esperada = $tarea['fecha_esperada'];
+                        $mdlTareas->descripcion = $tarea['descripcion'];
+                        $mdlTareas->estado = $tarea['estado'] ?? '0';                        
+                        $mdlTareas->save();
+                    }
+                }
+
+
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [

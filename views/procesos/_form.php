@@ -458,6 +458,129 @@ $form = ActiveForm::begin(
     <!-- /.box-body -->
 </div>
 
+<!-- TAREAS -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        Tareas
+    </div>
+    <div class="box-body">
+        <div class="row-field col-md-12">
+            <?php
+            DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items', // required: css class selector
+                'widgetItem' => '.item', // required: css class
+                'limit' => 4, // the maximum times, an element can be cloned (default 999)
+                'min' => 0, // 0 or 1 (default 1)
+                'insertButton' => '.add-item', // css class
+                'deleteButton' => '.remove-item', // css class
+                'model' => $modelTareas[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'descripcion',
+                    'fecha_esperada',
+                    'user_id'
+                ],
+            ]);
+            ?>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="flaticon-coins"></i> Tareas
+                    <button type="button" class="pull-right add-item btn btn-primary btn-xs"><i class="flaticon-add"></i> Agregar tarea</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body container-items"><!-- widgetContainer -->
+                    <?php foreach ($modelTareas as $index => $mdlTarea): ?>
+                    
+                        <?php $enable = $mdlTarea->jefe_id == Yii::$app->user->identity->getId() || Yii::$app->user->identity->isSuperAdmin(); ?>
+                        <?php $disable = $mdlTarea->jefe_id != Yii::$app->user->identity->getId() && !Yii::$app->user->identity->isSuperAdmin(); ?>
+                        <?php
+                        if ($mdlTarea->user_id == Yii::$app->user->identity->getId() && $mdlTarea->estado == '0') {
+                            $arrDisableEstado = ['disabled' => false, 'label' => false];
+                        }else{
+                            $arrDisableEstado = ['disabled' => true, 'label' => false];
+                        }
+                        $asignado = $mdlTarea->user_id != Yii::$app->user->identity->getId()
+                        ?>
+
+                        <div class="item panel panel-default"><!-- widgetBody -->
+                            <div class="panel-heading">
+                                <span class="panel-title-tareas">
+                                    Tarea: <?= ($index + 1) ?>
+                                </span>
+
+                                <!-- SOLO EL JEFE Y EL SUPER ADMINISTRADOR PUEDE BORRAR TAREAS -->
+                                <button type="button" 
+                                        style="display: <?= $disable ? 'none' : 'inline' ?>"
+                                        class="pull-right remove-item btn btn-danger btn-xs removeTarea">
+                                    <i class="flaticon-circle"></i>
+                                </button>
+
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-body">
+                                <?php
+                                // necessary for update action.
+                                if (!$mdlTarea->isNewRecord) {
+                                    echo Html::activeHiddenInput($mdlTarea, "[{$index}]id");
+                                }
+                                ?>
+                                <?=
+                                        $form
+                                        ->field($mdlTarea, "[{$index}]estado", ['options' => ['class' => 'form-group col-md-1', 'style' => 'margin-top:20px']])
+                                        ->checkbox($arrDisableEstado)
+                                ?>
+                                <?=
+                                $form->field($mdlTarea, "[{$index}]fecha_esperada", [
+                                    'options' => ['class' => 'form-group col-md-3']
+                                ])->widget(DatePicker::classname(), [
+                                    'options' => [
+                                        'placeholder' => '- Ingrese una fecha --',
+                                        'disabled' => $disable
+                                    ],
+                                    'pluginOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'yyyy-mm-dd',
+                                        'todayHighlight' => true,
+                                        'todayBtn' => true,
+                                    ]
+                                ]);
+                                ?>
+                                <?=
+                                        $form
+                                        ->field($mdlTarea, "[{$index}]descripcion", ['options' => ['class' => 'form-group col-md-4']])
+                                        ->textInput([
+                                            'readonly' => $disable
+                                        ])
+                                ?>
+                                <?php
+                                $colaboradoresList = yii\helpers\ArrayHelper::map(
+                                                \Yii::$app->user->identity->getUserNamesByRole("Colaboradores")
+                                                , 'id', 'name');
+                                ?>
+
+                                <?=
+                                        $form->field($mdlTarea, "[{$index}]user_id",
+                                                ['options' => ['class' => 'form-group col-md-4']])
+                                        ->dropDownList(
+                                                $colaboradoresList,
+                                                [
+                                                    'prompt' => '- Seleccion un colaborador -',
+                                                    'disabled' => $disable
+                                                ]
+                                );
+                                ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php DynamicFormWidget::end(); ?>
+        </div>
+    </div>
+</div>
+
 <!-- ESTADO DE RECUPERACIÓN -->
 <div class="box box-primary">
     <div class="box-header with-border">
