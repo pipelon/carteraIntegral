@@ -169,6 +169,14 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         return false;
     }
     
+    public function isCliente() {
+        $arrRoles = \Yii::$app->authManager->getRolesByUser(\Yii::$app->user->getId());
+        if (array_key_exists('Cliente', $arrRoles)) {
+            return true;
+        }
+        return false;
+    }
+    
     public function getUserNamesByRole($role) {
         return Users::find()
         ->join('LEFT JOIN','auth_assignment','auth_assignment.user_id = id')
