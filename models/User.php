@@ -153,6 +153,22 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         return false;
     }
     
+    public function isColaborador() {
+        $arrRoles = \Yii::$app->authManager->getRolesByUser(\Yii::$app->user->getId());
+        if (array_key_exists('Colaboradores', $arrRoles)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function isJefe() {
+        $arrRoles = \Yii::$app->authManager->getRolesByUser(\Yii::$app->user->getId());
+        if (array_key_exists('Jefes', $arrRoles)) {
+            return true;
+        }
+        return false;
+    }
+    
     public function getUserNamesByRole($role) {
         return Users::find()
         ->join('LEFT JOIN','auth_assignment','auth_assignment.user_id = id')

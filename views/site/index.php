@@ -9,221 +9,295 @@ $this->title = 'CILES';
 
         <div class="row">
 
-            <!-- PROCESOS-->
-            <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-list-2"></i></span>
+            <!-- SI ERES COLABORADO -->
+            <?php if (Yii::$app->user->identity->isColaborador()): ?>
 
-                        <div class="info-box-content">
-                            <span class="info-box-text">Procesos</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
+                <!-- PROCESOS EN LOS QUE ERES COLABORADO -->
+                <?php
+                $procesos = app\models\Procesos::find()
+                        ->joinWith('procesosXColaboradores')
+                        ->joinWith('cliente')
+                        ->joinWith('deudor')
+                        ->joinWith('estadoProceso')
+                        ->where([
+                            'user_id' => \Yii::$app->user->getId()
+                        ])
+                        ->asArray()
+                        ->all();
+                ?>
+                <div class = "col-md-12">
+                    <div class = "box box-primary">
+                        <div class = "box-header with-border">
+                            <h3 class = "box-title">Procesos</h3>
+                            <div class = "box-tools pull-right">
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
+                                </button>
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
                             </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/procesos/index'], ['style' => 'color: white']); ?>
-                            </span>
                         </div>
-                        <!-- /.info-box-content -->
+                        <!--/.box-header -->
+                        <div class = "box-body">
+                            <div class = "table-responsive">
+                                <table class = "table no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th># Proceso</th>
+                                            <th>Cliente</th>
+                                            <th>Deudor</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($procesos as $proceso) : ?>
+                                            <tr>
+                                                <td><?= \yii\bootstrap\Html::a("{$proceso['id']}", ['/procesos/view', 'id' => $proceso['id']]); ?></td>
+                                                <td><?= $proceso["cliente"]["nombre"]; ?></td>
+                                                <td><?= $proceso["deudor"]["nombre"]; ?></td>
+                                                <td>
+                                                    <?php
+                                                    switch ($proceso["estado_proceso_id"]) {
+                                                        case "1":
+                                                            $labelEstado = 'warning';
+                                                            break;
+                                                        case "2":
+                                                        case "3":
+                                                            $labelEstado = 'danger';
+                                                            break;
+                                                        default:
+                                                            $labelEstado = 'success';
+                                                    }
+                                                    ?>
+                                                    <span class="label label-<?= $labelEstado; ?>">
+                                                        <?= $proceso["estadoProceso"]["nombre"]; ?>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--/.table-responsive -->
+                        </div>
+                        <!--/.box-body -->
+                        <div class = "box-footer clearfix">
+                            <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')): ?>
+                                <?= \yii\bootstrap\Html::a('Ver todos los procesos', ['/procesos/index'], ['class' => 'btn btn-sm btn-default btn-flat pull-right']); ?>
+                            <?php endif; ?>
+                        </div>
+                        <!--/.box-footer -->
                     </div>
-                    <!-- /.info-box -->
-                </div>  
+                </div>
+                <!-- TAREAS ASIGNADAS AL USUARIO -->
+                <?php
+                $tareas = app\models\Tareas::find()
+                        ->joinWith('jefe')
+                        ->joinWith('user')
+                        ->where([
+                            'user_id' => \Yii::$app->user->getId()
+                        ])
+                        ->asArray()
+                        ->all();
+                ?>
+                <div class = "col-md-12">
+                    <div class = "box box-primary">
+                        <div class = "box-header with-border">
+                            <h3 class = "box-title">Tareas</h3>
+                            <div class = "box-tools pull-right">
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
+                                </button>
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <!--/.box-header -->
+                        <div class = "box-body">
+                            <div class = "table-responsive">
+                                <table class = "table no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th># Proceso</th>
+                                            <th>Jefe</th>
+                                            <th>Fecha</th>
+                                            <th>Descripción</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($tareas as $tarea) : ?>
+                                            <tr>
+                                                <td><?= \yii\bootstrap\Html::a("{$tarea['proceso_id']}", ['/procesos/view', 'id' => $proceso['id']]); ?></td>
+                                                <td><?= $tarea["jefe"]["name"]; ?></td>
+                                                <td><?= $tarea["fecha_esperada"]; ?></td>
+                                                <td><?= $tarea["descripcion"]; ?></td>
+                                                <td>
+                                                    <?php
+                                                    if ($tarea["estado"] == '0') {
+                                                        $labelEstado = 'warning';
+                                                        $estadoTarea = 'pendiente';
+                                                    } else {
+                                                        $labelEstado = 'success';
+                                                        $estadoTarea = 'finalziada';
+                                                    }
+                                                    ?>
+
+                                                    <span class="label label-<?= $labelEstado; ?>">
+                                                        <?= $estadoTarea; ?>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--/.table-responsive -->
+                        </div>
+                    </div>
+                </div>
             <?php endif; ?>
 
-            <!-- CLIENTES-->
-            <?php if (\Yii::$app->user->can('/clientes/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-users"></i></span>
+            <!-- SI ERES JEFE -->
+            <?php if (Yii::$app->user->identity->isJefe()): ?>
 
-                        <div class="info-box-content">
-                            <span class="info-box-text">Clientes</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
+                <!-- PROCESOS EN LOS QUE ERES JEFE -->
+                <?php
+                $procesos = app\models\Procesos::find()
+                        ->joinWith('procesosXColaboradores')
+                        ->joinWith('cliente')
+                        ->joinWith('deudor')
+                        ->joinWith('estadoProceso')
+                        ->where([
+                            'jefe_id' => \Yii::$app->user->getId()
+                        ])
+                        ->asArray()
+                        ->all();
+                ?>
+                <div class="col-md-12">
+                    <div class = "box box-primary">
+                        <div class = "box-header with-border">
+                            <h3 class = "box-title">Procesos</h3>
+                            <div class = "box-tools pull-right">
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
+                                </button>
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
                             </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/clientes/index'], ['style' => 'color: white']); ?>
-                            </span>
                         </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?>
-
-            <!-- DEUDORES -->
-            <?php if (\Yii::$app->user->can('/deudores/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-coins"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Deudores</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
+                        <!--/.box-header -->
+                        <div class = "box-body">
+                            <div class = "table-responsive">
+                                <table class = "table no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th># Proceso</th>
+                                            <th>Cliente</th>
+                                            <th>Deudor</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($procesos as $proceso) : ?>
+                                            <tr>
+                                                <td><?= \yii\bootstrap\Html::a("{$proceso['id']}", ['/procesos/view', 'id' => $proceso['id']]); ?></td>
+                                                <td><?= $proceso["cliente"]["nombre"]; ?></td>
+                                                <td><?= $proceso["deudor"]["nombre"]; ?></td>
+                                                <td>
+                                                    <?php
+                                                    switch ($proceso["estado_proceso_id"]) {
+                                                        case "1":
+                                                            $labelEstado = 'warning';
+                                                            break;
+                                                        case "2":
+                                                        case "3":
+                                                            $labelEstado = 'danger';
+                                                            break;
+                                                        default:
+                                                            $labelEstado = 'success';
+                                                    }
+                                                    ?>
+                                                    <span class="label label-<?= $labelEstado; ?>">
+                                                        <?= $proceso["estadoProceso"]["nombre"]; ?>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
                             </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/deudores/index'], ['style' => 'color: white']); ?>
-                            </span>
+                            <!--/.table-responsive -->
                         </div>
-                        <!-- /.info-box-content -->
+                        <!--/.box-body -->
+                        <div class = "box-footer clearfix">
+                            <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')): ?>
+                                <?= \yii\bootstrap\Html::a('Ver todos los procesos', ['/procesos/index'], ['class' => 'btn btn-sm btn-default btn-flat pull-right']); ?>
+                            <?php endif; ?>
+                        </div>
+                        <!--/.box-footer -->
                     </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?>
-
-            <!-- TIPO DE PROCESO -->
-            <?php if (\Yii::$app->user->can('/tipo-procesos/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Tipos de procesos</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
+                </div>
+                <!-- TAREAS EN LAS QUE ERES JEFE -->
+                <?php
+                $tareas = app\models\Tareas::find()
+                        ->joinWith('jefe')
+                        ->joinWith('user')
+                        ->where([
+                            'jefe_id' => \Yii::$app->user->getId()
+                        ])
+                        ->asArray()
+                        ->all();
+                ?>
+                <div class="col-md-12">
+                    <div class = "box box-primary">
+                        <div class = "box-header with-border">
+                            <h3 class = "box-title">Tareas</h3>
+                            <div class = "box-tools pull-right">
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
+                                </button>
+                                <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
                             </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/tipo-procesos/index'], ['style' => 'color: white']); ?>
-                            </span>
                         </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?> 
+                        <!--/.box-header -->
+                        <div class = "box-body">
+                            <div class = "table-responsive">
+                                <table class = "table no-margin">
+                                    <thead>
+                                        <tr>
+                                            <th># Proceso</th>
+                                            <th>Asignado a</th>
+                                            <th>Fecha</th>
+                                            <th>Descripción</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($tareas as $tarea) : ?>
+                                            <tr>
+                                                <td><?= \yii\bootstrap\Html::a("{$tarea['proceso_id']}", ['/procesos/view', 'id' => $proceso['id']]); ?></td>
+                                                <td><?= $tarea["user"]["name"]; ?></td>
+                                                <td><?= $tarea["fecha_esperada"]; ?></td>
+                                                <td><?= $tarea["descripcion"]; ?></td>
+                                                <td>
+                                                    <?php
+                                                    if ($tarea["estado"] == '0') {
+                                                        $labelEstado = 'warning';
+                                                        $estadoTarea = 'pendiente';
+                                                    } else {
+                                                        $labelEstado = 'success';
+                                                        $estadoTarea = 'finalziada';
+                                                    }
+                                                    ?>
 
-            <!-- TIPO DE CASOS -->
-            <?php if (\Yii::$app->user->can('/tipo-casos/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Tipos de casos</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
+                                                    <span class="label label-<?= $labelEstado; ?>">
+                                                        <?= $estadoTarea; ?>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
                             </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/tipo-casos/index'], ['style' => 'color: white']); ?>
-                            </span>
+                            <!--/.table-responsive -->
                         </div>
-                        <!-- /.info-box-content -->
                     </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?> 
-
-            <!-- BIENES -->
-            <?php if (\Yii::$app->user->can('/bienes/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Bienes</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
-                            </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/bienes/index'], ['style' => 'color: white']); ?>
-                            </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?> 
-
-            <!-- DOCUMENTOS DE ACTIVACION -->
-            <?php if (\Yii::$app->user->can('/documentos-activacion/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Documentos de activación</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
-                            </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/documentos-activacion/index'], ['style' => 'color: white']); ?>
-                            </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?> 
-
-            <!-- ETAPAS PROCESALES -->
-            <?php if (\Yii::$app->user->can('/etapas-procesales/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Etapas procesales</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
-                            </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/etapas-procesales/index'], ['style' => 'color: white']); ?>
-                            </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?> 
-            
-             <!-- ESTADOS DEL PROCESO -->
-            <?php if (\Yii::$app->user->can('/estados-proceso/index') || \Yii::$app->user->can('/*')) : ?>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-blue">
-                        <span class="info-box-icon"><i class="flaticon-list-3"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Estados del proceso</span>
-                            <span class="info-box-number">&nbsp;</span>
-
-                            <div class="progress">
-                                <div class="progress-bar" style="width: 100%"></div>
-                            </div>
-                            <span class="progress-description">
-                                <i class="fa fa-arrow-circle-right"></i> 
-                                <?= \yii\bootstrap\Html::a('Ver más', ['/estados-proceso/index'], ['style' => 'color: white']); ?>
-                            </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>  
-            <?php endif; ?> 
+                </div>
+            <?php endif; ?>    
 
         </div>
 
