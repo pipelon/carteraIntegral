@@ -122,11 +122,11 @@ CREATE TABLE `bienes_x_proceso` (
   KEY `fk_bienes_x_proceso_bienes_idx` (`bien_id`),
   CONSTRAINT `fk_bienes_x_proceso_bienes` FOREIGN KEY (`bien_id`) REFERENCES `bienes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_bienes_x_proceso_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=312 DEFAULT CHARSET=utf8;
 
 /*Data for the table `bienes_x_proceso` */
 
-insert  into `bienes_x_proceso`(`id`,`proceso_id`,`bien_id`,`comentario`) values (300,9,1,'PRUEBA INMUEBLE'),(301,9,2,'VEHÍCULOS'),(302,9,5,'PRODUCTOS FINANCIEROS'),(303,9,6,'PRUEBA ESTABLECIMIENTO');
+insert  into `bienes_x_proceso`(`id`,`proceso_id`,`bien_id`,`comentario`) values (308,9,1,'PRUEBA INMUEBLE'),(309,9,2,'VEHÍCULOS'),(310,9,5,'PRODUCTOS FINANCIEROS'),(311,9,6,'PRUEBA ESTABLECIMIENTO');
 
 /*Table structure for table `clientes` */
 
@@ -456,11 +456,11 @@ CREATE TABLE `tareas` (
   CONSTRAINT `fk_tareas_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_users1` FOREIGN KEY (`jefe_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tareas` */
 
-insert  into `tareas`(`id`,`proceso_id`,`user_id`,`jefe_id`,`fecha_esperada`,`fecha_finalizacion`,`descripcion`,`estado`) values (61,9,10,7,'2021-08-29',NULL,'LLAMAR AL JUEZ',0),(62,9,10,7,'2021-08-31',NULL,'IR LA JUZGADO',0),(63,9,8,7,'2021-09-01',NULL,'VISITAR AL CLIENTE',1);
+insert  into `tareas`(`id`,`proceso_id`,`user_id`,`jefe_id`,`fecha_esperada`,`fecha_finalizacion`,`descripcion`,`estado`) values (70,9,10,7,'2021-08-29',NULL,'LLAMAR AL JUEZ',0),(71,9,10,7,'2021-08-31',NULL,'IR LA JUZGADO',1),(72,9,8,7,'2021-09-01',NULL,'VISITAR AL CLIENTE',0);
 
 /*Table structure for table `tipo_casos` */
 

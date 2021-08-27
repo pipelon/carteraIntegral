@@ -178,6 +178,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 'estrec_tiempo_recuperacion:ntext',
                 'estrec_comentarios:ntext',
                 [
+                    'label' => strtoupper('TAREAS'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                [
+                    'label' => 'Tareas',
+                    'format' => 'raw',
+                    'value' => function ($data) use ($tareas) {
+                        $htmlPago = '';
+                        foreach ($tareas as $tarea) {
+                            $estado = $tarea->estado ? 'Terminada' : 'Pendiente';
+                            $htmlPago .= "<b>Asignado a: </b>{$tarea->user->name}"
+                            . "<b> Jefe: </b>{$tarea->jefe->name}"
+                            . "<b> Fecha: </b>{$tarea->fecha_esperada}"
+                            . "<b> Descripción: </b>{$tarea->descripcion}"
+                            . "<b> Estado: </b>{$estado}"
+                            . "<br />";
+                        }
+                        return $htmlPago;
+                    }
+                ],
+                [
                     'label' => strtoupper('ESTADO DEL PROCESO'),
                     'value' => '',
                     'contentOptions' => ['class' => 'bg-light-blue'],

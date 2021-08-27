@@ -59,10 +59,14 @@ class ProcesosController extends Controller {
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
         $pagos = $model->consolidadoPagosJuridicos;
+        
+        //TAREAS ACTUALES PARA MOSTRAR
+        $tareas = $model->tareas;
 
         return $this->render('view', [
                     'model' => $this->findModel($id),
                     'pagos' => $pagos,
+                    'tareas' => $tareas,
         ]);
     }
 
@@ -202,7 +206,7 @@ class ProcesosController extends Controller {
                 // VOLVERLOS A CREAR
                 if (!empty($model->colaboradores)) {
                     $oldIDs = ArrayHelper::map($model->procesosXColaboradores, 'user_id', 'user_id');
-                    $deletedColIDs = array_merge(array_diff($oldIDs, $model->colaboradores), array_diff($model->colaboradores, $oldIDs));
+                    $deletedColIDs = array_merge(array_diff($oldIDs, $model->colaboradores), array_diff($model->colaboradores, $oldIDs));                    
                     if (!empty($deletedColIDs)) {
                         \app\models\ProcesosXColaboradores::deleteAll(['proceso_id' => $model->id]);
                         foreach ($model->colaboradores as $colaborador) {
@@ -219,7 +223,7 @@ class ProcesosController extends Controller {
                 // VOLVERLOS A CREAR
                 if (!empty($model->prejur_estudio_bienes)) {
                     $oldIDs = ArrayHelper::map($model->bienesXProcesos, 'bien_id', 'bien_id');
-                    $deletedBienIDs = array_merge(array_diff($oldIDs, $model->prejur_estudio_bienes), array_diff($model->prejur_estudio_bienes, $oldIDs));
+                    $deletedBienIDs = array_merge(array_diff($oldIDs, $model->prejur_estudio_bienes), array_diff($model->prejur_estudio_bienes, $oldIDs));                    
                     if (!empty($deletedBienIDs)) {
                         \app\models\BienesXProceso::deleteAll(['proceso_id' => $model->id]);
                         foreach ($model->prejur_estudio_bienes as $bien) {
@@ -300,18 +304,38 @@ class ProcesosController extends Controller {
                 }
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LAS TAREAS
-                if (isset($_POST['Tareas'])) {
-                    //var_dump($_POST['Tareas']);exit;
-                    \app\models\Tareas::deleteAll(['proceso_id' => $model->id]);
-                    foreach ($_POST['Tareas'] as $tarea) {
-                        $mdlTareas = new \app\models\Tareas();
-                        $mdlTareas->proceso_id = $model->id;
-                        $mdlTareas->user_id = $tarea['user_id'];
-                        $mdlTareas->jefe_id = $model->jefe_id;                        
-                        $mdlTareas->fecha_esperada = $tarea['fecha_esperada'];
-                        $mdlTareas->descripcion = $tarea['descripcion'];
-                        $mdlTareas->estado = $tarea['estado'] ?? '0';                        
-                        $mdlTareas->save();
+                if (isset($_POST['Tareas'])) {                 
+
+                    $oldValues = array_merge(
+                            ArrayHelper::map($modelTareas, 'id', (string) 'id'),
+                            ArrayHelper::map($modelTareas, 'id', (string) 'user_id'),
+                            ArrayHelper::map($modelTareas, 'id', (string) 'jefe_id'),
+                            ArrayHelper::map($modelTareas, 'id', (string) 'fecha_esperada'),
+                            ArrayHelper::map($modelTareas, 'id', (string) 'descripcion'),
+                            ArrayHelper::map($modelTareas, 'id', (string) 'estado')
+                    );
+                    $oldValues = array_map('strval', $oldValues);
+                    $newValues = array_merge(
+                            ArrayHelper::map($_POST['Tareas'], 'id', 'id'),
+                            ArrayHelper::map($_POST['Tareas'], 'id', 'user_id'),
+                            ArrayHelper::map($_POST['Tareas'], 'id', 'jefe_id'),
+                            ArrayHelper::map($_POST['Tareas'], 'id', 'fecha_esperada'),
+                            ArrayHelper::map($_POST['Tareas'], 'id', 'descripcion'),
+                            ArrayHelper::map($_POST['Tareas'], 'id', 'estado')
+                    );
+                    $deletedTareas = array_merge(array_diff_assoc($oldValues, $newValues), array_diff_assoc($newValues, $oldValues));
+                    if (!empty($deletedTareas)) {
+                        \app\models\Tareas::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($_POST['Tareas'] as $tarea) {
+                            $mdlTareas = new \app\models\Tareas();
+                            $mdlTareas->proceso_id = $model->id;
+                            $mdlTareas->user_id = $tarea['user_id'];
+                            $mdlTareas->jefe_id = $model->jefe_id;
+                            $mdlTareas->fecha_esperada = $tarea['fecha_esperada'];
+                            $mdlTareas->descripcion = $tarea['descripcion'];
+                            $mdlTareas->estado = $tarea['estado'] ?? '0';
+                            $mdlTareas->save();
+                        }
                     }
                 }
 

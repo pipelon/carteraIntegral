@@ -571,6 +571,7 @@ $form = ActiveForm::begin(
                                                 ]
                                 );
                                 ?>
+                                <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id");?>
                             </div>
                         </div>
                     <?php endforeach; ?>
