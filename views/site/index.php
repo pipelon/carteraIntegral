@@ -9,6 +9,58 @@ $this->title = 'CILES';
 
         <div class="row">
 
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="flaticon-list-3"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text" style="white-space: normal">Procesos en gestión</span>
+                        <span class="info-box-number">80<small>%</small></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="flaticon-interface"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text" style="white-space: normal">Procesos terminados</span>
+                        <span class="info-box-number">15<small>%</small></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="flaticon-danger"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text" style="white-space: normal">Procesos castigados</span>
+                        <span class="info-box-number">5<small>%</small></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-orange"><i class="flaticon-close"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text" style="white-space: normal">Procesos devueltos</span>
+                        <span class="info-box-number">0<small>%</small></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
             <!-- SI ERES COLABORADO -->
             <?php if (Yii::$app->user->identity->isColaborador()): ?>
 
@@ -25,10 +77,10 @@ $this->title = 'CILES';
                         ->asArray()
                         ->all();
                 ?>
-                <div class = "col-md-12">
+                <div class = "col-md-5">
                     <div class = "box box-primary">
                         <div class = "box-header with-border">
-                            <h3 class = "box-title">Procesos</h3>
+                            <h3 class = "box-title">Procesos en los que eres colaborador</h3>
                             <div class = "box-tools pull-right">
                                 <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
                                 </button>
@@ -41,7 +93,7 @@ $this->title = 'CILES';
                                 <table class = "table no-margin">
                                     <thead>
                                         <tr>
-                                            <th># Proceso</th>
+                                            <th>#</th>
                                             <th>Cliente</th>
                                             <th>Deudor</th>
                                             <th>Estado</th>
@@ -98,10 +150,10 @@ $this->title = 'CILES';
                         ->asArray()
                         ->all();
                 ?>
-                <div class = "col-md-12">
+                <div class = "col-md-7">
                     <div class = "box box-primary">
                         <div class = "box-header with-border">
-                            <h3 class = "box-title">Tareas</h3>
+                            <h3 class = "box-title">Tareas asignadas a ti</h3>
                             <div class = "box-tools pull-right">
                                 <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
                                 </button>
@@ -114,7 +166,7 @@ $this->title = 'CILES';
                                 <table class = "table no-margin">
                                     <thead>
                                         <tr>
-                                            <th># Proceso</th>
+                                            <th>#</th>
                                             <th>Jefe</th>
                                             <th>Fecha</th>
                                             <th>Descripción</th>
@@ -170,10 +222,10 @@ $this->title = 'CILES';
                         ->asArray()
                         ->all();
                 ?>
-                <div class="col-md-12">
+                <div class="col-md-5">
                     <div class = "box box-primary">
                         <div class = "box-header with-border">
-                            <h3 class = "box-title">Procesos</h3>
+                            <h3 class = "box-title">Procesos en los que eres jefe</h3>
                             <div class = "box-tools pull-right">
                                 <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
                                 </button>
@@ -186,7 +238,7 @@ $this->title = 'CILES';
                                 <table class = "table no-margin">
                                     <thead>
                                         <tr>
-                                            <th># Proceso</th>
+                                            <th>#</th>
                                             <th>Cliente</th>
                                             <th>Deudor</th>
                                             <th>Estado</th>
@@ -243,10 +295,10 @@ $this->title = 'CILES';
                         ->asArray()
                         ->all();
                 ?>
-                <div class="col-md-12">
+                <div class="col-md-7">
                     <div class = "box box-primary">
                         <div class = "box-header with-border">
-                            <h3 class = "box-title">Tareas</h3>
+                            <h3 class = "box-title">Tareas para gestionar</h3>
                             <div class = "box-tools pull-right">
                                 <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
                                 </button>
@@ -259,7 +311,7 @@ $this->title = 'CILES';
                                 <table class = "table no-margin">
                                     <thead>
                                         <tr>
-                                            <th># Proceso</th>
+                                            <th>#</th>
                                             <th>Asignado a</th>
                                             <th>Fecha</th>
                                             <th>Descripción</th>
