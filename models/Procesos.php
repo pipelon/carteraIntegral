@@ -20,6 +20,10 @@ use Yii;
  * @property string|null $jur_fecha_recepcion Fecha activación
  * @property float|null $jur_valor_activacion Valor activación
  * @property float|null $jur_saldo_actual Saldo actual
+ * @property int|null $jur_departamento_id Departamento
+ * @property int|null $jur_ciudad_id Ciudad
+ * @property int|null $jur_jurisdiccion_competent_id Jurisdicción competente
+ * @property string|null $jur_juzgado Juzgado					 
  * @property int|null $jur_tipo_proceso_id Tipo de proceso
  * @property int|null $jur_etapas_procesal_id Etapa procesal
  * @property string|null $carpeta Carpeta Google Drive
@@ -33,10 +37,13 @@ use Yii;
  * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
  * @property DocactivacionXProceso[] $docactivacionXProcesos
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
+ * @property Ciudades $jurCiudad								
  * @property Clientes $cliente
+ * @property Departamentos $jurDepartamento										   
  * @property Deudores $deudor
  * @property EstadosProceso $estadoProceso
  * @property EtapasProcesales $jurEtapasProcesal
+ * @property JurisdiccionesCompetentes $jurJurisdiccionCompetent																
  * @property TipoCasos $prejurTipoCaso
  * @property TipoProcesos $jurTipoProceso
  * @property Users $jefe
@@ -68,7 +75,8 @@ class Procesos extends \yii\db\ActiveRecord {
             [['cliente_id', 'deudor_id', 'jefe_id', 'estado_proceso_id'], 'required'],
             [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
-            'estado_proceso_id'], 'integer'],
+            'estado_proceso_id', 'jur_departamento_id', 'jur_ciudad_id',
+            'jur_jurisdiccion_competent_id',], 'integer'],
             [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
             'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion', 'colaboradores'], 'safe'],
@@ -76,12 +84,16 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
             [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
+            [['jur_juzgado'], 'string', 'max' => 200],
             [['carpeta'], 'string', 'max' => 100],
             [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
+            [['jur_ciudad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['jur_ciudad_id' => 'id']],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
+            [['jur_departamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Departamentos::className(), 'targetAttribute' => ['jur_departamento_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
             [['estado_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => EstadosProceso::className(), 'targetAttribute' => ['estado_proceso_id' => 'id']],
             [['jur_etapas_procesal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesales::className(), 'targetAttribute' => ['jur_etapas_procesal_id' => 'id']],
+            [['jur_jurisdiccion_competent_id'], 'exist', 'skipOnError' => true, 'targetClass' => JurisdiccionesCompetentes::className(), 'targetAttribute' => ['jur_jurisdiccion_competent_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
             [['jur_tipo_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoProcesos::className(), 'targetAttribute' => ['jur_tipo_proceso_id' => 'id']],
             [['jefe_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['jefe_id' => 'id']],
@@ -111,6 +123,10 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_fecha_recepcion' => 'Fecha activación',
             'jur_valor_activacion' => 'Valor activación',
             'jur_saldo_actual' => 'Saldo actual',
+            'jur_departamento_id' => 'Departamento',
+            'jur_ciudad_id' => 'Ciudad',
+            'jur_jurisdiccion_competent_id' => 'Jurisdicción competente',
+            'jur_juzgado' => 'Juzgado',
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',
             'jur_documentos_activacion' => 'Documentos de activación',
@@ -160,12 +176,30 @@ class Procesos extends \yii\db\ActiveRecord {
     }
 
     /**
+     * Gets query for [[JurCiudad]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurCiudad() {
+        return $this->hasOne(Ciudades::className(), ['id' => 'jur_ciudad_id']);
+    }
+
+    /**
      * Gets query for [[Cliente]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getCliente() {
         return $this->hasOne(Clientes::className(), ['id' => 'cliente_id']);
+    }
+
+    /**
+     * Gets query for [[JurDepartamento]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurDepartamento() {
+        return $this->hasOne(Departamentos::className(), ['id' => 'jur_departamento_id']);
     }
 
     /**
@@ -193,6 +227,15 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getJurEtapasProcesal() {
         return $this->hasOne(EtapasProcesales::className(), ['id' => 'jur_etapas_procesal_id']);
+    }
+
+    /**
+     * Gets query for [[JurJurisdiccionCompetent]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurJurisdiccionCompetent() {
+        return $this->hasOne(JurisdiccionesCompetentes::className(), ['id' => 'jur_jurisdiccion_competent_id']);
     }
 
     /**

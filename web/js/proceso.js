@@ -91,5 +91,21 @@ jQuery("document").ready(function () {
         });
     });
 
+    /* CREAR NOMBRE DE JUZGADO */
+    $('#departamento-id, #ciudad-id').change(function () {
+        $("#juzgado").val("");
+    });
+    $('#jurisdiccion-competent-id').change(function () {
+        if ($("#departamento-id").val() != "" && $("#ciudad-id").val() != "" && $(this).val() != "") {
+            let nombre = $("#departamento-id option:selected").text() + ", " +
+                    $("#ciudad-id option:selected").text() + ", " +
+                    $("#jurisdiccion-competent-id option:selected").text();
+            $("#juzgado").val(nombre);
+        } else {
+            $("#juzgado").val("");
+        }
+
+    });
+
 });
 

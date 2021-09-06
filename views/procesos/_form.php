@@ -437,6 +437,44 @@ $form = ActiveForm::begin(
             ]);
             ?>
         </div>
+        
+        <!-- JUZGADO -->
+        <div class="row-field">
+            <?php
+            $departamentos = yii\helpers\ArrayHelper::map(
+                            \app\models\Departamentos::find()
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?= $form->field($model, 'jur_departamento_id')->dropDownList($departamentos, ['id' => 'departamento-id']) ?>
+            <?=
+            $form->field($model, 'jur_ciudad_id')->widget(DepDrop::classname(), [
+                'options' => ['id' => 'ciudad-id'],
+                'data' => [$model->jur_ciudad_id => 'default'],
+                'pluginOptions' => [
+                    'depends' => ['departamento-id'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una ciudad -',
+                    'url' => Url::to(['/ciudades/ciudadesxdepartamentoid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?=
+            $form->field($model, 'jur_jurisdiccion_competent_id')->widget(DepDrop::classname(), [
+                'options' => ['id' => 'jurisdiccion-competent-id'],
+                'data' => [$model->jur_jurisdiccion_competent_id => 'default'],
+                'pluginOptions' => [
+                    'depends' => ['ciudad-id'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una jurisdicción -',
+                    'url' => Url::to(['/jurisdicciones-competentes/jurisdiccionesxciudadid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?= $form->field($model, 'jur_juzgado')->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
+        </div>
     </div>
 </div>
 
@@ -492,13 +530,13 @@ $form = ActiveForm::begin(
                 </div>
                 <div class="panel-body container-items"><!-- widgetContainer -->
                     <?php foreach ($modelTareas as $index => $mdlTarea): ?>
-                    
+
                         <?php $enable = $mdlTarea->jefe_id == Yii::$app->user->identity->getId() || Yii::$app->user->identity->isSuperAdmin(); ?>
                         <?php $disable = $mdlTarea->jefe_id != Yii::$app->user->identity->getId() && !Yii::$app->user->identity->isSuperAdmin(); ?>
                         <?php
                         if ($mdlTarea->user_id == Yii::$app->user->identity->getId() && $mdlTarea->estado == '0') {
                             $arrDisableEstado = ['disabled' => false, 'label' => false];
-                        }else{
+                        } else {
                             $arrDisableEstado = ['disabled' => true, 'label' => false];
                         }
                         $asignado = $mdlTarea->user_id != Yii::$app->user->identity->getId()
@@ -571,7 +609,7 @@ $form = ActiveForm::begin(
                                                 ]
                                 );
                                 ?>
-                                <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id");?>
+                                <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
                             </div>
                         </div>
                     <?php endforeach; ?>

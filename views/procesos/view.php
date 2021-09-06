@@ -143,6 +143,28 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
+                    'attribute' => 'jur_departamento_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurDepartamento->nombre ?? null;
+                    },
+                ],
+                [
+                    'attribute' => 'jur_ciudad_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurCiudad->nombre ?? null;
+                    },
+                ],
+                [
+                    'attribute' => 'jur_jurisdiccion_competent_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurJurisdiccionCompetent->nombre ?? null;
+                    },
+                ],
+                'jur_juzgado',
+                [
                     'label' => strtoupper('Documentos'),
                     'value' => '',
                     'contentOptions' => ['class' => 'bg-light-blue'],
@@ -191,11 +213,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         foreach ($tareas as $tarea) {
                             $estado = $tarea->estado ? 'Terminada' : 'Pendiente';
                             $htmlPago .= "<b>Asignado a: </b>{$tarea->user->name}"
-                            . "<b> Jefe: </b>{$tarea->jefe->name}"
-                            . "<b> Fecha: </b>{$tarea->fecha_esperada}"
-                            . "<b> Descripción: </b>{$tarea->descripcion}"
-                            . "<b> Estado: </b>{$estado}"
-                            . "<br />";
+                                    . "<b> Jefe: </b>{$tarea->jefe->name}"
+                                    . "<b> Fecha: </b>{$tarea->fecha_esperada}"
+                                    . "<b> Descripción: </b>{$tarea->descripcion}"
+                                    . "<b> Estado: </b>{$estado}"
+                                    . "<br />";
                         }
                         return $htmlPago;
                     }
