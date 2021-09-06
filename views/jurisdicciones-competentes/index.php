@@ -48,6 +48,7 @@ if (\Yii::$app->user->can('/jurisdicciones-competentes/*') || \Yii::$app->user->
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
                             \app\models\Ciudades::find()
+                                    ->orderBy('nombre ASC')
                                     ->all()
                             , 'id', 'nombre')
                 ],

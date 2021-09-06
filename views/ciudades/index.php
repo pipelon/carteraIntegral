@@ -48,6 +48,7 @@ if (\Yii::$app->user->can('/ciudades/*') || \Yii::$app->user->can('/*')) {
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
                             \app\models\Departamentos::find()
+                                    ->orderBy('nombre ASC')
                                     ->all()
                             , 'id', 'nombre')
                 ],
