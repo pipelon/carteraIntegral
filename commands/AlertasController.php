@@ -3,7 +3,6 @@
 namespace app\commands;
 
 use yii\console\Controller;
-use yii\console\ExitCode;
 
 /**
  * Test controller
@@ -38,6 +37,13 @@ class AlertasController extends Controller {
 
     private function enviarEmail($nombre, $email, $descripcion) {
         echo "Sending mail to " . $nombre;
+        
+        #PARA GUARDAR LA ALERTA EN UNA TABLA USANDO UN MODELO (EJEMPLO)
+        $modeloAlerta = \app\models\Alertas();
+        $modeloAlerta->user_id = 1;
+        $modeloAlerta->proceso_id = 2;
+        $modeloAlerta->fecha = date("Y-m-d");
+        $modeloAlerta->save();
     }
 
 }
