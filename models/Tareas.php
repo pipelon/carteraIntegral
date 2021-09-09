@@ -53,7 +53,7 @@ class Tareas extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'proceso_id' => 'Proceso',
             'user_id' => 'Asignada a',
-            'jefe_id' => 'Jefe del proceso',
+            'jefe_id' => 'Líder del proceso',
             'fecha_esperada' => 'Fecha Esperada',
             'fecha_finalizacion' => 'Fecha finalización de la tarea',
             'descripcion' => 'Descripción',

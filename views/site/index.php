@@ -56,8 +56,8 @@ $this->title = 'CILES';
             <?php endif; ?>
 
             <!-- SI ERES JEFE -->
-            <?php if (Yii::$app->user->identity->isJefe()): ?>
-                <?= $this->render('dashboard/jefe.php'); ?>
+            <?php if (Yii::$app->user->identity->isLider()): ?>
+                <?= $this->render('dashboard/lider.php'); ?>
             <?php endif; ?>
 
             <!-- SI ERES SUPER ADMINISTRADOR -->

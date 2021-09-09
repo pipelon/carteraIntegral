@@ -155,15 +155,15 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
     
     public function isColaborador() {
         $arrRoles = \Yii::$app->authManager->getRolesByUser(\Yii::$app->user->getId());
-        if (array_key_exists('Colaboradores', $arrRoles)) {
+        if (array_key_exists('Colaborador', $arrRoles)) {
             return true;
         }
         return false;
     }
     
-    public function isJefe() {
+    public function isLider() {
         $arrRoles = \Yii::$app->authManager->getRolesByUser(\Yii::$app->user->getId());
-        if (array_key_exists('Jefes', $arrRoles)) {
+        if (array_key_exists('Lider', $arrRoles)) {
             return true;
         }
         return false;

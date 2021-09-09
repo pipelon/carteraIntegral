@@ -141,7 +141,20 @@ $form = ActiveForm::begin(
                                     ]
                                 ]
                 );
-                ?>                
+                ?>       
+                <?php
+                $plataformas = yii\helpers\ArrayHelper::map(
+                                \app\models\Plataformas::find()
+                                        ->where(['activo' => 1])
+                                        ->all()
+                                , 'id', 'nombre');
+                ?>
+                <?=
+                $form->field($model, 'plataforma_id', [
+                    "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                    'options' => ['class' => 'form-group col-md-12']
+                ])->dropDownList($plataformas, ['prompt' => '- Seleccione una plataforma -'])
+                ?>
             </div>
         </div>
     </div>
@@ -150,20 +163,20 @@ $form = ActiveForm::begin(
 <!-- COLABORADORES -->
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">JEFE Y COLABORADORES</h3>
+        <h3 class="box-title">LÍDERES Y COLABORADORES</h3>
     </div>
     <div class="box-body">
         <?php
-        $jefesList = yii\helpers\ArrayHelper::map(
-                        \Yii::$app->user->identity->getUserNamesByRole("Jefes")
+        $lideresList = yii\helpers\ArrayHelper::map(
+                        \Yii::$app->user->identity->getUserNamesByRole("Lider")
                         , 'id', 'name');
         $dataList = yii\helpers\ArrayHelper::map(
-                        \Yii::$app->user->identity->getUserNamesByRole("Colaboradores")
+                        \Yii::$app->user->identity->getUserNamesByRole("Colaborador")
                         , 'id', 'name');
         ?>
 
         <?=
-        $form->field($model, 'jefe_id')->dropDownList($jefesList, ['prompt' => '- Seleccione un jefe -'])
+        $form->field($model, 'jefe_id')->dropDownList($lideresList, ['prompt' => '- Seleccione un líder -'])
         ?>
 
         <?=
@@ -437,7 +450,7 @@ $form = ActiveForm::begin(
             ]);
             ?>
         </div>
-        
+
         <!-- JUZGADO -->
         <div class="row-field">
             <?php
@@ -508,7 +521,7 @@ $form = ActiveForm::begin(
                 'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
                 'widgetBody' => '.container-items', // required: css class selector
                 'widgetItem' => '.item', // required: css class
-                'limit' => 4, // the maximum times, an element can be cloned (default 999)
+                'limit' => 5, // the maximum times, an element can be cloned (default 999)
                 'min' => 0, // 0 or 1 (default 1)
                 'insertButton' => '.add-item', // css class
                 'deleteButton' => '.remove-item', // css class
@@ -594,7 +607,7 @@ $form = ActiveForm::begin(
                                 ?>
                                 <?php
                                 $colaboradoresList = yii\helpers\ArrayHelper::map(
-                                                \Yii::$app->user->identity->getUserNamesByRole("Colaboradores")
+                                                \Yii::$app->user->identity->getUserNamesByRole("Colaborador")
                                                 , 'id', 'name');
                                 ?>
 

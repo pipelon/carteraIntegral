@@ -101,7 +101,7 @@ $tareas = app\models\Tareas::find()
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Jefe</th>
+                            <th>Líder</th>
                             <th>Fecha</th>
                             <th>Descripción</th>
                             <th>Estado</th>

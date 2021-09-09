@@ -51,6 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
+                    'attribute' => 'plataforma_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->plataforma->nombre;
+                    },
+                ],
+                [
                     'attribute' => 'jefe_id',
                     'format' => 'raw',
                     'value' => function ($data) {
