@@ -12,15 +12,18 @@ use Yii;
  * @property string $username Nombre de usuario
  * @property string $password Contraseña
  * @property string $mail Correo Electrónico
+ * @property string|null $profile_image									   
  * @property int $active Activo
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
 
- * @property Procesos[] $proceso
+ * @property Alertas[] $alertas
+ * @property Procesos[] $procesos
  * @property ProcesosXColaboradores[] $procesosXColaboradores
  * @property Tareas[] $tareas
+ * @property Tareas[] $tareas0			  
  */
 class Users extends BeforeModel {
 
@@ -52,6 +55,7 @@ class Users extends BeforeModel {
             [['username', 'mail'], 'string', 'max' => 45],
             [['created_by', 'modified_by'], 'string', 'max' => 150],
             [['name', 'mail'], 'filter', 'filter' => 'strtoupper'],
+            [['profile_image'], 'file', 'extensions' => 'png, jpg', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
 
@@ -66,6 +70,7 @@ class Users extends BeforeModel {
             'password' => 'Clave',
             'password_repeat' => 'Repetir clave',
             'mail' => 'Correo',
+            'profile_image' => 'Foto de perfíl',
             'active' => 'Activo',
             'created' => 'Creado',
             'created_by' => 'Creado por',
@@ -77,7 +82,16 @@ class Users extends BeforeModel {
     public static function findIdentity($id) {
         return Users::findOne($id);
     }
-    
+
+    /**
+     * Gets query for [[Alertas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAlertas() {
+        return $this->hasMany(Alertas::className(), ['usuario_id' => 'id']);
+    }
+
     /**
      * Gets query for [[Procesos]].
      *
@@ -103,6 +117,15 @@ class Users extends BeforeModel {
      */
     public function getTareas() {
         return $this->hasMany(Tareas::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tareas0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTareas0() {
+        return $this->hasMany(Tareas::className(), ['jefe_id' => 'id']);
     }
 
 }

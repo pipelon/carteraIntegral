@@ -5,8 +5,12 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
+                <?php
+                $profileImage = Yii::$app->user->identity->profileImage && file_exists("perfiles/" . Yii::$app->user->identity->profileImage) ?
+                        Yii::$app->user->identity->profileImage : "default-user.png";
+                ?>
                 <?=
-                \yii\helpers\Html::img('@web/images/default-user.png',
+                \yii\helpers\Html::img("@web/perfiles/{$profileImage}",
                         [
                             'alt' => 'User Image',
                             'class' => 'img-circle'

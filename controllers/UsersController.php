@@ -8,6 +8,7 @@ use app\models\UsersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * UsersController implements the CRUD actions for Users model.
@@ -62,7 +63,7 @@ class UsersController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-     public function actionCreate() {
+    public function actionCreate() {
         $model = new Users();
         //Uso el escenaario create para requerir la clave y su repeat
         $model->scenario = 'create';
@@ -97,8 +98,25 @@ class UsersController extends Controller {
         //clave y usuario anterior
         $beforeUser = $model->username;
         $beforePass = $model->password;
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        $beforeImage = $model->profile_image;
+        
+        if ($model->load(Yii::$app->request->post())) {
+            
+            
+            $model->profile_image = UploadedFile::getInstance($model, 'profile_image');
+            if ($model->profile_image && $model->validate()) { 
+                $fileName = str_replace(" ", "-", $model->profile_image->baseName);
+                $fileName = strtolower($fileName) . date('ymdhis') . '.' . strtolower($model->profile_image->extension);
+                $model->profile_image->saveAs('perfiles/' . $fileName);
+                $model->profile_image = $fileName;    
+                //elimino la antigua
+                unlink('perfiles/' . $beforeImage);
+            }
+            
+            // si no se cambio la foto entonces sigo con la antigua
+            if (empty($model->profile_image)) {
+                $model->profile_image = $beforeImage;
+            }
 
             //valido si se cambiaron las claves
             if (empty($model->password)) {

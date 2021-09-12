@@ -10,6 +10,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
     public $username;
     public $fullName;
     public $password;
+    public $profile_image;
     public $authKey;
     public $accessToken;
     public $created;
@@ -38,7 +39,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         if (empty($fnIdentity)) {
             $sql = "SELECT id, username, "
                     . "username as authKey, username as accessToken, "
-                    . "name as fullName, password "
+                    . "name as fullName, password, profile_image "
                     . "FROM users u "
                     . "WHERE id = :id";
             $command = \Yii::$app->db->createCommand($sql);
@@ -108,6 +109,10 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
      */
     public function getFullName() {
         return $this->fullName;
+    }
+    
+    public function getProfileImage(){
+        return $this->profile_image;
     }
 
     /**

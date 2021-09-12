@@ -66,8 +66,12 @@ use yii\helpers\Html;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <?php 
+                        $profileImage = Yii::$app->user->identity->profileImage && file_exists("perfiles/" . Yii::$app->user->identity->profileImage) ?
+                        Yii::$app->user->identity->profileImage : "default-user.png";                        
+                        ?>
                         <?=
-                        Html::img('@web/images/default-user.png',
+                        Html::img("@web/perfiles/{$profileImage}",
                                 [
                                     'alt' => 'User Image',
                                     'class' => 'user-image'
@@ -79,7 +83,7 @@ use yii\helpers\Html;
                         <!-- User image -->
                         <li class="user-header">
                             <?=
-                            Html::img('@web/images/default-user.png',
+                            Html::img("@web/perfiles/{$profileImage}",
                                     [
                                         'alt' => 'User Image',
                                         'class' => 'img-circle'
