@@ -47,6 +47,24 @@ $this->registerJs($js);
 
         <div class="form-row">
 
+            <div class="row-field text-center">
+
+                <?php
+                $profileImage = Yii::$app->user->identity->profileImage && file_exists("perfiles/" . Yii::$app->user->identity->profileImage) ?
+                        Yii::$app->user->identity->profileImage : "default-user.png";
+                ?>
+                <?=
+                Html::img("@web/perfiles/{$profileImage}",
+                        [
+                            'style' => 'width: 100px; heigth: 100px; margin: 30px 0;',
+                            'alt' => 'User Image',
+                            'class' => 'img-circle'
+                        ]
+                )
+                ?>       
+
+            </div>
+
             <div class="row-field">
                 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
@@ -62,18 +80,12 @@ $this->registerJs($js);
 
                 <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
             </div>
-            <div class="row-field">
-                <?php                
-                if($model->profile_image){
-                    echo Html::img('@web/perfiles/' . $model->profile_image, ['style' => 'width: 100px;']);
-                }
-                
-                ?>
+            <div class="row-field">                
                 <?=
                 $form->field($model, 'profile_image')->widget(FileInput::classname(), [
                     'options' => ['accept' => 'image/*'],
                     'pluginOptions' => [
-                        'allowedFileExtensions' => ['jpg'],                        
+                        'allowedFileExtensions' => ['jpg'],
                         'removeClass' => 'btn btn-danger',
                         'browseIcon' => '<i class="flaticon-folder"></i> ',
                         'showPreview' => false,
@@ -82,7 +94,7 @@ $this->registerJs($js);
                     ]
                 ]);
                 ?>
-            </div>
+            </div>            
         </div>
     </div>
     <div class="box-footer">

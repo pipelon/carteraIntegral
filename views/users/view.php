@@ -42,7 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'profile_image',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return Html::img("@web/perfiles/{$data->profile_image}", ['style' => 'with: 100px; height: 100px']);
+                        $profileImage = Yii::$app->user->identity->profileImage && file_exists("perfiles/" . Yii::$app->user->identity->profileImage) ?
+                                Yii::$app->user->identity->profileImage : "default-user.png";
+                        return Html::img("@web/perfiles/{$profileImage}", ['style' => 'with: 50px; height: 50px', 'class' => 'img-circle']);
                     },
                 ],
                 'profile_image:image',

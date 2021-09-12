@@ -239,3 +239,8 @@ div.user-panel > .info{
 div.user-panel > .info > p{
     margin-bottom: 0;
 }
+
+img.img-circle{
+    border: 1px solid #d2d6de;
+    padding: 2px;  
+}
