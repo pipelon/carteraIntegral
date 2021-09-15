@@ -255,3 +255,23 @@ img.img-circle{
     border: 1px solid #d2d6de;
     padding: 2px;  
 }
+
+ul.navbar-nav > .notifications-menu > .dropdown-menu > li.header,
+ul.navbar-nav > .messages-menu > .dropdown-menu > li.header,
+ul.navbar-nav > .tasks-menu > .dropdown-menu > li.header,
+ul.navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a,
+ul.navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a,
+ul.navbar-nav > .tasks-menu > .dropdown-menu > li .menu > li > a{
+    font-size: 12px
+}
+
+.tarea_desc {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70%;
+}
+ul.navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a{
+    padding: 5px 10px;
+}

@@ -606,25 +606,12 @@ $form = ActiveForm::begin(
                                         ])
                                 ?>
                                 <?php
-                                $colaboradoresList = yii\helpers\ArrayHelper::map(
-                                                \Yii::$app->user->identity->getUserNamesByRole("Colaborador")
-                                                , 'id', 'name');
-                                ?>
-                                <?php
-                                $userList = \yii\helpers\ArrayHelper::map(
-                                                \app\models\Users::find()
-                                                        ->where(['active' => 1])
-                                                        ->andWhere(['<>', 'id', 6])
-                                                        ->all(), 'id', 'name'
-                                                , function($model) {
-                                            if (Yii::$app->user->identity->isLider($model->id)) {
-                                                return "LÍDERES";
-                                            } elseif (Yii::$app->user->identity->isColaborador($model->id)) {
-                                                return "COLABORADORES";
-                                            } else {
-                                                return "OTROS";
-                                            }
-                                        });
+                                $userList["COLABORADORES"] = \yii\helpers\ArrayHelper::map(
+                                                \app\models\ProcesosXColaboradores::find()
+                                                        ->with('user')
+                                                        ->where(['proceso_id' => $model->id])
+                                                        ->all(), 'user_id', 'user.name');
+                                $userList["LIDER"][$model->jefe->id] = $model->jefe->name;
                                 ?>
 
 

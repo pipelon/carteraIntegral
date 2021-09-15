@@ -218,13 +218,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function ($data) use ($tareas) {
                         $htmlPago = '';
                         foreach ($tareas as $tarea) {
-                            $estado = $tarea->estado ? 'Terminada' : 'Pendiente';
-                            $htmlPago .= "<b>Asignado a: </b>{$tarea->user->name}"
-                                    . "<b> Jefe: </b>{$tarea->jefe->name}"
-                                    . "<b> Fecha: </b>{$tarea->fecha_esperada}"
-                                    . "<b> Descripción: </b>{$tarea->descripcion}"
-                                    . "<b> Estado: </b>{$estado}"
-                                    . "<br />";
+                            $estado = $tarea->estado ? '<span class="badge bg-green">Terminada</span>' : '<span class="badge bg-orange">Pendiente</span>';
+                            $htmlPago .= "<b>Asignado a: </b>{$tarea->user->name} <br />"
+                                    . "<b> Jefe: </b>{$tarea->jefe->name} <br />"
+                                    . "<b> Fecha: </b>{$tarea->fecha_esperada} <br />"
+                                    . "<b> Descripción: </b>{$tarea->descripcion} <br />"
+                                    . "<b> Estado: </b>{$estado} <br />"
+                                    . "<br /><br />";
                         }
                         return $htmlPago;
                     }

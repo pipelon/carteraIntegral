@@ -8,6 +8,8 @@ $procesos = app\models\Procesos::find()
         ->where([
             'user_id' => \Yii::$app->user->getId()
         ])
+        ->orderBy(['id' => SORT_DESC])
+        ->limit(10)
         ->asArray()
         ->all();
 ?>
@@ -81,8 +83,11 @@ $tareas = app\models\Tareas::find()
         ->joinWith('jefe')
         ->joinWith('user')
         ->where([
-            'user_id' => \Yii::$app->user->getId()
+            'user_id' => \Yii::$app->user->getId(),
+            'estado' => "0"
         ])
+        ->orderBy(['fecha_esperada' => SORT_ASC])
+        ->limit(10)
         ->asArray()
         ->all();
 ?>

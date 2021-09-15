@@ -55,7 +55,7 @@ CREATE TABLE `auth_assignment` (
 
 /*Data for the table `auth_assignment` */
 
-insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('Colaborador','10',1626291347),('Colaborador','11',1631732576),('Colaborador','12',1631732573),('Colaborador','13',1631732571),('Colaborador','14',1631732568),('Colaborador','15',1631732565),('Colaborador','16',1631732562),('Colaborador','17',1631732559),('Colaborador','18',1631732555),('Colaborador','19',1631732550),('Colaborador','20',1631732547),('Colaborador','23',1631732534),('Colaborador','25',1631732524),('Colaborador','27',1631732518),('Colaborador','28',1631732580),('Colaborador','29',1631732459),('Colaborador','30',1631732452),('Colaborador','31',1631732446),('Colaborador','32',1631732440),('Colaborador','33',1631732433),('Colaborador','34',1631732425),('Colaborador','35',1631732415),('Colaborador','36',1631732408),('Colaborador','37',1631732402),('Colaborador','38',1631732394),('Colaborador','39',1631732389),('Colaborador','40',1631732382),('Colaborador','41',1631732377),('Colaborador','42',1631732370),('Colaborador','43',1631732366),('Colaborador','44',1631732358),('Colaborador','45',1631732353),('Colaborador','46',1631732348),('Colaborador','47',1631732342),('Colaborador','48',1631732337),('Colaborador','49',1631732331),('Colaborador','8',1626290925),('Colaborador','9',1626290913),('Lider','21',1631734953),('Lider','22',1631734943),('Lider','24',1631734970),('Lider','26',1631734929),('Lider','7',1629836788),('SuperAdministrador','6',1621801416);
+insert  into `auth_assignment`(`item_name`,`user_id`,`created_at`) values ('Colaborador','10',1626291347),('Colaborador','11',1631732576),('Colaborador','12',1631732573),('Colaborador','13',1631732571),('Colaborador','14',1631732568),('Colaborador','15',1631732565),('Colaborador','16',1631732562),('Colaborador','17',1631732559),('Colaborador','18',1631732555),('Colaborador','19',1631732550),('Colaborador','20',1631732547),('Colaborador','23',1631732534),('Colaborador','25',1631732524),('Colaborador','27',1631732518),('Colaborador','28',1631732580),('Colaborador','29',1631732459),('Colaborador','30',1631732452),('Colaborador','31',1631732446),('Colaborador','32',1631732440),('Colaborador','33',1631732433),('Colaborador','34',1631732425),('Colaborador','35',1631732415),('Colaborador','36',1631732408),('Colaborador','37',1631732402),('Colaborador','38',1631732394),('Colaborador','39',1631732389),('Colaborador','40',1631732382),('Colaborador','41',1631732377),('Colaborador','42',1631732370),('Colaborador','44',1631732358),('Colaborador','45',1631732353),('Colaborador','46',1631732348),('Colaborador','47',1631732342),('Colaborador','48',1631732337),('Colaborador','49',1631732331),('Colaborador','9',1626290913),('Lider','21',1631734953),('Lider','22',1631734943),('Lider','24',1631734970),('Lider','26',1631734929),('Lider','43',1631736232),('Lider','7',1629836788),('Lider','8',1631736216),('SuperAdministrador','6',1621801416);
 
 /*Table structure for table `auth_item` */
 
@@ -565,11 +565,11 @@ CREATE TABLE `procesos_x_colaboradores` (
   KEY `fk_procesos_x_colaboradores_user_idx` (`user_id`),
   CONSTRAINT `fk_procesos_x_colaboradores_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_procesos_x_colaboradores_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=340 DEFAULT CHARSET=utf8;
 
 /*Data for the table `procesos_x_colaboradores` */
 
-insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (335,9,8),(336,9,10);
+insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (337,9,10),(338,9,15),(339,9,20);
 
 /*Table structure for table `tareas` */
 
@@ -591,11 +591,11 @@ CREATE TABLE `tareas` (
   CONSTRAINT `fk_tareas_jefe` FOREIGN KEY (`jefe_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tareas` */
 
-insert  into `tareas`(`id`,`proceso_id`,`user_id`,`jefe_id`,`fecha_esperada`,`fecha_finalizacion`,`descripcion`,`estado`) values (70,9,10,21,'2021-08-29',NULL,'LLAMAR AL JUEZ',0),(71,9,10,21,'2021-08-31',NULL,'IR LA JUZGADO',1),(72,9,8,21,'2021-09-01',NULL,'VISITAR AL CLIENTE',0);
+insert  into `tareas`(`id`,`proceso_id`,`user_id`,`jefe_id`,`fecha_esperada`,`fecha_finalizacion`,`descripcion`,`estado`) values (86,9,21,21,'2021-09-01',NULL,'VISITAR AL CLIENTE',0),(87,9,10,21,'2021-09-16',NULL,'IR LA JUZGADO',0),(88,9,10,21,'2021-09-17',NULL,'ENVIAR CARTA AL CLIENTE ENVIAR CARTA AL CLIENTE',0);
 
 /*Table structure for table `tipo_casos` */
 

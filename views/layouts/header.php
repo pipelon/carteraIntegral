@@ -17,7 +17,7 @@ use yii\helpers\Html;
                     [
                         'alt' => 'User Image',
                         'style' => 'width: 96px; padding: 0; margin-top: -15px; max-height: none;'
-                    ])
+            ])
             . '</span>', Yii::$app->homeUrl, ['class' => 'logo'])
     ?>
 
@@ -31,10 +31,59 @@ use yii\helpers\Html;
 
             <ul class="nav navbar-nav">
 
+
+                <li class="dropdown notifications-menu">
+                    <!-- CONTAR LAS TAREAS PENDIENTES DEL USUARIO -->
+                    <?php
+                    $tareas = \app\models\Tareas::find()
+                            ->where(['user_id' => Yii::$app->user->identity->id, 'estado' => '0'])
+                            ->all();
+                    ?>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="flaticon-calendar-1"></i>
+                        <?php if (count($tareas) >= 1): ?>
+                            <span class="label label-warning"><?= count($tareas); ?></span>
+                        <?php endif; ?>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">
+
+                            <?php if (count($tareas) >= 1): ?>
+                                <?php $plural = count($tareas) > 1 ? "s" : ""; ?>
+                                <?= "Tienes " . count($tareas) . " tarea{$plural} pendiente{$plural}"; ?>
+                            <?php else: ?>
+                                <?= "No tienes tareas pendientes"; ?>
+                            <?php endif; ?>
+                        </li>
+                        <?php if (count($tareas) >= 1): ?>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+
+                                <ul class="menu">
+                                    <?php foreach ($tareas as $tarea) : ?>
+                                        <li>
+                                            <?php
+                                            
+                                            $htmlTarea = "<span class='tarea_desc'>{$tarea->descripcion}</span>";
+                                            $htmlTarea .= "<span class='label label-warning' style='float: right'>";
+                                            $htmlTarea .= "<i class='flaticon-calendar-1'></i> {$tarea->fecha_esperada}";
+                                            $htmlTarea .= "</span>";
+                                            echo \yii\bootstrap\Html::a($htmlTarea,
+                                                    ['/procesos/view', 'id' => $tarea['proceso_id']]);
+                                            ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </li>
+
                 <li class="dropdown notifications-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
+                        <i class="flaticon-bell"></i>
+                        <span class="label label-danger">10</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="header">Tienes 10 notificaciones</li>
@@ -61,13 +110,13 @@ use yii\helpers\Html;
                         <li class="footer"><a href="#">Ver todo...</a></li>
                     </ul>
                 </li>
-                
+
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?php 
+                        <?php
                         $profileImage = Yii::$app->user->identity->profileImage && file_exists("perfiles/" . Yii::$app->user->identity->profileImage) ?
-                        Yii::$app->user->identity->profileImage : "default-user.png";                        
+                                Yii::$app->user->identity->profileImage : "default-user.png";
                         ?>
                         <?=
                         Html::img("@web/perfiles/{$profileImage}",
