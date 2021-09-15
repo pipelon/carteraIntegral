@@ -12,7 +12,6 @@ use yii\helpers\Html;
     Html::a('<span class="logo-mini">' . \yii\helpers\Html::img('@web/images/logo-cartera-integral-peque.png',
                     [
                         'alt' => 'User Image',
-                        'class' => 'img-circle'
             ]) . '</span><span class="logo-lg">' .
             \yii\helpers\Html::img('@web/images/ciles.png',
                     [

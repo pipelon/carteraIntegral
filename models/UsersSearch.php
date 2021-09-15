@@ -10,24 +10,22 @@ use app\models\Users;
 /**
  * UsersSearch represents the model behind the search form of `app\models\Users`.
  */
-class UsersSearch extends Users
-{
+class UsersSearch extends Users {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'active'], 'integer'],
-            [['name', 'username', 'password', 'mail', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['name', 'username', 'password', 'mail', 'cargo', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class UsersSearch extends Users
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Users::find();
 
         // add conditions that should always apply here
@@ -67,12 +64,14 @@ class UsersSearch extends Users
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'mail', $this->mail])
-            ->andFilterWhere(['like', 'created_by', $this->created_by])
-            ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
+                ->andFilterWhere(['like', 'username', $this->username])
+                ->andFilterWhere(['like', 'password', $this->password])
+                ->andFilterWhere(['like', 'mail', $this->mail])
+                ->andFilterWhere(['like', 'cargo', $this->cargo])
+                ->andFilterWhere(['like', 'created_by', $this->created_by])
+                ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 
         return $dataProvider;
     }
+
 }

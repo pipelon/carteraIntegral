@@ -77,7 +77,10 @@ $this->registerJs($js);
             </div>
             <div class="row-field">
                 <?= $form->field($model, 'mail')->textInput(['maxlength' => true]) ?>
-
+                
+                <?= $form->field($model, 'cargo')->textInput(['maxlength' => true]) ?>                
+            </div>
+            <div class="row-field">
                 <?= $form->field($model, 'active')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
             </div>
             <div class="row-field">                

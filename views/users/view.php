@@ -47,8 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::img("@web/perfiles/{$profileImage}", ['style' => 'with: 50px; height: 50px', 'class' => 'img-circle']);
                     },
                 ],
-                'profile_image:image',
                 'mail',
+                'cargo',
                 [
                     'attribute' => 'active',
                     'format' => 'raw',

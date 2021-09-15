@@ -20,7 +20,7 @@ if (\Yii::$app->user->can('/users/update')) {
 if (\Yii::$app->user->can('/users/delete')) {
     $template .= '{delete} ';
 }
-if (\Yii::$app->user->can('/users/*')|| \Yii::$app->user->can('/*')) {
+if (\Yii::$app->user->can('/users/*') || \Yii::$app->user->can('/*')) {
     $template = '{view}  {update}  {delete}';
 }
 ?>
@@ -41,6 +41,7 @@ if (\Yii::$app->user->can('/users/*')|| \Yii::$app->user->can('/*')) {
                 'id',
                 'name',
                 'username',
+                'cargo',
                 [
                     'attribute' => 'active',
                     'format' => 'raw',

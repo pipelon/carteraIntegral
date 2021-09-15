@@ -610,12 +610,29 @@ $form = ActiveForm::begin(
                                                 \Yii::$app->user->identity->getUserNamesByRole("Colaborador")
                                                 , 'id', 'name');
                                 ?>
+                                <?php
+                                $userList = \yii\helpers\ArrayHelper::map(
+                                                \app\models\Users::find()
+                                                        ->where(['active' => 1])
+                                                        ->andWhere(['<>', 'id', 6])
+                                                        ->all(), 'id', 'name'
+                                                , function($model) {
+                                            if (Yii::$app->user->identity->isLider($model->id)) {
+                                                return "LÍDERES";
+                                            } elseif (Yii::$app->user->identity->isColaborador($model->id)) {
+                                                return "COLABORADORES";
+                                            } else {
+                                                return "OTROS";
+                                            }
+                                        });
+                                ?>
+
 
                                 <?=
                                         $form->field($mdlTarea, "[{$index}]user_id",
                                                 ['options' => ['class' => 'form-group col-md-4']])
                                         ->dropDownList(
-                                                $colaboradoresList,
+                                                $userList,
                                                 [
                                                     'prompt' => '- Seleccion un colaborador -',
                                                     'disabled' => $disable

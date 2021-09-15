@@ -41,7 +41,7 @@ class Users extends BeforeModel {
      */
     public function rules() {
         return [
-            [['name', 'username', 'mail'], 'required'],
+            [['name', 'username', 'mail', 'cargo'], 'required'],
             [['password', 'password_repeat'], 'required', 'on' => ['create']],
             [['active'], 'integer'],
             ['mail', 'email'],
@@ -51,10 +51,9 @@ class Users extends BeforeModel {
                 'on' => ['create', 'update'],
                 'message' => 'No se permiten espacios o caracteres especiales'],
             [['created', 'modified'], 'safe'],
-            [['name', 'password'], 'string', 'max' => 100],
-            [['username', 'mail'], 'string', 'max' => 45],
-            [['created_by', 'modified_by'], 'string', 'max' => 150],
-            [['name', 'mail'], 'filter', 'filter' => 'strtoupper'],
+            [['name', 'password', 'mail'], 'string', 'max' => 100],
+            [['username', 'cargo', 'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['name', 'mail', 'cargo'], 'filter', 'filter' => 'strtoupper'],
             [['profile_image'], 'file', 'extensions' => 'png, jpg', 'mimeTypes' => 'image/jpeg, image/png'],
         ];
     }
@@ -70,6 +69,7 @@ class Users extends BeforeModel {
             'password' => 'Clave',
             'password_repeat' => 'Repetir clave',
             'mail' => 'Correo',
+            'cargo' => 'Cargo',
             'profile_image' => 'Foto de perfíl',
             'active' => 'Activo',
             'created' => 'Creado',
