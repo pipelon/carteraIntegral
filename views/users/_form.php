@@ -88,12 +88,12 @@ $this->registerJs($js);
                 $form->field($model, 'profile_image')->widget(FileInput::classname(), [
                     'options' => ['accept' => 'image/*'],
                     'pluginOptions' => [
-                        'allowedFileExtensions' => ['jpg'],
+                        'allowedFileExtensions' => ['png', 'jpg'],
                         'removeClass' => 'btn btn-danger',
                         'browseIcon' => '<i class="flaticon-folder"></i> ',
                         'showPreview' => false,
-                        'showUpload' => false,
-                        'removeIcon' => '<i class="flaticon-circle"></i> '
+                        'removeIcon' => '<i class="flaticon-circle"></i> ',
+                        'maxFileSize' => 153600
                     ]
                 ]);
                 ?>

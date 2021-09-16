@@ -54,7 +54,11 @@ class Users extends BeforeModel {
             [['name', 'password', 'mail'], 'string', 'max' => 100],
             [['username', 'cargo', 'created_by', 'modified_by'], 'string', 'max' => 45],
             [['name', 'mail', 'cargo'], 'filter', 'filter' => 'strtoupper'],
-            [['profile_image'], 'file', 'extensions' => 'png, jpg', 'mimeTypes' => 'image/jpeg, image/png'],
+            [['profile_image'], 'file',
+                'extensions' => 'png, jpg, jpeg',
+                'mimeTypes' => 'image/jpeg, image/png',
+                'maxSize' => 153600 //150KB
+            ],
         ];
     }
 
