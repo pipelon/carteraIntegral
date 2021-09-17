@@ -35,7 +35,8 @@ class BeforeModel extends \yii\db\ActiveRecord {
         'app\models\Bienes',
         'app\models\EtapasProcesales',
         'app\models\TipoProcesos',
-        'app\models\EstadosProceso'
+        'app\models\EstadosProceso',
+        'app\models\Plataformas'
     ];
 
     public function behaviors() {
