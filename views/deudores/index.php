@@ -27,7 +27,7 @@ if (\Yii::$app->user->can('/deudores/*') || \Yii::$app->user->can('/*')) {
 <div class="deudores-index box box-primary">
     <div class="box-header with-border">
     <?php  if (\Yii::$app->user->can('/deudores/create') || \Yii::$app->user->can('/*')) :  ?> 
-        <?= Html::a('<i class="flaticon-add" ></i> '.'Crear Deudor', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="flaticon-add" ></i> '.'Crear deudor', ['create'], ['class' => 'btn btn-primary']) ?>
     <?php  endif;  ?> 
     </div>
     <div class="box-body table-responsive">

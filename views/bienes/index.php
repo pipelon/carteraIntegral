@@ -27,7 +27,7 @@ if (\Yii::$app->user->can('/bienes/*') || \Yii::$app->user->can('/*')) {
 <div class="bienes-index box box-primary">
     <div class="box-header with-border">
         <?php if (\Yii::$app->user->can('/bienes/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear Bien', ['create'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear bien', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">

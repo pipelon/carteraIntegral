@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoProcesos */
 
-$this->title = 'Actualizar tipo de proces: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Tipo de procesos', 'url' => ['index']];
+$this->title = 'Actualizar tipo de proceso: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Tipos de procesos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Actualizar';
 ?>

@@ -27,7 +27,7 @@ if (\Yii::$app->user->can('/tipo-procesos/*') || \Yii::$app->user->can('/*')) {
 <div class="tipo-procesos-index box box-primary">
     <div class="box-header with-border">
         <?php if (\Yii::$app->user->can('/tipo-procesos/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear tipo de proces', ['create'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear tipo de proceso', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
