@@ -550,7 +550,7 @@ $form = ActiveForm::begin(
 <!-- CARPETA GOOGLE DRIVE -->
 <div class="box box-primary collapsed-box">
     <div class="box-header with-border">
-        <h3 class="box-title">Documentos</h3>
+        <h3 class="box-title">DOCUMENTOS</h3>
          <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
                 <i class="fa fa-plus"></i>
@@ -573,7 +573,7 @@ $form = ActiveForm::begin(
 <!-- TAREAS -->
 <div class="box box-primary collapsed-box">
     <div class="box-header with-border">
-        <h3 class="box-title">Tareas</h3>
+        <h3 class="box-title">TAREAS</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
                 <i class="fa fa-plus"></i>
@@ -706,7 +706,7 @@ $form = ActiveForm::begin(
 <!-- ESTADO DE RECUPERACIÓN -->
 <div class="box box-primary collapsed-box">
     <div class="box-header with-border">
-        <h3 class="box-title">Estado de recuperación</h3>
+        <h3 class="box-title">ESTADO DE RECUPERACIÓN</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
                 <i class="fa fa-plus"></i>
@@ -755,7 +755,7 @@ $form = ActiveForm::begin(
 <!-- ESTADO DEL PROCESO -->
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">Estado del proceso</h3>
+        <h3 class="box-title">ESTADO DEL PROCESO</h3>
     </div>
     <div class="box-body">
         <div class="row-field">
