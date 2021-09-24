@@ -122,7 +122,22 @@ class ClientesController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
+        // PRIMERO BSUCO SI EL DEUDOR ESTA SIENDO USADO EN UN PROCESO
+        $procesos = \app\models\Procesos::find()
+                ->where(['cliente_id' => $id])
+                ->all();
+        if(!empty($procesos)){
+            \Yii::$app->getSession()->setFlash('warning', 'Este cliente no puede ser eliminado ya que está siendo usando en 1 o más procesos');
+            return $this->redirect(['index']);
+        }
+        
+        //BORRADO LOGICO
+        $model = $this->findModel($id);
+        $model->delete = '1';
+        $model->deleted = new yii\db\Expression('NOW()');
+        $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
+        $model->save();
 
         return $this->redirect(['index']);
     }
@@ -141,10 +156,10 @@ class ClientesController extends Controller {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
+
     public function actionDigitoverificacion($id) {
-        
-        if (!$id || $id =="" || !is_numeric($id)){
+
+        if (!$id || $id == "" || !is_numeric($id)) {
             return "SDV";
         }
 
@@ -153,39 +168,53 @@ class ClientesController extends Controller {
         $dv = 0;
         $cuenta = count($dvArray);
 
-        if ($cuenta > 15){
+        if ($cuenta > 15) {
             return "SDV";
         }
 
         //primer paso suma
-        if ($cuenta>0) $dv += $dvArray[0]*3;
-        if ($cuenta>1) $dv += $dvArray[1]*7;
-        if ($cuenta>2) $dv += $dvArray[2]*13;
-        if ($cuenta>3) $dv += $dvArray[3]*17;
-        if ($cuenta>4) $dv += $dvArray[4]*19;
-        if ($cuenta>5) $dv += $dvArray[5]*23;
-        if ($cuenta>6) $dv += $dvArray[6]*29;            
-        if ($cuenta>7) $dv += $dvArray[7]*37;
-        if ($cuenta>8) $dv += $dvArray[8]*41;
-        if ($cuenta>9) $dv += $dvArray[9]*43;
-        if ($cuenta>10) $dv += $dvArray[10]*47;
-        if ($cuenta>11) $dv += $dvArray[11]*53;
-        if ($cuenta>12) $dv += $dvArray[12]*59;
-        if ($cuenta>13) $dv += $dvArray[13]*67;
-        if ($cuenta>14) $dv += $dvArray[14]*61;
+        if ($cuenta > 0)
+            $dv += $dvArray[0] * 3;
+        if ($cuenta > 1)
+            $dv += $dvArray[1] * 7;
+        if ($cuenta > 2)
+            $dv += $dvArray[2] * 13;
+        if ($cuenta > 3)
+            $dv += $dvArray[3] * 17;
+        if ($cuenta > 4)
+            $dv += $dvArray[4] * 19;
+        if ($cuenta > 5)
+            $dv += $dvArray[5] * 23;
+        if ($cuenta > 6)
+            $dv += $dvArray[6] * 29;
+        if ($cuenta > 7)
+            $dv += $dvArray[7] * 37;
+        if ($cuenta > 8)
+            $dv += $dvArray[8] * 41;
+        if ($cuenta > 9)
+            $dv += $dvArray[9] * 43;
+        if ($cuenta > 10)
+            $dv += $dvArray[10] * 47;
+        if ($cuenta > 11)
+            $dv += $dvArray[11] * 53;
+        if ($cuenta > 12)
+            $dv += $dvArray[12] * 59;
+        if ($cuenta > 13)
+            $dv += $dvArray[13] * 67;
+        if ($cuenta > 14)
+            $dv += $dvArray[14] * 61;
 
 
         //segundo paso modulo: 
-        $dv = $dv % 11;  
+        $dv = $dv % 11;
         //tercer paso redondeo
         $dv = round($dv);
         //cuarto paso validar si es 0 o 1, sino restarle el dv a 11
-        if ($dv == 0 || $dv == 1){
+        if ($dv == 0 || $dv == 1) {
             return $dv;
-        }else{
+        } else {
             return 11 - $dv;
         }
-        
     }
 
 }

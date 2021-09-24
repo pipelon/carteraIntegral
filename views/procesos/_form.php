@@ -159,12 +159,12 @@ $form = ActiveForm::begin(
         </div>
     </div>
 </div>
-             
+
 <!-- COLABORADORES -->
 <div class="box box-primary collapsed-box">
     <div class="box-header with-border">
         <h3 class="box-title">LÍDERES Y COLABORADORES</h3>
-         <div class="box-tools pull-right">
+        <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
                 <i class="fa fa-plus"></i>
             </button>
@@ -235,14 +235,14 @@ $form = ActiveForm::begin(
         </div>
         <div class="row-field">
             <?=
-                    $form->field($model, 'prejur_carta_enviada', [
-                        "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
-                    ])->dropDownList(
-                            ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
-                            [
-                                'prompt' => '- Seleccione -',
-                            ]
-                    )
+            $form->field($model, 'prejur_carta_enviada', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(
+                    ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                    [
+                        'prompt' => '- Seleccione -',
+                    ]
+            )
             ?>
             <?=
             $form->field($model, 'prejur_comentarios_carta', [
@@ -252,14 +252,14 @@ $form = ActiveForm::begin(
         </div>
         <div class="row-field">
             <?=
-                    $form->field($model, 'prejur_llamada_realizada', [
-                        "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
-                    ])->dropDownList(
-                            ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
-                            [
-                                'prompt' => '- Seleccione -',
-                            ]
-                    )
+            $form->field($model, 'prejur_llamada_realizada', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(
+                    ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                    [
+                        'prompt' => '- Seleccione -',
+                    ]
+            )
             ?>
             <?=
             $form->field($model, 'prejur_comentarios_llamada', [
@@ -269,14 +269,14 @@ $form = ActiveForm::begin(
         </div>
         <div class="row-field">
             <?=
-                    $form->field($model, 'prejur_visita_domiciliaria', [
-                        "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
-                    ])->dropDownList(
-                            ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
-                            [
-                                'prompt' => '- Seleccione -',
-                            ]
-                    )
+            $form->field($model, 'prejur_visita_domiciliaria', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(
+                    ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                    [
+                        'prompt' => '- Seleccione -',
+                    ]
+            )
             ?>
             <?=
             $form->field($model, 'prejur_comentarios_visita', [
@@ -551,7 +551,7 @@ $form = ActiveForm::begin(
 <div class="box box-primary collapsed-box">
     <div class="box-header with-border">
         <h3 class="box-title">DOCUMENTOS</h3>
-         <div class="box-tools pull-right">
+        <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
                 <i class="fa fa-plus"></i>
             </button>
@@ -671,27 +671,29 @@ $form = ActiveForm::begin(
                                             'readonly' => $disable
                                         ])
                                 ?>
-                                <?php
-                                $userList["COLABORADORES"] = \yii\helpers\ArrayHelper::map(
-                                                \app\models\ProcesosXColaboradores::find()
-                                                        ->with('user')
-                                                        ->where(['proceso_id' => $model->id])
-                                                        ->all(), 'user_id', 'user.name');
-                                $userList["LIDER"][$model->jefe->id] = $model->jefe->name;
-                                ?>
+                                <?php if (!$model->isNewRecord) : ?>
+                                    <?php
+                                    $userList["COLABORADORES"] = \yii\helpers\ArrayHelper::map(
+                                                    \app\models\ProcesosXColaboradores::find()
+                                                            ->with('user')
+                                                            ->where(['proceso_id' => $model->id])
+                                                            ->all(), 'user_id', 'user.name');
+                                    $userList["LIDER"][$model->jefe->id] = $model->jefe->name;
+                                    ?>
 
 
-                                <?=
-                                        $form->field($mdlTarea, "[{$index}]user_id",
-                                                ['options' => ['class' => 'form-group col-md-4']])
-                                        ->dropDownList(
-                                                $userList,
-                                                [
-                                                    'prompt' => '- Seleccion un colaborador -',
-                                                    'disabled' => $disable
-                                                ]
-                                );
-                                ?>
+                                    <?=
+                                            $form->field($mdlTarea, "[{$index}]user_id",
+                                                    ['options' => ['class' => 'form-group col-md-4']])
+                                            ->dropDownList(
+                                                    $userList,
+                                                    [
+                                                        'prompt' => '- Seleccion un colaborador -',
+                                                        'disabled' => $disable
+                                                    ]
+                                    );
+                                    ?>
+                                <?php endif; ?>
                                 <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
                             </div>
                         </div>

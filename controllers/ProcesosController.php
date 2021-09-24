@@ -362,7 +362,14 @@ class ProcesosController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
+        
+        //BORRADO LOGICO
+        $model = $this->findModel($id);
+        $model->delete = '1';
+        $model->deleted = new \yii\db\Expression('NOW()');
+        $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
+        $model->save();
 
         return $this->redirect(['index']);
     }

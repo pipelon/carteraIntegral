@@ -96,13 +96,13 @@ class CiudadesController extends Controller {
      */
     public function actionDelete($id) {
         //BORRADO FISICO
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
         //BORRADO LOGICO
-        /*$model = $this->findModel($id);
+        $model = $this->findModel($id);
         $model->delete = '1';
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
-        $model->save();*/
+        $model->save();
 
         return $this->redirect(['index']);
     }

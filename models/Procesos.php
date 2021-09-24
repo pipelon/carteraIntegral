@@ -158,6 +158,13 @@ class Procesos extends \yii\db\ActiveRecord {
             'estado_proceso_id' => 'Estado del proceso',
         ];
     }
+    
+    public static function find() {        
+        return parent::find()
+                        ->onCondition(['and',
+                            ['=', static::tableName() . '.delete', 0]
+        ]);
+    }
 
     /**
      * Gets query for [[Alertas]].
