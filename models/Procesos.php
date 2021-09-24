@@ -7,12 +7,18 @@ use Yii;
 /**
  * This is the model class for table "procesos".
  *
- * @property int $id
+ * @property int $id ID
  * @property int $cliente_id Cliente
  * @property int $deudor_id Deudor
- * @property int $jefe_id Jefe
-							   
+ * @property int $jefe_id Líder
+ * @property int $plataforma_id Plataforma							   
  * @property string|null $prejur_fecha_recepcion Fecha recepción
+ * @property string|null $prejur_carta_enviada ¿Se envía carta?
+ * @property string|null $prejur_comentarios_carta Comentarios
+ * @property string|null $prejur_llamada_realizada ¿Se realiza llamada telefónica?
+ * @property string|null $prejur_comentarios_llamada Comentarios
+ * @property string|null $prejur_visita_domiciliaria ¿Se realiza visita domiciliaria?
+ * @property string|null $prejur_comentarios_visita Comentarios							   
  * @property int|null $prejur_tipo_caso Tipo de caso
  * @property string|null $prejur_consulta_rama_judicial Consulta rama judicial
  * @property string|null $prejur_consulta_entidad_reguladora Consulta entidad reguladora
@@ -28,25 +34,25 @@ use Yii;
  * @property int|null $jur_tipo_proceso_id Tipo de proceso
  * @property int|null $jur_etapas_procesal_id Etapa procesal
  * @property string|null $carpeta Carpeta Google Drive
- * @property string|null $estrec_pretenciones Estado de recuperación
+ * @property string|null $estrec_pretenciones Pretenciones
  * @property string|null $estrec_probabilidad_recuperacion Probabilidad de recuperación
- * @property string|null $estrec_tiempo_recuperacion
- * @property string|null $estrec_comentarios
- * @property int $estado_proceso_id
- *
-							   
+ * @property string|null $estrec_tiempo_recuperacion Tiempo estimado de recuperación
+ * @property string|null $estrec_comentarios Comentarios
+ * @property int $estado_proceso_id Estado del proceso
+ * 							   
+ * @property Alertas[] $alertas
  * @property BienesXProceso[] $bienesXProcesos
  * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
  * @property DocactivacionXProceso[] $docactivacionXProcesos
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
- * @property Ciudades $jurCiudad								
+ * @property Ciudades $jurCiudad
  * @property Clientes $cliente
- * @property Departamentos $jurDepartamento										   
+ * @property Departamentos $jurDepartamento
  * @property Deudores $deudor
  * @property EstadosProceso $estadoProceso
  * @property EtapasProcesales $jurEtapasProcesal
- * @property JurisdiccionesCompetentes $jurJurisdiccionCompetent																
-									
+ * @property JurisdiccionesCompetentes $jurJurisdiccionCompetent
+ * @property Plataformas $plataforma
  * @property TipoCasos $prejurTipoCaso
  * @property TipoProcesos $jurTipoProceso
  * @property Users $jefe
@@ -75,7 +81,7 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['cliente_id', 'deudor_id', 'jefe_id', 'estado_proceso_id', 'plataforma_id'], 'required'],
+            [['cliente_id', 'deudor_id', 'jefe_id', 'plataforma_id', 'estado_proceso_id'], 'required'],
             [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
             'estado_proceso_id', 'jur_departamento_id', 'jur_ciudad_id',
@@ -87,6 +93,8 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
             [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
+            [['prejur_carta_enviada', 'prejur_llamada_realizada', 'prejur_visita_domiciliaria'], 'string', 'max' => 3],
+            [['prejur_comentarios_carta', 'prejur_comentarios_llamada', 'prejur_comentarios_visita', 'jur_juzgado'], 'string', 'max' => 200],
             [['jur_juzgado'], 'string', 'max' => 200],
             [['carpeta'], 'string', 'max' => 100],
             [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
@@ -97,7 +105,7 @@ class Procesos extends \yii\db\ActiveRecord {
             [['estado_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => EstadosProceso::className(), 'targetAttribute' => ['estado_proceso_id' => 'id']],
             [['jur_etapas_procesal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesales::className(), 'targetAttribute' => ['jur_etapas_procesal_id' => 'id']],
             [['jur_jurisdiccion_competent_id'], 'exist', 'skipOnError' => true, 'targetClass' => JurisdiccionesCompetentes::className(), 'targetAttribute' => ['jur_jurisdiccion_competent_id' => 'id']],
-																																						   
+            [['plataforma_id'], 'exist', 'skipOnError' => true, 'targetClass' => Plataformas::className(), 'targetAttribute' => ['plataforma_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
             [['jur_tipo_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => TipoProcesos::className(), 'targetAttribute' => ['jur_tipo_proceso_id' => 'id']],
             [['jefe_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['jefe_id' => 'id']],
@@ -116,8 +124,14 @@ class Procesos extends \yii\db\ActiveRecord {
             'cliente_id' => 'Cliente',
             'deudor_id' => 'Deudor',
             'jefe_id' => 'Líder',
-            'plataforma_id' => 'Plataforma',					   
+            'plataforma_id' => 'Plataforma',
             'prejur_fecha_recepcion' => 'Fecha recepción',
+            'prejur_carta_enviada' => '¿Se envía carta?',
+            'prejur_comentarios_carta' => 'Comentarios',
+            'prejur_llamada_realizada' => '¿Se realiza llamada telefónica?',
+            'prejur_comentarios_llamada' => 'Comentarios',
+            'prejur_visita_domiciliaria' => '¿Se realiza visita domiciliaria?',
+            'prejur_comentarios_visita' => 'Comentarios',
             'prejur_tipo_caso' => 'Tipo de caso',
             'prejur_consulta_rama_judicial' => 'Consulta rama judicial',
             'prejur_consulta_entidad_reguladora' => 'Consulta entidad reguladora',
@@ -140,10 +154,10 @@ class Procesos extends \yii\db\ActiveRecord {
             'estrec_probabilidad_recuperacion' => 'Probabilidad de recuperación',
             'estrec_tiempo_recuperacion' => 'Tiempo estimado de recuperación',
             'estrec_comentarios' => 'Comentarios',
-            'estado_proceso_id' => 'Estado proceso',
+            'estado_proceso_id' => 'Estado del proceso',
         ];
     }
-    
+
     /**
      * Gets query for [[Alertas]].
      *
@@ -152,8 +166,8 @@ class Procesos extends \yii\db\ActiveRecord {
     public function getAlertas() {
         return $this->hasMany(Alertas::className(), ['proceso_id' => 'id']);
     }
-    
-    /**	   
+
+    /** 	   
      * Gets query for [[BienesXProcesos]].
      *
      * @return \yii\db\ActiveQuery
@@ -261,7 +275,7 @@ class Procesos extends \yii\db\ActiveRecord {
         return $this->hasOne(Plataformas::className(), ['id' => 'plataforma_id']);
     }
 
-    /**   
+    /**
      * Gets query for [[PrejurTipoCaso]].
      *
      * @return \yii\db\ActiveQuery

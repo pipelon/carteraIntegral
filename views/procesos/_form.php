@@ -230,6 +230,57 @@ $form = ActiveForm::begin(
         </div>
         <div class="row-field">
             <?=
+                    $form->field($model, 'prejur_carta_enviada', [
+                        "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                    ])->dropDownList(
+                            ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                            [
+                                'prompt' => '- Seleccione -',
+                            ]
+                    )
+            ?>
+            <?=
+            $form->field($model, 'prejur_comentarios_carta', [
+                'template' => "{label}\n{input}\n{hint}\n{error}\n",
+            ])->textInput(['maxlength' => true])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+                    $form->field($model, 'prejur_llamada_realizada', [
+                        "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                    ])->dropDownList(
+                            ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                            [
+                                'prompt' => '- Seleccione -',
+                            ]
+                    )
+            ?>
+            <?=
+            $form->field($model, 'prejur_comentarios_llamada', [
+                'template' => "{label}\n{input}\n{hint}\n{error}\n",
+            ])->textInput(['maxlength' => true])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+                    $form->field($model, 'prejur_visita_domiciliaria', [
+                        "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                    ])->dropDownList(
+                            ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                            [
+                                'prompt' => '- Seleccione -',
+                            ]
+                    )
+            ?>
+            <?=
+            $form->field($model, 'prejur_comentarios_visita', [
+                'template' => "{label}\n{input}\n{hint}\n{error}\n",
+            ])->textInput(['maxlength' => true])
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
             $form->field($model, 'prejur_consulta_rama_judicial', [
                 'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],

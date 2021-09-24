@@ -89,6 +89,27 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->prejurTipoCaso->nombre ?? null;
                     },
                 ],
+                [
+                    'attribute' => 'prejur_carta_enviada',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return "<b>{$data->prejur_carta_enviada}</b>, Comentario: {$data->prejur_comentarios_carta}";
+                    }
+                ],
+                [
+                    'attribute' => 'prejur_llamada_realizada',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return "<b>{$data->prejur_llamada_realizada}</b>, Comentario: {$data->prejur_comentarios_llamada}";
+                    }
+                ],
+                [
+                    'attribute' => 'prejur_visita_domiciliaria',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return "<b>{$data->prejur_visita_domiciliaria}</b>, Comentario: {$data->prejur_comentarios_visita}";
+                    }
+                ],
                 'prejur_consulta_rama_judicial:ntext',
                 'prejur_consulta_entidad_reguladora:ntext',
                 [
