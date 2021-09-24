@@ -159,13 +159,18 @@ $form = ActiveForm::begin(
         </div>
     </div>
 </div>
-
+             
 <!-- COLABORADORES -->
-<div class="box box-primary">
+<div class="box box-primary collapsed-box">
     <div class="box-header with-border">
         <h3 class="box-title">LÍDERES Y COLABORADORES</h3>
+         <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
     </div>
-    <div class="box-body">
+    <div style="display: none;" class="box-body">
         <?php
         $lideresList = yii\helpers\ArrayHelper::map(
                         \Yii::$app->user->identity->getUserNamesByRole("Lider")
@@ -193,16 +198,16 @@ $form = ActiveForm::begin(
 </div>
 
 <!-- ESTUDIO PREJURIDICO -->
-<div class="box box-primary">
+<div class="box box-primary collapsed-box">
     <div class="box-header with-border">
         <h3 class="box-title">ESTUDIO PRE-JURÍDICO</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
-                <i class="fa fa-minus"></i>
+                <i class="fa fa-plus"></i>
             </button>
         </div>
     </div>
-    <div class="box-body">
+    <div style="display: none;" class="box-body">
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_fecha_recepcion')->widget(DatePicker::classname(), [
@@ -376,16 +381,16 @@ $form = ActiveForm::begin(
 </div>
 
 <!-- JURIDICO -->
-<div class="box box-primary">
+<div class="box box-primary collapsed-box">
     <div class="box-header with-border">
         <h3 class="box-title">JURÍDICO</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
-                <i class="fa fa-minus"></i>
+                <i class="fa fa-plus"></i>
             </button>
         </div>
     </div>
-    <div class="box-body">
+    <div style="display: none;" class="box-body">
         <div class="row-field">
             <?=
             $form->field($model, 'jur_fecha_recepcion')->widget(DatePicker::classname(), [
@@ -543,11 +548,16 @@ $form = ActiveForm::begin(
 </div>
 
 <!-- CARPETA GOOGLE DRIVE -->
-<div class="box box-primary">
+<div class="box box-primary collapsed-box">
     <div class="box-header with-border">
         <h3 class="box-title">Documentos</h3>
+         <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
     </div>
-    <div class="box-body">
+    <div style="display: none;" class="box-body">
         <div class="row-field">
             <?=
             $form->field($model, 'carpeta', [
@@ -561,11 +571,16 @@ $form = ActiveForm::begin(
 </div>
 
 <!-- TAREAS -->
-<div class="box box-primary">
+<div class="box box-primary collapsed-box">
     <div class="box-header with-border">
-        Tareas
+        <h3 class="box-title">Tareas</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
+                <i class="fa fa-plus"></i>
+            </button>
+        </div>
     </div>
-    <div class="box-body">
+    <div style="display: none;" class="box-body">
         <div class="row-field col-md-12">
             <?php
             DynamicFormWidget::begin([
@@ -689,16 +704,16 @@ $form = ActiveForm::begin(
 </div>
 
 <!-- ESTADO DE RECUPERACIÓN -->
-<div class="box box-primary">
+<div class="box box-primary collapsed-box">
     <div class="box-header with-border">
         <h3 class="box-title">Estado de recuperación</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Colapsar">
-                <i class="fa fa-minus"></i>
+                <i class="fa fa-plus"></i>
             </button>
         </div>
     </div>
-    <div class="box-body">
+    <div style="display: none;" class="box-body">
         <div class="row-field">
             <?=
             $form->field($model, 'estrec_pretenciones', [

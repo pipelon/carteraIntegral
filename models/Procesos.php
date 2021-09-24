@@ -111,7 +111,8 @@ class Procesos extends \yii\db\ActiveRecord {
             [['jefe_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['jefe_id' => 'id']],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
-            'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'filter', 'filter' => 'strtoupper']
+            'estrec_tiempo_recuperacion', 'estrec_comentarios', 'prejur_comentarios_carta',
+            'prejur_comentarios_llamada', 'prejur_comentarios_visita'], 'filter', 'filter' => 'strtoupper']
         ];
     }
 
