@@ -59,13 +59,17 @@ class ProcesosController extends Controller {
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
         $pagos = $model->consolidadoPagosJuridicos;
-        
+
+        //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
+        $acuerdoPagos = $model->consolidadoPagosPrejuridicos;
+
         //TAREAS ACTUALES PARA MOSTRAR
         $tareas = $model->tareas;
 
         return $this->render('view', [
                     'model' => $this->findModel($id),
                     'pagos' => $pagos,
+                    'acuerdoPagos' => $acuerdoPagos,
                     'tareas' => $tareas,
         ]);
     }
@@ -77,6 +81,8 @@ class ProcesosController extends Controller {
      */
     public function actionCreate() {
         $model = new Procesos();
+        //MODELO DE CONSOLIDADO DE PAGOS
+        $modelAcuerdoPagos = [new \app\models\ConsolidadoPagosPrejuridicos];
         //MODELO DE CONSOLIDADO DE PAGOS
         $modelPagos = [new ConsolidadoPagosJuridicos];
         //MODELO DE TAREAS
@@ -141,11 +147,26 @@ class ProcesosController extends Controller {
                     }
                 }
 
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO
+                if (isset($_POST['ConsolidadoPagosPrejuridicos'])) {
+                    foreach ($_POST['ConsolidadoPagosPrejuridicos'] as $pago) {
+                        $mdlPagos = new \app\models\ConsolidadoPagosPrejuridicos();
+                        $mdlPagos->valor_acuerdo_pago = $pago['valor_acuerdo_pago'];
+                        $mdlPagos->fecha_acuerdo_pago = $pago['fecha_acuerdo_pago'];
+                        $mdlPagos->descripcion = $pago['descripcion'];
+                        $mdlPagos->fecha_pago_realizado = $pago['fecha_pago_realizado'];
+                        $mdlPagos->valor_pagado = $pago['valor_pagado'];
+                        $mdlPagos->proceso_id = $model->id;
+                        $mdlPagos->save();
+                    }
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('create', [
                             'model' => $model,
                             'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
+                            'modelAcuerdoPagos' => (empty($modelAcuerdoPagos)) ? [new \app\models\ConsolidadoPagosPrejuridicos] : $modelAcuerdoPagos,
                             'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
                 ]);
             }
@@ -153,6 +174,7 @@ class ProcesosController extends Controller {
             return $this->render('create', [
                         'model' => $model,
                         'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
+                        'modelAcuerdoPagos' => (empty($modelAcuerdoPagos)) ? [new \app\models\ConsolidadoPagosPrejuridicos] : $modelAcuerdoPagos,
                         'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
             ]);
         }
@@ -193,6 +215,9 @@ class ProcesosController extends Controller {
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR EN LA EDICION
         $modelPagos = $model->consolidadoPagosJuridicos;
 
+        //ACUERDO DE PAGOS ACTUALES PARA MOSTRAR EN LA EDICION
+        $modelAcuerdoPagos = $model->consolidadoPagosPrejuridicos;
+
         //TAREAS ACTUALES PARA MOSTRAR EN LA EDICION
         $modelTareas = $model->tareas;
 
@@ -206,7 +231,7 @@ class ProcesosController extends Controller {
                 // VOLVERLOS A CREAR
                 if (!empty($model->colaboradores)) {
                     $oldIDs = ArrayHelper::map($model->procesosXColaboradores, 'user_id', 'user_id');
-                    $deletedColIDs = array_merge(array_diff($oldIDs, $model->colaboradores), array_diff($model->colaboradores, $oldIDs));                    
+                    $deletedColIDs = array_merge(array_diff($oldIDs, $model->colaboradores), array_diff($model->colaboradores, $oldIDs));
                     if (!empty($deletedColIDs)) {
                         \app\models\ProcesosXColaboradores::deleteAll(['proceso_id' => $model->id]);
                         foreach ($model->colaboradores as $colaborador) {
@@ -223,7 +248,7 @@ class ProcesosController extends Controller {
                 // VOLVERLOS A CREAR
                 if (!empty($model->prejur_estudio_bienes)) {
                     $oldIDs = ArrayHelper::map($model->bienesXProcesos, 'bien_id', 'bien_id');
-                    $deletedBienIDs = array_merge(array_diff($oldIDs, $model->prejur_estudio_bienes), array_diff($model->prejur_estudio_bienes, $oldIDs));                    
+                    $deletedBienIDs = array_merge(array_diff($oldIDs, $model->prejur_estudio_bienes), array_diff($model->prejur_estudio_bienes, $oldIDs));
                     if (!empty($deletedBienIDs)) {
                         \app\models\BienesXProceso::deleteAll(['proceso_id' => $model->id]);
                         foreach ($model->prejur_estudio_bienes as $bien) {
@@ -303,8 +328,25 @@ class ProcesosController extends Controller {
                     }
                 }
 
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO 
+                if (isset($_POST['ConsolidadoPagosPrejuridicos'])) {
+                    \app\models\ConsolidadoPagosPrejuridicos::deleteAll(['proceso_id' => $model->id]);
+                    foreach ($_POST['ConsolidadoPagosPrejuridicos'] as $pago) {
+                        $mdlPagos = new \app\models\ConsolidadoPagosPrejuridicos();
+                        $mdlPagos->valor_acuerdo_pago = $pago['valor_acuerdo_pago'];
+                        $mdlPagos->fecha_acuerdo_pago = $pago['fecha_acuerdo_pago'];
+                        $mdlPagos->descripcion = $pago['descripcion'];
+                        $mdlPagos->fecha_pago_realizado = $pago['fecha_pago_realizado'];
+                        $mdlPagos->valor_pagado = $pago['valor_pagado'];
+                        $mdlPagos->proceso_id = $model->id;
+                        $mdlPagos->save();
+                    }
+                } else {
+                    \app\models\ConsolidadoPagosPrejuridicos::deleteAll(['proceso_id' => $model->id]);
+                }
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LAS TAREAS
-                if (isset($_POST['Tareas'])) {                 
+                if (isset($_POST['Tareas'])) {
 
                     $oldValues = array_merge(
                             ArrayHelper::map($modelTareas, 'id', (string) 'id'),
@@ -350,6 +392,7 @@ class ProcesosController extends Controller {
             return $this->render('update', [
                         'model' => $model,
                         'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
+                        'modelAcuerdoPagos' => (empty($modelAcuerdoPagos)) ? [new \app\models\ConsolidadoPagosPrejuridicos] : $modelAcuerdoPagos,
                         'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
             ]);
         }
@@ -363,7 +406,6 @@ class ProcesosController extends Controller {
      */
     public function actionDelete($id) {
         //$this->findModel($id)->delete();
-        
         //BORRADO LOGICO
         $model = $this->findModel($id);
         $model->delete = '1';

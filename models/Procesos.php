@@ -19,6 +19,7 @@ use Yii;
  * @property string|null $prejur_comentarios_llamada Comentarios
  * @property string|null $prejur_visita_domiciliaria ¿Se realiza visita domiciliaria?
  * @property string|null $prejur_comentarios_visita Comentarios							   
+ * @property string|null $prejur_acuerdo_pago ¿Hay acuerdo de pago?																	
  * @property int|null $prejur_tipo_caso Tipo de caso
  * @property string|null $prejur_consulta_rama_judicial Consulta rama judicial
  * @property string|null $prejur_consulta_entidad_reguladora Consulta entidad reguladora
@@ -39,10 +40,14 @@ use Yii;
  * @property string|null $estrec_tiempo_recuperacion Tiempo estimado de recuperación
  * @property string|null $estrec_comentarios Comentarios
  * @property int $estado_proceso_id Estado del proceso
+ * @property int|null $delete Borrado
+ * @property string|null $deleted Borrado
+ * @property string|null $deleted_by Borrado por												
  * 							   
  * @property Alertas[] $alertas
  * @property BienesXProceso[] $bienesXProcesos
  * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
+ * @property ConsolidadoPagosPrejuridicos[] $consolidadoPagosPrejuridicos																		 
  * @property DocactivacionXProceso[] $docactivacionXProcesos
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
  * @property Ciudades $jurCiudad
@@ -81,23 +86,28 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['cliente_id', 'deudor_id', 'jefe_id', 'plataforma_id', 'estado_proceso_id'], 'required'],
+            [['cliente_id', 'deudor_id', 'jefe_id', 'plataforma_id',
+            'estado_proceso_id'], 'required'],
             [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
             'estado_proceso_id', 'jur_departamento_id', 'jur_ciudad_id',
             'jur_jurisdiccion_competent_id',], 'integer'],
             [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
             'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
-            'prejur_gestiones_prejuridicas', 'jur_documentos_activacion', 'colaboradores'], 'safe'],
+            'prejur_gestiones_prejuridicas', 'jur_documentos_activacion',
+            'colaboradores', 'deleted'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
             [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
-            [['prejur_carta_enviada', 'prejur_llamada_realizada', 'prejur_visita_domiciliaria'], 'string', 'max' => 3],
-            [['prejur_comentarios_carta', 'prejur_comentarios_llamada', 'prejur_comentarios_visita', 'jur_juzgado'], 'string', 'max' => 200],
+            [['prejur_carta_enviada', 'prejur_llamada_realizada',
+            'prejur_visita_domiciliaria', 'prejur_acuerdo_pago'], 'string', 'max' => 3],
+            [['prejur_comentarios_carta', 'prejur_comentarios_llamada',
+            'prejur_comentarios_visita', 'jur_juzgado'], 'string', 'max' => 200],
             [['jur_juzgado'], 'string', 'max' => 200],
             [['carpeta'], 'string', 'max' => 100],
             [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
+            [['deleted_by'], 'string', 'max' => 45],
             [['jur_ciudad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['jur_ciudad_id' => 'id']],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['jur_departamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Departamentos::className(), 'targetAttribute' => ['jur_departamento_id' => 'id']],
@@ -131,6 +141,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_comentarios_carta' => 'Comentarios',
             'prejur_llamada_realizada' => '¿Se realiza llamada telefónica?',
             'prejur_comentarios_llamada' => 'Comentarios',
+            'prejur_acuerdo_pago' => '¿Hay acuerdo de pago?',
             'prejur_visita_domiciliaria' => '¿Se realiza visita domiciliaria?',
             'prejur_comentarios_visita' => 'Comentarios',
             'prejur_tipo_caso' => 'Tipo de caso',
@@ -156,10 +167,13 @@ class Procesos extends \yii\db\ActiveRecord {
             'estrec_tiempo_recuperacion' => 'Tiempo estimado de recuperación',
             'estrec_comentarios' => 'Comentarios',
             'estado_proceso_id' => 'Estado del proceso',
+            'delete' => 'Borrado',
+            'deleted' => 'Borrado',
+            'deleted_by' => 'Borrado por',
         ];
     }
-    
-    public static function find() {        
+
+    public static function find() {
         return parent::find()
                         ->onCondition(['and',
                             ['=', static::tableName() . '.delete', 0]
@@ -191,6 +205,15 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getConsolidadoPagosJuridicos() {
         return $this->hasMany(ConsolidadoPagosJuridicos::className(), ['proceso_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ConsolidadoPagosPrejuridicos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConsolidadoPagosPrejuridicos() {
+        return $this->hasMany(ConsolidadoPagosPrejuridicos::className(), ['proceso_id' => 'id']);
     }
 
     /**

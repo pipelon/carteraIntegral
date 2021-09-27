@@ -90,6 +90,29 @@ jQuery("document").ready(function () {
             jQuery(this).removeAttr("disabled");
         });
     });
+    
+    /* FUNCIONES PARA LOS ACUERDOS DE PAGOS */
+    jQuery(".dynamicform_wrapper_acuerdo_pagos").on("afterInsert", function (e, item) {
+        jQuery(".dynamicform_wrapper_acuerdo_pagos .panel-title-pagos").each(function (index) {
+            jQuery(this).html("Acuerdo: " + (index + 1));
+        });
+        $(".krajee-datepicker").each(function () {
+            $(this).kvDatepicker({
+                format: 'yyyy-mm-dd',
+                language: 'es',
+                changeMonth: true,
+                changeYear: true,
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true
+            });
+        });
+    });
+    jQuery(".dynamicform_wrapper_acuerdo_pagos").on("afterDelete", function (e) {
+        jQuery(".dynamicform_wrapper_acuerdo_pagos .panel-title-pagos").each(function (index) {
+            jQuery(this).html("Acuerdo: " + (index + 1));
+        });
+    });
 
     /* CREAR NOMBRE DE JUZGADO */
     $('#departamento-id, #ciudad-id').change(function () {
@@ -105,6 +128,19 @@ jQuery("document").ready(function () {
             $("#juzgado").val("");
         }
 
+    });
+
+    /* MOSTRAR CREACION DE ACUERDOS DE PAGO SOLO SI ESTA SELECCIONADO */
+    if ($('#procesos-prejur_acuerdo_pago').val() === 'SI') {
+        $(".divAcuerdoPago").show();
+    }
+
+    $('#procesos-prejur_acuerdo_pago').change(function () {
+        if ($(this).val() === 'SI') {
+            $(".divAcuerdoPago").show("slow");
+        } else {
+            $(".divAcuerdoPago").hide("slow");
+        }
     });
 
 });

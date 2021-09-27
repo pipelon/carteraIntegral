@@ -12,10 +12,13 @@ $this->params['breadcrumbs'][] = 'Actualizar';
 ?>
 <div class="procesos-update">
 
-    <?= $this->render('_form', [
+    <?=
+    $this->render('_form', [
         'model' => $model,
         'modelPagos' => $modelPagos,
+        'modelAcuerdoPagos' => $modelAcuerdoPagos,
         'modelTareas' => $modelTareas,
-    ]) ?>
+    ])
+    ?>
 
 </div>

@@ -228,11 +228,36 @@ CREATE TABLE `consolidado_pagos_juridicos` (
   PRIMARY KEY (`id`),
   KEY `fk_consolidado_pagos_procesos_idx` (`proceso_id`),
   CONSTRAINT `fk_consolidado_pagos_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8;
 
 /*Data for the table `consolidado_pagos_juridicos` */
 
 insert  into `consolidado_pagos_juridicos`(`id`,`proceso_id`,`valor_pago`,`fecha_pago`) values (193,9,'1234.56','2021-08-14'),(194,9,'6789.02','2021-08-12');
+
+/*Table structure for table `consolidado_pagos_prejuridicos` */
+
+DROP TABLE IF EXISTS `consolidado_pagos_prejuridicos`;
+
+CREATE TABLE `consolidado_pagos_prejuridicos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `proceso_id` int(11) NOT NULL COMMENT 'Proceso ID',
+  `fecha_acuerdo_pago` date NOT NULL COMMENT 'Fecha de pago',
+  `valor_acuerdo_pago` decimal(10,0) NOT NULL COMMENT 'Valor',
+  `fecha_pago_realizado` datetime DEFAULT NULL COMMENT 'Pago realizado',
+  `valor_pagado` decimal(10,0) DEFAULT NULL COMMENT 'Valor pagado',
+  `descripcion` varchar(400) DEFAULT NULL COMMENT 'Descripción',
+  `created` datetime NOT NULL COMMENT 'Creado',
+  `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
+  `modified` datetime NOT NULL COMMENT 'Modificado',
+  `modified_by` varchar(45) NOT NULL COMMENT 'Modficiado por',
+  PRIMARY KEY (`id`),
+  KEY `fk_consolidado_pagos_prejuridicos_procesos_idx` (`proceso_id`),
+  CONSTRAINT `fk_consolidado_pagos_prejuridicos_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+
+/*Data for the table `consolidado_pagos_prejuridicos` */
+
+insert  into `consolidado_pagos_prejuridicos`(`id`,`proceso_id`,`fecha_acuerdo_pago`,`valor_acuerdo_pago`,`fecha_pago_realizado`,`valor_pagado`,`descripcion`,`created`,`created_by`,`modified`,`modified_by`) values (7,9,'2021-10-10','500000','2021-09-30 00:00:00','500000','SE LOGRO UN ACUERDO DE PAGAR 500MIL EL 10 Y UN MILLON EL 16','2021-09-27 14:45:50','admin','2021-09-27 14:45:50','admin'),(8,9,'2021-10-16','1000000',NULL,NULL,'','2021-09-27 14:45:50','admin','2021-09-27 14:45:50','admin');
 
 /*Table structure for table `departamentos` */
 
@@ -527,6 +552,7 @@ CREATE TABLE `procesos` (
   `prejur_comentarios_llamada` varchar(200) DEFAULT NULL COMMENT 'Comentarios',
   `prejur_visita_domiciliaria` varchar(3) DEFAULT NULL COMMENT '¿Se realiza visita domiciliaria?',
   `prejur_comentarios_visita` varchar(200) DEFAULT NULL COMMENT 'Comentarios',
+  `prejur_acuerdo_pago` varchar(3) DEFAULT NULL COMMENT '¿Hay acuerdo de pago?',
   `prejur_tipo_caso` int(11) DEFAULT NULL COMMENT 'Tipo de caso',
   `prejur_consulta_rama_judicial` text DEFAULT NULL COMMENT 'Consulta rama judicial',
   `prejur_consulta_entidad_reguladora` text DEFAULT NULL COMMENT 'Consulta entidad reguladora',
@@ -573,11 +599,11 @@ CREATE TABLE `procesos` (
   CONSTRAINT `fk_procesos_tipo_casos` FOREIGN KEY (`prejur_tipo_caso`) REFERENCES `tipo_casos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_procesos_tipo_procesos` FOREIGN KEY (`jur_tipo_proceso_id`) REFERENCES `tipo_procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_procesos_users` FOREIGN KEY (`jefe_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Data for the table `procesos` */
 
-insert  into `procesos`(`id`,`cliente_id`,`deudor_id`,`jefe_id`,`plataforma_id`,`prejur_fecha_recepcion`,`prejur_carta_enviada`,`prejur_comentarios_carta`,`prejur_llamada_realizada`,`prejur_comentarios_llamada`,`prejur_visita_domiciliaria`,`prejur_comentarios_visita`,`prejur_tipo_caso`,`prejur_consulta_rama_judicial`,`prejur_consulta_entidad_reguladora`,`prejur_concepto_viabilidad`,`prejur_otros`,`jur_fecha_recepcion`,`jur_valor_activacion`,`jur_saldo_actual`,`jur_departamento_id`,`jur_ciudad_id`,`jur_jurisdiccion_competent_id`,`jur_juzgado`,`jur_tipo_proceso_id`,`jur_etapas_procesal_id`,`carpeta`,`estrec_pretenciones`,`estrec_probabilidad_recuperacion`,`estrec_tiempo_recuperacion`,`estrec_comentarios`,`estado_proceso_id`,`delete`,`deleted`,`deleted_by`) values (9,1,3,21,4,'2021-07-25','SI','COMENTARIO CARTA','NO','COMENTARIO LLAMADA','N/A','COMENTARIO VISITA',1,'PRUEBA1LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\n','PRUEBA2LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','5LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, PRUEBAVENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nPRUEBA\r\n','PRUEBA6LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','2021-08-03','23850000','45672120.12',7,448,2836,'BOLÍVAR, PINILLOS, 1  PROMISCUO MUNICIPAL PINILLOS',14,148,'1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','PRUEBAPRETENCIONES 1','50%','PRUEBATIEMPO ESTIMADO DE RECUPERACIóN 1','PRUEBACOMENTARIOS 1',1,0,'2021-09-24 16:03:23','admin');
+insert  into `procesos`(`id`,`cliente_id`,`deudor_id`,`jefe_id`,`plataforma_id`,`prejur_fecha_recepcion`,`prejur_carta_enviada`,`prejur_comentarios_carta`,`prejur_llamada_realizada`,`prejur_comentarios_llamada`,`prejur_visita_domiciliaria`,`prejur_comentarios_visita`,`prejur_acuerdo_pago`,`prejur_tipo_caso`,`prejur_consulta_rama_judicial`,`prejur_consulta_entidad_reguladora`,`prejur_concepto_viabilidad`,`prejur_otros`,`jur_fecha_recepcion`,`jur_valor_activacion`,`jur_saldo_actual`,`jur_departamento_id`,`jur_ciudad_id`,`jur_jurisdiccion_competent_id`,`jur_juzgado`,`jur_tipo_proceso_id`,`jur_etapas_procesal_id`,`carpeta`,`estrec_pretenciones`,`estrec_probabilidad_recuperacion`,`estrec_tiempo_recuperacion`,`estrec_comentarios`,`estado_proceso_id`,`delete`,`deleted`,`deleted_by`) values (9,1,3,21,4,'2021-07-25','SI','COMENTARIO CARTA','NO','COMENTARIO LLAMADA','N/A','COMENTARIO VISITA','N/A',1,'PRUEBA1LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\n','PRUEBA2LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','5LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, PRUEBAVENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nPRUEBA\r\n','PRUEBA6LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','2021-08-03','23850000','45672120.12',7,448,2836,'BOLÍVAR, PINILLOS, 1  PROMISCUO MUNICIPAL PINILLOS',14,148,'1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','PRUEBAPRETENCIONES 1','50%','PRUEBATIEMPO ESTIMADO DE RECUPERACIóN 1','PRUEBACOMENTARIOS 1',1,0,'2021-09-24 16:03:23','admin');
 
 /*Table structure for table `procesos_x_colaboradores` */
 
@@ -592,7 +618,7 @@ CREATE TABLE `procesos_x_colaboradores` (
   KEY `fk_procesos_x_colaboradores_user_idx` (`user_id`),
   CONSTRAINT `fk_procesos_x_colaboradores_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_procesos_x_colaboradores_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=340 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=344 DEFAULT CHARSET=utf8;
 
 /*Data for the table `procesos_x_colaboradores` */
 
@@ -618,7 +644,7 @@ CREATE TABLE `tareas` (
   CONSTRAINT `fk_tareas_jefe` FOREIGN KEY (`jefe_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tareas` */
 

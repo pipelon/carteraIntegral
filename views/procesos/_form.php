@@ -284,6 +284,101 @@ $form = ActiveForm::begin(
             ])->textInput(['maxlength' => true])
             ?>
         </div>
+        <!-- ACUERDO DE PAGOS -->
+
+        <?=
+        $form->field($model, 'prejur_acuerdo_pago', [
+            "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+            "options" => ['class' => 'form-group col-md-12']
+        ])->dropDownList(
+                ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                [
+                    'prompt' => '- Seleccione -',
+                ]
+        )
+        ?>
+
+        <div class="row-field col-md-12 divAcuerdoPago" style="display: none">            
+
+            <?php
+            DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper_acuerdo_pagos', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items', // required: css class selector
+                'widgetItem' => '.item', // required: css class
+                'limit' => 4, // the maximum times, an element can be cloned (default 999)
+                'min' => 0, // 0 or 1 (default 1)
+                'insertButton' => '.add-item', // css class
+                'deleteButton' => '.remove-item', // css class
+                'model' => $modelAcuerdoPagos[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'fecha_acuerdo_pago',
+                    'valor_acuerdo_pago',
+                    'descripcion',
+                    'fecha_pago_realizado',
+                    'valor_pagado',
+                ],
+            ]);
+            ?>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="flaticon-coins"></i> Acuerdo de pago
+                    <button type="button" class="pull-right add-item btn btn-primary btn-xs"><i class="flaticon-add"></i> Agregar acuerdo y/o pago</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body container-items"><!-- widgetContainer -->
+                    <?php foreach ($modelAcuerdoPagos as $index => $mdlPago): ?>
+                        <div class="item panel panel-default"><!-- widgetBody -->
+                            <div class="panel-heading">
+                                <span class="panel-title-pagos">Acuerdo: <?= ($index + 1) ?></span>
+                                <button type="button" class="pull-right remove-item btn btn-danger btn-xs"><i class="flaticon-circle"></i></button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-body">
+                                <?php
+                                // necessary for update action.
+                                if (!$mdlPago->isNewRecord) {
+                                    echo Html::activeHiddenInput($mdlPago, "[{$index}]id");
+                                }
+                                ?>
+                                <?=
+                                $form->field($mdlPago, "[{$index}]fecha_acuerdo_pago")->widget(DatePicker::classname(), [
+                                    'options' => ['placeholder' => '- Ingrese una fecha --'],
+                                    'pluginOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'yyyy-mm-dd',
+                                        'todayHighlight' => true,
+                                        'todayBtn' => true,
+                                    ]
+                                ]);
+                                ?>
+                                <?= $form->field($mdlPago, "[{$index}]valor_acuerdo_pago")->textInput() ?>
+                                <?=
+                                $form->field($mdlPago, "[{$index}]descripcion", [
+                                    'options' => ['class' => 'form-group col-md-12'],
+                                ])->textInput(['maxlength' => true])
+                                ?>
+                                <?=
+                                $form->field($mdlPago, "[{$index}]fecha_pago_realizado")->widget(DatePicker::classname(), [
+                                    'options' => ['placeholder' => '- Ingrese una fecha --'],
+                                    'pluginOptions' => [
+                                        'autoclose' => true,
+                                        'format' => 'yyyy-mm-dd',
+                                        'todayHighlight' => true,
+                                        'todayBtn' => true,
+                                    ]
+                                ]);
+                                ?>
+                                <?= $form->field($mdlPago, "[{$index}]valor_pagado")->textInput() ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php DynamicFormWidget::end(); ?>
+        </div>
+        <!-- FIN ACUERDO DE PAGOS -->
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_consulta_rama_judicial', [
@@ -491,7 +586,7 @@ $form = ActiveForm::begin(
                                     ->all()
                             , 'id', 'nombre');
             ?>
-            <?= $form->field($model, 'jur_tipo_proceso_id')->dropDownList($tipoProcesosList, ['id' => 'tipo-proceso-id']) ?>
+            <?= $form->field($model, 'jur_tipo_proceso_id')->dropDownList($tipoProcesosList, ['prompt' => '- Seleccion un tipo de proceso -', 'id' => 'tipo-proceso-id']) ?>
             <?=
             $form->field($model, 'jur_etapas_procesal_id')->widget(DepDrop::classname(), [
                 'options' => ['id' => 'etapa-procesal-id'],
@@ -515,7 +610,7 @@ $form = ActiveForm::begin(
                                     ->all()
                             , 'id', 'nombre');
             ?>
-            <?= $form->field($model, 'jur_departamento_id')->dropDownList($departamentos, ['id' => 'departamento-id']) ?>
+            <?= $form->field($model, 'jur_departamento_id')->dropDownList($departamentos, ['prompt' => '- Seleccion un departamento -', 'id' => 'departamento-id']) ?>
             <?=
             $form->field($model, 'jur_ciudad_id')->widget(DepDrop::classname(), [
                 'options' => ['id' => 'ciudad-id'],

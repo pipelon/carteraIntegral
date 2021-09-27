@@ -110,6 +110,22 @@ $this->params['breadcrumbs'][] = $this->title;
                         return "<b>{$data->prejur_visita_domiciliaria}</b>, Comentario: {$data->prejur_comentarios_visita}";
                     }
                 ],
+                'prejur_acuerdo_pago',
+                [
+                    'label' => 'acuerdos de pagos',
+                    'format' => 'raw',
+                    'value' => function ($data) use ($acuerdoPagos) {
+                        $htmlPago = '';
+                        foreach ($acuerdoPagos as $pago) {
+                            $htmlPago .= "<b>Fecha acuerdo de pago:</b> {$pago->fecha_acuerdo_pago}<br/>"
+                                    . "<b>Valor acordado:</b> " . number_format($pago->valor_acuerdo_pago, 2, ",", ".") . "<br/>"
+                                    . "<b>Descripción:</b> {$pago->descripcion}<br/>"
+                                    . "<b>Fecha pago realizado:</b>{$pago->fecha_pago_realizado}<br/>"
+                                    . "<b>Valor pagado:</b> " . number_format($pago->valor_pagado, 2, ",", ".") . "<br/><br/>";
+                        }
+                        return $htmlPago;
+                    }
+                ],
                 'prejur_consulta_rama_judicial:ntext',
                 'prejur_consulta_entidad_reguladora:ntext',
                 [
@@ -149,7 +165,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function ($data) use ($pagos) {
                         $htmlPago = '';
                         foreach ($pagos as $pago) {
-                            $htmlPago .= '<b>Fecha:</b> ' . $pago->fecha_pago . ' <b>Valor:</b> ' . number_format($pago->valor_pago, 2, ",", ".") . '<br />';
+                            $htmlPago .= '<b>Fecha:</b> ' . $pago->fecha_pago . ' <br />'
+                                    . '<b>Valor:</b> ' . number_format($pago->valor_pago, 2, ",", ".") . '<br /><br />';
                         }
                         return $htmlPago;
                     }
