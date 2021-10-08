@@ -240,6 +240,10 @@ class ProcesosController extends Controller {
                             $proXcol->user_id = $colaborador;
                             $proXcol->save();
                         }
+                        
+                        //LOG
+                        $mensaje = "Los colaboradores del proceso #{$id} han sido cambiados.";
+                        \Yii::info($mensaje, "cartera");
                     }
                 }
 
@@ -258,6 +262,10 @@ class ProcesosController extends Controller {
                             $bieXpro->comentario = $model->prejur_comentarios_estudio_bienes[$bien];
                             $bieXpro->save();
                         }
+                        
+                        //LOG
+                        $mensaje = "Los estudios de bienes del estado prejuridico en el proceso #{$id} han sido cambiados.";
+                        \Yii::info($mensaje, "cartera");
                     }
                 }
                 // COMENTARIOS

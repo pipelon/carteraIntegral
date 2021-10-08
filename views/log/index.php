@@ -37,7 +37,6 @@ if (\Yii::$app->user->can('/log/*') || \Yii::$app->user->can('/*')) {
             'layout' => "{items}\n{summary}\n{pager}",
             'tableOptions' => ['class' => 'table table-striped table-bordered table-condensed'],
             'columns' => [
-                'id',
                 'log_time:datetime',
                 'message:ntext',
                 [

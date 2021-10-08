@@ -75,7 +75,7 @@ class LogCartera extends \yii\log\DbTarget {
         $command = $this->db->createCommand($sql);
         
         $controller = Yii::$app->controller->id;
-        $user = Yii::$app->user->identity->username;
+        $user = Yii::$app->user->identity->fullname;
         
         foreach ($this->messages as $message) {
             list($text, $level, $category, $timestamp) = $message;
