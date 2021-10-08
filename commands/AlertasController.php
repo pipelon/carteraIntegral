@@ -8,37 +8,99 @@ use yii\console\Controller;
  * Test controller
  */
 class AlertasController extends Controller {
+    
+    /**
+     * ESTA FUNCION DEBERIA FUNCIONAR SOLO PARA PREJURIDICO Y HACER OTRA PARA JURIDICO
+     */
+    public function actionAlertasprejuridico() {
 
-    public function actionIndex() {
-        
         //TRAER TODOS LOS PROCESOS COMO UN OBJETO
-        $procesos  = \app\models\Procesos::find()
-                ->all();        
-        
-        foreach ($procesos as $proceso) {            
+        $procesos = \app\models\Procesos::find()
+                ->all();
+        //TODO: agregar condiciones para no tener en cuenta procesos terminados, castigados, cancelados, etc (preguntar Pedro)
+
+        foreach ($procesos as $proceso) {
             //OBETENER LA FECHA DE RECEPCIÓN DE CADA PROCESO
-            $fechaR = $proceso->prejur_fecha_recepcion;  
+            $fechaR = $proceso->prejur_fecha_recepcion;
+            //TODO: desarrollar la regla de negocio dependiente de la fecha de recepcion
+            /*
+             * TODO: En esta variable '$proceso' están todos los campos necesarios para 
+             * trabajar las alertas como si se envió la carta ($proceso->prejur_carta_enviada)
+             * Si se realizó la llamada ($proceso->prejur_llamada_realizada)
+             * si se hizo la visita domiciliaria ($proceso->prejur_visita_domiciliaria)
+             */
             
+            /*
+             * NOTA: vamos a usar el archivo params.php (/config/params.php) para la configuracion de las alertas.
+             * Esto nos ayudará que el dia de mañana será muy facil deshabilitar alertas 
+             * o cambiarles los dias desde un archivo central sin necesidad de
+             * entrar a este codigo a hacer cambiso.
+             * 
+             * por ejemplo, si fueramos a procesar la alerta de la carta enviada
+             * primero preguntamos si esta activada y luego obtenemos los dias configurados.
+             * algo asi:
+             */
+            //Si la alerta para carta enviada está activa se trabaja
+            if(\Yii::$app->params['alertaPREJuridico_Carta']['activo']){
+                $this->alertaPrejuridico_CartaEnviada($proceso);
+            }
+            
+            //Si la alerta para llamadarealizada está activa se trabaja
+            if(\Yii::$app->params['alertaPREJuridico_Llamada']['activo']){
+                $this->alertaPrejuridico_LlamadaRealizada($proceso);
+            }
+            
+            
+            
+            /*
+             * EN ESTA VARIABLE SE PUEDE HACER UNA RELACION DIRECTA CON LOS
+             * PAGOS EN EL PREJURUDICO Y ASI SE PODRIA SABER SI SE PAGO A TIEMPO
+             * O SI ESTA PENDIENTE POR PAGO Y ALERTAR             * 
+             */
+            $consolidadoPagos = $proceso->consolidadoPagosPrejuridicos;
+            
+            
+
             //PARA USAR RELACIONES (por ejemplo los procesos tienen colaboradores)
             //SIMPLEMENTE LLAMAS A LA RELACION            
             //aca tienes la lista de ID decolaboradores
             $colaboradores = $proceso->procesosXColaboradores;
-            
+
             //LUEGO HACESUN FOREACH PARA CADA COLABORADOR Y COGES SU NOMBRE Y SU EMAIL USANDO LAS MISMAS RELACIONES ANIDADAS
             foreach ($colaboradores as $col) {
                 //en este caso un colaborador tiene una relacion con el usuario
                 $nombre = $col->user->name;
-                $email = $col->user->mail;      
+                $email = $col->user->mail;
                 $descripcion = "Alerta por XYZ";
                 $this->enviarEmail($nombre, $email, $descripcion);
             }
         }
     }
+    
+    private function alertaPrejuridico_CartaEnviada($proceso){
+        //se obtienen los dias para alertar
+        $diasHabilesParaAlerta = \Yii::$app->params['alertaPREJuridico_Carta']['diasParaAlerta'];
+        //ya con estos dias se hace el calculo necesario 
+    }
+    
+    private function alertaPrejuridico_LlamadaRealizada($proceso){
+        //se obtienen los dias para alertar
+        $diasHabilesParaAlerta = \Yii::$app->params['alertaPREJuridico_Llamada']['diasParaAlerta'];
+        //ya con estos dias se hace el calculo necesario 
+    }
 
-    private function enviarEmail($nombre, $email, $descripcion) {
-        echo "Sending mail to " . $nombre;
+    private function enviarEmail($nombre, $email, $descripcion, $asunto) {
         
-        #PARA GUARDAR LA ALERTA EN UNA TABLA USANDO UN MODELO (EJEMPLO)
+        //PASO 1: ENVIAR EMAIL
+        Yii::$app->mailer->compose()
+                ->setFrom(\Yii::$app->params['adminEmail'])
+                ->setTo($email)
+                ->setSubject($asunto)
+                ->setTextBody($asunto) //'Contenido en texto plano'
+                ->setHtmlBody($descripcion) //'<b>Contenido HTML</b>'
+                ->send();
+
+        //PASO 2: guardar la alerta en la DB
         $modeloAlerta = \app\models\Alertas();
         $modeloAlerta->user_id = 1;
         $modeloAlerta->proceso_id = 2;

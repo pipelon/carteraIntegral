@@ -214,7 +214,7 @@ CREATE TABLE `clientes` (
 
 /*Data for the table `clientes` */
 
-insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`carpeta`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (1,'CLIENTE PRUEBA 12','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FULANITO','123','FULANIT@GMIAL.COM','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO',NULL,'2021-07-13 10:37:55','admin','2021-09-24 15:34:27','admin',0,'2021-09-24 15:34:27','admin'),(93,'CLIENTE PRUEBA 1','NIT','123456','1234','REPRESENTANTE','12345','REPRESENTANTE@GMAIL.COM','ASDASD','ASDASD','2@2.COM','ASDASD','','','','','','','','','1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','2021-07-18 09:30:21','admin','2021-09-24 15:55:10','admin',1,'2021-09-24 15:55:10','admin');
+insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`carpeta`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (1,'CLIENTE PARA HACER PRUEBAS','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FULANITO','123','FULANIT@GMIAL.COM','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','','2021-07-13 10:37:55','admin','2021-10-08 09:01:03','admin',0,'2021-09-24 15:34:27','admin'),(93,'CLIENTE PRUEBA 1','NIT','123456','1234','REPRESENTANTE','12345','REPRESENTANTE@GMAIL.COM','ASDASD','ASDASD','2@2.COM','ASDASD','','','','','','','','','1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','2021-07-18 09:30:21','admin','2021-09-24 15:55:10','admin',1,'2021-09-24 15:55:10','admin');
 
 /*Table structure for table `consolidado_pagos_juridicos` */
 
@@ -253,11 +253,11 @@ CREATE TABLE `consolidado_pagos_prejuridicos` (
   PRIMARY KEY (`id`),
   KEY `fk_consolidado_pagos_prejuridicos_procesos_idx` (`proceso_id`),
   CONSTRAINT `fk_consolidado_pagos_prejuridicos_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
 /*Data for the table `consolidado_pagos_prejuridicos` */
 
-insert  into `consolidado_pagos_prejuridicos`(`id`,`proceso_id`,`fecha_acuerdo_pago`,`valor_acuerdo_pago`,`fecha_pago_realizado`,`valor_pagado`,`descripcion`,`created`,`created_by`,`modified`,`modified_by`) values (7,9,'2021-10-10','500000','2021-09-30 00:00:00','500000','SE LOGRO UN ACUERDO DE PAGAR 500MIL EL 10 Y UN MILLON EL 16','2021-09-27 14:45:50','admin','2021-09-27 14:45:50','admin'),(8,9,'2021-10-16','1000000',NULL,NULL,'','2021-09-27 14:45:50','admin','2021-09-27 14:45:50','admin');
+insert  into `consolidado_pagos_prejuridicos`(`id`,`proceso_id`,`fecha_acuerdo_pago`,`valor_acuerdo_pago`,`fecha_pago_realizado`,`valor_pagado`,`descripcion`,`created`,`created_by`,`modified`,`modified_by`) values (32,9,'2021-10-10','500000','2021-09-30 00:00:00','500000','SE LOGRO UN ACUERDO DE PAGAR 500MIL EL 10 Y UN MILLON EL 16','2021-10-05 11:33:11','admin','2021-10-05 11:33:11','admin'),(33,9,'2021-10-16','1000000',NULL,NULL,'','2021-10-05 11:33:11','admin','2021-10-05 11:33:11','admin');
 
 /*Table structure for table `departamentos` */
 
@@ -327,7 +327,7 @@ CREATE TABLE `deudores` (
 
 /*Data for the table `deudores` */
 
-insert  into `deudores`(`id`,`nombre`,`marca`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`nombre_codeudor_1`,`documento_codeudor_1`,`direccion_codeudor_1`,`email_codeudor_1`,`telefono_codeudor_1`,`nombre_codeudor_2`,`documento_codeudor_2`,`direccion_codeudor_2`,`email_codeudor_2`,`telefonol_codeudor_2`,`comentarios`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (2,'NOMBRESN','MARCA',' DIRECCIóN FíSICA ','FULANITO2','1234','FULANITO@GMAIL.COM','NOMBRES','1234','CORREO1@GMAIL.COM','CARGO','NOMBRE','12345','CORREO2@GMAIL.COM','CARGO','NOMBRES','4331','CORREO3@GMAIL.COM','CARGO','NOMBRES','1234567','DIRECCIóN FíSICA','CORREO4@GMAIL.COM','1234','NOMBRES','1242','DIRECCIóN FíSICA','CORREO5@GMAIL.COM','12343','COEMNTARIOS EN GENERAL','2021-07-14 14:18:50','admin','2021-09-24 15:54:10','admin',1,'2021-09-24 15:54:10','admin'),(3,'DEUDOR PRUEBA','MARCA PRUEBA','ASDAD','1','1','FULANITO@GMAIL.COM','SADSAD','ASD','6@6.COM','ASDASD','','','','','','','','','SADSAD','ASDASD','ASDAS','19@19.COM','ASDSADAS','','','','','','','2021-07-18 09:31:19','admin','2021-09-24 15:51:42','admin',0,'2021-09-24 15:51:42','admin');
+insert  into `deudores`(`id`,`nombre`,`marca`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`nombre_codeudor_1`,`documento_codeudor_1`,`direccion_codeudor_1`,`email_codeudor_1`,`telefono_codeudor_1`,`nombre_codeudor_2`,`documento_codeudor_2`,`direccion_codeudor_2`,`email_codeudor_2`,`telefonol_codeudor_2`,`comentarios`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (2,'NOMBRESN','MARCA',' DIRECCIóN FíSICA ','FULANITO2','1234','FULANITO@GMAIL.COM','NOMBRES','1234','CORREO1@GMAIL.COM','CARGO','NOMBRE','12345','CORREO2@GMAIL.COM','CARGO','NOMBRES','4331','CORREO3@GMAIL.COM','CARGO','NOMBRES','1234567','DIRECCIóN FíSICA','CORREO4@GMAIL.COM','1234','NOMBRES','1242','DIRECCIóN FíSICA','CORREO5@GMAIL.COM','12343','COEMNTARIOS EN GENERAL','2021-07-14 14:18:50','admin','2021-09-24 15:54:10','admin',1,'2021-09-24 15:54:10','admin'),(3,'DEUDOR PARA HACER PRUEBAS','MARCA PRUEBA','ASDAD','1','1','FULANITO@GMAIL.COM','SADSAD','ASD','6@6.COM','ASDASD','','','','','','','','','SADSAD','ASDASD','ASDAS','19@19.COM','ASDSADAS','','','','','','','2021-07-18 09:31:19','admin','2021-10-08 09:01:19','admin',0,'2021-09-24 15:51:42','admin');
 
 /*Table structure for table `dias_no_habiles` */
 
@@ -618,11 +618,11 @@ CREATE TABLE `procesos_x_colaboradores` (
   KEY `fk_procesos_x_colaboradores_user_idx` (`user_id`),
   CONSTRAINT `fk_procesos_x_colaboradores_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_procesos_x_colaboradores_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=344 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=349 DEFAULT CHARSET=utf8;
 
 /*Data for the table `procesos_x_colaboradores` */
 
-insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (337,9,10),(338,9,15),(339,9,20);
+insert  into `procesos_x_colaboradores`(`id`,`proceso_id`,`user_id`) values (347,9,10),(348,9,15);
 
 /*Table structure for table `tareas` */
 
@@ -644,11 +644,11 @@ CREATE TABLE `tareas` (
   CONSTRAINT `fk_tareas_jefe` FOREIGN KEY (`jefe_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tareas_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tareas` */
 
-insert  into `tareas`(`id`,`proceso_id`,`user_id`,`jefe_id`,`fecha_esperada`,`fecha_finalizacion`,`descripcion`,`estado`) values (86,9,21,21,'2021-09-01',NULL,'VISITAR AL CLIENTE',0),(87,9,10,21,'2021-09-16',NULL,'IR LA JUZGADO',0),(88,9,10,21,'2021-09-17',NULL,'ENVIAR CARTA AL CLIENTE ENVIAR CARTA AL CLIENTE',0);
+insert  into `tareas`(`id`,`proceso_id`,`user_id`,`jefe_id`,`fecha_esperada`,`fecha_finalizacion`,`descripcion`,`estado`) values (99,9,21,21,'2021-09-01',NULL,'VISITAR AL CLIENTE',0),(100,9,10,21,'2021-09-16',NULL,'IR LA JUZGADO',0),(101,9,10,21,'2021-09-17',NULL,'ENVIAR CARTA AL CLIENTE ENVIAR CARTA AL CLIENTE',0);
 
 /*Table structure for table `tipo_casos` */
 
