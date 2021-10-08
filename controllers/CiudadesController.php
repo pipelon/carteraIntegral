@@ -103,10 +103,14 @@ class CiudadesController extends Controller {
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
+        
+        //LOG
+        $mensaje = "El registro #{$id} ha sido eliminado.";
+        \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
     }
-    
+
     public function actionCiudadesxdepartamentoid() {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
@@ -117,7 +121,7 @@ class CiudadesController extends Controller {
                 $out = Ciudades::find()
                         ->select(['id' => 'id', 'name' => 'nombre'])
                         ->where(
-                                [                                    
+                                [
                                     'departamento_id' => $departamento_id
                                 ]
                         )

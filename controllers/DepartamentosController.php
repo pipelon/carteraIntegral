@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * DepartamentosController implements the CRUD actions for Departamentos model.
  */
-class DepartamentosController extends Controller
-{
+class DepartamentosController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,14 +32,13 @@ class DepartamentosController extends Controller
      * Lists all Departamentos models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new DepartamentosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -49,10 +47,9 @@ class DepartamentosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -61,15 +58,14 @@ class DepartamentosController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Departamentos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -80,15 +76,14 @@ class DepartamentosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -99,17 +94,19 @@ class DepartamentosController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         //BORRADO FISICO
         //$this->findModel($id)->delete();
-        
         //BORRADO LOGICO
         $model = $this->findModel($id);
         $model->delete = '1';
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
+        
+        //LOG
+        $mensaje = "El registro #{$id} ha sido eliminado.";
+        \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
     }
@@ -121,12 +118,12 @@ class DepartamentosController extends Controller
      * @return Departamentos the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Departamentos::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

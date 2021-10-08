@@ -103,10 +103,14 @@ class JurisdiccionesCompetentesController extends Controller {
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
+        
+        //LOG
+        $mensaje = "El registro #{$id} ha sido eliminado.";
+        \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
     }
-    
+
     public function actionJurisdiccionesxciudadid() {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
@@ -117,7 +121,7 @@ class JurisdiccionesCompetentesController extends Controller {
                 $out = JurisdiccionesCompetentes::find()
                         ->select(['id' => 'id', 'name' => 'CONCAT(numero, " ", nombre)'])
                         ->where(
-                                [                                    
+                                [
                                     'ciudad_id' => $ciudad_id
                                 ]
                         )

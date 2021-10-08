@@ -127,17 +127,21 @@ class ClientesController extends Controller {
         $procesos = \app\models\Procesos::find()
                 ->where(['cliente_id' => $id])
                 ->all();
-        if(!empty($procesos)){
+        if (!empty($procesos)) {
             \Yii::$app->getSession()->setFlash('warning', 'Este cliente no puede ser eliminado ya que está siendo usando en 1 o más procesos');
             return $this->redirect(['index']);
         }
-        
+
         //BORRADO LOGICO
         $model = $this->findModel($id);
         $model->delete = '1';
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
+        
+        //LOG
+        $mensaje = "El registro #{$id} ha sido eliminado.";
+        \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
     }

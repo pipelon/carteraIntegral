@@ -23,7 +23,7 @@ $config = [
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
-            'mainLayout' => '@app/views/layouts/main.php',            
+            'mainLayout' => '@app/views/layouts/main.php',
             'controllerMap' => [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
@@ -37,7 +37,7 @@ $config = [
         ]
     ],
     'components' => [
-		'gdrive' => [
+        'gdrive' => [
             'class' => 'app\components\Gdrive',
         ],
         'utils' => [
@@ -78,6 +78,13 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+                [
+                    'class' => 'app\components\LogCartera',
+                    'levels' => ['info'],
+                    'categories' => ['cartera'],
+                    'except' => ['application'],
+                    'logVars' => [null],
                 ],
             ],
         ],
