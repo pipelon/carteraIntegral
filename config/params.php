@@ -6,10 +6,12 @@ return [
     'senderName' => 'Example.com mailer',
     'alertaPREJuridico_Carta' => [
         'activo' => true,
-        'diasParaAlerta' => '30' //dias habiles
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Enviar carta al cliente'
     ],
     'alertaPREJuridico_Llamada' => [
-        'activo' => true,
-        'diasParaAlerta' => '30' //dias habiles
+        'activo' => false,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Hacer llamada al cliente'
     ]
 ];

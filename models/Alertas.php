@@ -16,7 +16,7 @@ use Yii;
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
  */
-class Alertas extends \yii\db\ActiveRecord
+class Alertas extends BeforeModel
 {
     /**
      * {@inheritdoc}
@@ -32,7 +32,7 @@ class Alertas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['proceso_id', 'usuario_id', 'descripcion_alerta', 'created', 'created_by', 'modified', 'modified_by'], 'required'],
+            [['proceso_id', 'usuario_id', 'descripcion_alerta'], 'required'],
             [['proceso_id', 'usuario_id'], 'integer'],
             [['created', 'modified'], 'safe'],
             [['descripcion_alerta'], 'string', 'max' => 250],
