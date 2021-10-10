@@ -2,8 +2,8 @@
 
 return [
     'adminEmail' => 'info@carteraintegral.com.co',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'senderEmail' => 'info@carteraintegral.com.co',
+    'senderName' => 'INFO CARTERA',
     'alertaPREJuridico_Carta' => [
         'activo' => true,
         'diasParaAlerta' => '5', //dias habiles
