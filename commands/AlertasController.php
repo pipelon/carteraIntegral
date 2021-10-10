@@ -21,66 +21,8 @@ class AlertasController extends Controller {
      */
     public function actionInitProcesarAlertas() {
 
-        #=======================================================================
-        # ALERTAS PREJURIDICAS
-        #=======================================================================
-        //Esta alerta validará el envío de la carta al cliente
-        if (\Yii::$app->params['alertaPREJuridico_Carta']['activo']) {
-
-            // Asunto de la alerta
-            $asunto = isset(Yii::$app->params['alertaPREJuridico_Carta']['asunto']) ?
-                    Yii::$app->params['alertaPREJuridico_Carta']['asunto'] :
-                    "CILES - Alertas: Enviar carta al cliente";
-
-            // Asunto de la alerta
-            $descripcion = isset(Yii::$app->params['alertaPREJuridico_Carta']['descripcion']) ?
-                    Yii::$app->params['alertaPREJuridico_Carta']['descripcion'] :
-                    "";
-
-            //Procesar las alertas prejuridicas
-            $alertasCartas = $this->alertaPrejuridico_CartaEnviada();
-
-            //si hay alertas para carta se procede a enviarlas
-            if ($alertasCartas && count($alertasCartas) > 0) {
-
-                //Insertar las alertas en la base de datos
-                $this->insertarAlertasColaboradores($alertasCartas, $asunto);
-
-                //Enviar las alertas a cada colabroador
-                $this->enviarEmail($alertasCartas, $asunto, $descripcion);
-            }
-        }
-
-        //Esta alerta validará la llamada al cliente
-        if (!\Yii::$app->params['alertaPREJuridico_Llamada']['activo']) {
-            //Procesar las alertas prejuridicas
-            $this->alertaPrejuridico_LlamadaRealizada();
-        }
-
-        #=======================================================================
-        # ALERTAS JURIDICAS
-        #=======================================================================
-        #=======================================================================
-        # OTRAS ALERTAS
-        #=======================================================================
-    }
-    
-
-    /**
-     * Esta funcion se encargará de procesar todas las alertas referentes al
-     * envio de la carta en la estapa prejuridica de un proceso.
-     * 
-     * @author Diego Castano <proyectos@onicsoft.com.co>
-     * @copyright 2021 CARTERA INTEGRAL S.A.S.
-     * @link http://www.carteraintegral.com.co     
-     * @return array
-     */
-    private function alertaPrejuridico_CartaEnviada() {
-        $hoy = date('Y-m-d');
-        // Se obtienen los dias para alertar
-        $diasHabilesParaCarta = \Yii::$app->params['alertaPREJuridico_Carta']['diasParaAlerta'];
-        // Inicializar el array de procesos que cumplen con las condiciones para ser enviados en el correo de alerta
-        $procesosEnviarCarta = array();
+        // Array con todas las alertas por proceso
+        $alertasPorProceso = [];
 
         // Objetos en estado de gestion
         $procesos = \app\models\Procesos::find()
@@ -90,34 +32,108 @@ class AlertasController extends Controller {
         //Para cada proceso
         foreach ($procesos as $proceso) {
 
-            //Si la carta ya fue enviada, pasar al siguiente registro
-            if ($proceso->prejur_carta_enviada == "SI") {
-                continue;
+            #=======================================================================
+            # ALERTAS PREJURIDICAS
+            #=======================================================================
+            #
+            //Esta alerta validará el envío de la carta al cliente
+            if (\Yii::$app->params['alertaPREJuridico_Carta']['activo']) {
+                //Procesar las alertas prejuridicas
+                $hayAlertasCartas = $this->alertaPrejuridico_CartaEnviada($proceso);
+                if ($hayAlertasCartas) {
+                    // Asunto de la alerta
+                    $asunto = Yii::$app->params['alertaPREJuridico_Carta']['asunto'];
+                    // Asunto de la alerta
+                    $descripcion = Yii::$app->params['alertaPREJuridico_Carta']['descripcion'];
+                    $alertasPorProceso[$proceso->id]["alertas"][] = [
+                        "asunto" => $asunto,
+                        "descripcion" => $descripcion
+                    ];
+                }
             }
 
-            //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta prejuridica            
-            $fechaAlertaCarta = $this->hallarFechaAlerta($proceso->prejur_fecha_recepcion, $diasHabilesParaCarta);
-
-            //Si no es tiempo de la alerta continuar con el siguiente proceso
-            if ($fechaAlertaCarta > $hoy) {
-                continue;
+            //Esta alerta validará la llamada al cliente
+            if (!\Yii::$app->params['alertaPREJuridico_Llamada']['activo']) {
+                //Procesar las alertas prejuridicas
+                $hayAlertaLlamada = $this->alertaPrejuridico_LlamadaRealizada($proceso);
+                if ($hayAlertaLlamada) {
+                    // Asunto de la alerta
+                    $asunto = Yii::$app->params['alertaPREJuridico_Llamada']['asunto'];
+                    // Asunto de la alerta
+                    $descripcion = Yii::$app->params['alertaPREJuridico_Llamada']['descripcion'];
+                    $alertasPorProceso[$proceso->id]["alertas"][] = [
+                        "asunto" => $asunto,
+                        "descripcion" => $descripcion
+                    ];
+                }
             }
 
-            //Colaboradores del proceso
-            $colaboradores = $proceso->procesosXColaboradores;
 
-            //Lider del proceso
-            $procesosEnviarCarta[$proceso->id]["destinatarios"][$proceso->jefe_id]["nombre"] = strtolower($proceso->jefe->name);
-            $procesosEnviarCarta[$proceso->id]["destinatarios"][$proceso->jefe_id]["email"] = strtolower($proceso->jefe->mail);
 
-            //Para cada colaborador obtengo su email y nombre
-            foreach ($colaboradores as $col) {
-                $id = $col->user->id;
-                $procesosEnviarCarta[$proceso->id]["destinatarios"][$id]["nombre"] = strtolower($col->user->name);
-                $procesosEnviarCarta[$proceso->id]["destinatarios"][$id]["email"] = strtolower($col->user->mail);
+            #=======================================================================
+            # ALERTAS JURIDICAS
+            #=======================================================================
+            #=======================================================================
+            # OTRAS ALERTAS
+            #=======================================================================
+
+
+            /*
+             * Si este proceso tiene alertas para enviar obtengo 
+             * sus colaboradore y su lider
+             */
+            if (count($alertasPorProceso) > 0) {
+                // Colaboradores del proceso
+                $colaboradores = $proceso->procesosXColaboradores;
+                //Lider del proceso
+                $alertasPorProceso[$proceso->id]["destinatarios"][$proceso->jefe_id]["nombre"] = strtolower($proceso->jefe->name);
+                $alertasPorProceso[$proceso->id]["destinatarios"][$proceso->jefe_id]["email"] = strtolower($proceso->jefe->mail);
+                //Para cada colaborador obtengo su email y nombre
+                foreach ($colaboradores as $col) {
+                    $id = $col->user->id;
+                    $alertasPorProceso[$proceso->id]["destinatarios"][$id]["nombre"] = strtolower($col->user->name);
+                    $alertasPorProceso[$proceso->id]["destinatarios"][$id]["email"] = strtolower($col->user->mail);
+                }
             }
         }
-        return $procesosEnviarCarta;
+
+        //Si hay alertas luego de terminado todo el proceso las envío todas
+        if (count($alertasPorProceso) > 0) {
+            //Insertar las alertas en la base de datos
+            $this->insertarAlertasColaboradores($alertasPorProceso);
+            //Enviar las alertas a cada colabroador
+            $this->enviarEmail($alertasPorProceso);
+        }
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * envio de la carta en la estapa prejuridica de un proceso.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaPrejuridico_CartaEnviada($proceso) {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesParaCarta = \Yii::$app->params['alertaPREJuridico_Carta']['diasParaAlerta'];
+
+        //Si la carta ya fue enviada, pasar al siguiente registro
+        if ($proceso->prejur_carta_enviada == "SI") {
+            return false;
+        }
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta prejuridica            
+        $fechaAlertaCarta = $this->hallarFechaAlerta($proceso->prejur_fecha_recepcion, $diasHabilesParaCarta);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaCarta > $hoy) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -127,12 +143,13 @@ class AlertasController extends Controller {
      * @author Diego Castano <proyectos@onicsoft.com.co>
      * @copyright 2021 CARTERA INTEGRAL S.A.S.
      * @link http://www.carteraintegral.com.co     
-     * @return array
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas) 
      */
     private function alertaPrejuridico_LlamadaRealizada($proceso) {
         //se obtienen los dias para alertar
         $diasHabilesParaAlerta = \Yii::$app->params['alertaPREJuridico_Llamada']['diasParaAlerta'];
         //ya con estos dias se hace el calculo necesario 
+        return true;
     }
 
     /**
@@ -144,14 +161,17 @@ class AlertasController extends Controller {
      * @param type $destinatariosXproceso
      * @param type $asunto
      */
-    private function insertarAlertasColaboradores($destinatariosXproceso, $asunto) {
-        foreach ($destinatariosXproceso as $proceso => $value) {
-            foreach ($value["destinatarios"] as $usuario => $v) {
-                $modeloAlerta = new \app\models\Alertas();
-                $modeloAlerta->usuario_id = $usuario;
-                $modeloAlerta->proceso_id = $proceso;
-                $modeloAlerta->descripcion_alerta = $asunto;
-                $modeloAlerta->save();
+    private function insertarAlertasColaboradores($alertasPorProceso) {
+
+        foreach ($alertasPorProceso as $proceso => $alertas) {
+            foreach ($alertas["alertas"] as $alerta) {
+                foreach ($alertas["destinatarios"] as $usuario => $v) {
+                    $modeloAlerta = new \app\models\Alertas();
+                    $modeloAlerta->usuario_id = $usuario;
+                    $modeloAlerta->proceso_id = $proceso;
+                    $modeloAlerta->descripcion_alerta = $alerta["asunto"];
+                    $modeloAlerta->save();
+                }
             }
         }
     }
@@ -209,9 +229,12 @@ class AlertasController extends Controller {
      * @param type $asunto
      * @param type $descripcion
      */
-    private function enviarEmail($destinatariosXproceso, $asunto, $descripcion) {
+    private function enviarEmail($alertasPorProceso) {
 
-        foreach ($destinatariosXproceso as $procesoID => $destinatarios) {
+        foreach ($alertasPorProceso as $proceso => $value) {
+
+            //Todos los destinatarios listos para ponerlos en el CC del correo
+            $emails = array_column($value["destinatarios"], "email");
 
             // mensaje
             $mensaje = '
@@ -250,21 +273,23 @@ class AlertasController extends Controller {
         <center>
             <body>
                 <div class="content"> 
-                  <div>' . $descripcion . '</div><br>
+                  <div>Alertas de gestion de procesos</div><br>
                         <table>
                           <thead>
                             <tr>
                               <th style="width:10px">ID Proceso</th> 
-                              <th><center>Pendiente</center></th>
+                              <th><center>Descripción</center></th>
                             </tr>
                           </thead>   
                           <tbody>';
 
-            $mensaje .= '<tr>
-          <td><center><a href="http://carteraintegral.com.co/ciles/web/procesos/update?id=' . $procesoID . '" class="edit_btn" >Ir al proceso</a></center></td>
-            <td><center>' . $asunto . '</center> </td>
+            foreach ($value["alertas"] as $alerta) {
+                $mensaje .= '<tr>
+          <td><center><a href="http://carteraintegral.com.co/ciles/web/procesos/update?id=' . $proceso . '" class="edit_btn" >Ir al proceso</a></center></td>
+            <td><center>' . $alerta["descripcion"] . '</center> </td>
           </tr>';
-            //}
+                //}
+            }
 
             $mensaje .= '</tbody>
                 </table>
@@ -274,12 +299,10 @@ class AlertasController extends Controller {
           </html>
         ';
 
-            $emails = array_column($destinatarios["destinatarios"], "email");
-
             Yii::$app->mailer->compose()
                     ->setFrom(\Yii::$app->params['adminEmail'])
                     ->setTo($emails)
-                    ->setSubject($asunto)
+                    ->setSubject(\Yii::$app->params['asuntoAlertasProceso'])
                     //->setTextBody($asunto) 'Contenido en texto plano'
                     ->setHtmlBody($mensaje) //'<b>Contenido HTML</b>'
                     ->send();
