@@ -2,159 +2,171 @@
 
 namespace app\commands;
 
-use app\models\DiasNoHabiles;
 use Yii;
 use yii\console\Controller;
 
-
 /**
- * Test controller
+ * Alertas controller
  */
-class AlertasController extends Controller
-{
+class AlertasController extends Controller {
 
     /**
-     * ESTA FUNCION PROCESA Y ENVIA TODAS LAS ALERTAS DEL DIA
+     * Init function: Esta función iniciará el proceso de todas las alertas
+     * de cartera integral (Alertas prejuridico, aleras juridico, alertas taras,
+     * etc)
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co
      */
-    public function actionEnviaralertas()
-    {
-        //Si la alerta para carta enviada está activa se trabaja, sino NO
+    public function actionInitProcesarAlertas() {
+
+        #=======================================================================
+        # ALERTAS PREJURIDICAS
+        #=======================================================================
+        //Esta alerta validará el envío de la carta al cliente
         if (\Yii::$app->params['alertaPREJuridico_Carta']['activo']) {
-            $asunto = Yii::$app->params['alertaPREJuridico_Carta']['asunto'] ? Yii::$app->params['alertaPREJuridico_Carta']['asunto'] : "";
+
+            // Asunto de la alerta
+            $asunto = isset(Yii::$app->params['alertaPREJuridico_Carta']['asunto']) ?
+                    Yii::$app->params['alertaPREJuridico_Carta']['asunto'] :
+                    "CILES - Alertas: Enviar carta al cliente";
+
+            // Asunto de la alerta
+            $descripcion = isset(Yii::$app->params['alertaPREJuridico_Carta']['descripcion']) ?
+                    Yii::$app->params['alertaPREJuridico_Carta']['descripcion'] :
+                    "";
+
             //Procesar las alertas prejuridicas
-            $alertasCartas = $this->actionAlertasprejuridico("carta");
+            $alertasCartas = $this->alertaPrejuridico_CartaEnviada();
+
             //si hay alertas para carta se procede a enviarlas
             if ($alertasCartas && count($alertasCartas) > 0) {
 
-                foreach ($alertasCartas as $key => $value) {
-                    $colaboradores = $value["destinatarios"];
-                    //print_r($colaboradores);
-                    //realizar los inserts de las alertas
-                    $this->insertarAlertasColaboradores($colaboradores, $key,$asunto);
-                }
-                $alertasXUsuario = $this->alertasXUsuario();
-                //enviar las alertas a cada colabroador
-                $this->enviarEmail($colaboradores, $key,$asunto);
+                //Insertar las alertas en la base de datos
+                $this->insertarAlertasColaboradores($alertasCartas, $asunto);
 
-            } else {
-                echo "No hubo alertas de liquidación y generación de cartas 5 días hábiles luego de la llegada del proceso";
+                //Enviar las alertas a cada colabroador
+                $this->enviarEmail($alertasCartas, $asunto, $descripcion);
             }
         }
-        //Si la alerta para llamada está activa se trabaja, sino NO
+
+        //Esta alerta validará la llamada al cliente
         if (!\Yii::$app->params['alertaPREJuridico_Llamada']['activo']) {
             //Procesar las alertas prejuridicas
-            $this->actionAlertasprejuridico("llamada");
+            $this->alertaPrejuridico_LlamadaRealizada();
         }
-    }
-    /**
-     * ESTA FUNCION DEBERIA FUNCIONAR SOLO PARA PREJURIDICO Y HACER OTRA PARA JURIDICO
-     */
-    public function actionAlertasprejuridico($tipoAlerta)
-    {
 
-        $hoy =  date('Y-m-d');
-        //se obtienen los dias para alertar
+        #=======================================================================
+        # ALERTAS JURIDICAS
+        #=======================================================================
+        #=======================================================================
+        # OTRAS ALERTAS
+        #=======================================================================
+    }
+    
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * envio de la carta en la estapa prejuridica de un proceso.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return array
+     */
+    private function alertaPrejuridico_CartaEnviada() {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
         $diasHabilesParaCarta = \Yii::$app->params['alertaPREJuridico_Carta']['diasParaAlerta'];
-        //echo "diasHabilesParaCarta: " . $diasHabilesParaCarta . "\n";
-        //Inicializar el array de procesos que cumplen con las condiciones para ser enviados en el correo de alerta
+        // Inicializar el array de procesos que cumplen con las condiciones para ser enviados en el correo de alerta
         $procesosEnviarCarta = array();
 
-
-        //TRAER TODOS LOS PROCESOS COMO UN OBJETO
+        // Objetos en estado de gestion
         $procesos = \app\models\Procesos::find()
-            ->where(["estado_proceso_id" => 1])
-            ->all();
+                ->where(["estado_proceso_id" => 1])
+                ->all();
 
+        //Para cada proceso
         foreach ($procesos as $proceso) {
+
             //Si la carta ya fue enviada, pasar al siguiente registro
             if ($proceso->prejur_carta_enviada == "SI") {
                 continue;
             }
 
-            //por cada proceso obtener la fecha de cuando se le debe enviar la alerta prejuridica            
-            //primero las cartas
+            //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta prejuridica            
             $fechaAlertaCarta = $this->hallarFechaAlerta($proceso->prejur_fecha_recepcion, $diasHabilesParaCarta);
-            //echo "fechaAlerta: " . $fechaAlertaCarta . "\n";
 
-            if ($fechaAlertaCarta < $hoy) {
-                $procesosEnviarCarta[$proceso->id] =  array();
-                //$procesosEnviarCarta[$proceso->id]["id"]=$proceso->id;
+            //Si no es tiempo de la alerta continuar con el siguiente proceso
+            if ($fechaAlertaCarta > $hoy) {
+                continue;
             }
 
-            //obtener los colaboradores y el jefe a quienes seran los destinatarios de la alerta
+            //Colaboradores del proceso
             $colaboradores = $proceso->procesosXColaboradores;
-            $lider = \app\models\Users::findIdentity($proceso->jefe_id);
 
+            //Lider del proceso
+            $procesosEnviarCarta[$proceso->id]["destinatarios"][$proceso->jefe_id]["nombre"] = strtolower($proceso->jefe->name);
+            $procesosEnviarCarta[$proceso->id]["destinatarios"][$proceso->jefe_id]["email"] = strtolower($proceso->jefe->mail);
 
-            $procesosEnviarCarta[$proceso->id]["destinatarios"][$proceso->jefe_id]["nombre"] = $lider->name;
-            $procesosEnviarCarta[$proceso->id]["destinatarios"][$proceso->jefe_id]["email"] = $lider->mail;
-
-            //LUEGO HACESUN FOREACH PARA CADA COLABORADOR Y COGES SU NOMBRE Y SU EMAIL USANDO LAS MISMAS RELACIONES ANIDADAS
+            //Para cada colaborador obtengo su email y nombre
             foreach ($colaboradores as $col) {
-                //en este caso un colaborador tiene una relacion con el usuario
-                $nombre = $col->user->name;
-                $email = $col->user->mail;
                 $id = $col->user->id;
-                $procesosEnviarCarta[$proceso->id]["destinatarios"][$id]["nombre"] = $nombre;
-                $procesosEnviarCarta[$proceso->id]["destinatarios"][$id]["email"] = $email;
+                $procesosEnviarCarta[$proceso->id]["destinatarios"][$id]["nombre"] = strtolower($col->user->name);
+                $procesosEnviarCarta[$proceso->id]["destinatarios"][$id]["email"] = strtolower($col->user->mail);
             }
         }
         return $procesosEnviarCarta;
     }
 
     /**
-     * ESTA FUNCION DEBERIA FUNCIONAR SOLO PARA PREJURIDICO Y HACER OTRA PARA JURIDICO
+     * Esta funcion se encargará de procesar todas las alertas referentes a la
+     * llamada de un cliente en la estapa prejuridica de un proceso.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return array
      */
-    public function actionAlertasjuridico()
-    {
-        // Si la alerta para llamadarealizada está activa se trabaja
-        if (!\Yii::$app->params['alertaPREJuridico_Llamada']['activo']) {
-            return;
-            //$this->alertaPrejuridico_LlamadaRealizada($proceso);
-        }
-
-        //TRAER TODOS LOS PROCESOS COMO UN OBJETO
-        //TODO: Deberían ser los procesos en estado castigado??
-        $procesos = \app\models\Procesos::find()
-            ->where(["estado_proceso_id" => 1])
-            ->all();
-
-        foreach ($procesos as $proceso) {
-        }
-    }
-
-    private function alertaPrejuridico_CartaEnviada($proceso)
-    {
-    }
-
-
-    private function alertaPrejuridico_LlamadaRealizada($proceso)
-    {
+    private function alertaPrejuridico_LlamadaRealizada($proceso) {
         //se obtienen los dias para alertar
         $diasHabilesParaAlerta = \Yii::$app->params['alertaPREJuridico_Llamada']['diasParaAlerta'];
         //ya con estos dias se hace el calculo necesario 
     }
 
-    private function insertarAlertasColaboradores($destinatarios, $id, $asunto)
-    {
-        //PASO 2: guardar la alerta en la DB
-        //$modeloAlerta = new \app\models\Alertas();
-        $fecha = date('Y-m-d');
-        foreach ($destinatarios as $key => $value) {
-            // Yii::$app->db->createCommand()
-            // ->batchInsert('alertas',
-            //  ['proceso_id', 'usuario_id','descripcion_alerta','created','created_by','modified','modified_by'], 
-            //  [ [$id, $key, $asunto,$fecha,'admin',$fecha,'admin']])->execute();
-            $modeloAlerta = new \app\models\Alertas();
-            $modeloAlerta->usuario_id = $key;
-            $modeloAlerta->proceso_id = $id;
-            $modeloAlerta->descripcion_alerta = $asunto;
-            $modeloAlerta->save();
+    /**
+     * Esta funcion inserará las alertas a la base de datos de alertas.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co      
+     * @param type $destinatariosXproceso
+     * @param type $asunto
+     */
+    private function insertarAlertasColaboradores($destinatariosXproceso, $asunto) {
+        foreach ($destinatariosXproceso as $proceso => $value) {
+            foreach ($value["destinatarios"] as $usuario => $v) {
+                $modeloAlerta = new \app\models\Alertas();
+                $modeloAlerta->usuario_id = $usuario;
+                $modeloAlerta->proceso_id = $proceso;
+                $modeloAlerta->descripcion_alerta = $asunto;
+                $modeloAlerta->save();
+            }
         }
     }
 
-    private function hallarFechaAlerta($fechaInicial, $dias)
-    {
+    /**
+     * Esta funcion calcula la fecha exacta en la que se debe mandar una alerta
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co  
+     * @param type $fechaInicial
+     * @param type $dias
+     * @return type
+     */
+    private function hallarFechaAlerta($fechaInicial, $dias) {
         $fechasNoHabiles = $this->obtenerFechasNoHabiles($fechaInicial, $dias);
         $i = 1;
         while ($i <= $dias) {
@@ -165,38 +177,44 @@ class AlertasController extends Controller
                 $i++;
             }
         }
-
         return $fechaInicial;
     }
 
-    private function obtenerFechasNoHabiles($fechaInicial)
-    {
+    /**
+     * Funcion para obtener la lista de los dias no habiles
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co 
+     * @param type $fechaInicial
+     * @return type
+     */
+    private function obtenerFechasNoHabiles($fechaInicial) {
         $diasNohabilesArray = \app\models\DiasNoHabiles::find()
-            ->select("fecha_no_habil")
-            ->where(['>=', 'fecha_no_habil', $fechaInicial])
-            ->asArray()
-            ->all();
+                ->select("fecha_no_habil")
+                ->where(['>=', 'fecha_no_habil', $fechaInicial])
+                ->asArray()
+                ->all();
         return array_column($diasNohabilesArray, "fecha_no_habil");
     }
 
-    private function alertasXUsuario()
-    {
-        $hoy =  date('Y-m-d');
+    /**
+     * Esta funcion enviará los correos electroncos a los colaboradores 
+     * y lideres de un proceso
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co  
+     * @param type $destinatariosXproceso
+     * @param type $asunto
+     * @param type $descripcion
+     */
+    private function enviarEmail($destinatariosXproceso, $asunto, $descripcion) {
 
-        $alertasXUsuario = \app\models\Alertas::find()
-            ->where(['>=', 'created', $hoy])
-            ->asArray()
-            ->all();
-        //var_dump($alertasXUsuario);
-        return $alertasXUsuario;
+        foreach ($destinatariosXproceso as $procesoID => $destinatarios) {
 
-    }
-
-
-    private function enviarEmail($destinatarios,$procesoID,$asunto)
-    {
-      // mensaje
-      $mensaje = '
+            // mensaje
+            $mensaje = '
         <!DOCTYPE html>
         <html>
           
@@ -232,7 +250,7 @@ class AlertasController extends Controller
         <center>
             <body>
                 <div class="content"> 
-                  <div>Tienes pendiente hacer esta(s) liquidaci&oacute;n(es) y generar la(s) carta(s) correspondiente(s).</div><br>
+                  <div>' . $descripcion . '</div><br>
                         <table>
                           <thead>
                             <tr>
@@ -241,45 +259,31 @@ class AlertasController extends Controller
                             </tr>
                           </thead>   
                           <tbody>';
-  
-      //foreach ($alertas as $key => $value) {
-  
-        $mensaje .= '<tr>
+
+            $mensaje .= '<tr>
           <td><center><a href="http://carteraintegral.com.co/ciles/web/procesos/update?id=' . $procesoID . '" class="edit_btn" >Ir al proceso</a></center></td>
             <td><center>' . $asunto . '</center> </td>
           </tr>';
-      //}
-  
-      $mensaje .= '</tbody>
+            //}
+
+            $mensaje .= '</tbody>
                 </table>
               </div>
             </body>
           </center>
           </html>
         ';
-        
-        $emails = "";
 
-        foreach ($destinatarios as $key => $value) {
-            $value['email'] = strtolower($value['email']);
-            $emails .="{$value['email']},";
+            $emails = array_column($destinatarios["destinatarios"], "email");
 
+            Yii::$app->mailer->compose()
+                    ->setFrom(\Yii::$app->params['adminEmail'])
+                    ->setTo($emails)
+                    ->setSubject($asunto)
+                    //->setTextBody($asunto) 'Contenido en texto plano'
+                    ->setHtmlBody($mensaje) //'<b>Contenido HTML</b>'
+                    ->send();
         }
-         
-        //$emails = substr($emails, 0, -1);
-        $emails = 'dcastanom@gmail.com';
-        echo $emails."\n";
-        echo \Yii::$app->params['adminEmail']."\n";
-        //PASO 1: ENVIAR EMAIL
-        Yii::$app->mailer->compose()
-            ->setFrom(\Yii::$app->params['adminEmail']) 
-            ->setTo($emails)
-            ->setSubject($asunto)
-            //->setTextBody($asunto) 'Contenido en texto plano'
-            ->setHtmlBody($mensaje) //'<b>Contenido HTML</b>'
-            ->send();
-  
-      
-  
     }
+
 }

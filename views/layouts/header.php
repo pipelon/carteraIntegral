@@ -31,12 +31,12 @@ use yii\helpers\Html;
 
             <ul class="nav navbar-nav">
 
-
                 <li class="dropdown notifications-menu">
                     <!-- CONTAR LAS TAREAS PENDIENTES DEL USUARIO -->
                     <?php
                     $tareas = \app\models\Tareas::find()
                             ->where(['user_id' => Yii::$app->user->identity->id, 'estado' => '0'])
+                            ->limit(10)
                             ->all();
                     ?>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -63,7 +63,6 @@ use yii\helpers\Html;
                                     <?php foreach ($tareas as $tarea) : ?>
                                         <li>
                                             <?php
-                                            
                                             $htmlTarea = "<span class='tarea_desc'>{$tarea->descripcion}</span>";
                                             $htmlTarea .= "<span class='label label-warning' style='float: right'>";
                                             $htmlTarea .= "<i class='flaticon-calendar-1'></i> {$tarea->fecha_esperada}";
@@ -81,33 +80,48 @@ use yii\helpers\Html;
                 </li>
 
                 <li class="dropdown notifications-menu">
+
+                    <?php
+                    $alertas = \app\models\Alertas::find()
+                            ->where(['usuario_id' => Yii::$app->user->identity->id])
+                            ->orderBy(['created' => SORT_DESC])
+                            ->limit(10)
+                            ->all();
+                    ?>
+
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="flaticon-bell"></i>
-                        <span class="label label-danger">10</span>
+                        <?php if (count($alertas) >= 1): ?>
+                            <span class="label label-warning"><?= count($alertas); ?></span>
+                        <?php endif; ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="header">Tienes 10 notificaciones</li>
-                        <li>
-                            <!-- inner menu: contains the actual data -->
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 procesos ingresaron hoy
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-warning text-yellow"></i> Algunos procesos están atrasados
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-user text-red"></i> Juan Carlos actualizó el proceso XXXX
-                                    </a>
-                                </li>
-                            </ul>
+                        <li class="header">
+
+                            <?php if (count($alertas) >= 1): ?>
+                                <?php $plural = count($alertas) > 1 ? "s" : ""; ?>
+                                <?= "Tienes " . count($alertas) . " alerta{$plural} pendiente{$plural}"; ?>
+                            <?php else: ?>
+                                <?= "No tienes alertas pendientes"; ?>
+                            <?php endif; ?>
                         </li>
-                        <li class="footer"><a href="#">Ver todo...</a></li>
+                        <?php if (count($alertas) >= 1): ?>
+                            <li>
+                                
+                                <ul class="menu">
+                                    <?php foreach ($alertas as $alerta) : ?>
+                                        <li>
+                                            <?php
+                                            $htmlTarea = "<i class='fa fa-warning text-yellow'></i> {$alerta->descripcion_alerta}";                                            
+                                            echo \yii\bootstrap\Html::a($htmlTarea,
+                                                    ['/procesos/view', 'id' => $alerta->proceso_id]);
+                                            ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
+                            <!--<li class="footer"><a href="#">Ver todo...</a></li>-->
+                        <?php endif; ?>
                     </ul>
                 </li>
 
