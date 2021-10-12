@@ -21,7 +21,17 @@ html,
 body {
     height: 100%;
 }
-
+body,
+ul.treeview-menu > li > a,
+.btn{    
+    font-size: 12px;
+}
+.box-header > .fa, .box-header > .glyphicon, .box-header > .ion, .box-header .box-title{
+    font-size: 14px !important;
+}
+.content-header > h1{
+    font-size: 20px !important;
+}
 .wrap {
     min-height: 100%;
     height: auto;

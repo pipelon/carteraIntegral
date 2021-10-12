@@ -70,19 +70,31 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                 ],
                 [
                     'attribute' => 'prejur_valor_activacion',
-                    'label' => 'PRE: V. activación'
+                    'label' => 'PRE: V. activación',
+                    'value' => function ($data) {
+                        return "$". number_format($data->prejur_valor_activacion, 0, ",", ".");
+                    },
                 ],
                 [
                     'attribute' => 'prejur_saldo_actual',
-                    'label' => 'PRE: Saldo actual'
+                    'label' => 'PRE: Saldo actual',
+                    'value' => function ($data) {
+                        return "$". number_format($data->prejur_saldo_actual, 0, ",", ".");
+                    },
                 ],
                 [
                     'attribute' => 'jur_valor_activacion',
-                    'label' => 'JUR: V. activación'
+                    'label' => 'JUR: V. activación',
+                    'value' => function ($data) {
+                        return "$". number_format($data->jur_valor_activacion, 0, ",", ".");
+                    },
                 ],
                 [
                     'attribute' => 'jur_saldo_actual',
-                    'label' => 'JUR: Saldo actual'
+                    'label' => 'JUR: Saldo actual',
+                    'value' => function ($data) {
+                        return "$". number_format($data->jur_saldo_actual, 0, ",", ".");
+                    },
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',

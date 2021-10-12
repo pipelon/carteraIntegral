@@ -28,7 +28,7 @@ use yii\bootstrap\ActiveForm;
     <div class="box-header with-border">
     <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/index') || \Yii::$app->user->can('/*')) : <?= " ?>" ?>
         
-            <?= "<?= " ?>Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> '.<?= $generator->generateString('Volver') ?>, ['index'], ['class' => 'btn btn-default']) ?>
+            <?= "<?= " ?>Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> '.<?= $generator->generateString('Volver') ?>, ['index'], ['class' => 'btn btn-default']) ?>
         <?= "<?php " ?> endif; <?= " ?>" ?> 
         </div>
     <?= "<?php " ?>$form = ActiveForm::begin(

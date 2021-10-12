@@ -25,15 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="box-header">
         <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/index') || \Yii::$app->user->can('/*')) : <?= " ?>" ?>
         
-            <?= "<?= " ?>Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> '.<?= $generator->generateString('Volver') ?>, ['index'], ['class' => 'btn btn-default']) ?>
+            <?= "<?= " ?>Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> '.<?= $generator->generateString('Volver') ?>, ['index'], ['class' => 'btn btn-default']) ?>
         <?= "<?php " ?> endif; <?= " ?>" ?> 
         <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/update') || \Yii::$app->user->can('/*')) : <?= " ?>" ?>
         
-            <?= "<?= " ?>Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> '.<?= $generator->generateString('Actualizar') ?>, ['update', <?= $urlParams ?>], ['class' => 'btn btn-primary']) ?>
+            <?= "<?= " ?>Html::a('<i class="flaticon-edit-1" style="font-size: 15px"></i> '.<?= $generator->generateString('Actualizar') ?>, ['update', <?= $urlParams ?>], ['class' => 'btn btn-primary']) ?>
         <?= "<?php " ?> endif; <?= " ?>" ?> 
         <?= "<?php " ?> if (\Yii::$app->user->can('/<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>/delete') || \Yii::$app->user->can('/*')) : <?= " ?>" ?>
         
-            <?= "<?= " ?>Html::a('<i class="flaticon-circle" style="font-size: 20px"></i> '.<?= $generator->generateString('Borrar') ?>, ['delete', <?= $urlParams ?>], [        
+            <?= "<?= " ?>Html::a('<i class="flaticon-circle" style="font-size: 15px"></i> '.<?= $generator->generateString('Borrar') ?>, ['delete', <?= $urlParams ?>], [        
                 'class' => 'btn btn-danger',
                 'data' => [
                     'confirm' => <?= $generator->generateString('¿Está seguro que desea eliminar este ítem?') ?>,

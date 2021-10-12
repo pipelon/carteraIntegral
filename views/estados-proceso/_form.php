@@ -11,7 +11,7 @@ use yii\bootstrap\ActiveForm;
 <div class="estados-proceso-form box box-primary">
     <div class="box-header with-border">
         <?php if (\Yii::$app->user->can('/estados-proceso/index') || \Yii::$app->user->can('/*')) : ?>        
-            <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
+            <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
     </div>
     <?php
