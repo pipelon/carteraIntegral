@@ -10,23 +10,23 @@ use app\models\Procesos;
 /**
  * ProcesosSearch represents the model behind the search form of `app\models\Procesos`.
  */
-class ProcesosSearch extends Procesos
-{
+class ProcesosSearch extends Procesos {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'cliente_id', 'deudor_id'], 'integer'],
+            [['prejur_valor_activacion', 'prejur_saldo_actual',
+            'jur_valor_activacion', 'jur_saldo_actual'], 'number'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,8 +38,7 @@ class ProcesosSearch extends Procesos
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Procesos::find();
 
         // add conditions that should always apply here
@@ -61,9 +60,15 @@ class ProcesosSearch extends Procesos
         $query->andFilterWhere([
             'id' => $this->id,
             'cliente_id' => $this->cliente_id,
-            'deudor_id' => $this->deudor_id,
+            'deudor_id' => $this->deudor_id
         ]);
+
+        $query->andFilterWhere(['like', 'prejur_valor_activacion', $this->prejur_valor_activacion])
+                ->andFilterWhere(['like', 'prejur_saldo_actual', $this->prejur_saldo_actual])
+                ->andFilterWhere(['like', 'jur_valor_activacion', $this->jur_valor_activacion])
+                ->andFilterWhere(['like', 'jur_saldo_actual', $this->jur_saldo_actual]);
 
         return $dataProvider;
     }
+
 }

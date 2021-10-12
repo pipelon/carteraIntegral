@@ -89,6 +89,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->prejurTipoCaso->nombre ?? null;
                     },
                 ],
+                'prejur_valor_activacion:decimal',
+                'prejur_saldo_actual:decimal',
                 [
                     'attribute' => 'prejur_carta_enviada',
                     'format' => 'raw',

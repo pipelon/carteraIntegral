@@ -234,6 +234,10 @@ $form = ActiveForm::begin(
             ?>
         </div>
         <div class="row-field">
+            <?= $form->field($model, 'prejur_valor_activacion')->textInput() ?>
+            <?= $form->field($model, 'prejur_saldo_actual')->textInput() ?>
+        </div>
+        <div class="row-field">
             <?=
             $form->field($model, 'prejur_carta_enviada', [
                 "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"

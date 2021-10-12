@@ -67,6 +67,22 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                             })
                 ],
                 [
+                    'attribute' => 'prejur_valor_activacion',
+                    'label' => 'PRE: V. activación'
+                ],
+                [
+                    'attribute' => 'prejur_saldo_actual',
+                    'label' => 'PRE: Saldo actual'
+                ],
+                [
+                    'attribute' => 'jur_valor_activacion',
+                    'label' => 'JUR: V. activación'
+                ],
+                [
+                    'attribute' => 'jur_saldo_actual',
+                    'label' => 'JUR: Saldo actual'
+                ],
+                [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,
                     'buttons' => [

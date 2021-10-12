@@ -13,6 +13,8 @@ use Yii;
  * @property int $jefe_id Líder
  * @property int $plataforma_id Plataforma							   
  * @property string|null $prejur_fecha_recepcion Fecha recepción
+ * @property float|null $prejur_valor_activacion Valor de activación
+ * @property float|null $prejur_saldo_actual Saldo actual
  * @property string|null $prejur_carta_enviada ¿Se envía carta?
  * @property string|null $prejur_comentarios_carta Comentarios
  * @property string|null $prejur_llamada_realizada ¿Se realiza llamada telefónica?
@@ -99,7 +101,8 @@ class Procesos extends \yii\db\ActiveRecord {
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
-            [['jur_valor_activacion', 'jur_saldo_actual'], 'number'],
+            [['prejur_valor_activacion', 'prejur_saldo_actual',
+            'jur_valor_activacion', 'jur_saldo_actual'], 'number'],
             [['prejur_carta_enviada', 'prejur_llamada_realizada',
             'prejur_visita_domiciliaria', 'prejur_acuerdo_pago'], 'string', 'max' => 3],
             [['prejur_comentarios_carta', 'prejur_comentarios_llamada',
@@ -137,13 +140,15 @@ class Procesos extends \yii\db\ActiveRecord {
             'jefe_id' => 'Líder',
             'plataforma_id' => 'Plataforma',
             'prejur_fecha_recepcion' => 'Fecha recepción',
+            'prejur_valor_activacion' => 'Valor de activación',
+            'prejur_saldo_actual' => 'Saldo actual',
             'prejur_carta_enviada' => '¿Se envía carta?',
             'prejur_comentarios_carta' => 'Comentarios',
             'prejur_llamada_realizada' => '¿Se realiza llamada telefónica?',
-            'prejur_comentarios_llamada' => 'Comentarios',
-            'prejur_acuerdo_pago' => '¿Hay acuerdo de pago?',
+            'prejur_comentarios_llamada' => 'Comentarios',            
             'prejur_visita_domiciliaria' => '¿Se realiza visita domiciliaria?',
             'prejur_comentarios_visita' => 'Comentarios',
+            'prejur_acuerdo_pago' => '¿Hay acuerdo de pago?',
             'prejur_tipo_caso' => 'Tipo de caso',
             'prejur_consulta_rama_judicial' => 'Consulta rama judicial',
             'prejur_consulta_entidad_reguladora' => 'Consulta entidad reguladora',
