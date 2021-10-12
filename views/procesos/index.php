@@ -10,6 +10,8 @@ use yii\grid\GridView;
 $this->title = 'Procesos';
 $this->params['breadcrumbs'][] = $this->title;
 
+
+
 $template = '';
 if (\Yii::$app->user->can('/procesos/view')) {
     $template .= '{view} ';
@@ -92,9 +94,21 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                             ]);
                         },
                         'update' => function ($url, $model) {
-                            return Html::a('<span class="flaticon-edit-1 text-green" ></span>', $url, [
-                                        'title' => 'Editar',
-                            ]);
+
+                            //Colaboradores
+                            $colaboradores = array_column($model->procesosXColaboradores, 'user_id');
+                            //Lider
+                            $lider = $model->jefe_id;
+                            //ID usuario logueado
+                            $userId = (int) \Yii::$app->user->id;
+                            //Puede editar
+                            if (in_array($userId, $colaboradores) ||
+                                    $userId == $lider ||
+                                    Yii::$app->user->identity->isSuperAdmin()) {
+                                return Html::a('<span class="flaticon-edit-1 text-green" ></span>', $url, [
+                                            'title' => 'Editar',
+                                ]);
+                            }
                         },
                         'delete' => function ($url, $model) {
                             return Html::a('<span class="flaticon-circle text-red" ></span>', $url, [

@@ -9,13 +9,23 @@ use yii\widgets\DetailView;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Procesos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+//Colaboradores
+$colaboradores = array_column($model->procesosXColaboradores, 'user_id');
+//Lider
+$lider = $model->jefe_id;
+//ID usuario logueado
+$userId = (int)\Yii::$app->user->id;
+//Puede editar
+$canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->user->identity->isSuperAdmin();
+
 ?>
 <div class="procesos-view box box-primary">
     <div class="box-header">
         <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 20px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
         <?php endif; ?> 
-        <?php if (\Yii::$app->user->can('/procesos/update') || \Yii::$app->user->can('/*')) : ?>        
+        <?php if ((\Yii::$app->user->can('/procesos/update') || \Yii::$app->user->can('/*')) && $canEdit) : ?>
             <?= Html::a('<i class="flaticon-edit-1" style="font-size: 20px"></i> ' . 'Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
         <?php if (\Yii::$app->user->can('/procesos/delete') || \Yii::$app->user->can('/*')) : ?>        

@@ -189,6 +189,23 @@ class ProcesosController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
+        /*
+         * *********************************************************************
+         * SOLO SI ES UNO DE LOS COLABORADORES, EL LIDER O EL SUPER 
+         * ADMINISTRADOR, PUEDE EDITAR UN PROCESO
+         */
+        $colaboradores = array_column($model->procesosXColaboradores, 'user_id');
+        //ID usuario logueado
+        $userId = (int) \Yii::$app->user->id;
+        $canEdit = in_array($userId, $colaboradores) ||
+                $userId == $model->jefe_id ||
+                Yii::$app->user->identity->isSuperAdmin();        
+        //Puede editar
+        if (!$canEdit) {
+            return $this->redirect(['index']);
+        }
+        //**********************************************************************
+
         //COLABORADORES ACTUALES PARA MOSTRAR EN LA EDICION        
         $model->colaboradores = ArrayHelper::map(
                         $model->procesosXColaboradores, 'user_id', 'user_id'
@@ -240,7 +257,7 @@ class ProcesosController extends Controller {
                             $proXcol->user_id = $colaborador;
                             $proXcol->save();
                         }
-                        
+
                         //LOG
                         $mensaje = "Los colaboradores del proceso #{$id} han sido cambiados.";
                         \Yii::info($mensaje, "cartera");
@@ -262,7 +279,7 @@ class ProcesosController extends Controller {
                             $bieXpro->comentario = $model->prejur_comentarios_estudio_bienes[$bien];
                             $bieXpro->save();
                         }
-                        
+
                         //LOG
                         $mensaje = "Los estudios de bienes del estado prejuridico en el proceso #{$id} han sido cambiados.";
                         \Yii::info($mensaje, "cartera");
@@ -420,7 +437,7 @@ class ProcesosController extends Controller {
         $model->deleted = new \yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
-        
+
         //LOG
         $mensaje = "El registro #{$id} ha sido eliminado.";
         \Yii::info($mensaje, "cartera");
