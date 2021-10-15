@@ -36,9 +36,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'id',
+                [
+                    'attribute' => 'tipo_documento',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->filtroTipoDocumento($data->tipo_documento);
+                    },
+                ],
+                'documento',
                 'nombre',
                 'marca',
                 'direccion',
+                'ciudad',
                 [
                     'label' => strtoupper('Representante legal'),
                     'value' => '',

@@ -54,7 +54,7 @@ class Clientes extends BeforeModel {
             [['email_representante_legal', 'email_persona_contacto_1',
             'email_persona_contacto_2', 'email_persona_contacto_3'], 'email'],
             [['created', 'modified'], 'safe'],
-            [['tipo_documento'], 'string', 'max' => 5],
+            [['tipo_documento'], 'string', 'max' => 30],
             [['documento'], 'string', 'max' => 20],
             [['direccion', 'carpeta'], 'string', 'max' => 100],
             [['nombre', 'nombre_representante_legal', 'telefono_representante_legal',

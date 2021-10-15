@@ -38,6 +38,15 @@ if (\Yii::$app->user->can('/deudores/*') || \Yii::$app->user->can('/*')) {
             'layout' => "{items}\n{summary}\n{pager}",
             'tableOptions'=>['class'=>'table table-striped table-bordered table-condensed'],
             'columns' => [
+                [
+                    'attribute' => 'tipo_documento',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->filtroTipoDocumento($data->tipo_documento);
+                    },
+                    'filter' => Yii::$app->utils->filtroTipoDocumento()
+                ],
+                'documento',
                 'nombre',
                 'marca',
                 'direccion',

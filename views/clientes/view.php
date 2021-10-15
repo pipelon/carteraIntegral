@@ -37,7 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'attributes' => [
                 'id',
                 'nombre',
-                'tipo_documento',
+                [
+                    'attribute' => 'tipo_documento',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->filtroTipoDocumento($data->tipo_documento);
+                    },
+                ],
                 'documento',
                 'direccion',
                 [

@@ -56,7 +56,7 @@ class Deudores extends BeforeModel {
      */
     public function rules() {
         return [
-            [['nombre', 'marca', 'direccion', 'nombre_representante_legal',
+            [['tipo_documento', 'documento','nombre', 'marca', 'direccion', 'nombre_representante_legal',
             'telefono_representante_legal', 'email_representante_legal',
             'nombre_persona_contacto_1', 'telefono_persona_contacto_1',
             'email_persona_contacto_1', 'cargo_persona_contacto_1'], 'required'],
@@ -64,6 +64,9 @@ class Deudores extends BeforeModel {
             'email_persona_contacto_3', 'email_codeudor_1', 'email_codeudor_2'], 'email'],
             [['comentarios'], 'string'],
             [['created', 'modified'], 'safe'],
+            [['tipo_documento'], 'string', 'max' => 30],
+            [['ciudad'], 'string', 'max' => 30],
+            [['documento'], 'string', 'max' => 20],
             [['nombre', 'marca', 'nombre_representante_legal',
             'telefono_representante_legal', 'email_representante_legal',
             'nombre_persona_contacto_1', 'telefono_persona_contacto_1',
@@ -77,7 +80,7 @@ class Deudores extends BeforeModel {
             'nombre_codeudor_2', 'documento_codeudor_2',
             'direccion_codeudor_2', 'email_codeudor_2',
             'telefonol_codeudor_2', 'created_by', 'modified_by'], 'string', 'max' => 45],
-            [['nombre', 'marca', 'direccion', 'nombre_representante_legal',
+            [['tipo_documento','documento','nombre', 'marca', 'direccion', 'nombre_representante_legal',
             'telefono_representante_legal', 'email_representante_legal', 'nombre_persona_contacto_1',
             'telefono_persona_contacto_1', 'email_persona_contacto_1',
             'cargo_persona_contacto_1', 'nombre_persona_contacto_2',
@@ -89,8 +92,8 @@ class Deudores extends BeforeModel {
             'email_codeudor_1', 'telefono_codeudor_1',
             'nombre_codeudor_2', 'documento_codeudor_2',
             'direccion_codeudor_2', 'email_codeudor_2',
-            'telefonol_codeudor_2', 'comentarios'], 'filter', 'filter' => 'strtoupper'],
-            [['direccion'], 'string', 'max' => 100],
+            'telefonol_codeudor_2', 'comentarios', 'ciudad'], 'filter', 'filter' => 'strtoupper'],
+            [['direccion', 'carpeta'], 'string', 'max' => 100],
         ];
     }
 
@@ -100,9 +103,12 @@ class Deudores extends BeforeModel {
     public function attributeLabels() {
         return [
             'id' => 'ID',
+            'tipo_documento' => 'Tipo de documento',
+            'documento' => 'Documento',
             'nombre' => 'Nombres',
             'marca' => 'Marca',
             'direccion' => 'Dirección física',
+            'ciudad' => 'Ciudad',
             'nombre_representante_legal' => 'Nombres',
             'telefono_representante_legal' => 'Teléfonos',
             'email_representante_legal' => 'Correo electrónico',
@@ -129,6 +135,7 @@ class Deudores extends BeforeModel {
             'email_codeudor_2' => 'Correo electrónico',
             'telefonol_codeudor_2' => 'Teléfonos',
             'comentarios' => 'Comentarios',
+            'carpeta' => 'Carpeta Google Drive',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',

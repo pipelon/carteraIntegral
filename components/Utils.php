@@ -50,11 +50,23 @@ class Utils extends Component {
      * @param int $condition
      * @return string
      */
-    public function filtroTipoDocumento() {
-        return [
+    public function filtroTipoDocumento($tipo = '') {
+
+        $tiposDocumentos = [
+            'REGISTRO_CIVIL_DE_NACIMIENTO' => 'REGISTRO CIVIL DE NACIMIENTO',
+            'TARJETA_IDENTIDAD' => 'TARJETA DE IDENTIDAD',
+            'CC' => 'CÉDULA DE CIUDADANÍA',
+            'TARJETA_EXTRANJERIA' => 'TARJETA DE EXTRANJERÍA',
+            'CEDULA_EXTRANJERIA' => 'CÉDULA DE EXTRANJERÍA',
             'NIT' => 'NIT',
-            'CC' => 'CÉDULA',
+            'PASAPORTE' => 'PASAPORTE',
+            'TIPO_DOCUMENTO_EXTRANJERO' => 'TIPO DE DOCUMENTO EXTRANJERO'
         ];
+        if (!empty($tipo)) {
+            return $tiposDocumentos[$tipo];
+        }
+        
+        return  $tiposDocumentos;
     }
 
     public function mostrarToolTip($mensaje) {

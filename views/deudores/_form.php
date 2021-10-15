@@ -34,6 +34,14 @@ use yii\bootstrap\ActiveForm;
     <div class="box-body table-responsive">
 
         <div class="form-row">
+            
+            <div class="row-field">
+                <?=
+                $form->field($model, 'tipo_documento')->dropDownList(Yii::$app->utils->filtroTipoDocumento())
+                ?>
+
+                <?= $form->field($model, 'documento')->textInput(['maxlength' => true, 'id' => 'documento']) ?>
+            </div>
 
             <div class="row-field">
                 <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
@@ -43,11 +51,10 @@ use yii\bootstrap\ActiveForm;
 
             <div class="row-field">
                 <?=
-                $form->field($model, 'direccion', [
-                    'template' => "{label}\n{input}\n{hint}\n{error}\n",
-                    'options' => ['class' => 'form-group col-md-12'],
-                ])->textInput(['maxlength' => true])
+                $form->field($model, 'direccion')->textInput(['maxlength' => true])
                 ?>
+                
+                <?= $form->field($model, 'ciudad')->textInput(['maxlength' => true]) ?>
             </div>
 
             <!-- REPRESENTANTE LEGAL -->
@@ -193,6 +200,24 @@ use yii\bootstrap\ActiveForm;
                     'options' => ['class' => 'form-group col-md-12'],
                 ])->textarea(['rows' => 6])
                 ?>
+            </div>
+            
+            <!-- CARPETA GOOGLE DRIVE -->
+            <div class="row-field">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Documentos</h3>
+                    </div>
+                    <div class="box-body">
+                        <?=
+                        $form->field($model, 'carpeta', [
+                            'template' => "{label}\n{input}\n{hint}\n{error}\n",
+                            'options' => ['class' => 'form-group col-md-12'],
+                        ])->textInput(['maxlength' => true])
+                        ?>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
             </div>
 
         </div>

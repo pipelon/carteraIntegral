@@ -43,7 +43,7 @@ if (\Yii::$app->user->can('/clientes/*') || \Yii::$app->user->can('/*')) {
                     'attribute' => 'tipo_documento',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->tipo_documento;
+                        return Yii::$app->utils->filtroTipoDocumento($data->tipo_documento);
                     },
                     'filter' => Yii::$app->utils->filtroTipoDocumento()
                 ],

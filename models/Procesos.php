@@ -88,7 +88,7 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['cliente_id', 'deudor_id', 'jefe_id', 'plataforma_id',
+            [['cliente_id', 'deudor_id', 'jefe_id',
             'estado_proceso_id'], 'required'],
             [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',

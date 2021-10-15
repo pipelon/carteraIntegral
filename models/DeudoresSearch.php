@@ -18,7 +18,8 @@ class DeudoresSearch extends Deudores {
     public function rules() {
         return [
             [['id'], 'integer'],
-            [['nombre', 'marca', 'direccion', 'nombre_representante_legal',
+            [['tipo_documento', 'documento', 'nombre', 'marca', 'direccion', 'ciudad',
+            'nombre_representante_legal',
             'email_representante_legal', 'email_persona_contacto_1',
             'nombre_persona_contacto_1', 'telefono_persona_contacto_1',
             'email_persona_contacto_1', 'cargo_persona_contacto_1',
@@ -76,8 +77,11 @@ class DeudoresSearch extends Deudores {
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
+                ->andFilterWhere(['like', 'tipo_documento', $this->tipo_documento])
+                ->andFilterWhere(['like', 'documento', $this->documento])
                 ->andFilterWhere(['like', 'marca', $this->marca])
                 ->andFilterWhere(['like', 'direccion', $this->direccion])
+                ->andFilterWhere(['like', 'ciudad', $this->ciudad])
                 ->andFilterWhere(['like', 'nombre_representante_legal', $this->nombre_representante_legal])
                 ->andFilterWhere(['like', 'telefono_representante_legal', $this->telefono_representante_legal])
                 ->andFilterWhere(['like', 'email_representante_legal', $this->email_representante_legal])
