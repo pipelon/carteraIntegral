@@ -22,6 +22,10 @@ ADD CONSTRAINT `fk_procesos_plataformas`
   REFERENCES `db_cartera_integral`.`plataformas` (`id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+  
+ALTER TABLE `db_cartera_integral`.`deudores` 
+ADD COLUMN `carpeta` VARCHAR(100) NULL DEFAULT NULL COMMENT 'Carpeta Google Drive' AFTER `comentarios`;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
