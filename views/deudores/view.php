@@ -110,6 +110,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'email_codeudor_2:email',
                 'telefonol_codeudor_2',
                 'comentarios:html',
+                [
+                    'attribute' => 'carpeta',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        $url = 'https://drive.google.com/open?id=' . $data->carpeta;
+                        return Html::a($url, $url, ['target' => '_blank']);
+                    },
+                ],
                 'created:date',
                 'created_by',
                 'modified:date',
