@@ -369,6 +369,9 @@ class ProcesosController extends Controller {
                 } else {
                     \app\models\ConsolidadoPagosPrejuridicos::deleteAll(['proceso_id' => $model->id]);
                 }
+                if($_POST['Procesos']['prejur_acuerdo_pago'] == 'N/A' || $_POST['Procesos']['prejur_acuerdo_pago'] == 'NO'){
+                     \app\models\ConsolidadoPagosPrejuridicos::deleteAll(['proceso_id' => $model->id]);
+                }
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LAS TAREAS
                 if (isset($_POST['Tareas'])) {

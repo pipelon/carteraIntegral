@@ -183,7 +183,7 @@ DROP TABLE IF EXISTS `clientes`;
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `nombre` varchar(45) NOT NULL COMMENT 'Nombre',
-  `tipo_documento` char(5) NOT NULL COMMENT 'Tipo de documento',
+  `tipo_documento` varchar(30) NOT NULL COMMENT 'Tipo de documento',
   `documento` varchar(20) NOT NULL COMMENT 'Documento',
   `direccion` varchar(100) NOT NULL COMMENT 'Dirección física',
   `nombre_representante_legal` varchar(45) NOT NULL COMMENT 'Nombres',
@@ -214,7 +214,7 @@ CREATE TABLE `clientes` (
 
 /*Data for the table `clientes` */
 
-insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`carpeta`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (1,'CLIENTE PARA HACER PRUEBAS','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FULANITO','123','FULANIT@GMIAL.COM','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','','2021-07-13 10:37:55','admin','2021-10-08 09:01:03','admin',0,'2021-09-24 15:34:27','admin'),(93,'CLIENTE PRUEBA 1','NIT','123456','1234','REPRESENTANTE','12345','REPRESENTANTE@GMAIL.COM','ASDASD','ASDASD','2@2.COM','ASDASD','','','','','','','','','1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','2021-07-18 09:30:21','admin','2021-09-24 15:55:10','admin',1,'2021-09-24 15:55:10','admin');
+insert  into `clientes`(`id`,`nombre`,`tipo_documento`,`documento`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`carpeta`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (1,'CLIENTE PARA HACER PRUEBAS','NIT','98766496','CALLE 40 A SUR # 24 B - 105','FULANITO','123','FULANIT@GMIAL.COM','FELIPE ECHEVERRI','12345','PIPE.ECHEVERRI.1@GMAIL.COM','ANALISTA','DIEGO CASTAñO','54321','DIEGO@GMAIL.COM','ANALISTA 2','PEDRO PEREZ','324324','PEDRO@GMAIL.COM','CARGO PEDRO','','2021-07-13 10:37:55','admin','2021-10-15 14:16:45','admin',0,'2021-09-24 15:34:27','admin'),(93,'CLIENTE PRUEBA 1','NIT','123456','1234','REPRESENTANTE','12345','REPRESENTANTE@GMAIL.COM','ASDASD','ASDASD','2@2.COM','ASDASD','','','','','','','','','1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','2021-07-18 09:30:21','admin','2021-09-24 15:55:10','admin',1,'2021-09-24 15:55:10','admin');
 
 /*Table structure for table `consolidado_pagos_juridicos` */
 
@@ -243,7 +243,7 @@ CREATE TABLE `consolidado_pagos_prejuridicos` (
   `proceso_id` int(11) NOT NULL COMMENT 'Proceso ID',
   `fecha_acuerdo_pago` date NOT NULL COMMENT 'Fecha de pago',
   `valor_acuerdo_pago` decimal(10,0) NOT NULL COMMENT 'Valor',
-  `fecha_pago_realizado` datetime DEFAULT NULL COMMENT 'Pago realizado',
+  `fecha_pago_realizado` date DEFAULT NULL COMMENT 'Pago realizado',
   `valor_pagado` decimal(10,0) DEFAULT NULL COMMENT 'Valor pagado',
   `descripcion` varchar(400) DEFAULT NULL COMMENT 'Descripción',
   `created` datetime NOT NULL COMMENT 'Creado',
@@ -253,11 +253,9 @@ CREATE TABLE `consolidado_pagos_prejuridicos` (
   PRIMARY KEY (`id`),
   KEY `fk_consolidado_pagos_prejuridicos_procesos_idx` (`proceso_id`),
   CONSTRAINT `fk_consolidado_pagos_prejuridicos_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
 /*Data for the table `consolidado_pagos_prejuridicos` */
-
-insert  into `consolidado_pagos_prejuridicos`(`id`,`proceso_id`,`fecha_acuerdo_pago`,`valor_acuerdo_pago`,`fecha_pago_realizado`,`valor_pagado`,`descripcion`,`created`,`created_by`,`modified`,`modified_by`) values (52,9,'2021-10-10','500000','2021-09-30 00:00:00','500000','SE LOGRO UN ACUERDO DE PAGAR 500MIL EL 10 Y UN MILLON EL 16','2021-10-12 08:23:17','admin','2021-10-12 08:23:17','admin'),(53,9,'2021-10-16','1000000',NULL,NULL,'','2021-10-12 08:23:17','admin','2021-10-12 08:23:17','admin');
 
 /*Table structure for table `departamentos` */
 
@@ -286,9 +284,12 @@ DROP TABLE IF EXISTS `deudores`;
 
 CREATE TABLE `deudores` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `tipo_documento` varchar(30) NOT NULL COMMENT 'Tido de documento',
+  `documento` varchar(20) NOT NULL COMMENT 'Documento',
   `nombre` varchar(45) NOT NULL COMMENT 'Nombres',
   `marca` varchar(45) NOT NULL COMMENT 'Marca',
   `direccion` varchar(100) NOT NULL COMMENT 'Dirección física',
+  `ciudad` varchar(50) DEFAULT NULL COMMENT 'Ciudad',
   `nombre_representante_legal` varchar(45) NOT NULL COMMENT 'Nombres',
   `telefono_representante_legal` varchar(45) NOT NULL COMMENT 'Teléfonos',
   `email_representante_legal` varchar(45) NOT NULL COMMENT 'Correo electrónico',
@@ -315,6 +316,7 @@ CREATE TABLE `deudores` (
   `email_codeudor_2` varchar(45) DEFAULT NULL COMMENT 'Correo electrónico',
   `telefonol_codeudor_2` varchar(45) DEFAULT NULL COMMENT 'Teléfonos',
   `comentarios` text DEFAULT NULL COMMENT 'Comentarios',
+  `carpeta` varchar(100) DEFAULT NULL COMMENT 'Carpeta Google Drive',
   `created` datetime NOT NULL COMMENT 'Creado',
   `created_by` varchar(45) NOT NULL COMMENT 'Creado por',
   `modified` datetime NOT NULL COMMENT 'Modificado',
@@ -327,7 +329,7 @@ CREATE TABLE `deudores` (
 
 /*Data for the table `deudores` */
 
-insert  into `deudores`(`id`,`nombre`,`marca`,`direccion`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`nombre_codeudor_1`,`documento_codeudor_1`,`direccion_codeudor_1`,`email_codeudor_1`,`telefono_codeudor_1`,`nombre_codeudor_2`,`documento_codeudor_2`,`direccion_codeudor_2`,`email_codeudor_2`,`telefonol_codeudor_2`,`comentarios`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (2,'NOMBRESN','MARCA',' DIRECCIóN FíSICA ','FULANITO2','1234','FULANITO@GMAIL.COM','NOMBRES','1234','CORREO1@GMAIL.COM','CARGO','NOMBRE','12345','CORREO2@GMAIL.COM','CARGO','NOMBRES','4331','CORREO3@GMAIL.COM','CARGO','NOMBRES','1234567','DIRECCIóN FíSICA','CORREO4@GMAIL.COM','1234','NOMBRES','1242','DIRECCIóN FíSICA','CORREO5@GMAIL.COM','12343','COEMNTARIOS EN GENERAL','2021-07-14 14:18:50','admin','2021-09-24 15:54:10','admin',1,'2021-09-24 15:54:10','admin'),(3,'DEUDOR PARA HACER PRUEBAS','MARCA PRUEBA','ASDAD','1','1','FULANITO@GMAIL.COM','SADSAD','ASD','6@6.COM','ASDASD','','','','','','','','','SADSAD','ASDASD','ASDAS','19@19.COM','ASDSADAS','','','','','','','2021-07-18 09:31:19','admin','2021-10-08 09:01:19','admin',0,'2021-09-24 15:51:42','admin');
+insert  into `deudores`(`id`,`tipo_documento`,`documento`,`nombre`,`marca`,`direccion`,`ciudad`,`nombre_representante_legal`,`telefono_representante_legal`,`email_representante_legal`,`nombre_persona_contacto_1`,`telefono_persona_contacto_1`,`email_persona_contacto_1`,`cargo_persona_contacto_1`,`nombre_persona_contacto_2`,`telefono_persona_contacto_2`,`email_persona_contacto_2`,`cargo_persona_contacto_2`,`nombre_persona_contacto_3`,`telefono_persona_contacto_3`,`email_persona_contacto_3`,`cargo_persona_contacto_3`,`nombre_codeudor_1`,`documento_codeudor_1`,`direccion_codeudor_1`,`email_codeudor_1`,`telefono_codeudor_1`,`nombre_codeudor_2`,`documento_codeudor_2`,`direccion_codeudor_2`,`email_codeudor_2`,`telefonol_codeudor_2`,`comentarios`,`carpeta`,`created`,`created_by`,`modified`,`modified_by`,`delete`,`deleted`,`deleted_by`) values (2,'','','NOMBRESN','MARCA',' DIRECCIóN FíSICA ',NULL,'FULANITO2','1234','FULANITO@GMAIL.COM','NOMBRES','1234','CORREO1@GMAIL.COM','CARGO','NOMBRE','12345','CORREO2@GMAIL.COM','CARGO','NOMBRES','4331','CORREO3@GMAIL.COM','CARGO','NOMBRES','1234567','DIRECCIóN FíSICA','CORREO4@GMAIL.COM','1234','NOMBRES','1242','DIRECCIóN FíSICA','CORREO5@GMAIL.COM','12343','COEMNTARIOS EN GENERAL',NULL,'2021-07-14 14:18:50','admin','2021-09-24 15:54:10','admin',1,'2021-09-24 15:54:10','admin'),(3,'REGISTRO_CIVIL_DE_NACIMIENTO','1223','DEUDOR PARA HACER PRUEBAS','MARCA PRUEBA','ASDAD','MEDELLíN','1','1','FULANITO@GMAIL.COM','SADSAD','ASD','6@6.COM','ASDASD','','','','','','','','','SADSAD','ASDASD','ASDAS','19@19.COM','ASDSADAS','','','','','','','123','2021-07-18 09:31:19','admin','2021-10-15 16:33:42','admin',0,'2021-09-24 15:51:42','admin');
 
 /*Table structure for table `dias_no_habiles` */
 
@@ -564,7 +566,7 @@ CREATE TABLE `procesos` (
   `cliente_id` int(11) NOT NULL COMMENT 'Cliente',
   `deudor_id` int(11) NOT NULL COMMENT 'Deudor',
   `jefe_id` int(11) NOT NULL COMMENT 'Líder',
-  `plataforma_id` int(11) NOT NULL COMMENT 'Plataforma',
+  `plataforma_id` int(11) DEFAULT NULL COMMENT 'Plataforma',
   `prejur_fecha_recepcion` date DEFAULT NULL COMMENT 'Fecha recepción',
   `prejur_valor_activacion` decimal(10,0) DEFAULT NULL COMMENT 'Valor de activación',
   `prejur_saldo_actual` decimal(10,0) DEFAULT NULL COMMENT 'Saldo actual',
@@ -575,6 +577,11 @@ CREATE TABLE `procesos` (
   `prejur_visita_domiciliaria` varchar(3) DEFAULT NULL COMMENT '¿Se realiza visita domiciliaria?',
   `prejur_comentarios_visita` varchar(200) DEFAULT NULL COMMENT 'Comentarios',
   `prejur_acuerdo_pago` varchar(3) DEFAULT NULL COMMENT '¿Hay acuerdo de pago?',
+  `prejur_fecha_no_acuerdo_pago` date DEFAULT NULL COMMENT 'Fecha de marcación de que no hubo acuerdo de pago',
+  `prejur_resultado_estudio_bienes` varchar(12) NOT NULL DEFAULT 'SIN DEFINIR' COMMENT 'Resultado del estudio de bienes',
+  `prejur_fecha_estudio_bienes` date DEFAULT NULL COMMENT 'Fecha de certificación del resultado del estudio de bienes',
+  `prejur_informe_castigo_enviado` varchar(3) DEFAULT 'NO' COMMENT '¿Se envía informe de inviabilidad o castigo?',
+  `prejur_carta_castigo_enviada` varchar(3) DEFAULT 'NO' COMMENT '¿Se envía carta de inviabilidad o castigo?',
   `prejur_tipo_caso` int(11) DEFAULT NULL COMMENT 'Tipo de caso',
   `prejur_consulta_rama_judicial` text DEFAULT NULL COMMENT 'Consulta rama judicial',
   `prejur_consulta_entidad_reguladora` text DEFAULT NULL COMMENT 'Consulta entidad reguladora',
@@ -625,7 +632,7 @@ CREATE TABLE `procesos` (
 
 /*Data for the table `procesos` */
 
-insert  into `procesos`(`id`,`cliente_id`,`deudor_id`,`jefe_id`,`plataforma_id`,`prejur_fecha_recepcion`,`prejur_valor_activacion`,`prejur_saldo_actual`,`prejur_carta_enviada`,`prejur_comentarios_carta`,`prejur_llamada_realizada`,`prejur_comentarios_llamada`,`prejur_visita_domiciliaria`,`prejur_comentarios_visita`,`prejur_acuerdo_pago`,`prejur_tipo_caso`,`prejur_consulta_rama_judicial`,`prejur_consulta_entidad_reguladora`,`prejur_concepto_viabilidad`,`prejur_otros`,`jur_fecha_recepcion`,`jur_valor_activacion`,`jur_saldo_actual`,`jur_departamento_id`,`jur_ciudad_id`,`jur_jurisdiccion_competent_id`,`jur_juzgado`,`jur_tipo_proceso_id`,`jur_etapas_procesal_id`,`carpeta`,`estrec_pretenciones`,`estrec_probabilidad_recuperacion`,`estrec_tiempo_recuperacion`,`estrec_comentarios`,`estado_proceso_id`,`delete`,`deleted`,`deleted_by`) values (9,1,3,7,4,'2021-10-01','5000000','4000000','NO','COMENTARIO CARTA','NO','COMENTARIO LLAMADA','N/A','COMENTARIO VISITA','N/A',1,'PRUEBA1LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\n','PRUEBA2LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','5LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, PRUEBAVENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nPRUEBA\r\n','PRUEBA6LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','2021-08-03','23850000','45672120.12',7,448,2836,'BOLÍVAR, PINILLOS, 1  PROMISCUO MUNICIPAL PINILLOS',14,148,'1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','PRUEBAPRETENCIONES 1','50%','PRUEBATIEMPO ESTIMADO DE RECUPERACIóN 1','PRUEBACOMENTARIOS 1',1,0,'2021-09-24 16:03:23','admin'),(24,1,3,43,4,'2021-10-01',NULL,NULL,'NO','','','','','','',NULL,'','','','',NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,'','','','','',1,0,NULL,NULL);
+insert  into `procesos`(`id`,`cliente_id`,`deudor_id`,`jefe_id`,`plataforma_id`,`prejur_fecha_recepcion`,`prejur_valor_activacion`,`prejur_saldo_actual`,`prejur_carta_enviada`,`prejur_comentarios_carta`,`prejur_llamada_realizada`,`prejur_comentarios_llamada`,`prejur_visita_domiciliaria`,`prejur_comentarios_visita`,`prejur_acuerdo_pago`,`prejur_fecha_no_acuerdo_pago`,`prejur_resultado_estudio_bienes`,`prejur_fecha_estudio_bienes`,`prejur_informe_castigo_enviado`,`prejur_carta_castigo_enviada`,`prejur_tipo_caso`,`prejur_consulta_rama_judicial`,`prejur_consulta_entidad_reguladora`,`prejur_concepto_viabilidad`,`prejur_otros`,`jur_fecha_recepcion`,`jur_valor_activacion`,`jur_saldo_actual`,`jur_departamento_id`,`jur_ciudad_id`,`jur_jurisdiccion_competent_id`,`jur_juzgado`,`jur_tipo_proceso_id`,`jur_etapas_procesal_id`,`carpeta`,`estrec_pretenciones`,`estrec_probabilidad_recuperacion`,`estrec_tiempo_recuperacion`,`estrec_comentarios`,`estado_proceso_id`,`delete`,`deleted`,`deleted_by`) values (9,1,3,7,4,'2021-10-01','5000000','4000000','NO','COMENTARIO CARTA','NO','COMENTARIO LLAMADA','N/A','COMENTARIO VISITA','NO','2021-10-22','POSITIVO','2021-10-22','N/A','N/A',1,'PRUEBA1LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\n','PRUEBA2LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','5LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, PRUEBAVENENATIS EROS.\r\n\r\nLOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.\r\n\r\nPRUEBA\r\n','PRUEBA6LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT. ETIAM EGET QUAM TELLUS. QUISQUE EU IPSUM MATTIS, COMMODO EX EU, VENENATIS EROS.','2021-08-03','23850000','45672120.12',7,448,2836,'BOLÍVAR, PINILLOS, 1  PROMISCUO MUNICIPAL PINILLOS',14,148,'1U8cLqz3-uf61VWsBnl6xq0QaS8CU8mtX','PRUEBAPRETENCIONES 1','50%','PRUEBATIEMPO ESTIMADO DE RECUPERACIóN 1','PRUEBACOMENTARIOS 1',1,0,'2021-09-24 16:03:23','admin'),(24,1,3,43,4,'2021-10-01',NULL,NULL,'NO','','','','','','',NULL,'SIN DEFINIR',NULL,'NO','NO',NULL,'','','','',NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,'','','','','',1,0,NULL,NULL);
 
 /*Table structure for table `procesos_x_colaboradores` */
 

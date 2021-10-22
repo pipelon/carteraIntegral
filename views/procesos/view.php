@@ -15,10 +15,9 @@ $colaboradores = array_column($model->procesosXColaboradores, 'user_id');
 //Lider
 $lider = $model->jefe_id;
 //ID usuario logueado
-$userId = (int)\Yii::$app->user->id;
+$userId = (int) \Yii::$app->user->id;
 //Puede editar
 $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->user->identity->isSuperAdmin();
-
 ?>
 <div class="procesos-view box box-primary">
     <div class="box-header">
@@ -132,7 +131,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                             $htmlPago .= "<b>Fecha acuerdo de pago:</b> {$pago->fecha_acuerdo_pago}<br/>"
                                     . "<b>Valor acordado:</b> " . number_format($pago->valor_acuerdo_pago, 2, ",", ".") . "<br/>"
                                     . "<b>Descripción:</b> {$pago->descripcion}<br/>"
-                                    . "<b>Fecha pago realizado:</b>{$pago->fecha_pago_realizado}<br/>"
+                                    . "<b>Fecha pago realizado:</b> {$pago->fecha_pago_realizado}<br/>"
                                     . "<b>Valor pagado:</b> " . number_format($pago->valor_pagado, 2, ",", ".") . "<br/><br/>";
                         }
                         return $htmlPago;
@@ -140,6 +139,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                 ],
                 'prejur_consulta_rama_judicial:ntext',
                 'prejur_consulta_entidad_reguladora:ntext',
+                'prejur_resultado_estudio_bienes',
                 [
                     'attribute' => 'prejur_estudio_bienes',
                     'format' => 'raw',
@@ -151,6 +151,8 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                             )
                     ),
                 ],
+                'prejur_informe_castigo_enviado',
+                'prejur_carta_castigo_enviada',
                 'prejur_concepto_viabilidad:ntext',
                 'prejur_otros:ntext',
                 [

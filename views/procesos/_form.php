@@ -298,8 +298,22 @@ $form = ActiveForm::begin(
                 ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
                 [
                     'prompt' => '- Seleccione -',
+                    'onchange' => '
+                        $("#prejur_fecha_no_acuerdo_pago").val("");
+                        if($(this).val() == "NO"){
+                            $("#prejur_fecha_no_acuerdo_pago").val( "' . date('Y-m-d') . '");
+                        }
+                    '
                 ]
         )
+        ?>
+
+        <?=
+                $form->field($model, 'prejur_fecha_no_acuerdo_pago', [
+                    "template" => "{input}",
+                    "options" => ['class' => ' ']]
+                )->hiddenInput(['id' => 'prejur_fecha_no_acuerdo_pago'])
+                ->label(false);
         ?>
 
         <div class="row-field col-md-12 divAcuerdoPago" style="display: none">            
@@ -401,6 +415,32 @@ $form = ActiveForm::begin(
         </div>
         <!-- ESTUDIO DE BIENES -->
         <div class="row-field">
+
+            <?=
+            $form->field($model, 'prejur_resultado_estudio_bienes', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                "options" => ['class' => 'form-group col-md-12']
+            ])->dropDownList(
+                    ['SIN DEFINIR' => 'SIN DEFINIR', 'POSITIVO' => 'POSITIVO', 'NEGATIVO' => 'NEGATIVO'],
+                    [
+                        'prompt' => '- Seleccione -',
+                        'onchange' => '
+                        $("#prejur_fecha_estudio_bienes").val("");
+                        if($(this).val() == "POSITIVO" || $(this).val() == "NEGATIVO"){
+                            $("#prejur_fecha_estudio_bienes").val( "' . date('Y-m-d') . '");
+                        }
+                    '
+                    ]
+            )
+            ?>
+
+            <?=
+                    $form->field($model, 'prejur_fecha_estudio_bienes', [
+                        "template" => "{input}",
+                        "options" => ['class' => ' ']]
+                    )->hiddenInput(['id' => 'prejur_fecha_estudio_bienes'])
+                    ->label(false);
+            ?>
             <?php
             $bienesList = yii\helpers\ArrayHelper::map(
                             \app\models\Bienes::find()
@@ -435,6 +475,28 @@ $form = ActiveForm::begin(
                                     . "</div>"
                                     . "</div>";
                         }
+                    ]
+            )
+            ?>
+        </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'prejur_informe_castigo_enviado', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(
+                    ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                    [
+                        'prompt' => '- Seleccione -',
+                    ]
+            )
+            ?>
+            <?=
+            $form->field($model, 'prejur_carta_castigo_enviada', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(
+                    ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
+                    [
+                        'prompt' => '- Seleccione -',
                     ]
             )
             ?>

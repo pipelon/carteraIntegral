@@ -26,16 +26,18 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- ALTER TABLE `db_cartera_integral`.`deudores` 
 -- ADD COLUMN `carpeta` VARCHAR(100) NULL DEFAULT NULL COMMENT 'Carpeta Google Drive' AFTER `comentarios`;
 
-ALTER TABLE `procesos` ADD `prejur_fecha_no_acuerdo_pago` DATE NULL COMMENT 'Fecha de marcación de que no hubo acuerdo de pago' AFTER `prejur_acuerdo_pago`;
+-- ALTER TABLE `procesos` ADD `prejur_fecha_no_acuerdo_pago` DATE NULL COMMENT 'Fecha de marcación de que no hubo acuerdo de pago' AFTER `prejur_acuerdo_pago`;
 
-ALTER TABLE `procesos` ADD `prejur_estudio_bienes` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'SIN DEFINIR' COMMENT 'Resultado del estudio de bienes' AFTER `prejur_fecha_no_acuerdo_pago`;
+-- ALTER TABLE `procesos` ADD `prejur_resultado_estudio_bienes` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'SIN DEFINIR' COMMENT 'Resultado del estudio de bienes' AFTER `prejur_fecha_no_acuerdo_pago`;
 
-ALTER TABLE `procesos` ADD `prejur_fecha_estudio_bienes` DATE NULL DEFAULT NULL COMMENT 'Fecha de certificación del resultado del estudio de bienes' AFTER `resultado_estudio_bienes`;
+-- ALTER TABLE `procesos` ADD `prejur_fecha_estudio_bienes` DATE NULL DEFAULT NULL COMMENT 'Fecha de certificación del resultado del estudio de bienes' AFTER `prejur_estudio_bienes`;
 
-ALTER TABLE `procesos` ADD `prejur_informe_castigo_enviado` VARCHAR(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'NO' COMMENT '¿Se envía informe de inviabilidad o castigo?' AFTER `prejur_fecha_estudio_bienes`;
+-- ALTER TABLE `procesos` ADD `prejur_informe_castigo_enviado` VARCHAR(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'NO' COMMENT '¿Se envía informe de inviabilidad o castigo?' AFTER `prejur_fecha_estudio_bienes`;
 
-ALTER TABLE `procesos` ADD `prejur_carta_castigo_enviada` VARCHAR(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'NO' COMMENT '¿Se envía carta de inviabilidad o castigo?' AFTER `prejur_informe_castigo_enviado`;
+-- ALTER TABLE `procesos` ADD `prejur_carta_castigo_enviada` VARCHAR(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'NO' COMMENT '¿Se envía carta de inviabilidad o castigo?' AFTER `prejur_informe_castigo_enviado`;
 
+alter table `db_cartera_integral`.`consolidado_pagos_prejuridicos` 
+   change `fecha_pago_realizado` `fecha_pago_realizado` date NULL  comment 'Pago realizado'
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

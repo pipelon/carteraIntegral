@@ -11,7 +11,7 @@ use Yii;
  * @property int $cliente_id Cliente
  * @property int $deudor_id Deudor
  * @property int $jefe_id Líder
- * @property int $plataforma_id Plataforma							   
+ * @property int|null $plataforma_id Plataforma							   
  * @property string|null $prejur_fecha_recepcion Fecha recepción
  * @property float|null $prejur_valor_activacion Valor de activación
  * @property float|null $prejur_saldo_actual Saldo actual
@@ -22,6 +22,11 @@ use Yii;
  * @property string|null $prejur_visita_domiciliaria ¿Se realiza visita domiciliaria?
  * @property string|null $prejur_comentarios_visita Comentarios							   
  * @property string|null $prejur_acuerdo_pago ¿Hay acuerdo de pago?																	
+ * @property string|null $prejur_fecha_no_acuerdo_pago Fecha de marcación de que no hubo acuerdo de pago
+ * @property string $prejur_resultado_estudio_bienes Resultado del estudio de bienes
+ * @property string|null $prejur_fecha_estudio_bienes Fecha de certificación del resultado del estudio de bienes
+ * @property string|null $prejur_informe_castigo_enviado ¿Se envía informe de inviabilidad o castigo?
+ * @property string|null $prejur_carta_castigo_enviada ¿Se envía carta de inviabilidad o castigo?
  * @property int|null $prejur_tipo_caso Tipo de caso
  * @property string|null $prejur_consulta_rama_judicial Consulta rama judicial
  * @property string|null $prejur_consulta_entidad_reguladora Consulta entidad reguladora
@@ -94,8 +99,9 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
             'estado_proceso_id', 'jur_departamento_id', 'jur_ciudad_id',
             'jur_jurisdiccion_competent_id',], 'integer'],
-            [['prejur_fecha_recepcion', 'jur_fecha_recepcion', 'prejur_estudio_bienes',
-            'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
+            [['prejur_fecha_recepcion', 'prejur_fecha_no_acuerdo_pago',
+            'jur_fecha_recepcion', 'prejur_resultado_estudio_bienes',
+            'prejur_fecha_estudio_bienes', 'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion',
             'colaboradores', 'deleted'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
@@ -104,10 +110,12 @@ class Procesos extends \yii\db\ActiveRecord {
             [['prejur_valor_activacion', 'prejur_saldo_actual',
             'jur_valor_activacion', 'jur_saldo_actual'], 'number'],
             [['prejur_carta_enviada', 'prejur_llamada_realizada',
-            'prejur_visita_domiciliaria', 'prejur_acuerdo_pago'], 'string', 'max' => 3],
+            'prejur_visita_domiciliaria', 'prejur_acuerdo_pago',
+            'prejur_informe_castigo_enviado', 'prejur_carta_castigo_enviada'], 'string', 'max' => 3],
             [['prejur_comentarios_carta', 'prejur_comentarios_llamada',
             'prejur_comentarios_visita', 'jur_juzgado'], 'string', 'max' => 200],
             [['jur_juzgado'], 'string', 'max' => 200],
+            [['prejur_resultado_estudio_bienes'], 'string', 'max' => 12],
             [['carpeta'], 'string', 'max' => 100],
             [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
             [['deleted_by'], 'string', 'max' => 45],
@@ -145,10 +153,15 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_carta_enviada' => '¿Se envía carta?',
             'prejur_comentarios_carta' => 'Comentarios',
             'prejur_llamada_realizada' => '¿Se realiza llamada telefónica?',
-            'prejur_comentarios_llamada' => 'Comentarios',            
+            'prejur_comentarios_llamada' => 'Comentarios',
             'prejur_visita_domiciliaria' => '¿Se realiza visita domiciliaria?',
             'prejur_comentarios_visita' => 'Comentarios',
             'prejur_acuerdo_pago' => '¿Hay acuerdo de pago?',
+            'prejur_fecha_no_acuerdo_pago' => 'Fecha de marcación de que no hubo acuerdo de pago',
+            'prejur_resultado_estudio_bienes' => 'Resultado del estudio de bienes',
+            'prejur_fecha_estudio_bienes' => 'Fecha de certificación del resultado del estudio de bienes',
+            'prejur_informe_castigo_enviado' => '¿Se envía informe de inviabilidad o castigo?',
+            'prejur_carta_castigo_enviada' => '¿Se envía carta de inviabilidad o castigo?',
             'prejur_tipo_caso' => 'Tipo de caso',
             'prejur_consulta_rama_judicial' => 'Consulta rama judicial',
             'prejur_consulta_entidad_reguladora' => 'Consulta entidad reguladora',
