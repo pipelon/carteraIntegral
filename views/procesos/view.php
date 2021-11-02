@@ -63,7 +63,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                     'attribute' => 'plataforma_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->plataforma->nombre;
+                        return $data->plataforma->nombre ?? null;
                     },
                 ],
                 [
