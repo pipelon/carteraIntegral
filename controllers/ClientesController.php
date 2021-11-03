@@ -52,6 +52,17 @@ class ClientesController extends Controller {
                     'model' => $this->findModel($id),
         ]);
     }
+    
+    /**
+     * Displays a single Clientes model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionViewsummary($id) {
+        return $this->renderPartial('view-summary', [
+                    'model' => $this->findModel($id),
+        ]);
+    }
 
     /**
      * Creates a new Clientes model.

@@ -46,7 +46,7 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                     'attribute' => 'cliente_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->cliente->nombre;
+                        return Html::a($data->cliente->nombre, ['clientes/viewsummary', 'id' => $data->cliente_id], ['class' => 'popupModal']);
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
                             \app\models\Clientes::find()
@@ -59,7 +59,7 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                     'attribute' => 'deudor_id',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return $data->deudor->nombre;
+                        return Html::a($data->deudor->nombre, ['deudores/viewsummary', 'id' => $data->deudor_id], ['class' => 'popupModal']);
                     },
                     'filter' => yii\helpers\ArrayHelper::map(
                             \app\models\Deudores::find()
@@ -72,29 +72,42 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                     'attribute' => 'prejur_valor_activacion',
                     'label' => 'PRE: V. activación',
                     'value' => function ($data) {
-                        return "$". number_format($data->prejur_valor_activacion, 0, ",", ".");
+                        return "$" . number_format($data->prejur_valor_activacion, 0, ",", ".");
                     },
                 ],
                 [
                     'attribute' => 'prejur_saldo_actual',
                     'label' => 'PRE: Saldo actual',
                     'value' => function ($data) {
-                        return "$". number_format($data->prejur_saldo_actual, 0, ",", ".");
+                        return "$" . number_format($data->prejur_saldo_actual, 0, ",", ".");
                     },
                 ],
                 [
                     'attribute' => 'jur_valor_activacion',
                     'label' => 'JUR: V. activación',
                     'value' => function ($data) {
-                        return "$". number_format($data->jur_valor_activacion, 0, ",", ".");
+                        return "$" . number_format($data->jur_valor_activacion, 0, ",", ".");
                     },
                 ],
                 [
                     'attribute' => 'jur_saldo_actual',
                     'label' => 'JUR: Saldo actual',
                     'value' => function ($data) {
-                        return "$". number_format($data->jur_saldo_actual, 0, ",", ".");
+                        return "$" . number_format($data->jur_saldo_actual, 0, ",", ".");
                     },
+                ],
+                [
+                    'attribute' => 'estado_proceso_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->estadoProceso->nombre;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\EstadosProceso::find()
+                                    ->where(['activo' => 1])
+                                    ->orderBy(['nombre' => SORT_ASC])
+                                    ->all()
+                            , 'id', 'nombre')
                 ],
                 [
                     'class' => 'yii\grid\ActionColumn',
@@ -136,3 +149,20 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
         ?>
     </div>
 </div>
+
+
+<?php
+yii\bootstrap\Modal::begin([
+    'id' => 'modal',
+    'size' => yii\bootstrap\Modal::SIZE_LARGE,
+]);
+yii\bootstrap\Modal::end();
+
+$this->registerJs("$(function() {
+   $('.popupModal').click(function(e) {
+     e.preventDefault();
+     $('#modal').modal('show').find('.modal-content')
+     .load($(this).attr('href'));
+   });
+});");
+?>

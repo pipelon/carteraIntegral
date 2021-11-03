@@ -19,7 +19,7 @@ class ProcesosSearch extends Procesos {
         return [
             [['id', 'cliente_id', 'deudor_id'], 'integer'],
             [['prejur_valor_activacion', 'prejur_saldo_actual',
-            'jur_valor_activacion', 'jur_saldo_actual'], 'number'],
+            'jur_valor_activacion', 'jur_saldo_actual','estado_proceso_id'], 'number'],
         ];
     }
 
@@ -60,7 +60,8 @@ class ProcesosSearch extends Procesos {
         $query->andFilterWhere([
             'id' => $this->id,
             'cliente_id' => $this->cliente_id,
-            'deudor_id' => $this->deudor_id
+            'deudor_id' => $this->deudor_id,
+            'estado_proceso_id' => $this->estado_proceso_id
         ]);
 
         $query->andFilterWhere(['like', 'prejur_valor_activacion', $this->prejur_valor_activacion])
