@@ -36,8 +36,12 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 
 -- ALTER TABLE `procesos` ADD `prejur_carta_castigo_enviada` VARCHAR(3) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'NO' COMMENT '¿Se envía carta de inviabilidad o castigo?' AFTER `prejur_informe_castigo_enviado`;
 
-alter table `db_cartera_integral`.`consolidado_pagos_prejuridicos` 
-   change `fecha_pago_realizado` `fecha_pago_realizado` date NULL  comment 'Pago realizado'
+-- alter table `db_cartera_integral`.`consolidado_pagos_prejuridicos` 
+   -- change `fecha_pago_realizado` `fecha_pago_realizado` date NULL  comment 'Pago realizado'
+   
+ALTER TABLE `alertas` ADD `pausada` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT 'La alerta esta pausada o no' AFTER `descripcion_alerta`;
+
+ALTER TABLE `alertas` ADD `fecha_pausada` DATETIME NOT NULL COMMENT 'Fecha en que fue pausada' AFTER `pausada`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
