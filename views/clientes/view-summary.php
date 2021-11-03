@@ -1,6 +1,11 @@
-<div style="padding: 20px">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+<div class="modal-body">
     <div class="row">
-        
+
         <!-- INFORMACION CLIENTE -->
         <div class="col-md-12">            
             <div class="box box-primary">
@@ -16,7 +21,7 @@
                 </div>
             </div>            
         </div>
-        
+
         <!-- REPRESENTANTE LEGAL -->
         <div class="col-md-12">
             <div class="box box-primary">
@@ -35,7 +40,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- PERSONA DE CONTACTO #1 -->
         <div class="col-md-4">
             <div class="box box-primary">
@@ -56,7 +61,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- PERSONA DE CONTACTO #2 -->
         <div class="col-md-4">
             <div class="box box-primary">
@@ -77,7 +82,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- PERSONA DE CONTACTO #3 -->
         <div class="col-md-4">
             <div class="box box-primary">
@@ -98,6 +103,6 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
