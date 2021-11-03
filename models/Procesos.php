@@ -80,6 +80,8 @@ class Procesos extends \yii\db\ActiveRecord {
     public $prejur_gestion_prejuridica;
     public $prejur_gestiones_prejuridicas;
     public $jur_documentos_activacion;
+    public $jur_gestion_juridica;
+    public $jur_gestiones_juridicas;
 
     /**
      * {@inheritdoc}
@@ -103,7 +105,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_fecha_recepcion', 'prejur_resultado_estudio_bienes',
             'prejur_fecha_estudio_bienes', 'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion',
-            'colaboradores', 'deleted'], 'safe'],
+            'colaboradores', 'deleted', 'jur_gestion_juridica', 'jur_gestiones_juridicas'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -168,6 +170,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_estudio_bienes' => 'Estudio de bienes',
             'prejur_concepto_viabilidad' => 'Concepto  viabilidad',
             'prejur_gestion_prejuridica' => 'Gestión pre jurídica',
+            'jur_gestion_juridica' => 'Gestión jurídica',
             'prejur_otros' => 'Otros',
             'jur_fecha_recepcion' => 'Fecha activación',
             'jur_valor_activacion' => 'Valor activación',
@@ -250,6 +253,15 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getGestionesPrejuridicas() {
         return $this->hasMany(GestionesPrejuridicas::className(), ['proceso_id' => 'id'])->orderBy(['fecha_gestion' => SORT_DESC]);
+    }
+    
+    /**
+     * Gets query for [[GestionesPrejuridicas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getGestionesJuridicas() {
+        return $this->hasMany(GestionesJuridicas::className(), ['proceso_id' => 'id'])->orderBy(['fecha_gestion' => SORT_DESC]);
     }
 
     /**

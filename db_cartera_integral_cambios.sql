@@ -39,9 +39,25 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- alter table `db_cartera_integral`.`consolidado_pagos_prejuridicos` 
    -- change `fecha_pago_realizado` `fecha_pago_realizado` date NULL  comment 'Pago realizado'
    
-ALTER TABLE `alertas` ADD `pausada` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT 'La alerta esta pausada o no' AFTER `descripcion_alerta`;
+-- ALTER TABLE `alertas` ADD `pausada` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT 'La alerta esta pausada o no' AFTER `descripcion_alerta`;
 
-ALTER TABLE `alertas` ADD `fecha_pausada` DATETIME NOT NULL COMMENT 'Fecha en que fue pausada' AFTER `pausada`;
+-- ALTER TABLE `alertas` ADD `fecha_pausada` DATETIME NOT NULL COMMENT 'Fecha en que fue pausada' AFTER `pausada`;
+
+CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`gestiones_juridicas` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `proceso_id` INT(11) NOT NULL COMMENT 'Proceso ID',
+  `fecha_gestion` DATETIME NOT NULL COMMENT 'Fecha de gestión',
+  `usuario_gestion` VARCHAR(100) NOT NULL COMMENT 'Usuario de gestión',
+  `descripcion_gestion` TEXT NOT NULL COMMENT 'Descripción gestión',
+  PRIMARY KEY (`id`),
+  INDEX `fk_gestiones_juridicas_procesos_idx` (`proceso_id` ASC) VISIBLE,
+  CONSTRAINT `fk_gestiones_juridicas_procesos`
+    FOREIGN KEY (`proceso_id`)
+    REFERENCES `db_cartera_integral`.`procesos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

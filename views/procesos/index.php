@@ -29,7 +29,7 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
 <div class="procesos-index box box-primary">
     <div class="box-header with-border">
         <?php if (\Yii::$app->user->can('/procesos/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Nuevo Proceso', ['create'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Nuevo proceso', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">

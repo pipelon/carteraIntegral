@@ -705,6 +705,27 @@ $form = ActiveForm::begin(
             ?>
             <?= $form->field($model, 'jur_juzgado')->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
         </div>
+        
+        <!-- GESTIONES JURIDICAS -->
+        <div class="row-field gestion-juridica">
+            <?=
+            $form->field($model, 'jur_gestion_juridica', [
+                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+            <?php if (!empty($model->jur_gestiones_juridicas)): ?>
+                <?php foreach ($model->jur_gestiones_juridicas as $gestion) : ?>
+                    <div class="col-md-12">
+                        <blockquote>
+                            <?= nl2br($gestion->descripcion_gestion); ?>
+                            <small><?= $gestion->usuario_gestion; ?> el <cite title="Source Title"><?= $gestion->fecha_gestion; ?></cite></small>
+                        </blockquote>
+                    </div>
+                <?php endforeach; ?>
+
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
@@ -926,6 +947,7 @@ $form = ActiveForm::begin(
             $estadosProcesoList = yii\helpers\ArrayHelper::map(
                             \app\models\EstadosProceso::find()
                                     ->where(['activo' => 1])
+                                    ->orderBy(['nombre' => SORT_ASC])
                                     ->all()
                             , 'id', 'nombre');
             ?>

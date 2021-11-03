@@ -116,14 +116,12 @@ class ProcesosController extends Controller {
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION PRE JURIDICA
                 if (!empty($model->prejur_gestion_prejuridica)) {
-                    if (!empty($model->prejur_gestion_prejuridica)) {
-                        $gestPreJur = new \app\models\GestionesPrejuridicas();
-                        $gestPreJur->proceso_id = $model->id;
-                        $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
-                        $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
-                        $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
-                        $gestPreJur->save();
-                    }
+                    $gestPreJur = new \app\models\GestionesPrejuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
+                    $gestPreJur->save();
                 }
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS DOCUMENTOS DE ACTIVACION
@@ -159,6 +157,16 @@ class ProcesosController extends Controller {
                         $mdlPagos->proceso_id = $model->id;
                         $mdlPagos->save();
                     }
+                }
+                
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION JURIDICA
+                if (!empty($model->jur_gestion_juridica)) {
+                    $gestPreJur = new \app\models\GestionesJuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
+                    $gestPreJur->save();
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -199,13 +207,12 @@ class ProcesosController extends Controller {
         $userId = (int) \Yii::$app->user->id;
         $canEdit = in_array($userId, $colaboradores) ||
                 $userId == $model->jefe_id ||
-                Yii::$app->user->identity->isSuperAdmin();        
+                Yii::$app->user->identity->isSuperAdmin();
         //Puede editar
         if (!$canEdit) {
             return $this->redirect(['index']);
         }
         //**********************************************************************
-
         //COLABORADORES ACTUALES PARA MOSTRAR EN LA EDICION        
         $model->colaboradores = ArrayHelper::map(
                         $model->procesosXColaboradores, 'user_id', 'user_id'
@@ -223,6 +230,9 @@ class ProcesosController extends Controller {
 
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
         $model->prejur_gestiones_prejuridicas = $model->gestionesPrejuridicas;
+        
+        //GESTIONES PRE JURIDICAS PARA MOSTRAR 
+        $model->jur_gestiones_juridicas = $model->gestionesJuridicas;
 
         //DOCUMENTOS DE ACTIVACION ACTUALES PARA MOSTRAR EN LA EDICION        
         $model->jur_documentos_activacion = ArrayHelper::map(
@@ -369,8 +379,8 @@ class ProcesosController extends Controller {
                 } else {
                     \app\models\ConsolidadoPagosPrejuridicos::deleteAll(['proceso_id' => $model->id]);
                 }
-                if($_POST['Procesos']['prejur_acuerdo_pago'] == 'N/A' || $_POST['Procesos']['prejur_acuerdo_pago'] == 'NO'){
-                     \app\models\ConsolidadoPagosPrejuridicos::deleteAll(['proceso_id' => $model->id]);
+                if ($_POST['Procesos']['prejur_acuerdo_pago'] == 'N/A' || $_POST['Procesos']['prejur_acuerdo_pago'] == 'NO') {
+                    \app\models\ConsolidadoPagosPrejuridicos::deleteAll(['proceso_id' => $model->id]);
                 }
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LAS TAREAS
@@ -407,6 +417,16 @@ class ProcesosController extends Controller {
                             $mdlTareas->save();
                         }
                     }
+                }
+                
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION PRE JURIDICA
+                if (!empty($model->jur_gestion_juridica)) {
+                    $gestPreJur = new \app\models\GestionesJuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
+                    $gestPreJur->save();
                 }
 
 
