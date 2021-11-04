@@ -119,7 +119,7 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                                             'procesos/view-summary-prejuridico',
                                             'id' => $data->id
                                         ],
-                                        ['class' => 'popupModal btn btn-info']);
+                                        ['class' => 'popupModal btn btn-primary']);
 
                         return $html;
                     }

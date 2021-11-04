@@ -5,40 +5,10 @@
 </div>
 <div class="modal-body">
 
-    <div class="row invoice-info">
+    <div class="row invoice-info">        
         
-        <!-- CLIENTE -->
-        <div class="col-md-4 invoice-col">
-            <h4><?= $model->cliente->nombre; ?></h4>
-            <p class="text-muted">
-                <b><?= Yii::$app->utils->filtroTipoDocumento($model->cliente->tipo_documento); ?>: </b>
-                <?= $model->cliente->documento; ?>
-                <br />
-                <i class="fa fa-map-marker" style="color: #000;"></i> <?= $model->cliente->direccion; ?>
-            </p>
-            <br />
-            Representante legal
-            <p class="text-muted">
-                <i class="fa fa-user" style="color: #000;"></i> <?= $model->cliente->nombre_representante_legal; ?>
-                <br />
-                <i class="fa fa-phone" style="color: #000;"></i> <?= $model->cliente->telefono_representante_legal; ?>
-                <br />
-                <i class="fa fa-envelope" style="color: #000;"></i> <?= $model->cliente->email_representante_legal; ?>
-            </p>
-            <br />
-            Persona de contacto
-            <p class="text-muted">
-                <i class="fa fa-user" style="color: #000;"></i> <?= $model->cliente->nombre_persona_contacto_1; ?>
-                <br />
-                <i class="fa fa-phone" style="color: #000;"></i> <?= $model->cliente->telefono_persona_contacto_1; ?>
-                <br />
-                <i class="fa fa-envelope" style="color: #000;"></i> <?= $model->cliente->email_persona_contacto_1; ?>
-                <br />
-                <i class="fa fa-child" style="color: #000;"></i> <?= $model->cliente->cargo_persona_contacto_1; ?>
-            </p>            
-        </div>
         <!-- DEUDOR -->
-        <div class="col-md-4 invoice-col">
+        <div class="col-md-8 invoice-col">
             <h4><?= $model->deudor->nombre; ?></h4>
             <p class="text-muted">
                 <b><?= Yii::$app->utils->filtroTipoDocumento($model->deudor->tipo_documento); ?>: </b>
