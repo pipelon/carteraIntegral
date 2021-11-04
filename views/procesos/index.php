@@ -110,6 +110,21 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                             , 'id', 'nombre')
                 ],
                 [
+                    'header' => 'resumen',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        $html = Html::a(
+                                        '<i class="flaticon-search-magnifier-interface-symbol"></i> Prejurídico',
+                                        [
+                                            'procesos/view-summary-prejuridico',
+                                            'id' => $data->id
+                                        ],
+                                        ['class' => 'popupModal btn btn-info']);
+
+                        return $html;
+                    }
+                ],
+                [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,
                     'buttons' => [

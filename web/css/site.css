@@ -189,6 +189,18 @@ section.sidebar .treeview-menu > li > a {
     font-size: 12px;
     margin: 0 0 20px 20px;
 }
+.gestion-juridica.popupProceso,
+.gestion-prejuridica.popupProceso{
+    height: 300px;
+    overflow-y: auto;
+}
+.modal-body .invoice-col{
+    border-right: 1px solid #e5e5e5;
+    padding-left: 45px;
+}
+.modal-body .invoice-col:last-child{
+    border-right: none;
+}
 .drive_files{
     padding-left:20px;
 }

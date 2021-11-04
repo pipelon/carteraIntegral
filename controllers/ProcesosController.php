@@ -445,6 +445,34 @@ class ProcesosController extends Controller {
             ]);
         }
     }
+    
+    public function actionViewSummaryPrejuridico($id) {
+        $model = $this->findModel($id);
+        //GESTIONES PRE JURIDICAS PARA MOSTRAR 
+        $model->prejur_gestiones_prejuridicas = \app\models\GestionesPrejuridicas::find()
+                ->where(['proceso_id' => $id])
+                ->orderBy('fecha_gestion DESC')
+                ->all();
+
+
+        return $this->renderPartial('view-summary-prejuridico', [
+                    'model' => $model
+        ]);
+    }
+    
+    public function actionViewSummaryJuridico($id) {
+        $model = $this->findModel($id);
+        //GESTIONES PRE JURIDICAS PARA MOSTRAR 
+        $model->jur_gestiones_juridicas = \app\models\GestionesJuridicas::find()
+                ->where(['proceso_id' => $id])
+                ->orderBy('fecha_gestion DESC')
+                ->all();
+
+
+        return $this->renderPartial('view-summary-juridico', [
+                    'model' => $model
+        ]);
+    }
 
     /**
      * Deletes an existing Procesos model.
