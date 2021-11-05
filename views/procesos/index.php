@@ -33,7 +33,7 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
-        <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
         <?=
         GridView::widget([
             'dataProvider' => $dataProvider,
