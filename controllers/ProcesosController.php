@@ -51,11 +51,6 @@ class ProcesosController extends Controller {
      */
     public function actionView($id) {
         $model = $this->findModel($id);
-        //GESTIONES PRE JURIDICAS PARA MOSTRAR 
-        $model->prejur_gestiones_prejuridicas = \app\models\GestionesPrejuridicas::find()
-                ->where(['proceso_id' => $id])
-                ->orderBy('fecha_gestion DESC')
-                ->all();
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
         $pagos = $model->consolidadoPagosJuridicos;
@@ -449,14 +444,12 @@ class ProcesosController extends Controller {
     public function actionViewSummaryPrejuridico($id) {
         $model = $this->findModel($id);
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
-        $model->prejur_gestiones_prejuridicas = \app\models\GestionesPrejuridicas::find()
-                ->where(['proceso_id' => $id])
-                ->orderBy('fecha_gestion DESC')
-                ->all();
+        $model->prejur_gestiones_prejuridicas = $model->gestionesPrejuridicas;
 
         if (Yii::$app->getRequest()->isAjax) {
 
             if ($model->load(Yii::$app->request->post())) {
+
                 if (!empty($model->prejur_gestion_prejuridica)) {
                     $gestPreJur = new \app\models\GestionesPrejuridicas();
                     $gestPreJur->proceso_id = $model->id;
@@ -464,9 +457,15 @@ class ProcesosController extends Controller {
                     $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
                     $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
                     $gestPreJur->save();
+
+                    //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
+                    $model = $this->findModel($id);
+                    //GESTIONES PRE JURIDICAS PARA MOSTRAR 
+                    $model->prejur_gestiones_prejuridicas = $model->gestionesPrejuridicas;
                 }
-                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-                return ["status" => "ok", "msg" => "guardado"];
+                return $this->renderAjax('view-summary-prejuridico', [
+                            'model' => $model
+                ]);
             } else {
                 return $this->renderAjax('view-summary-prejuridico', [
                             'model' => $model
