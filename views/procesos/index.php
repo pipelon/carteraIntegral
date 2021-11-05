@@ -113,13 +113,23 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                     'header' => 'resumen',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        $html = Html::a(
-                                        '<i class="flaticon-search-magnifier-interface-symbol"></i> Prejurídico',
+                        $html = Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Prejurídico',
+                                        'javascript:void(0)',
                                         [
-                                            'procesos/view-summary-prejuridico',
-                                            'id' => $data->id
-                                        ],
-                                        ['class' => 'popupModal btn btn-primary']);
+                                            'title' => 'clientes',
+                                            'class' => 'btn btn-primary',
+                                            'onclick' => "                                    
+                                                $.ajax({
+                                                        type    :'POST',
+                                                        cache   : false,
+                                                        url     : '" . \yii\helpers\Url::to(['procesos/view-summary-prejuridico', 'id' => $data->id]) . "',
+                                                        success : function(response) {
+                                                                $('#ajax_result-prejuridico').html(response);
+                                                        }
+                                                });
+                                                return false;",
+                                        ]
+                        );
 
                         return $html;
                     }
@@ -165,19 +175,4 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
     </div>
 </div>
 
-
-<?php
-yii\bootstrap\Modal::begin([
-    'id' => 'modal',
-    'size' => yii\bootstrap\Modal::SIZE_LARGE,
-]);
-yii\bootstrap\Modal::end();
-
-$this->registerJs("$(function() {
-   $('.popupModal').click(function(e) {
-     e.preventDefault();
-     $('#modal').modal('show').find('.modal-content')
-     .load($(this).attr('href'));
-   });
-});");
-?>
+<?= Html::tag('div', '', ['id' => 'ajax_result-prejuridico']); ?>

@@ -1,12 +1,17 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">×</span></button>
-    <h4 class="modal-title">Resumen prejurídico</h4>
-</div>
+<?php
+yii\bootstrap\Modal::begin([
+    'header' => 'Resumen prejurídico',
+    'id' => 'modal-prejuridico',
+    'size' => yii\bootstrap\Modal::SIZE_LARGE,
+    'clientOptions' => [
+        'show' => true,
+    ],
+]);
+?>
 <div class="modal-body">
 
     <div class="row invoice-info">        
-        
+
         <!-- DEUDOR -->
         <div class="col-md-8 invoice-col">
             <h4><?= $model->deudor->nombre; ?></h4>
@@ -67,8 +72,46 @@
     </div>
 
     <hr />
-    
+
     <!-- GESTIÓN PREJURIDICA -->
+    <div class="alert alert-success alert-dismissable alert-reponse-ajax" 
+         style="display: none">            
+        <h4><i class="icon fa fa-check"></i>Creado!</h4>
+        La gestión ha sido ingresada con éxito, por favor cierre el Popup y ábralo de nuevo para ver el registro.
+    </div>
+    <?php
+    $form = yii\bootstrap\ActiveForm::begin(
+                    [
+                        'id' => "form_prejur",
+                        'fieldConfig' => [
+                            'template' => "{label}\n{input}\n{hint}\n{error}\n",
+                            'options' => ['class' => 'form-group col-md-6'],
+                            'horizontalCssClasses' => [
+                                'label' => '',
+                                'offset' => '',
+                                'wrapper' => '',
+                                'error' => '',
+                                'hint' => '',
+                            ],
+                        ],
+                    ]
+    );
+    ?>
+    <?=
+    $form->field($model, 'prejur_gestion_prejuridica', [
+        'options' => ['class' => 'form-group col-md-12'],
+    ])->textarea(['rows' => 6])
+    ?>
+    <?=
+    yii\helpers\Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar',
+            [
+                'class' => 'btn btn-primary',
+                'style' => 'margin-left: 15px;'
+            ]
+    )
+    ?>
+    <?php yii\bootstrap\ActiveForm::end(); ?>
+    <br /><br />
     <?php if (!empty($model->prejur_gestiones_prejuridicas)): ?>
         <div class="gestion-prejuridica popupProceso">
             <h4>Gestión prejurídica</h4><br />
@@ -87,5 +130,32 @@
     <?php endif; ?>
 </div>
 <div class="modal-footer">
-    
+
 </div>
+
+<script type="text/javascript">
+
+    $('#form_prejur').on('beforeSubmit', function (e) {
+        var form = $(this);
+        var formData = form.serialize();
+        $.ajax({
+            url: form.attr("action"),
+            type: form.attr("method"),
+            data: formData,
+            dataType: "json",
+            success: function (data) {
+                if (data.status == "ok" && data.msg == "guardado") {
+                    $('.alert-reponse-ajax').show("slow");
+                }
+            },
+            error: function () {
+                alert("Something went wrong");
+            }
+        });
+    }).on('submit', function (e) {
+        e.preventDefault();
+    });
+
+</script>
+
+<?php yii\bootstrap\Modal::end(); ?>

@@ -158,7 +158,7 @@ class ProcesosController extends Controller {
                         $mdlPagos->save();
                     }
                 }
-                
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION JURIDICA
                 if (!empty($model->jur_gestion_juridica)) {
                     $gestPreJur = new \app\models\GestionesJuridicas();
@@ -230,7 +230,7 @@ class ProcesosController extends Controller {
 
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
         $model->prejur_gestiones_prejuridicas = $model->gestionesPrejuridicas;
-        
+
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
         $model->jur_gestiones_juridicas = $model->gestionesJuridicas;
 
@@ -418,7 +418,7 @@ class ProcesosController extends Controller {
                         }
                     }
                 }
-                
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBE GUARDAR LA NUEVA GESTION PRE JURIDICA
                 if (!empty($model->jur_gestion_juridica)) {
                     $gestPreJur = new \app\models\GestionesJuridicas();
@@ -445,7 +445,7 @@ class ProcesosController extends Controller {
             ]);
         }
     }
-    
+
     public function actionViewSummaryPrejuridico($id) {
         $model = $this->findModel($id);
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
@@ -454,12 +454,32 @@ class ProcesosController extends Controller {
                 ->orderBy('fecha_gestion DESC')
                 ->all();
 
+        if (Yii::$app->getRequest()->isAjax) {
+
+            if ($model->load(Yii::$app->request->post())) {
+                if (!empty($model->prejur_gestion_prejuridica)) {
+                    $gestPreJur = new \app\models\GestionesPrejuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
+                    $gestPreJur->save();
+                }
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return ["status" => "ok", "msg" => "guardado"];
+            } else {
+                return $this->renderAjax('view-summary-prejuridico', [
+                            'model' => $model
+                ]);
+            }
+            Yii::$app->end();
+        }
 
         return $this->renderPartial('view-summary-prejuridico', [
                     'model' => $model
         ]);
     }
-    
+
     public function actionViewSummaryJuridico($id) {
         $model = $this->findModel($id);
         //GESTIONES PRE JURIDICAS PARA MOSTRAR 
