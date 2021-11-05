@@ -110,7 +110,7 @@ if (\Yii::$app->user->can('/procesos/*') || \Yii::$app->user->can('/*')) {
                             , 'id', 'nombre')
                 ],
                 [
-                    'header' => 'resumen',
+                    'header' => 'Resumen',
                     'format' => 'raw',
                     'value' => function ($data) {
                         $html = Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Prejurídico',
