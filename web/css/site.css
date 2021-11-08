@@ -299,3 +299,35 @@ ul.navbar-nav > .tasks-menu > .dropdown-menu > li .menu > li > a{
 ul.navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a{
     padding: 5px 10px;
 }
+.box-tools.pull-right > a.btn{
+    margin: 0 5px;
+}
+.vertical-center{
+    border-left: 1px solid #f4f4f4; 
+    min-height: 100%;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.estado-proceso .info-box{
+    min-height: 35px;
+    margin-bottom: 0;    
+}
+.estado-proceso .info-box .info-box-icon{
+    height: 35px;
+    width: 35px;
+    font-size: 15px;
+    line-height: 35px;
+}
+.estado-proceso .info-box .info-box-content{
+    margin-left: 40px;
+}
+.estado-proceso .info-box .progress-description, 
+.estado-proceso .info-box .info-box-text{
+    font-size: 12px;
+}
+.estado-proceso .info-box .info-box-number{
+    font-size: 12px;
+    padding-top: 5px;
+}

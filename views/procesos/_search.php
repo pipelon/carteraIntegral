@@ -8,23 +8,23 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="procesos-search">
+<div class="procesos-search" style="margin: 50px 0;">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+    <?php
+    $form = ActiveForm::begin([
+                'action' => ['index'],
+                'method' => 'get',
+    ]);
+    ?>
 
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'cliente_id') ?>
-
-    <?= $form->field($model, 'deudor_id') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-    </div>
+    <?=
+    $form->field($model, 'buscador', [
+        'template' => '<div class="input-group">
+            <span class="input-group-addon flaticon-search-magnifier-interface-symbol"></span>{input}<span class="input-group-btn">
+                      <button type="submit" class="btn btn-primary btn-flat">Buscar!</button>
+                    </span></div>{error}{hint}'
+    ])->textInput(['placeholder' => "# de radicado, clientes, deudores, estados"]);
+    ?>
 
     <?php ActiveForm::end(); ?>
 

@@ -11,15 +11,15 @@ use app\models\Procesos;
  * ProcesosSearch represents the model behind the search form of `app\models\Procesos`.
  */
 class ProcesosSearch extends Procesos {
+    
+    public $buscador;
 
     /**
      * @inheritdoc
      */
     public function rules() {
         return [
-            [['id', 'cliente_id', 'deudor_id'], 'integer'],
-            [['prejur_valor_activacion', 'prejur_saldo_actual',
-            'jur_valor_activacion', 'jur_saldo_actual','estado_proceso_id'], 'number'],
+            [['buscador'], 'string', 'max' => 200]
         ];
     }
 
@@ -40,6 +40,7 @@ class ProcesosSearch extends Procesos {
      */
     public function search($params) {
         $query = Procesos::find();
+        $query->joinWith(['cliente', 'deudor', 'estadoProceso']);
 
         // add conditions that should always apply here
 
@@ -49,6 +50,7 @@ class ProcesosSearch extends Procesos {
         ]);
 
         $this->load($params);
+        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -57,17 +59,21 @@ class ProcesosSearch extends Procesos {
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
+        /*$query->andFilterWhere([
             'id' => $this->id,
             'cliente_id' => $this->cliente_id,
             'deudor_id' => $this->deudor_id,
             'estado_proceso_id' => $this->estado_proceso_id
-        ]);
+        ]);*/
 
-        $query->andFilterWhere(['like', 'prejur_valor_activacion', $this->prejur_valor_activacion])
+        /*$query->andFilterWhere(['like', 'prejur_valor_activacion', $this->prejur_valor_activacion])
                 ->andFilterWhere(['like', 'prejur_saldo_actual', $this->prejur_saldo_actual])
                 ->andFilterWhere(['like', 'jur_valor_activacion', $this->jur_valor_activacion])
-                ->andFilterWhere(['like', 'jur_saldo_actual', $this->jur_saldo_actual]);
+                ->andFilterWhere(['like', 'jur_saldo_actual', $this->jur_saldo_actual]);*/
+        
+        $query->andFilterWhere(['like', 'clientes.nombre', $this->buscador])
+                ->orFilterWhere(['like', 'deudores.nombre', $this->buscador])
+                ->orFilterWhere(['like', 'estados_proceso.nombre', $this->buscador]);
 
         return $dataProvider;
     }
