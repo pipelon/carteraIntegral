@@ -165,7 +165,7 @@ $procesos = $dataProvider->getModels()
                                 <?= isset($proceso->jurEtapasProcesal->nombre) ? $proceso->jurEtapasProcesal->nombre : '-'; ?>
                                 <br />
                                 <b>Juzgado: </b>
-                                <?= isset($proceso->juzgado) ? $proceso->juzgado : '-'; ?>
+                                <?= isset($proceso->jur_juzgado) ? $proceso->jur_juzgado : '-'; ?>
                             </p>
 
                         </div>
