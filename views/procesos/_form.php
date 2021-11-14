@@ -663,21 +663,27 @@ $form = ActiveForm::begin(
                     ])
                     ->where(['id' => $model->deudor_id])
                     ->all();
-
+            
+            $listDeudores = [];
             if (!empty($listDeudoresyCode)) {
-                $listDeudoresyCode = [
-                    $listDeudoresyCode[0]->nombre => "{$listDeudoresyCode[0]->nombre}",
-                    $listDeudoresyCode[0]->nombre_codeudor_1 => "{$listDeudoresyCode[0]->nombre_codeudor_1} ({$listDeudoresyCode[0]->direccion_codeudor_1}, {$listDeudoresyCode[0]->email_codeudor_1})",
-                    $listDeudoresyCode[0]->nombre_codeudor_2 => "{$listDeudoresyCode[0]->nombre_codeudor_2} ({$listDeudoresyCode[0]->direccion_codeudor_2}, {$listDeudoresyCode[0]->email_codeudor_2})",
-                ];
+                
+                $listDeudores[$listDeudoresyCode[0]->nombre] = "{$listDeudoresyCode[0]->nombre}";
+                
+                if(!empty($listDeudoresyCode[0]->nombre_codeudor_1)){
+                    $listDeudores[$listDeudoresyCode[0]->nombre_codeudor_1] = "{$listDeudoresyCode[0]->nombre_codeudor_1} ({$listDeudoresyCode[0]->direccion_codeudor_1}, {$listDeudoresyCode[0]->email_codeudor_1})";
+                }
+                
+                if(!empty($listDeudoresyCode[0]->nombre_codeudor_2)){
+                    $listDeudores[$listDeudoresyCode[0]->nombre_codeudor_2] = "{$listDeudoresyCode[0]->nombre_codeudor_2} ({$listDeudoresyCode[0]->direccion_codeudor_2}, {$listDeudoresyCode[0]->email_codeudor_2})";
+                }
             } else {
-                $listDeudoresyCode = [];
+                $listDeudores = [];
             }
             ?>
             <?=
             $form->field($model, 'jur_demandados', [
                 "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
-            ])->checkboxList($listDeudoresyCode)
+            ])->checkboxList($listDeudores)
             ?>
         </div>
 
