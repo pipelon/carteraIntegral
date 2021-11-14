@@ -129,6 +129,17 @@ class ProcesosController extends Controller {
                     }
                 }
 
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS DEUDORES
+                if (!empty($model->jur_demandados)) {
+                    foreach ($model->jur_demandados as $id => $demandado) {
+                        $demXpro = new \app\models\DemandadosXProceso();
+                        $demXpro->proceso_id = $model->id;
+                        $demXpro->demandado_id = $id;
+                        $demXpro->nombre = $demandado;
+                        $demXpro->save();
+                    }
+                }
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO
                 if (isset($_POST['ConsolidadoPagosJuridicos'])) {
                     foreach ($_POST['ConsolidadoPagosJuridicos'] as $pago) {
@@ -233,6 +244,11 @@ class ProcesosController extends Controller {
         $model->jur_documentos_activacion = ArrayHelper::map(
                         $model->docactivacionXProcesos, 'documento_activacion_id', 'documento_activacion_id'
         );
+        
+        //DEMANDADOS ACTUALES PARA MOSTRAR EN LA EDICION        
+        $model->jur_demandados = ArrayHelper::map(
+                        $model->demandadosXProceso, 'demandado_id', 'demandado_id'
+        );
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR EN LA EDICION
         $modelPagos = $model->consolidadoPagosJuridicos;
@@ -329,6 +345,25 @@ class ProcesosController extends Controller {
                             $docXpro->proceso_id = $model->id;
                             $docXpro->documento_activacion_id = $doc;
                             $docXpro->save();
+                        }
+                    }
+                }
+
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
+                // SE DEBEN ELIMINARL LOS DEMANDADOS ACTUALES Y 
+                // VOLVERLOS A CREAR
+                if (!empty($model->jur_demandados)) {
+                    
+                    $oldIDs = ArrayHelper::map($model->demandadosXProceso, 'demandado_id', 'demandado_id');
+                    $deletedDocIDs = array_merge(array_diff($oldIDs, $model->jur_demandados), array_diff($model->jur_demandados, $oldIDs));
+                    if (!empty($deletedDocIDs)) {
+                        \app\models\DemandadosXProceso::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($model->jur_demandados as $demandado) {
+                            $demXpro = new \app\models\DemandadosXProceso();
+                            $demXpro->proceso_id = $model->id;
+                            $demXpro->demandado_id = $demandado;
+                            $demXpro->nombre = $demandado;
+                            $demXpro->save();
                         }
                     }
                 }
@@ -478,15 +513,39 @@ class ProcesosController extends Controller {
                     'model' => $model
         ]);
     }
-
+    
     public function actionViewSummaryJuridico($id) {
         $model = $this->findModel($id);
-        //GESTIONES PRE JURIDICAS PARA MOSTRAR 
-        $model->jur_gestiones_juridicas = \app\models\GestionesJuridicas::find()
-                ->where(['proceso_id' => $id])
-                ->orderBy('fecha_gestion DESC')
-                ->all();
+        //GESTIONES JURIDICAS PARA MOSTRAR 
+        $model->jur_gestiones_juridicas = $model->gestionesJuridicas;
 
+        if (Yii::$app->getRequest()->isAjax) {
+
+            if ($model->load(Yii::$app->request->post())) {
+
+                if (!empty($model->jur_gestion_juridica)) {
+                    $gestPreJur = new \app\models\GestionesJuridicas();
+                    $gestPreJur->proceso_id = $model->id;
+                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
+                    $gestPreJur->save();
+
+                    //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
+                    $model = $this->findModel($id);
+                    //GESTIONES PRE JURIDICAS PARA MOSTRAR 
+                    $model->jur_gestiones_juridicas = $model->gestionesJuridicas;
+                }
+                return $this->renderAjax('view-summary-juridico', [
+                            'model' => $model
+                ]);
+            } else {
+                return $this->renderAjax('view-summary-juridico', [
+                            'model' => $model
+                ]);
+            }
+            Yii::$app->end();
+        }
 
         return $this->renderPartial('view-summary-juridico', [
                     'model' => $model

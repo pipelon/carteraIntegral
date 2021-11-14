@@ -43,7 +43,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 
 -- ALTER TABLE `alertas` ADD `fecha_pausada` DATETIME NOT NULL COMMENT 'Fecha en que fue pausada' AFTER `pausada`;
 
-CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`gestiones_juridicas` (
+/*CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`gestiones_juridicas` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `proceso_id` INT(11) NOT NULL COMMENT 'Proceso ID',
   `fecha_gestion` DATETIME NOT NULL COMMENT 'Fecha de gestión',
@@ -57,7 +57,22 @@ CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`gestiones_juridicas` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
+DEFAULT CHARACTER SET = utf8*/
+
+CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`demandados_x_proceso` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `proceso_id` INT(11) NOT NULL COMMENT 'Proceso ID',
+  `demandado_id` VARCHAR(100) NOT NULL COMMENT 'Demandado',
+  `nombre` VARCHAR(255) NOT NULL COMMENT 'Nombre',
+  PRIMARY KEY (`id`),
+  INDEX `fk_demandados_x_proceso_procesos_idx` (`proceso_id` ASC),
+  CONSTRAINT `fk_demandados_x_proceso_procesos`
+    FOREIGN KEY (`proceso_id`)
+    REFERENCES `db_cartera_integral`.`procesos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = INNODB
+DEFAULT CHARACTER SET = utf8;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -174,6 +174,17 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                     ),
                 ],
                 [
+                    'attribute' => 'jur_demandados',
+                    'format' => 'raw',
+                    'value' => implode("<br />", \yii\helpers\ArrayHelper::map(
+                                    $model->demandadosXProceso,
+                                    'demandado_id', function($modelDemxPro) {
+                                        return $modelDemxPro->nombre;
+                                    }
+                            )
+                    ),
+                ],
+                [
                     'label' => 'Consolidado de pagos',
                     'format' => 'raw',
                     'value' => function ($data) use ($pagos) {

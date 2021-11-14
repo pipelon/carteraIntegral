@@ -148,11 +148,17 @@ $procesos = $dataProvider->getModels()
                         <!-- CLIENTE -->
                         <div class="col-md-4 invoice-col">
                             <p>
-                                <b>Demandante(s): </b>
+                                <b>Demandante: </b>
                                 <?= Html::a($proceso->cliente->nombre, ['clientes/viewsummary', 'id' => $proceso->cliente_id], ['class' => 'popupModal']); ?>
                                 <br />
                                 <b>Demandado(s): </b>
-                                <?= "Demandado 1, Demandando 2, Demandado 3"; ?>
+                                <?php 
+                                $demandados=[];
+                                foreach ($proceso->demandadosXProceso as $value) {
+                                    $demandados[] = Html::a($value->nombre, ['deudores/viewsummary', 'id' => $proceso->deudor_id], ['class' => 'popupModal']);
+                                }
+                                echo implode(", ", $demandados);
+                                ?>
                             </p>
 
                         </div>
@@ -180,9 +186,9 @@ $procesos = $dataProvider->getModels()
                                                 $.ajax({
                                                         type    :'POST',
                                                         cache   : false,
-                                                        url     : '" . Url::to(['procesos/view-summary-prejuridico', 'id' => $proceso->id]) . "',
+                                                        url     : '" . Url::to(['procesos/view-summary-juridico', 'id' => $proceso->id]) . "',
                                                         success : function(response) {
-                                                                $('#ajax_result-prejuridico').html(response);
+                                                                $('#ajax_result-juridico').html(response);
                                                         }
                                                 });
                                                 return false;",
@@ -237,6 +243,7 @@ $procesos = $dataProvider->getModels()
 </div>
 
 <?= Html::tag('div', '', ['id' => 'ajax_result-prejuridico']); ?>
+<?= Html::tag('div', '', ['id' => 'ajax_result-juridico']); ?>
 <?php
 yii\bootstrap\Modal::begin([
     'id' => 'modal',

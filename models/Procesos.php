@@ -82,6 +82,7 @@ class Procesos extends \yii\db\ActiveRecord {
     public $jur_documentos_activacion;
     public $jur_gestion_juridica;
     public $jur_gestiones_juridicas;
+    public $jur_demandados;
 
     /**
      * {@inheritdoc}
@@ -105,7 +106,8 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_fecha_recepcion', 'prejur_resultado_estudio_bienes',
             'prejur_fecha_estudio_bienes', 'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion',
-            'colaboradores', 'deleted', 'jur_gestion_juridica', 'jur_gestiones_juridicas'], 'safe'],
+            'colaboradores', 'deleted', 'jur_gestion_juridica', 'jur_gestiones_juridicas',
+                'jur_demandados'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -182,6 +184,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',
             'jur_documentos_activacion' => 'Documentos de activación',
+            'jur_demandados' => 'Demandados',
             'carpeta' => 'Carpeta Google Drive',
             'estrec_pretenciones' => 'Pretenciones',
             'estrec_probabilidad_recuperacion' => 'Probabilidad de recuperación',
@@ -244,6 +247,15 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getDocactivacionXProcesos() {
         return $this->hasMany(DocactivacionXProceso::className(), ['proceso_id' => 'id']);
+    }
+    
+    /**
+     * Gets query for [[DemandadosXProceso]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDemandadosXProceso() {
+        return $this->hasMany(DemandadosXProceso::className(), ['proceso_id' => 'id']);
     }
 
     /**

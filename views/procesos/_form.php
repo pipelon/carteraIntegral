@@ -644,14 +644,51 @@ $form = ActiveForm::begin(
         </div>
         <!-- FIN CONSOLIDADO DE PAGOS -->
 
+        <!--DEMANDADOS -->
         <div class="row-field">
             <?php
-            $tipoProcesosList = yii\helpers\ArrayHelper::map(
-                            \app\models\TipoProcesos::find()
-                                    ->where(['activo' => 1])
-                                    ->all()
-                            , 'id', 'nombre');
+            $listDeudoresyCode = \app\models\Deudores::find()
+                    ->select([
+                        'nombre',
+                        'nombre_codeudor_1',
+                        'documento_codeudor_1',
+                        'direccion_codeudor_1',
+                        'email_codeudor_1',
+                        'telefono_codeudor_1',
+                        'nombre_codeudor_2',
+                        'documento_codeudor_2',
+                        'direccion_codeudor_2',
+                        'email_codeudor_2',
+                        'telefonol_codeudor_2'
+                    ])
+                    ->where(['id' => $model->deudor_id])
+                    ->all();
+
+            if (!empty($listDeudoresyCode)) {
+                $listDeudoresyCode = [
+                    $listDeudoresyCode[0]->nombre => "{$listDeudoresyCode[0]->nombre}",
+                    $listDeudoresyCode[0]->nombre_codeudor_1 => "{$listDeudoresyCode[0]->nombre_codeudor_1} ({$listDeudoresyCode[0]->direccion_codeudor_1}, {$listDeudoresyCode[0]->email_codeudor_1})",
+                    $listDeudoresyCode[0]->nombre_codeudor_2 => "{$listDeudoresyCode[0]->nombre_codeudor_2} ({$listDeudoresyCode[0]->direccion_codeudor_2}, {$listDeudoresyCode[0]->email_codeudor_2})",
+                ];
+            } else {
+                $listDeudoresyCode = [];
+            }
             ?>
+            <?=
+            $form->field($model, 'jur_demandados', [
+                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+            ])->checkboxList($listDeudoresyCode)
+            ?>
+        </div>
+
+        <div class="row-field">
+<?php
+$tipoProcesosList = yii\helpers\ArrayHelper::map(
+                \app\models\TipoProcesos::find()
+                        ->where(['activo' => 1])
+                        ->all()
+                , 'id', 'nombre');
+?>
             <?= $form->field($model, 'jur_tipo_proceso_id')->dropDownList($tipoProcesosList, ['prompt' => '- Seleccion un tipo de proceso -', 'id' => 'tipo-proceso-id']) ?>
             <?=
             $form->field($model, 'jur_etapas_procesal_id')->widget(DepDrop::classname(), [
@@ -670,12 +707,12 @@ $form = ActiveForm::begin(
 
         <!-- JUZGADO -->
         <div class="row-field">
-            <?php
-            $departamentos = yii\helpers\ArrayHelper::map(
-                            \app\models\Departamentos::find()
-                                    ->all()
-                            , 'id', 'nombre');
-            ?>
+<?php
+$departamentos = yii\helpers\ArrayHelper::map(
+                \app\models\Departamentos::find()
+                        ->all()
+                , 'id', 'nombre');
+?>
             <?= $form->field($model, 'jur_departamento_id')->dropDownList($departamentos, ['prompt' => '- Seleccion un departamento -', 'id' => 'departamento-id']) ?>
             <?=
             $form->field($model, 'jur_ciudad_id')->widget(DepDrop::classname(), [
@@ -705,24 +742,24 @@ $form = ActiveForm::begin(
             ?>
             <?= $form->field($model, 'jur_juzgado')->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
         </div>
-        
+
         <!-- GESTIONES JURIDICAS -->
         <div class="row-field gestion-juridica">
-            <?=
-            $form->field($model, 'jur_gestion_juridica', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-                'options' => ['class' => 'form-group col-md-12'],
-            ])->textarea(['rows' => 6])
-            ?>
+<?=
+$form->field($model, 'jur_gestion_juridica', [
+    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+    'options' => ['class' => 'form-group col-md-12'],
+])->textarea(['rows' => 6])
+?>
             <?php if (!empty($model->jur_gestiones_juridicas)): ?>
                 <?php foreach ($model->jur_gestiones_juridicas as $gestion) : ?>
                     <div class="col-md-12">
                         <blockquote>
-                            <?= nl2br($gestion->descripcion_gestion); ?>
+        <?= nl2br($gestion->descripcion_gestion); ?>
                             <small><?= $gestion->usuario_gestion; ?> el <cite title="Source Title"><?= $gestion->fecha_gestion; ?></cite></small>
                         </blockquote>
                     </div>
-                <?php endforeach; ?>
+    <?php endforeach; ?>
 
             <?php endif; ?>
         </div>
@@ -741,12 +778,12 @@ $form = ActiveForm::begin(
     </div>
     <div style="display: none;" class="box-body">
         <div class="row-field">
-            <?=
-            $form->field($model, 'carpeta', [
-                'template' => "{label}\n{input}\n{hint}\n{error}\n",
-                'options' => ['class' => 'form-group col-md-12'],
-            ])->textInput(['maxlength' => true])
-            ?>
+<?=
+$form->field($model, 'carpeta', [
+    'template' => "{label}\n{input}\n{hint}\n{error}\n",
+    'options' => ['class' => 'form-group col-md-12'],
+])->textInput(['maxlength' => true])
+?>
         </div>
     </div>
     <!-- /.box-body -->
@@ -764,24 +801,24 @@ $form = ActiveForm::begin(
     </div>
     <div style="display: none;" class="box-body">
         <div class="row-field col-md-12">
-            <?php
-            DynamicFormWidget::begin([
-                'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
-                'widgetBody' => '.container-items', // required: css class selector
-                'widgetItem' => '.item', // required: css class
-                'limit' => 5, // the maximum times, an element can be cloned (default 999)
-                'min' => 0, // 0 or 1 (default 1)
-                'insertButton' => '.add-item', // css class
-                'deleteButton' => '.remove-item', // css class
-                'model' => $modelTareas[0],
-                'formId' => 'dynamic-form',
-                'formFields' => [
-                    'descripcion',
-                    'fecha_esperada',
-                    'user_id'
-                ],
-            ]);
-            ?>
+<?php
+DynamicFormWidget::begin([
+    'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+    'widgetBody' => '.container-items', // required: css class selector
+    'widgetItem' => '.item', // required: css class
+    'limit' => 5, // the maximum times, an element can be cloned (default 999)
+    'min' => 0, // 0 or 1 (default 1)
+    'insertButton' => '.add-item', // css class
+    'deleteButton' => '.remove-item', // css class
+    'model' => $modelTareas[0],
+    'formId' => 'dynamic-form',
+    'formFields' => [
+        'descripcion',
+        'fecha_esperada',
+        'user_id'
+    ],
+]);
+?>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -790,7 +827,7 @@ $form = ActiveForm::begin(
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body container-items"><!-- widgetContainer -->
-                    <?php foreach ($modelTareas as $index => $mdlTarea): ?>
+<?php foreach ($modelTareas as $index => $mdlTarea): ?>
 
                         <?php $enable = $mdlTarea->jefe_id == Yii::$app->user->identity->getId() || Yii::$app->user->identity->isSuperAdmin(); ?>
                         <?php $disable = $mdlTarea->jefe_id != Yii::$app->user->identity->getId() && !Yii::$app->user->identity->isSuperAdmin(); ?>
@@ -819,12 +856,12 @@ $form = ActiveForm::begin(
                                 <div class="clearfix"></div>
                             </div>
                             <div class="panel-body">
-                                <?php
-                                // necessary for update action.
-                                if (!$mdlTarea->isNewRecord) {
-                                    echo Html::activeHiddenInput($mdlTarea, "[{$index}]id");
-                                }
-                                ?>
+    <?php
+    // necessary for update action.
+    if (!$mdlTarea->isNewRecord) {
+        echo Html::activeHiddenInput($mdlTarea, "[{$index}]id");
+    }
+    ?>
                                 <?=
                                         $form
                                         ->field($mdlTarea, "[{$index}]estado", ['options' => ['class' => 'form-group col-md-1', 'style' => 'margin-top:20px']])
@@ -864,25 +901,25 @@ $form = ActiveForm::begin(
                                     ?>
 
 
-                                    <?=
-                                            $form->field($mdlTarea, "[{$index}]user_id",
-                                                    ['options' => ['class' => 'form-group col-md-4']])
-                                            ->dropDownList(
-                                                    $userList,
-                                                    [
-                                                        'prompt' => '- Seleccion un colaborador -',
-                                                        'disabled' => $disable
-                                                    ]
-                                    );
-                                    ?>
+        <?=
+                $form->field($mdlTarea, "[{$index}]user_id",
+                        ['options' => ['class' => 'form-group col-md-4']])
+                ->dropDownList(
+                        $userList,
+                        [
+                            'prompt' => '- Seleccion un colaborador -',
+                            'disabled' => $disable
+                        ]
+        );
+        ?>
                                 <?php endif; ?>
                                 <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+<?php endforeach; ?>
                 </div>
             </div>
-            <?php DynamicFormWidget::end(); ?>
+<?php DynamicFormWidget::end(); ?>
         </div>
     </div>
 </div>
@@ -899,38 +936,38 @@ $form = ActiveForm::begin(
     </div>
     <div style="display: none;" class="box-body">
         <div class="row-field">
-            <?=
-            $form->field($model, 'estrec_pretenciones', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-                'options' => ['class' => 'form-group col-md-12'],
-            ])->textarea(['rows' => 6])
-            ?>
+<?=
+$form->field($model, 'estrec_pretenciones', [
+    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+    'options' => ['class' => 'form-group col-md-12'],
+])->textarea(['rows' => 6])
+?>
         </div>
         <div class="row-field">
-            <?=
-            $form->field($model, 'estrec_probabilidad_recuperacion')->dropDownList([
-                '25%' => '25%',
-                '50%' => '50%',
-                '75%' => '75%',
-                '100%' => '100%'
-                    ], ['prompt' => '- Seleccion un porcentaje -'])
-            ?>
+<?=
+$form->field($model, 'estrec_probabilidad_recuperacion')->dropDownList([
+    '25%' => '25%',
+    '50%' => '50%',
+    '75%' => '75%',
+    '100%' => '100%'
+        ], ['prompt' => '- Seleccion un porcentaje -'])
+?>
         </div>
         <div class="row-field">
-            <?=
-            $form->field($model, 'estrec_tiempo_recuperacion', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-                'options' => ['class' => 'form-group col-md-12'],
-            ])->textarea(['rows' => 6])
-            ?>
+<?=
+$form->field($model, 'estrec_tiempo_recuperacion', [
+    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+    'options' => ['class' => 'form-group col-md-12'],
+])->textarea(['rows' => 6])
+?>
         </div>
         <div class="row-field">
-            <?=
-            $form->field($model, 'estrec_comentarios', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-                'options' => ['class' => 'form-group col-md-12'],
-            ])->textarea(['rows' => 6])
-            ?>
+<?=
+$form->field($model, 'estrec_comentarios', [
+    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+    'options' => ['class' => 'form-group col-md-12'],
+])->textarea(['rows' => 6])
+?>
         </div>
     </div>
     <!-- /.box-body -->
@@ -943,14 +980,14 @@ $form = ActiveForm::begin(
     </div>
     <div class="box-body">
         <div class="row-field">
-            <?php
-            $estadosProcesoList = yii\helpers\ArrayHelper::map(
-                            \app\models\EstadosProceso::find()
-                                    ->where(['activo' => 1])
-                                    ->orderBy(['nombre' => SORT_ASC])
-                                    ->all()
-                            , 'id', 'nombre');
-            ?>
+<?php
+$estadosProcesoList = yii\helpers\ArrayHelper::map(
+                \app\models\EstadosProceso::find()
+                        ->where(['activo' => 1])
+                        ->orderBy(['nombre' => SORT_ASC])
+                        ->all()
+                , 'id', 'nombre');
+?>
             <?= $form->field($model, 'estado_proceso_id')->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -']) ?>
         </div>
     </div>
@@ -960,7 +997,7 @@ $form = ActiveForm::begin(
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">
-        <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
+<?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
         <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
         <?php endif; ?> 
