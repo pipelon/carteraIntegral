@@ -88,6 +88,10 @@ class ProcesosController extends Controller {
             // SE GUARDA EL REGISTRO PRINCIPAL DEL PROCESO
             if ($model->save()) {
 
+                //LOG
+                $mensaje = "Un nuevo proceso con ID #'{$model->id}' ha sido creado.";
+                \Yii::info($mensaje, "cartera");
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COLABORADORES
                 if (!empty($model->colaboradores)) {
                     foreach ($model->colaboradores as $colaborador) {
@@ -244,7 +248,7 @@ class ProcesosController extends Controller {
         $model->jur_documentos_activacion = ArrayHelper::map(
                         $model->docactivacionXProcesos, 'documento_activacion_id', 'documento_activacion_id'
         );
-        
+
         //DEMANDADOS ACTUALES PARA MOSTRAR EN LA EDICION        
         $model->jur_demandados = ArrayHelper::map(
                         $model->demandadosXProceso, 'demandado_id', 'demandado_id'
@@ -263,6 +267,10 @@ class ProcesosController extends Controller {
 
             // SE GUARDA EL REGISTRO
             if ($model->save()) {
+
+                //LOG
+                $mensaje = "El proceso #{$id} ha sido cambiado.";
+                \Yii::info($mensaje, "cartera");
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
                 // SE DEBEN ELIMINARL LOS COLABORADORES ACTUALES Y 
@@ -347,13 +355,17 @@ class ProcesosController extends Controller {
                             $docXpro->save();
                         }
                     }
+
+                    //LOG
+                    $mensaje = "Los documentos de activación del proceso #{$id} han sido cambiados.";
+                    \Yii::info($mensaje, "cartera");
                 }
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO 
                 // SE DEBEN ELIMINARL LOS DEMANDADOS ACTUALES Y 
                 // VOLVERLOS A CREAR
                 if (!empty($model->jur_demandados)) {
-                    
+
                     $oldIDs = ArrayHelper::map($model->demandadosXProceso, 'demandado_id', 'demandado_id');
                     $deletedDocIDs = array_merge(array_diff($oldIDs, $model->jur_demandados), array_diff($model->jur_demandados, $oldIDs));
                     if (!empty($deletedDocIDs)) {
@@ -365,6 +377,10 @@ class ProcesosController extends Controller {
                             $demXpro->nombre = $demandado;
                             $demXpro->save();
                         }
+
+                        //LOG
+                        $mensaje = "Los demandados del proceso #{$id} han sido cambiados.";
+                        \Yii::info($mensaje, "cartera");
                     }
                 }
 
@@ -390,6 +406,10 @@ class ProcesosController extends Controller {
                             $mdlPagos->proceso_id = $model->id;
                             $mdlPagos->save();
                         }
+
+                        //LOG
+                        $mensaje = "Los pagos juridicos del proceso #{$id} han sido cambiados.";
+                        \Yii::info($mensaje, "cartera");
                     }
                 }
 
@@ -446,6 +466,10 @@ class ProcesosController extends Controller {
                             $mdlTareas->estado = $tarea['estado'] ?? '0';
                             $mdlTareas->save();
                         }
+
+                        //LOG
+                        $mensaje = "Las tareas del proceso #{$id} han sido cambiados.";
+                        \Yii::info($mensaje, "cartera");
                     }
                 }
 
@@ -513,7 +537,7 @@ class ProcesosController extends Controller {
                     'model' => $model
         ]);
     }
-    
+
     public function actionViewSummaryJuridico($id) {
         $model = $this->findModel($id);
         //GESTIONES JURIDICAS PARA MOSTRAR 

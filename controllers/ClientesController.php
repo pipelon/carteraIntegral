@@ -52,7 +52,7 @@ class ClientesController extends Controller {
                     'model' => $this->findModel($id),
         ]);
     }
-    
+
     /**
      * Displays a single Clientes model.
      * @param integer $id
@@ -72,6 +72,9 @@ class ClientesController extends Controller {
     public function actionCreate() {
         $model = new Clientes();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //LOG
+            $mensaje = "El cliente '{$model->nombre}' ha sido creado.";
+            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -90,6 +93,9 @@ class ClientesController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //LOG
+            $mensaje = "El cliente #'{$id}' ha sido editado.";
+            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -149,9 +155,9 @@ class ClientesController extends Controller {
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
-        
+
         //LOG
-        $mensaje = "El registro #{$id} ha sido eliminado.";
+        $mensaje = "El cliente '{$model->nombre}' ha sido eliminado.";
         \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);

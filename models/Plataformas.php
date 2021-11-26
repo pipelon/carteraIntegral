@@ -31,7 +31,7 @@ class Plataformas extends BeforeModel {
      */
     public function rules() {
         return [
-            [['nombre', 'created', 'created_by', 'modified', 'modified_by'], 'required'],
+            [['nombre'], 'required'],
             [['activo'], 'integer'],
             [['created', 'modified'], 'safe'],
             ['nombre', 'filter', 'filter' => 'strtoupper'],

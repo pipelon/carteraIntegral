@@ -62,6 +62,9 @@ class EstadosProcesoController extends Controller {
         $model = new EstadosProceso();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //LOG
+            $mensaje = "El estado del proceso '{$model->nombre}' ha sido creado.";
+            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -80,6 +83,9 @@ class EstadosProcesoController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //LOG
+            $mensaje = "El estado del proceso #'{$id}' ha sido editado.";
+            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -103,9 +109,9 @@ class EstadosProcesoController extends Controller {
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
-        
+
         //LOG
-        $mensaje = "El registro #{$id} ha sido eliminado.";
+        $mensaje = "El estado del proceso '{$model->nombre}' ha sido eliminado.";
         \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);

@@ -73,6 +73,9 @@ class UsersController extends Controller {
             $model->password = md5($model->password);
             $model->password_repeat = md5($model->password_repeat);
             if ($model->save()) {
+                //LOG
+                $mensaje = "El usuario '{$model->username}' ha sido creado.";
+                \Yii::info($mensaje, "cartera");
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('update', [
@@ -99,20 +102,20 @@ class UsersController extends Controller {
         $beforeUser = $model->username;
         $beforePass = $model->password;
         $beforeImage = $model->profile_image;
-        
+
         if ($model->load(Yii::$app->request->post())) {
-            
-            
+
+
             $model->profile_image = UploadedFile::getInstance($model, 'profile_image');
-            if ($model->profile_image && $model->validate()) { 
+            if ($model->profile_image && $model->validate()) {
                 $fileName = str_replace(" ", "-", $model->profile_image->baseName);
                 $fileName = strtolower($fileName) . date('ymdhis') . '.' . strtolower($model->profile_image->extension);
                 $model->profile_image->saveAs('perfiles/' . $fileName);
-                $model->profile_image = $fileName;    
+                $model->profile_image = $fileName;
                 //elimino la antigua
                 unlink('perfiles/' . $beforeImage);
             }
-            
+
             // si no se cambio la foto entonces sigo con la antigua
             if (empty($model->profile_image)) {
                 $model->profile_image = $beforeImage;
@@ -131,6 +134,10 @@ class UsersController extends Controller {
 
             //guardo los cambios
             if ($model->save()) {
+                
+                //LOG
+                $mensaje = "El usuario #'{$id}' ha sido actualizado.";
+                \Yii::info($mensaje, "cartera");
 
                 //valido si se cambio el propio usuario y de ser asi lo deslogueo        
                 if ($beforeUser != $model->username && $id == Yii::$app->user->identity->getId()) {
@@ -157,7 +164,14 @@ class UsersController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
+        
+        $model = $this->findModel($id);
+        
         $this->findModel($id)->delete();
+        
+        //LOG
+        $mensaje = "El usuario '{$model->username}' ha sido eliminado.";
+        \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
     }

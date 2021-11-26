@@ -62,6 +62,9 @@ class EtapasProcesalesController extends Controller {
         $model = new EtapasProcesales();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //LOG
+            $mensaje = "La etapa procesal '{$model->nombre}' ha sido creada.";
+            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -80,6 +83,9 @@ class EtapasProcesalesController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //LOG
+            $mensaje = "La etapa procesal #'{$id}' ha sido editada.";
+            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -103,9 +109,9 @@ class EtapasProcesalesController extends Controller {
         $model->deleted = new yii\db\Expression('NOW()');
         $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
         $model->save();
-        
+
         //LOG
-        $mensaje = "El registro #{$id} ha sido eliminado.";
+        $mensaje = "La etapa procesal '{$model->nombre}' ha sido eliminada.";
         \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);

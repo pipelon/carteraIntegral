@@ -74,6 +74,9 @@ CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`demandados_x_proceso` (
 ENGINE = INNODB
 DEFAULT CHARACTER SET = utf8;
 
+alter table `db_cartera_integral`.`documentos_activacion` 
+   change `delete` `delete` tinyint(1) default '0' NULL  comment 'Borrado';
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
