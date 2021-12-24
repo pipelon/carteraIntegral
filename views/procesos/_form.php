@@ -75,6 +75,7 @@ $form = ActiveForm::begin(
                 <?=
                         $form->field($model, 'cliente_id', [
                             'options' => ['class' => 'form-group col-md-12'],
+                            "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['clientes']) . "{label}\n{input}\n{hint}\n{error}",
                         ])
                         ->widget(Select2::classname(),
                                 [
@@ -123,6 +124,7 @@ $form = ActiveForm::begin(
                 <?=
                         $form->field($model, 'deudor_id', [
                             'options' => ['class' => 'form-group col-md-12'],
+                            "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['deudores']) . "{label}\n{input}\n{hint}\n{error}",
                         ])
                         ->widget(Select2::classname(),
                                 [
@@ -151,7 +153,7 @@ $form = ActiveForm::begin(
                 ?>
                 <?=
                 $form->field($model, 'plataforma_id', [
-                    "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                    "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['plataforma']) . "{label}\n{input}\n{hint}\n{error}",
                     'options' => ['class' => 'form-group col-md-12']
                 ])->dropDownList($plataformas, ['prompt' => '- Seleccione una plataforma -'])
                 ?>
@@ -181,11 +183,11 @@ $form = ActiveForm::begin(
         ?>
 
         <?=
-        $form->field($model, 'jefe_id')->dropDownList($lideresList, ['prompt' => '- Seleccione un líder -'])
+        $form->field($model, 'jefe_id', ["template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jefe_id']) . "{label}\n{input}\n{hint}\n{error}",])->dropDownList($lideresList, ['prompt' => '- Seleccione un líder -'])
         ?>
 
         <?=
-        $form->field($model, 'colaboradores')->widget(Select2::classname(), [
+        $form->field($model, 'colaboradores', ["template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['colaboradores']) . "{label}\n{input}\n{hint}\n{error}",])->widget(Select2::classname(), [
             'data' => $dataList,
             'options' => ['placeholder' => '- Seleccione los colaboradores -', 'multiple' => true],
             'pluginOptions' => [
@@ -229,18 +231,25 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'prejur_tipo_caso', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_tipo_caso']) . "{label}\n{input}\n{hint}\n{error}"
             ])->dropDownList($tipoCasosList, ['prompt' => '- Seleccione un tipo de caso -'])
             ?>
         </div>
         <div class="row-field">
-            <?= $form->field($model, 'prejur_valor_activacion')->textInput() ?>
-            <?= $form->field($model, 'prejur_saldo_actual')->textInput() ?>
+            <?=
+            $form->field($model, 'prejur_valor_activacion', ["template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_valor_activacion']) . "{label}\n{input}\n{hint}\n{error}"
+            ])->textInput()
+            ?>
+            <?=
+            $form->field($model, 'prejur_saldo_actual', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_saldo_actual']) . "{label}\n{input}\n{hint}\n{error}"
+            ])->textInput()
+            ?>
         </div>
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_carta_enviada', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_carta_enviada']) . "{label}\n{input}\n{hint}\n{error}"
             ])->dropDownList(
                     ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
                     [
@@ -250,14 +259,14 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'prejur_comentarios_carta', [
-                'template' => "{label}\n{input}\n{hint}\n{error}\n",
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_comentarios_carta']) . "{label}\n{input}\n{hint}\n{error}"
             ])->textInput(['maxlength' => true])
             ?>
         </div>
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_llamada_realizada', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_llamada_realizada']) . "{label}\n{input}\n{hint}\n{error}"
             ])->dropDownList(
                     ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
                     [
@@ -267,14 +276,14 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'prejur_comentarios_llamada', [
-                'template' => "{label}\n{input}\n{hint}\n{error}\n",
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_comentarios_llamada']) . "{label}\n{input}\n{hint}\n{error}",
             ])->textInput(['maxlength' => true])
             ?>
         </div>
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_visita_domiciliaria', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_visita_domiciliaria']) . "{label}\n{input}\n{hint}\n{error}"
             ])->dropDownList(
                     ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
                     [
@@ -284,7 +293,7 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'prejur_comentarios_visita', [
-                'template' => "{label}\n{input}\n{hint}\n{error}\n",
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_comentarios_visita']) . "{label}\n{input}\n{hint}\n{error}",
             ])->textInput(['maxlength' => true])
             ?>
         </div>
@@ -292,7 +301,7 @@ $form = ActiveForm::begin(
 
         <?=
         $form->field($model, 'prejur_acuerdo_pago', [
-            "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+            "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_acuerdo_pago']) . "{label}\n{input}\n{hint}\n{error}",
             "options" => ['class' => 'form-group col-md-12']
         ])->dropDownList(
                 ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
@@ -400,7 +409,7 @@ $form = ActiveForm::begin(
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_consulta_rama_judicial', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_consulta_rama_judicial']) . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textarea(['rows' => 6])
             ?>
@@ -408,7 +417,7 @@ $form = ActiveForm::begin(
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_consulta_entidad_reguladora', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_consulta_entidad_reguladora']) . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textarea(['rows' => 6])
             ?>
@@ -418,7 +427,7 @@ $form = ActiveForm::begin(
 
             <?=
             $form->field($model, 'prejur_resultado_estudio_bienes', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_resultado_estudio_bienes']) . "{label}\n{input}\n{hint}\n{error}",
                 "options" => ['class' => 'form-group col-md-12']
             ])->dropDownList(
                     ['SIN DEFINIR' => 'SIN DEFINIR', 'POSITIVO' => 'POSITIVO', 'NEGATIVO' => 'NEGATIVO'],
@@ -450,7 +459,7 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'prejur_estudio_bienes', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_estudio_bienes']) . "{label}\n{input}\n{hint}\n{error}",
                 "options" => ["class" => "form-group col-md-12"],
             ])->checkboxList($bienesList,
                     [
@@ -482,7 +491,7 @@ $form = ActiveForm::begin(
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_informe_castigo_enviado', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_informe_castigo_enviado']) . "{label}\n{input}\n{hint}\n{error}"
             ])->dropDownList(
                     ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
                     [
@@ -492,7 +501,7 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'prejur_carta_castigo_enviada', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}"
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_carta_castigo_enviada']) . "{label}\n{input}\n{hint}\n{error}"
             ])->dropDownList(
                     ['SI' => 'SI', 'NO' => 'NO', 'N/A' => 'N/A'],
                     [
@@ -504,7 +513,7 @@ $form = ActiveForm::begin(
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_concepto_viabilidad', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_concepto_viabilidad']) . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textarea(['rows' => 6])
             ?>
@@ -513,7 +522,7 @@ $form = ActiveForm::begin(
         <div class="row-field gestion-prejuridica">
             <?=
             $form->field($model, 'prejur_gestion_prejuridica', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_gestion_prejuridica']) . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textarea(['rows' => 6])
             ?>
@@ -533,7 +542,7 @@ $form = ActiveForm::begin(
         <div class="row-field">
             <?=
             $form->field($model, 'prejur_otros', [
-                'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_otros']) . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textarea(['rows' => 6])
             ?>
@@ -573,13 +582,13 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'jur_documentos_activacion', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_documentos_activacion']) . "{label}\n{input}\n{hint}\n{error}",
             ])->checkboxList($docActList)
             ?>
         </div>
         <div class="row-field">
-            <?= $form->field($model, 'jur_valor_activacion')->textInput() ?>
-            <?= $form->field($model, 'jur_saldo_actual')->textInput() ?>
+            <?= $form->field($model, 'jur_valor_activacion', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_valor_activacion']) . "{label}\n{input}\n{hint}\n{error}\n",])->textInput() ?>
+            <?= $form->field($model, 'jur_saldo_actual', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_saldo_actual']) . "{label}\n{input}\n{hint}\n{error}\n",])->textInput() ?>
         </div>
 
         <!-- CONSOLIDADO DE PAGOS -->
@@ -663,17 +672,17 @@ $form = ActiveForm::begin(
                     ])
                     ->where(['id' => $model->deudor_id])
                     ->all();
-            
+
             $listDeudores = [];
             if (!empty($listDeudoresyCode)) {
-                
+
                 $listDeudores[$listDeudoresyCode[0]->nombre] = "{$listDeudoresyCode[0]->nombre}";
-                
-                if(!empty($listDeudoresyCode[0]->nombre_codeudor_1)){
+
+                if (!empty($listDeudoresyCode[0]->nombre_codeudor_1)) {
                     $listDeudores[$listDeudoresyCode[0]->nombre_codeudor_1] = "{$listDeudoresyCode[0]->nombre_codeudor_1} ({$listDeudoresyCode[0]->direccion_codeudor_1}, {$listDeudoresyCode[0]->email_codeudor_1})";
                 }
-                
-                if(!empty($listDeudoresyCode[0]->nombre_codeudor_2)){
+
+                if (!empty($listDeudoresyCode[0]->nombre_codeudor_2)) {
                     $listDeudores[$listDeudoresyCode[0]->nombre_codeudor_2] = "{$listDeudoresyCode[0]->nombre_codeudor_2} ({$listDeudoresyCode[0]->direccion_codeudor_2}, {$listDeudoresyCode[0]->email_codeudor_2})";
                 }
             } else {
@@ -682,22 +691,22 @@ $form = ActiveForm::begin(
             ?>
             <?=
             $form->field($model, 'jur_demandados', [
-                "template" => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}",
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_demandados']) . "{label}\n{input}\n{hint}\n{error}",
             ])->checkboxList($listDeudores)
             ?>
         </div>
 
         <div class="row-field">
-<?php
-$tipoProcesosList = yii\helpers\ArrayHelper::map(
-                \app\models\TipoProcesos::find()
-                        ->where(['activo' => 1])
-                        ->all()
-                , 'id', 'nombre');
-?>
-            <?= $form->field($model, 'jur_tipo_proceso_id')->dropDownList($tipoProcesosList, ['prompt' => '- Seleccion un tipo de proceso -', 'id' => 'tipo-proceso-id']) ?>
+            <?php
+            $tipoProcesosList = yii\helpers\ArrayHelper::map(
+                            \app\models\TipoProcesos::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?= $form->field($model, 'jur_tipo_proceso_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_tipo_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->dropDownList($tipoProcesosList, ['prompt' => '- Seleccion un tipo de proceso -', 'id' => 'tipo-proceso-id']) ?>
             <?=
-            $form->field($model, 'jur_etapas_procesal_id')->widget(DepDrop::classname(), [
+            $form->field($model, 'jur_etapas_procesal_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_etapas_procesal_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
                 'options' => ['id' => 'etapa-procesal-id'],
                 'data' => [$model->jur_etapas_procesal_id => 'default'],
                 'pluginOptions' => [
@@ -713,15 +722,15 @@ $tipoProcesosList = yii\helpers\ArrayHelper::map(
 
         <!-- JUZGADO -->
         <div class="row-field">
-<?php
-$departamentos = yii\helpers\ArrayHelper::map(
-                \app\models\Departamentos::find()
-                        ->all()
-                , 'id', 'nombre');
-?>
-            <?= $form->field($model, 'jur_departamento_id')->dropDownList($departamentos, ['prompt' => '- Seleccion un departamento -', 'id' => 'departamento-id']) ?>
+            <?php
+            $departamentos = yii\helpers\ArrayHelper::map(
+                            \app\models\Departamentos::find()
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?= $form->field($model, 'jur_departamento_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_departamento_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->dropDownList($departamentos, ['prompt' => '- Seleccion un departamento -', 'id' => 'departamento-id']) ?>
             <?=
-            $form->field($model, 'jur_ciudad_id')->widget(DepDrop::classname(), [
+            $form->field($model, 'jur_ciudad_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_ciudad_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
                 'options' => ['id' => 'ciudad-id'],
                 'data' => [$model->jur_ciudad_id => 'default'],
                 'pluginOptions' => [
@@ -734,7 +743,7 @@ $departamentos = yii\helpers\ArrayHelper::map(
             ]);
             ?>
             <?=
-            $form->field($model, 'jur_jurisdiccion_competent_id')->widget(DepDrop::classname(), [
+            $form->field($model, 'jur_jurisdiccion_competent_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
                 'options' => ['id' => 'jurisdiccion-competent-id'],
                 'data' => [$model->jur_jurisdiccion_competent_id => 'default'],
                 'pluginOptions' => [
@@ -746,26 +755,26 @@ $departamentos = yii\helpers\ArrayHelper::map(
                 ]
             ]);
             ?>
-            <?= $form->field($model, 'jur_juzgado')->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
+            <?= $form->field($model, 'jur_juzgado', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
         </div>
 
         <!-- GESTIONES JURIDICAS -->
         <div class="row-field gestion-juridica">
-<?=
-$form->field($model, 'jur_gestion_juridica', [
-    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-    'options' => ['class' => 'form-group col-md-12'],
-])->textarea(['rows' => 6])
-?>
+            <?=
+            $form->field($model, 'jur_gestion_juridica', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_gestion_juridica']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
             <?php if (!empty($model->jur_gestiones_juridicas)): ?>
                 <?php foreach ($model->jur_gestiones_juridicas as $gestion) : ?>
                     <div class="col-md-12">
                         <blockquote>
-        <?= nl2br($gestion->descripcion_gestion); ?>
+                            <?= nl2br($gestion->descripcion_gestion); ?>
                             <small><?= $gestion->usuario_gestion; ?> el <cite title="Source Title"><?= $gestion->fecha_gestion; ?></cite></small>
                         </blockquote>
                     </div>
-    <?php endforeach; ?>
+                <?php endforeach; ?>
 
             <?php endif; ?>
         </div>
@@ -784,12 +793,12 @@ $form->field($model, 'jur_gestion_juridica', [
     </div>
     <div style="display: none;" class="box-body">
         <div class="row-field">
-<?=
-$form->field($model, 'carpeta', [
-    'template' => "{label}\n{input}\n{hint}\n{error}\n",
-    'options' => ['class' => 'form-group col-md-12'],
-])->textInput(['maxlength' => true])
-?>
+            <?=
+            $form->field($model, 'carpeta', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['carpeta']) . "{label}\n{input}\n{hint}\n{error}",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textInput(['maxlength' => true])
+            ?>
         </div>
     </div>
     <!-- /.box-body -->
@@ -807,24 +816,24 @@ $form->field($model, 'carpeta', [
     </div>
     <div style="display: none;" class="box-body">
         <div class="row-field col-md-12">
-<?php
-DynamicFormWidget::begin([
-    'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
-    'widgetBody' => '.container-items', // required: css class selector
-    'widgetItem' => '.item', // required: css class
-    'limit' => 5, // the maximum times, an element can be cloned (default 999)
-    'min' => 0, // 0 or 1 (default 1)
-    'insertButton' => '.add-item', // css class
-    'deleteButton' => '.remove-item', // css class
-    'model' => $modelTareas[0],
-    'formId' => 'dynamic-form',
-    'formFields' => [
-        'descripcion',
-        'fecha_esperada',
-        'user_id'
-    ],
-]);
-?>
+            <?php
+            DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items', // required: css class selector
+                'widgetItem' => '.item', // required: css class
+                'limit' => 5, // the maximum times, an element can be cloned (default 999)
+                'min' => 0, // 0 or 1 (default 1)
+                'insertButton' => '.add-item', // css class
+                'deleteButton' => '.remove-item', // css class
+                'model' => $modelTareas[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'descripcion',
+                    'fecha_esperada',
+                    'user_id'
+                ],
+            ]);
+            ?>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -833,7 +842,7 @@ DynamicFormWidget::begin([
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body container-items"><!-- widgetContainer -->
-<?php foreach ($modelTareas as $index => $mdlTarea): ?>
+                    <?php foreach ($modelTareas as $index => $mdlTarea): ?>
 
                         <?php $enable = $mdlTarea->jefe_id == Yii::$app->user->identity->getId() || Yii::$app->user->identity->isSuperAdmin(); ?>
                         <?php $disable = $mdlTarea->jefe_id != Yii::$app->user->identity->getId() && !Yii::$app->user->identity->isSuperAdmin(); ?>
@@ -862,12 +871,12 @@ DynamicFormWidget::begin([
                                 <div class="clearfix"></div>
                             </div>
                             <div class="panel-body">
-    <?php
-    // necessary for update action.
-    if (!$mdlTarea->isNewRecord) {
-        echo Html::activeHiddenInput($mdlTarea, "[{$index}]id");
-    }
-    ?>
+                                <?php
+                                // necessary for update action.
+                                if (!$mdlTarea->isNewRecord) {
+                                    echo Html::activeHiddenInput($mdlTarea, "[{$index}]id");
+                                }
+                                ?>
                                 <?=
                                         $form
                                         ->field($mdlTarea, "[{$index}]estado", ['options' => ['class' => 'form-group col-md-1', 'style' => 'margin-top:20px']])
@@ -907,25 +916,25 @@ DynamicFormWidget::begin([
                                     ?>
 
 
-        <?=
-                $form->field($mdlTarea, "[{$index}]user_id",
-                        ['options' => ['class' => 'form-group col-md-4']])
-                ->dropDownList(
-                        $userList,
-                        [
-                            'prompt' => '- Seleccion un colaborador -',
-                            'disabled' => $disable
-                        ]
-        );
-        ?>
+                                    <?=
+                                            $form->field($mdlTarea, "[{$index}]user_id",
+                                                    ['options' => ['class' => 'form-group col-md-4']])
+                                            ->dropDownList(
+                                                    $userList,
+                                                    [
+                                                        'prompt' => '- Seleccion un colaborador -',
+                                                        'disabled' => $disable
+                                                    ]
+                                    );
+                                    ?>
                                 <?php endif; ?>
                                 <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
                             </div>
                         </div>
-<?php endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
-<?php DynamicFormWidget::end(); ?>
+            <?php DynamicFormWidget::end(); ?>
         </div>
     </div>
 </div>
@@ -942,38 +951,38 @@ DynamicFormWidget::begin([
     </div>
     <div style="display: none;" class="box-body">
         <div class="row-field">
-<?=
-$form->field($model, 'estrec_pretenciones', [
-    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-    'options' => ['class' => 'form-group col-md-12'],
-])->textarea(['rows' => 6])
-?>
+            <?=
+            $form->field($model, 'estrec_pretenciones', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estrec_pretenciones']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
         </div>
         <div class="row-field">
-<?=
-$form->field($model, 'estrec_probabilidad_recuperacion')->dropDownList([
-    '25%' => '25%',
-    '50%' => '50%',
-    '75%' => '75%',
-    '100%' => '100%'
-        ], ['prompt' => '- Seleccion un porcentaje -'])
-?>
+            <?=
+            $form->field($model, 'estrec_probabilidad_recuperacion', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estrec_probabilidad_recuperacion']) . "{label}\n{input}\n{hint}\n{error}\n"])->dropDownList([
+                '25%' => '25%',
+                '50%' => '50%',
+                '75%' => '75%',
+                '100%' => '100%'
+                    ], ['prompt' => '- Seleccion un porcentaje -'])
+            ?>
         </div>
         <div class="row-field">
-<?=
-$form->field($model, 'estrec_tiempo_recuperacion', [
-    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-    'options' => ['class' => 'form-group col-md-12'],
-])->textarea(['rows' => 6])
-?>
+            <?=
+            $form->field($model, 'estrec_tiempo_recuperacion', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estrec_tiempo_recuperacion']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
         </div>
         <div class="row-field">
-<?=
-$form->field($model, 'estrec_comentarios', [
-    'template' => Yii::$app->utils->mostrarPopover("Lorem Ipsum dolot") . "{label}\n{input}\n{hint}\n{error}\n",
-    'options' => ['class' => 'form-group col-md-12'],
-])->textarea(['rows' => 6])
-?>
+            <?=
+            $form->field($model, 'estrec_comentarios', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estrec_comentarios']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
         </div>
     </div>
     <!-- /.box-body -->
@@ -986,15 +995,17 @@ $form->field($model, 'estrec_comentarios', [
     </div>
     <div class="box-body">
         <div class="row-field">
-<?php
-$estadosProcesoList = yii\helpers\ArrayHelper::map(
-                \app\models\EstadosProceso::find()
-                        ->where(['activo' => 1])
-                        ->orderBy(['nombre' => SORT_ASC])
-                        ->all()
-                , 'id', 'nombre');
-?>
-            <?= $form->field($model, 'estado_proceso_id')->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -']) ?>
+            <?php
+            $estadosProcesoList = yii\helpers\ArrayHelper::map(
+                            \app\models\EstadosProceso::find()
+                                    ->where(['activo' => 1])
+                                    ->orderBy(['nombre' => SORT_ASC])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?= $form->field($model, 'estado_proceso_id', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estado_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"
+            ])->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -']) ?>
         </div>
     </div>
     <!-- /.box-body -->
@@ -1003,7 +1014,7 @@ $estadosProcesoList = yii\helpers\ArrayHelper::map(
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">
-<?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
         <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
         <?php endif; ?> 
