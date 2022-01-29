@@ -719,6 +719,19 @@ $form = ActiveForm::begin(
             ]);
             ?>
         </div>
+        <div class="row-field">
+            <?=
+            $form->field($model, 'jur_fecha_etapa_procesal')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => '- Ingrese una fecha --'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]);
+            ?>
+        </div>
 
         <!-- JUZGADO -->
         <div class="row-field">
@@ -756,6 +769,7 @@ $form = ActiveForm::begin(
             ]);
             ?>
             <?= $form->field($model, 'jur_juzgado', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
+            <?= $form->field($model, 'jur_radicado', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado']) ?>
         </div>
 
         <!-- GESTIONES JURIDICAS -->

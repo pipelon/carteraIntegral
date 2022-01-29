@@ -10,24 +10,22 @@ use app\models\Departamentos;
 /**
  * DepartamentosSearch represents the model behind the search form of `app\models\Departamentos`.
  */
-class DepartamentosSearch extends Departamentos
-{
+class DepartamentosSearch extends Departamentos {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id'], 'integer'],
-            [['nombre', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['nombre', 'codigo_departamento', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class DepartamentosSearch extends Departamentos
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Departamentos::find();
 
         // add conditions that should always apply here
@@ -66,9 +63,11 @@ class DepartamentosSearch extends Departamentos
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'created_by', $this->created_by])
-            ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
+                ->andFilterWhere(['like', 'codigo_departamento', $this->codigo_departamento])
+                ->andFilterWhere(['like', 'created_by', $this->created_by])
+                ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 
         return $dataProvider;
     }
+
 }

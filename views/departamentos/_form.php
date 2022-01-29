@@ -35,7 +35,8 @@ use yii\bootstrap\ActiveForm;
 
         <div class="form-row">
 
-            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>            
+            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>    
+            <?= $form->field($model, 'codigo_departamento')->textInput(['maxlength' => true]) ?>
 
         </div>
     </div>

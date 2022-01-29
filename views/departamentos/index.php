@@ -40,7 +40,8 @@ if (\Yii::$app->user->can('/departamentos/*') || \Yii::$app->user->can('/*')) {
             'tableOptions' => ['class' => 'table table-striped table-bordered table-condensed'],
             'columns' => [
                 'id',
-                'nombre',                
+                'nombre',    
+                'codigo_departamento',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,

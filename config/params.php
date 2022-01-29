@@ -60,6 +60,7 @@ return [
         'jur_ciudad_id' => 'jur_ciudad_id',
         'jur_jurisdiccion_competent_id' => 'jur_jurisdiccion_competent_id',
         'jur_juzgado' => 'jur_juzgado',
+        'jur_radicado'=> 'jur_radicado',
         'estrec_probabilidad_recuperacion' => 'estrec_probabilidad_recuperacion',
         'estado_proceso_id' => 'estado_proceso_id',
     ]
