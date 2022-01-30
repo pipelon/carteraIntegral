@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attributes' => [
                 'id',
                 'nombre',
+                'codigo_departamento',
                 'created:date',
                 'created_by',
                 'modified:date',

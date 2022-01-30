@@ -13,7 +13,7 @@ yii\bootstrap\Modal::begin([
 
     <!-- INFORMACION DEL DEUDOR -->
     <div class="col-md-8 invoice-col">
-        <h4><?= "Radicado: 12345678901234567"; ?></h4>
+        <h4><?= "Radicado: {$model->jur_radicado}"; ?></h4>
 
         <br />
         Demandante

@@ -38,7 +38,7 @@ $procesos = $dataProvider->getModels()
                     <!-- SI EL PROCESO ESTA EN JURIDICO SE DEBE MOSTARR EL NUMERO DEL RADICADO -->
                     <?php if ($proceso->estado_proceso_id == '5') : ?>
                         <h3 class="box-title" style="font-size: 18px !important;">
-                            <b>Radicado #:</b> 12345678901234567
+                            <b>Radicado #:</b> <?= $proceso->jur_radicado; ?>
                         </h3>
                     <?php endif; ?>
 

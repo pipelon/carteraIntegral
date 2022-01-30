@@ -205,6 +205,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                         return $data->jurTipoProceso->nombre ?? null;
                     },
                 ],
+                'jur_fecha_etapa_procesal',
                 [
                     'attribute' => 'jur_etapas_procesal_id',
                     'format' => 'raw',
@@ -234,6 +235,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                     },
                 ],
                 'jur_juzgado',
+                'jur_radicado',
                 [
                     'label' => strtoupper('Documentos'),
                     'value' => '',
