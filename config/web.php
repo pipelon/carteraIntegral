@@ -67,7 +67,7 @@ $config = [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtpout.secureserver.net',
                 'username' => 'info@carteraintegral.com.co',
-                'password' => 'C4rTer@2020',
+                'password' => 'inf02021*?',
                 'port' => '80',
                 'encryption' => 'tls',
             ],

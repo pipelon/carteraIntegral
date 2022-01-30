@@ -26,7 +26,8 @@
         "kartik-v/yii2-widget-depdrop": "dev-master",
         "google/apiclient": "^2.0",
         "wbraganca/yii2-dynamicform": "dev-master",
-        "kartik-v/yii2-widget-fileinput": "^1.1"
+        "kartik-v/yii2-widget-fileinput": "^1.1",
+        "phpmailer/phpmailer": "^6.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

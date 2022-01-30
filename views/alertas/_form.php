@@ -39,9 +39,11 @@ use yii\bootstrap\ActiveForm;
 
         <?= $form->field($model, 'descripcion_alerta')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'pausada')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
+        <?= $form->field($model, 'pospuesta')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
 
-        <?php //echo $form->field($model, 'fecha_pausada')->textInput() ?>
+        <?= $form->field($model, 'fecha_pospuesta')->textInput() ?>
+
+        <?= $form->field($model, 'dias_pospuesta')->textInput() ?>
 
     </div>
     </div>

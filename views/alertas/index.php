@@ -25,11 +25,11 @@ if (\Yii::$app->user->can('/alertas/*') || \Yii::$app->user->can('/*')) {
 }
 ?>
 <div class="alertas-index box box-primary">
-    <div class="box-header with-border"><!--
+    <div class="box-header with-border">
     <?php  //if (\Yii::$app->user->can('/alertas/create') || \Yii::$app->user->can('/*')) :  ?> 
-        <?php //Html::a('<i class="flaticon-add" ></i> '.'Crear Alertas', ['create'], ['class' => 'btn btn-primary']) ?>
+        <?php  //Html::a('<i class="flaticon-add" ></i> '.'Crear Alertas', ['create'], ['class' => 'btn btn-primary']) ?>
     <?php  //endif;  ?> 
-    </div>-->
+    </div>
     <div class="box-body table-responsive">
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
         <?= GridView::widget([
@@ -43,14 +43,16 @@ if (\Yii::$app->user->can('/alertas/*') || \Yii::$app->user->can('/*')) {
                 'usuario_id',
                 'descripcion_alerta',
                 [
-                    'attribute' => 'pausada',
+                    'attribute' => 'pospuesta',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return Yii::$app->utils->getConditional($data->pausada);
+                        return Yii::$app->utils->getConditional($data->pospuesta);
                     },
                     'filter' => Yii::$app->utils->getFilterConditional()
                 ],
-                //'fecha_pausada',
+                //'tipo_alerta_id',
+                // 'fecha_pospuesta',
+                // 'dias_pospuesta',
                 // 'created',
                 // 'created_by',
                 // 'modified',

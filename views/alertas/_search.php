@@ -21,11 +21,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'usuario_id') ?>
 
+    <?= $form->field($model, 'tipo_alerta_id') ?>
+
     <?= $form->field($model, 'descripcion_alerta') ?>
 
-    <?= $form->field($model, 'pausada') ?>
+    <?= $form->field($model, 'pospuesta') ?>
 
-    <?php // echo $form->field($model, 'fecha_pausada') ?>
+    <?php  echo $form->field($model, 'fecha_pospuesta') ?>
+
+    <?php  echo $form->field($model, 'dias_pospuesta') ?>
 
     <?php // echo $form->field($model, 'created') ?>
 

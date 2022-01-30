@@ -6,16 +6,67 @@ return [
     'senderName' => 'INFO CARTERA',
     'asuntoAlertasProceso' => 'CILES: alerta de gestion de procesos',
     'alertaPREJuridico_Carta' => [
+        'tipo_alerta_id' => 1,
         'activo' => true,
         'diasParaAlerta' => '5', //dias habiles
         'asunto' => 'CILES - Alertas: Enviar carta al cliente',
         'descripcion' => 'Tienes pendiente enviar la(s) carta(s) al cliente.'
     ],
     'alertaPREJuridico_Llamada' => [
-        'activo' => false,
-        'diasParaAlerta' => '30', //dias habiles
+        'tipo_alerta_id' => 2,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
         'asunto' => 'CILES - Alertas: Hacer llamada al cliente',
         'descripcion' => 'Tienes pendiente hacer la(s) llamada(s) al cliente.'
+    ],
+    'alertaPREJuridico_Visita' => [
+        'tipo_alerta_id' => 3,
+        'activo' => true,
+        'diasParaAlerta' => '10', //dias habiles
+        'asunto' => 'CILES - Alertas: Hacer visita al cliente',
+        'descripcion' => 'Tienes pendiente hacer la(s) visita(s) al cliente.'
+    ],
+    'alertaPREJuridico_Pagos' => [
+        'tipo_alerta_id' => 4,
+        'activo' => true,
+        'diasParaAlerta' => '', //dias habiles
+        'asunto' => 'CILES - Alertas: El cliente debe hacer un pago hoy',
+        'descripcion' => 'Hoy debes registrar un pago del cliente.'
+    ],
+    'alertaPREJuridico_SinAcuerdoDePago' => [
+        'tipo_alerta_id' => 5,
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: No hubo acuerdo de pago. Pasar a jurídico',
+        'descripcion' => 'No hubo acuerdo de pago. Pasar a jurídico.'
+    ],
+    'alertaPREJuridico_EstudioBienesPositivo' => [
+        'tipo_alerta_id' => 6,
+        'activo' => true,
+        'diasParaAlerta' => '1', //dias habiles
+        'asunto' => 'CILES - Alertas: Estudio de bienes positivo. Pasar a jurídico',
+        'descripcion' => 'Estudio de bienes positivo. Pasar a jurídico.'
+    ],
+    'alertaPREJuridico_EstudioBienesNegativo' => [
+        'tipo_alerta_id' => 7,
+        'activo' => true,
+        'diasParaAlerta' => '1', //dias habiles
+        'asunto' => 'CILES - Alertas: Estudio de bienes negativo. Generar informe de inviabilidad o castigo',
+        'descripcion' => 'Estudio de bienes negativo. Generar informe de inviabilidad o castigo.'
+    ],
+    'alertaPREJuridico_CartaDeCastigo' => [
+        'tipo_alerta_id' => 8,
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Generar carta de castigo, el proceso fue inviable.',
+        'descripcion' => 'Generar carta de castigo, el proceso fue inviable.'
+    ],
+    'alertaJuridico_RecepcionPoder' => [
+        'tipo_alerta_id' => 9,
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Recepción de poder.',
+        'descripcion' => 'Recibir el poder.'
     ],
     'ayudas' => [
         'default' => 'Default',
@@ -61,6 +112,6 @@ return [
         'jur_jurisdiccion_competent_id' => 'jur_jurisdiccion_competent_id',
         'jur_juzgado' => 'jur_juzgado',
         'estrec_probabilidad_recuperacion' => 'estrec_probabilidad_recuperacion',
-        'estado_proceso_id' => 'estado_proceso_id',
+        'estado_proceso_id' => 'estado_proceso_id'
     ]
 ];

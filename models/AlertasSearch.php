@@ -18,8 +18,8 @@ class AlertasSearch extends Alertas
     public function rules()
     {
         return [
-            [['id', 'proceso_id', 'usuario_id'], 'integer'],
-            [['descripcion_alerta', 'pausada', 'fecha_pausada', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['id', 'proceso_id', 'usuario_id', 'tipo_alerta_id', 'dias_pospuesta'], 'integer'],
+            [['descripcion_alerta', 'pospuesta', 'fecha_pospuesta', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -63,13 +63,15 @@ class AlertasSearch extends Alertas
             'id' => $this->id,
             'proceso_id' => $this->proceso_id,
             'usuario_id' => $this->usuario_id,
-            'fecha_pausada' => $this->fecha_pausada,
+            'tipo_alerta_id' => $this->tipo_alerta_id,
+            'fecha_pospuesta' => $this->fecha_pospuesta,
+            'dias_pospuesta' => $this->dias_pospuesta,
             'created' => $this->created,
             'modified' => $this->modified,
         ]);
 
         $query->andFilterWhere(['like', 'descripcion_alerta', $this->descripcion_alerta])
-            ->andFilterWhere(['like', 'pausada', $this->pausada])
+            ->andFilterWhere(['like', 'pospuesta', $this->pospuesta])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 

@@ -35,15 +35,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'proceso_id',
                 'usuario_id',
+                'tipo_alerta_id',
                 'descripcion_alerta',
                 [
-                    'attribute' => 'pausada',
+                    'attribute' => 'pospuesta',
                     'format' => 'raw',
                     'value' => function ($data) {
-                        return Yii::$app->utils->getConditional($data->pausada);
+                        return Yii::$app->utils->getConditional($data->pospuesta);
                     },
                 ],
-                'fecha_pausada:date',
+                'fecha_pospuesta:date',
+                'dias_pospuesta',
                 'created:date',
                 'created_by',
                 'modified:date',

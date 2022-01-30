@@ -43,6 +43,14 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 
 -- ALTER TABLE `alertas` ADD `fecha_pausada` DATETIME NOT NULL COMMENT 'Fecha en que fue pausada' AFTER `pausada`;
 
+-- ALTER TABLE `alertas` CHANGE `pausada` `pospuesta` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT 'La alerta esta pospuesta no';
+
+-- ALTER TABLE `alertas` CHANGE `fecha_pausada` `fecha_pospuesta` DATETIME NULL COMMENT 'Fecha en que fue pausada';
+
+-- ALTER TABLE `alertas` ADD `dias_pospuesta` SMALLINT NULL COMMENT 'Número de días que fue pospuesta' AFTER `fecha_pospuesta`;
+
+-- ALTER TABLE `alertas` ADD `tipo_alerta_id` SMALLINT NOT NULL COMMENT 'Tipo Alerta ID' AFTER `usuario_id`;
+
 /*CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`gestiones_juridicas` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `proceso_id` INT(11) NOT NULL COMMENT 'Proceso ID',
@@ -57,7 +65,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8*/
+DEFAULT CHARACTER SET = utf8
 
 CREATE TABLE IF NOT EXISTS `db_cartera_integral`.`demandados_x_proceso` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -76,7 +84,7 @@ DEFAULT CHARACTER SET = utf8;
 
 alter table `db_cartera_integral`.`documentos_activacion` 
    change `delete` `delete` tinyint(1) default '0' NULL  comment 'Borrado';
-
+*/
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

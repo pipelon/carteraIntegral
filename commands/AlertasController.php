@@ -43,11 +43,14 @@ class AlertasController extends Controller {
                 if ($hayAlertasCartas) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_Carta']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_Carta']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_Carta']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
@@ -59,30 +62,18 @@ class AlertasController extends Controller {
                 if ($hayAlertaLlamada) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_Llamada']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_Llamada']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_Llamada']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
-
-            //Esta alerta validará la llamada al cliente
-            if (\Yii::$app->params['alertaPREJuridico_Llamada']['activo']) {
-                //Procesar las alertas prejuridicas de llamadas
-                $hayAlertaLlamada = $this->alertaPrejuridico_LlamadaRealizada($proceso);
-                if ($hayAlertaLlamada) {
-                    // Asunto de la alerta
-                    $asunto = Yii::$app->params['alertaPREJuridico_Llamada']['asunto'];
-                    // Asunto de la alerta
-                    $descripcion = Yii::$app->params['alertaPREJuridico_Llamada']['descripcion'];
-                    $alertasPorProceso[$proceso->id]["alertas"][] = [
-                        "asunto" => $asunto,
-                        "descripcion" => $descripcion
-                    ];
-                }
-            }
+         
 
             //Esta alerta validará la visita al cliente
             if (\Yii::$app->params['alertaPREJuridico_Visita']['activo']) {
@@ -91,11 +82,14 @@ class AlertasController extends Controller {
                 if ($hayAlertaVisita) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_Visita']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_Visita']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_Visita']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
@@ -107,11 +101,14 @@ class AlertasController extends Controller {
                 if ($hayAlertaPagos) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_Pagos']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_Pagos']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_Pagos']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
@@ -123,11 +120,14 @@ class AlertasController extends Controller {
                 if ($hayAlertaRemitir) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_SinAcuerdoDePago']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_SinAcuerdoDePago']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_SinAcuerdoDePago']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
@@ -139,11 +139,14 @@ class AlertasController extends Controller {
                 if ($hayAlertaEstudioPositivo) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_EstudioBienesPositivo']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_EstudioBienesPositivo']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_EstudioBienesPositivo']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
@@ -155,11 +158,14 @@ class AlertasController extends Controller {
                 if ($hayAlertaEstudioNegativo) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_EstudioBienesNegativo']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_EstudioBienesNegativo']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_EstudioBienesNegativo']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
@@ -171,21 +177,41 @@ class AlertasController extends Controller {
                 if ($hayAlertaCartaDeCastigo) {
                     // Asunto de la alerta
                     $asunto = Yii::$app->params['alertaPREJuridico_CartaDeCastigo']['asunto'];
-                    // Asunto de la alerta
+                    // Descripción de la alerta
                     $descripcion = Yii::$app->params['alertaPREJuridico_CartaDeCastigo']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaPREJuridico_CartaDeCastigo']['tipo_alerta_id'];
                     $alertasPorProceso[$proceso->id]["alertas"][] = [
                         "asunto" => $asunto,
-                        "descripcion" => $descripcion
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
                     ];
                 }
             }
 
 
-
-
             #=======================================================================
             # ALERTAS JURIDICAS
             #=======================================================================
+
+            //Esta alerta validará si debe generarse la recepción del poder
+            if (\Yii::$app->params['alertaJuridico_RecepcionPoder']['activo']) {
+                //Procesar las alertas juridicas de recepción de poderes
+                $hayRecepcionDePoder = $this->alertaJuridico_RecepcionDePoder($proceso);
+                if ($hayRecepcionDePoder) {
+                    // Asunto de la alerta
+                    $asunto = Yii::$app->params['alertaJuridico_RecepcionDePoder']['asunto'];
+                    // Descripción de la alerta
+                    $descripcion = Yii::$app->params['alertaJuridico_RecepcionDePoder']['descripcion'];
+                    //id de la alerta
+                    $tipo_alerta_id = Yii::$app->params['alertaJuridico_RecepcionDePoder']['tipo_alerta_id'];
+                    $alertasPorProceso[$proceso->id]["alertas"][] = [
+                        "asunto" => $asunto,
+                        "descripcion" => $descripcion,
+                        "tipo_alerta_id" => $tipo_alerta_id
+                    ];
+                }
+            }
 
             #=======================================================================
             # OTRAS ALERTAS
@@ -218,6 +244,65 @@ class AlertasController extends Controller {
             //Enviar las alertas a cada colabroador
             $this->enviarEmail($alertasPorProceso);
         }
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * recepción del poder en los procesos jurídicos de tipo ejecutivo.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaJuridico_RecepcionDePoder($proceso) {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesParaCarta = \Yii::$app->params['alertaJuridico_RecepcionPoder']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_recepcion_poder == "SI") {
+            return false;
+        }
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta prejuridica            
+        $fechaAlertaCarta = $this->hallarFechaAlerta($proceso->prejur_fecha_recepcion, $diasHabilesParaCarta);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaCarta > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de validar si el poder ya fue recibido.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaJuridico_PoderRecibido($proceso) {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesParaCarta = \Yii::$app->params['alertaJuridico_RecepcionPoder']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_recepcion_poder == "SI") {
+            return false;
+        }
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta prejuridica            
+        $fechaAlertaCarta = $this->hallarFechaAlerta($proceso->prejur_fecha_recepcion, $diasHabilesParaCarta);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaCarta > $hoy) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -376,7 +461,7 @@ class AlertasController extends Controller {
         $fechaAlertaRemitir = $this->hallarFechaAlerta($proceso->prejur_fecha_estudio_bienes, $diasHabilesParaRemitir);
 
         //Si no hubo acuerdo de pago, y han pasado 3 días luego de haberlo marcado, alertar
-        if ($proceso->prejur_estudio_bienes == "POSITIVO" && $fechaAlertaRemitir <= $hoy && !(isset($proceso->jur_fecha_recepcion))) {
+        if ($proceso->prejur_resultado_estudio_bienes == "POSITIVO" && $fechaAlertaRemitir <= $hoy && !(isset($proceso->jur_fecha_recepcion))) {
             return true;
         }            
         
@@ -400,7 +485,7 @@ class AlertasController extends Controller {
         $fechaAlertaRemitir = $this->hallarFechaAlerta($proceso->prejur_fecha_estudio_bienes, $diasHabilesParaRemitir);
 
         //Si no hubo acuerdo de pago, y han pasado 3 días luego de haberlo marcado, alertar
-        if ($proceso->prejur_estudio_bienes == "NEGATIVO" && $fechaAlertaRemitir <= $hoy && $proceso->prejur_informe_castigo_enviado == "NO") {
+        if ($proceso->prejur_resultado_estudio_bienes == "NEGATIVO" && $fechaAlertaRemitir <= $hoy && $proceso->prejur_informe_castigo_enviado == "NO") {
             return true;
         }            
         
@@ -450,6 +535,7 @@ class AlertasController extends Controller {
                     $modeloAlerta = new \app\models\Alertas();
                     $modeloAlerta->usuario_id = $usuario;
                     $modeloAlerta->proceso_id = $proceso;
+                    $modeloAlerta->alerta_id = $alerta["tipo_alerta_id"];
                     $modeloAlerta->descripcion_alerta = $alerta["asunto"];
                     $modeloAlerta->save();
                 }
@@ -545,67 +631,66 @@ class AlertasController extends Controller {
 
             // mensaje
             $mensaje = '
-        <!DOCTYPE html>
-        <html>
-          
-          <head>
-            <style>
-              .content {
-                max-width: auto;
-                margin: auto;
-                }
-                table {
-                  width: 100%;
-                  border: 1px solid #000;
-              }
-              th, td {
-                  width: 25%;
-                  text-align: left;
-                  vertical-align: top;
-                  border: 1px solid #000;
-                  border-collapse: collapse;
-                  padding: 0.3em;
-                  caption-side: bottom;
-              }
-              caption {
-                  padding: 0.3em;
-                  color: #fff;
-                  background: #000;
-              }
-              th {
-                  background: #eee;
-              }
-            </style>       
-          </head>   
-        <center>
-            <body>
-                <div class="content"> 
-                  <div>Alertas de gestion de procesos</div><br>
-                        <table>
-                          <thead>
-                            <tr>
-                              <th style="width:10px">ID Proceso</th> 
-                              <th><center>Descripción</center></th>
-                            </tr>
-                          </thead>   
-                          <tbody>';
+            <!DOCTYPE html>
+            <html>   
+                <head>
+                    <style>
+                    .content {
+                        max-width: auto;
+                        margin: auto;
+                        }
+                        table {
+                        width: 100%;
+                        border: 1px solid #000;
+                    }
+                    th, td {
+                        width: 25%;
+                        text-align: left;
+                        vertical-align: top;
+                        border: 1px solid #000;
+                        border-collapse: collapse;
+                        padding: 0.3em;
+                        caption-side: bottom;
+                    }
+                    caption {
+                        padding: 0.3em;
+                        color: #fff;
+                        background: #000;
+                    }
+                    th {
+                        background: #eee;
+                    }
+                    </style>       
+                </head>   
+                <center>
+                    <body>
+                        <div class="content"> 
+                            <div>Alertas de gestion de procesos</div><br>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                            <th style="width:10px">ID Proceso</th> 
+                                            <th><center>Descripción</center></th>
+                                            </tr>
+                                        </thead>   
+                                        <tbody>';
 
-            foreach ($value["alertas"] as $alerta) {
-                $mensaje .= '<tr>
-          <td><center><a href="http://carteraintegral.com.co/ciles/web/procesos/update?id=' . $proceso . '" class="edit_btn" >Ir al proceso</a></center></td>
-            <td><center>' . $alerta["descripcion"] . '</center> </td>
-          </tr>';
-                //}
-            }
+                                        foreach ($value["alertas"] as $alerta) {
+                                            $mensaje .= '<tr>
+                                                            <td><center><a href="http://carteraintegral.com.co/ciles/web/procesos/update?id=' . $proceso . '" class="edit_btn" >Ir al proceso</a></center></td>
+                                                            <td><center>' . $alerta["descripcion"] . '</center> </td>
+                                                        </tr>';
+                                            //}
+                                        }
 
-            $mensaje .= '</tbody>
-                </table>
-              </div>
-            </body>
-          </center>
-          </html>
-        ';
-var_dump(Yii::$app->mailer);
+                                    $mensaje .= '</tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </body>
+                </center>
+            </html>';
+            //var_dump(Yii::$app->mailer);
             Yii::$app->mailer->compose()
                     ->setFrom(\Yii::$app->params['adminEmail'])
                     ->setTo($emails)
@@ -615,5 +700,4 @@ var_dump(Yii::$app->mailer);
                     ->send();
         }
     }
-
 }
