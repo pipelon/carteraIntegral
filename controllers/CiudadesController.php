@@ -132,6 +132,15 @@ class CiudadesController extends Controller {
         }
         return ['output' => '', 'selected' => ''];
     }
+    
+    public function actionDataciudad() {
+        $post = Yii::$app->request->post();
+        $id = $post['id'];
+        $model = $this->findModel($id);
+        return \yii\helpers\Json::encode([
+            'codigo_ciudad' => $model->codigo_ciudad
+        ]);
+    }
 
     /**
      * Finds the Ciudades model based on its primary key value.

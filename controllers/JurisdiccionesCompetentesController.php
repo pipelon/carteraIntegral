@@ -62,9 +62,6 @@ class JurisdiccionesCompetentesController extends Controller {
         $model = new JurisdiccionesCompetentes();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //LOG
-            $mensaje = "La jurisdiccion '{$model->nombre}' ha sido creada.";
-            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -83,9 +80,6 @@ class JurisdiccionesCompetentesController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //LOG
-            $mensaje = "La jurisdiccion #'{$id}' ha sido editada.";
-            \Yii::info($mensaje, "cartera");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -111,7 +105,7 @@ class JurisdiccionesCompetentesController extends Controller {
         $model->save();
 
         //LOG
-        $mensaje = "La jurisdiccion '{$model->nombre}' ha sido creada.";
+        $mensaje = "El registro #{$id} ha sido eliminado.";
         \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
@@ -125,7 +119,7 @@ class JurisdiccionesCompetentesController extends Controller {
             if ($parents != null) {
                 $ciudad_id = $parents[0];
                 $out = JurisdiccionesCompetentes::find()
-                        ->select(['id' => 'id', 'name' => 'CONCAT(numero, " ", nombre)'])
+                        ->select(['id' => 'id', 'name' => 'CONCAT(despacho, " ", nombre)'])
                         ->where(
                                 [
                                     'ciudad_id' => $ciudad_id
@@ -137,6 +131,17 @@ class JurisdiccionesCompetentesController extends Controller {
             }
         }
         return ['output' => '', 'selected' => ''];
+    }
+
+    public function actionDatajurisdiccion() {
+        $post = Yii::$app->request->post();
+        $id = $post['id'];
+        $model = $this->findModel($id);
+        return \yii\helpers\Json::encode([
+            'codigo_entidad' => $model->codigo_entidad,
+            'codigo_especialidad' => $model->codigo_especialidad,
+            'despacho' => $model->despacho
+        ]);
     }
 
     /**

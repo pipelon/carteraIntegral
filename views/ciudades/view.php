@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
             'attributes' => [
                 'id',
-                 [
+                [
                     'attribute' => 'departamento_id',
                     'format' => 'raw',
                     'value' => function ($data) {
@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 'nombre',
+                'codigo_ciudad',
                 'created:date',
                 'created_by',
                 'modified:date',

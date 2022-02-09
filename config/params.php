@@ -63,5 +63,8 @@ return [
         'jur_radicado'=> 'jur_radicado',
         'estrec_probabilidad_recuperacion' => 'estrec_probabilidad_recuperacion',
         'estado_proceso_id' => 'estado_proceso_id',
+        'jur_anio_radicado' => 'jur_anio_radicado',
+        'jur_consecutivo_proceso' => 'jur_consecutivo_proceso',
+        'jur_instancia_radicado' => 'jur_instancia_radicado'
     ]
 ];
