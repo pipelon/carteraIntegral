@@ -195,7 +195,7 @@ ALTER TABLE `db_cartera_integral`.`procesos`
    ADD COLUMN `jur_consecutivo_proceso` CHAR(5) NULL COMMENT 'Consecutivo proceso' AFTER `jur_anio_radicado`, 
    ADD COLUMN `jur_instancia_radicado` CHAR(2) NULL COMMENT 'Instancia' AFTER `jur_consecutivo_proceso`;
 
-/* ejecutar desde aqui 2020-02-09*/
+/* ejecutar desde aqui 2022-02-09*/
 DROP TABLE IF EXISTS `alertas`;
 CREATE TABLE IF NOT EXISTS `alertas` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'Id alerta',
