@@ -113,11 +113,8 @@ alter table `db_cartera_integral`.`procesos`
    add column `jur_radicado` varchar(45) NULL COMMENT 'Radicado' after `jur_juzgado`;
 
 alter table `db_cartera_integral`.`procesos` 
-<<<<<<< HEAD
    add column `jur_fecha_etapa_procesal` date NULL COMMENT 'Fecha etapa procesal' after jur_etapas_procesal_id
-*/
-=======
-   add column `jur_fecha_etapa_procesal` date NULL COMMENT 'Fecha etapa procesal' after jur_etapas_procesal_id*/
+
 
 DROP TABLE IF EXISTS `ciudades`;
 
@@ -197,7 +194,37 @@ ALTER TABLE `db_cartera_integral`.`procesos`
    ADD COLUMN `jur_anio_radicado` CHAR(4) NULL COMMENT 'Año' AFTER `jur_juzgado`, 
    ADD COLUMN `jur_consecutivo_proceso` CHAR(5) NULL COMMENT 'Consecutivo proceso' AFTER `jur_anio_radicado`, 
    ADD COLUMN `jur_instancia_radicado` CHAR(2) NULL COMMENT 'Instancia' AFTER `jur_consecutivo_proceso`;
->>>>>>> 14e2155490caf19c2fd89dd2422397a5c4db9a63
+
+/* ejecutar desde aqui 2020-02-09*/
+DROP TABLE IF EXISTS `alertas`;
+CREATE TABLE IF NOT EXISTS `alertas` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Id alerta',
+  `proceso_id` int NOT NULL,
+  `usuario_id` int NOT NULL,
+  `tipo_alerta_id` smallint NOT NULL COMMENT 'Tipo Alerta ID',
+  `descripcion_alerta` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Descripción de la alerta',
+  `pospuesta` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT 'La alerta esta pospuesta no',
+  `visto` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Visto',
+  `fecha_visto` datetime NOT NULL COMMENT 'Fecha visto',
+  `fecha_pospuesta` datetime DEFAULT NULL COMMENT 'Fecha en que fue pausada',
+  `dias_pospuesta` smallint NOT NULL COMMENT 'Número de días que fue pospuesta',
+  `created` datetime NOT NULL COMMENT 'Creado',
+  `created_by` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Creado por',
+  `modified` datetime NOT NULL COMMENT 'Modificado',
+  `modified_by` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Modificado por',
+  PRIMARY KEY (`id`),
+  KEY `fk_alertas_procesos_idx` (`proceso_id`),
+  KEY `fk_alertas_users_idx` (`usuario_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=833 DEFAULT CHARSET=latin1;
+
+INSERT INTO `etapas_procesales` (`id`, `tipo_proceso_id`, `nombre`, `activo`, `delete`, `created`, `created_by`, `modified`, `modified_by`, `deleted`, `deleted_by`) VALUES
+(165, 6, 'RECEPCION PODER', 1, 0, '2022-01-30 10:19:24', 'admin', '2022-01-30 10:19:24', 'admin', NULL, NULL),
+(166, 6, 'INADMISION DEMANDA', 1, 0, '2022-01-30 10:46:45', 'admin', '2022-01-30 10:46:59', 'admin', NULL, NULL),
+(167, 6, 'EXCEPCIONES', 1, 0, '2022-01-30 11:45:09', 'admin', '2022-01-30 11:45:09', 'admin', NULL, NULL),
+(168, 3, 'RECEPCION PODER', 1, 0, '2022-02-06 13:46:43', 'admin', '2022-02-06 13:46:43', 'admin', NULL, NULL),
+(169, 3, 'INADMISION DEMANDA', 1, 0, '2022-02-06 13:56:36', 'admin', '2022-02-06 13:56:36', 'admin', NULL, NULL),
+(170, 3, 'EXCEPCIONES', 1, 0, '2022-02-06 14:24:36', 'admin', '2022-02-06 14:24:36', 'admin', NULL, NULL),
+(171, 3, 'EJECUTIVO A CONTINUACIÓN', 1, 0, '2022-02-06 15:02:39', 'admin', '2022-02-06 15:02:39', 'admin', NULL, NULL);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
