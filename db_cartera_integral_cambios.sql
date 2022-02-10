@@ -217,6 +217,8 @@ CREATE TABLE IF NOT EXISTS `alertas` (
   KEY `fk_alertas_users_idx` (`usuario_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=833 DEFAULT CHARSET=latin1;
 
+DELETE FROM `etapas_procesales` where id=150;
+
 INSERT INTO `etapas_procesales` (`id`, `tipo_proceso_id`, `nombre`, `activo`, `delete`, `created`, `created_by`, `modified`, `modified_by`, `deleted`, `deleted_by`) VALUES
 (165, 6, 'RECEPCION PODER', 1, 0, '2022-01-30 10:19:24', 'admin', '2022-01-30 10:19:24', 'admin', NULL, NULL),
 (166, 6, 'INADMISION DEMANDA', 1, 0, '2022-01-30 10:46:45', 'admin', '2022-01-30 10:46:59', 'admin', NULL, NULL),
