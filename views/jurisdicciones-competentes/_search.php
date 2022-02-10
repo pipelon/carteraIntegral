@@ -10,34 +10,46 @@ use yii\widgets\ActiveForm;
 
 <div class="jurisdicciones-competentes-search">
 
-    <?php
-    $form = ActiveForm::begin([
-                'action' => ['index'],
-                'method' => 'get',
-    ]);
-    ?>
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
 
     <?= $form->field($model, 'id') ?>
 
     <?= $form->field($model, 'ciudad_id') ?>
 
-    <?= $form->field($model, 'numero') ?>
+    <?= $form->field($model, 'entidad') ?>
 
-    <?= $form->field($model, 'nombre') ?>
+    <?= $form->field($model, 'codigo_entidad') ?>
 
-    <?= $form->field($model, 'created') ?>
+    <?= $form->field($model, 'especialidad') ?>
+
+    <?php // echo $form->field($model, 'codigo_especialidad') ?>
+
+    <?php // echo $form->field($model, 'despacho') ?>
+
+    <?php // echo $form->field($model, 'nombre') ?>
+
+    <?php // echo $form->field($model, 'created') ?>
 
     <?php // echo $form->field($model, 'created_by') ?>
 
     <?php // echo $form->field($model, 'modified') ?>
 
-        <?php // echo $form->field($model, 'modified_by')  ?>
+    <?php // echo $form->field($model, 'modified_by') ?>
+
+    <?php // echo $form->field($model, 'delete') ?>
+
+    <?php // echo $form->field($model, 'deleted') ?>
+
+    <?php // echo $form->field($model, 'deleted_by') ?>
 
     <div class="form-group">
-<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-    <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
     </div>
 
-<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>

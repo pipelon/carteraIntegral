@@ -43,16 +43,25 @@ use yii\bootstrap\ActiveForm;
                             , 'id', 'nombre');
             ?>
             <?= $form->field($model, 'ciudad_id')->dropDownList($ciudades); ?>
-            
+
+            <?= $form->field($model, 'entidad')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'codigo_entidad')->textInput() ?>
+
+            <?= $form->field($model, 'especialidad')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'codigo_especialidad')->textInput() ?>
+
             <?php 
-            for ($i=0; $i <= 99; $i++){
-                $numeros[$i] = $i;
+            for ($i=1; $i <= 99; $i++){
+                $valor = str_pad($i, 3, "0", STR_PAD_LEFT);
+                $numeros[$valor] = $valor;
             }
             ?>
 
-            <?= $form->field($model, 'numero')->dropDownList($numeros) ?>
+            <?= $form->field($model, 'despacho')->dropDownList($numeros) ?>
 
-            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>           
 
         </div>
     </div>

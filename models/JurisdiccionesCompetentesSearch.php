@@ -18,8 +18,8 @@ class JurisdiccionesCompetentesSearch extends JurisdiccionesCompetentes
     public function rules()
     {
         return [
-            [['id', 'ciudad_id', 'numero'], 'integer'],
-            [['nombre', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['id', 'ciudad_id', 'codigo_entidad', 'codigo_especialidad', 'despacho', 'delete'], 'integer'],
+            [['entidad', 'especialidad', 'nombre', 'created', 'created_by', 'modified', 'modified_by', 'deleted', 'deleted_by'], 'safe'],
         ];
     }
 
@@ -62,14 +62,21 @@ class JurisdiccionesCompetentesSearch extends JurisdiccionesCompetentes
         $query->andFilterWhere([
             'id' => $this->id,
             'ciudad_id' => $this->ciudad_id,
-            'numero' => $this->numero,
+            'codigo_entidad' => $this->codigo_entidad,
+            'codigo_especialidad' => $this->codigo_especialidad,
+            'despacho' => $this->despacho,
             'created' => $this->created,
             'modified' => $this->modified,
+            'delete' => $this->delete,
+            'deleted' => $this->deleted,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
+        $query->andFilterWhere(['like', 'entidad', $this->entidad])
+            ->andFilterWhere(['like', 'especialidad', $this->especialidad])
+            ->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
-            ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
+            ->andFilterWhere(['like', 'modified_by', $this->modified_by])
+            ->andFilterWhere(['like', 'deleted_by', $this->deleted_by]);
 
         return $dataProvider;
     }

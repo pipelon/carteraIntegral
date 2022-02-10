@@ -5,28 +5,28 @@ return [
     'senderEmail' => 'info@carteraintegral.com.co',
     'senderName' => 'INFO CARTERA',
     'asuntoAlertasProceso' => 'CILES: alerta de gestion de procesos',
-    'alertaPREJuridico_Carta' => [
+    'alertaPREJuridico_CartaEnviada' => [
         'tipo_alerta_id' => 1,
         'activo' => true,
         'diasParaAlerta' => '5', //dias habiles
         'asunto' => 'CILES - Alertas: Enviar carta al cliente',
         'descripcion' => 'Tienes pendiente enviar la(s) carta(s) al cliente.'
     ],
-    'alertaPREJuridico_Llamada' => [
+    'alertaPrejuridico_LlamadaRealizada' => [
         'tipo_alerta_id' => 2,
         'activo' => true,
         'diasParaAlerta' => '5', //dias habiles
         'asunto' => 'CILES - Alertas: Hacer llamada al cliente',
         'descripcion' => 'Tienes pendiente hacer la(s) llamada(s) al cliente.'
     ],
-    'alertaPREJuridico_Visita' => [
+    'alertaPrejuridico_VisitaDomiciliaria' => [
         'tipo_alerta_id' => 3,
         'activo' => true,
         'diasParaAlerta' => '10', //dias habiles
         'asunto' => 'CILES - Alertas: Hacer visita al cliente',
         'descripcion' => 'Tienes pendiente hacer la(s) visita(s) al cliente.'
     ],
-    'alertaPREJuridico_Pagos' => [
+    'alertaPrejuridico_AcuerdosDePago' => [
         'tipo_alerta_id' => 4,
         'activo' => true,
         'diasParaAlerta' => '', //dias habiles
@@ -61,13 +61,167 @@ return [
         'asunto' => 'CILES - Alertas: Generar carta de castigo, el proceso fue inviable.',
         'descripcion' => 'Generar carta de castigo, el proceso fue inviable.'
     ],
-    'alertaJuridico_RecepcionPoder' => [
+    'alertaJuridico_RecepcionDePoder' => [
         'tipo_alerta_id' => 9,
         'activo' => true,
         'diasParaAlerta' => '3', //dias habiles
         'asunto' => 'CILES - Alertas: Recepción de poder.',
         'descripcion' => 'Recibir el poder.'
     ],
+    'alertaJuridico_RadicacionDemanda' => [
+        'tipo_alerta_id' => 10,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Radicación demanda.',
+        'descripcion' => 'Radicación demanda.'
+    ],
+    'alertaJuridico_InadmisionDemanda' => [
+        'tipo_alerta_id' => 11,
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Inadmisión Demanda.',
+        'descripcion' => 'Inadmisión Demanda.'
+    ],
+    'alertaJuridico_MandamientoPagoCorregiroReponer' => [
+        'tipo_alerta_id' => 12,
+        'activo' => true,
+        'diasParaAlerta' => '2', //dias habiles
+        'asunto' => 'CILES - Alertas: Mandamiento de pago corregir o reponer.',
+        'descripcion' => 'Mandamiento de pago corregir o reponer.'
+    ],    
+    'alertaJuridico_MandamientoPagoAvance60Dias' => [
+        'tipo_alerta_id' => 13,
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Mandamiento de pago avance 60 días.',
+        'descripcion' => 'Mandamiento de pago avance 60 días.'
+    ],    
+    'alertaJuridico_Notificacion' => [
+        'tipo_alerta_id' => 14,
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Notificación jurídica ejecutiva.',
+        'descripcion' => 'Notificación jurídica ejecutiva.'
+    ],        
+    'alertaJuridico_Excepciones' => [
+        'tipo_alerta_id' => 15, 
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: El despacho corre las excepciones.',
+        'descripcion' => 'El despacho corre las excepciones.'
+    ],        
+    'alertaJuridico_AudienciaInicial' => [
+        'tipo_alerta_id' => 16, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Audiencia Inicial.',
+        'descripcion' => 'Audiencia Inicial.'
+    ],            
+    'alertaJuridico_AudienciaFallo' => [
+        'tipo_alerta_id' => 17, 
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Audiencia de Fallo.',
+        'descripcion' => 'Audiencia Audiencia de Fallo.'
+    ],            
+    'alertaJuridico_SentenciaFavorableA' => [
+        'tipo_alerta_id' => 18, 
+        'activo' => true,
+        'diasParaAlerta' => '120', //dias habiles
+        'asunto' => 'CILES - Alertas: Sentencia Favorable despues de las excepciones.',
+        'descripcion' => 'Sentencia Favorable despues de las excepciones.'
+    ],            
+    'alertaJuridico_SentenciaFavorableD' => [
+        'tipo_alerta_id' => 19, 
+        'activo' => true,
+        'diasParaAlerta' => '360', //dias habiles
+        'asunto' => 'CILES - Alertas: Sentencia Favorable despues del radicado.',
+        'descripcion' => 'Sentencia Favorable despues del radicado.'
+    ],            
+    'alertaJuridico_LiquidacionCredito' => [
+        'tipo_alerta_id' => 20, 
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Liquidación Crédito.',
+        'descripcion' => 'Liquidación Crédito.'
+    ],            
+    'alertaVerbal_RecepcionDePoder' => [
+        'tipo_alerta_id' => 21, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal recepción de poder.',
+        'descripcion' => 'Verbal recepción de poder.'
+    ],
+    'alertaVerbal_RadicacionDemanda' => [
+        'tipo_alerta_id' => 22,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Radicación demanda.',
+        'descripcion' => 'Verbal Radicación demanda.'
+    ],
+    'alertaVerbal_InadmisionDemanda' => [
+        'tipo_alerta_id' => 23,
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Inadmisión Demanda.',
+        'descripcion' => 'Verbal Inadmisión Demanda.'
+    ],    
+    'alertaVerbal_AdmisionDemanda' => [
+        'tipo_alerta_id' => 24,
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Admisión Demanda.',
+        'descripcion' => 'Verbal Admisión Demanda.'
+    ],    
+    'alertaVerbal_Notificacion' => [
+        'tipo_alerta_id' => 25,
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Notificación jurídica verbal.',
+        'descripcion' => 'Notificación jurídica verbal.'
+    ],        
+    'alertaVerbal_Excepciones' => [
+        'tipo_alerta_id' => 26, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: El despacho corre las excepciones.',
+        'descripcion' => 'El despacho corre las excepciones.'
+    ],        
+    'alertaVerbal_AudienciaInicial' => [
+        'tipo_alerta_id' => 27, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Audiencia Inicial.',
+        'descripcion' => 'Verbal Audiencia Inicial.'
+    ],            
+    'alertaVerbal_AudienciaFallo' => [
+        'tipo_alerta_id' => 28, 
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Audiencia de Fallo.',
+        'descripcion' => 'Verbal Audiencia Audiencia de Fallo.'
+    ],            
+    'alertaVerbal_SentenciaFavorableA' => [
+        'tipo_alerta_id' => 29, 
+        'activo' => true,
+        'diasParaAlerta' => '120', //dias habiles
+        'asunto' => 'CILES - Alertas: Sentencia Favorable despues de las excepciones.',
+        'descripcion' => 'Sentencia Favorable despues de las excepciones.'
+    ],            
+    'alertaVerbal_SentenciaFavorableD' => [
+        'tipo_alerta_id' => 30, 
+        'activo' => true,
+        'diasParaAlerta' => '360', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal - Sentencia Favorable despues del radicado.',
+        'descripcion' => 'Verbal - Sentencia Favorable despues del radicado.'
+    ],            
+    'alertaVerbal_EjecutivoContinuacion' => [
+        'tipo_alerta_id' => 31, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal - Ejecutivo Continuación.',
+        'descripcion' => 'Verbal - - Ejecutivo Continuación.'
+    ],         
     'ayudas' => [
         'default' => 'Default',
         'clientes' => 'Clientes',
@@ -113,6 +267,9 @@ return [
         'jur_juzgado' => 'jur_juzgado',
         'jur_radicado'=> 'jur_radicado',
         'estrec_probabilidad_recuperacion' => 'estrec_probabilidad_recuperacion',
-        'estado_proceso_id' => 'estado_proceso_id'
+        'estado_proceso_id' => 'estado_proceso_id',
+        'jur_anio_radicado' => 'jur_anio_radicado',
+        'jur_consecutivo_proceso' => 'jur_consecutivo_proceso',
+        'jur_instancia_radicado' => 'jur_instancia_radicado'
     ]
 ];

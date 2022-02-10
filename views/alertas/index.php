@@ -40,13 +40,32 @@ if (\Yii::$app->user->can('/alertas/*') || \Yii::$app->user->can('/*')) {
            'columns' => [
                 'id',
                 'proceso_id',
-                'usuario_id',
+                [
+                    'attribute' => 'usuario_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->usuario->name;
+                    },
+                    'filter' => yii\helpers\ArrayHelper::map(
+                            \app\models\Users::find()
+                                    ->orderBy('name ASC')
+                                    ->all()
+                            , 'id', 'name')
+                    ],
                 'descripcion_alerta',
                 [
                     'attribute' => 'pospuesta',
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Yii::$app->utils->getConditional($data->pospuesta);
+                    },
+                    'filter' => Yii::$app->utils->getFilterConditional()
+                ],
+                [
+                    'attribute' => 'visto',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Yii::$app->utils->getConditional($data->visto);
                     },
                     'filter' => Yii::$app->utils->getFilterConditional()
                 ],

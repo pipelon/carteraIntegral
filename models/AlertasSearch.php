@@ -18,7 +18,7 @@ class AlertasSearch extends Alertas
     public function rules()
     {
         return [
-            [['id', 'proceso_id', 'usuario_id', 'tipo_alerta_id', 'dias_pospuesta'], 'integer'],
+            [['id', 'proceso_id', 'usuario_id', 'tipo_alerta_id', 'dias_pospuesta','visto'], 'integer'],
             [['descripcion_alerta', 'pospuesta', 'fecha_pospuesta', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
@@ -72,6 +72,7 @@ class AlertasSearch extends Alertas
 
         $query->andFilterWhere(['like', 'descripcion_alerta', $this->descripcion_alerta])
             ->andFilterWhere(['like', 'pospuesta', $this->pospuesta])
+            ->andFilterWhere(['like', 'visto', $this->visto])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 

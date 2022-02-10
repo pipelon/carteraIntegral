@@ -53,6 +53,7 @@ if (\Yii::$app->user->can('/ciudades/*') || \Yii::$app->user->can('/*')) {
                             , 'id', 'nombre')
                 ],
                 'nombre',
+                'codigo_ciudad',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,

@@ -27,7 +27,7 @@ if (\Yii::$app->user->can('/jurisdicciones-competentes/*') || \Yii::$app->user->
 <div class="jurisdicciones-competentes-index box box-primary">
     <div class="box-header with-border">
         <?php if (\Yii::$app->user->can('/jurisdicciones-competentes/create') || \Yii::$app->user->can('/*')) : ?> 
-            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear jurisdicción competente', ['create'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="flaticon-add" ></i> ' . 'Crear Jurisdicciones Competentes', ['create'], ['class' => 'btn btn-primary']) ?>
         <?php endif; ?> 
     </div>
     <div class="box-body table-responsive">
@@ -52,11 +52,19 @@ if (\Yii::$app->user->can('/jurisdicciones-competentes/*') || \Yii::$app->user->
                                     ->all()
                             , 'id', 'nombre')
                 ],
-                'numero',
+                'entidad',
+                'codigo_entidad',
+                'especialidad',
+                'codigo_especialidad',
+                'despacho',
                 'nombre',
+                // 'created',
                 // 'created_by',
                 // 'modified',
                 // 'modified_by',
+                // 'delete',
+                // 'deleted',
+                // 'deleted_by',
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => $template,

@@ -4,7 +4,23 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+
 ?>
+<script>
+    function marcarAlertas(idProceso,idUsuario){
+        $.ajax({
+            url: '<?=\Yii::$app->request->BaseUrl?>/alertas/marcaralertas',
+            type: 'post',
+            data: {
+                idProceso: idProceso,
+                idUsuario: idUsuario
+            },
+            success: function (data) {
+
+            }
+        });
+    }
+</script>
 
 <header class="main-header">
 
@@ -83,7 +99,7 @@ use yii\helpers\Html;
 
                     <?php
                     $alertas = \app\models\Alertas::find()
-                            ->where(['usuario_id' => Yii::$app->user->identity->id])
+                            ->where(['usuario_id' => Yii::$app->user->identity->id,'visto'=>0])
                             ->orderBy(['created' => SORT_DESC])
                             ->limit(10)
                             ->all();
@@ -114,7 +130,7 @@ use yii\helpers\Html;
                                             <?php
                                             $htmlTarea = "<i class='fa fa-warning text-yellow'></i> {$alerta->descripcion_alerta}";                                            
                                             echo \yii\bootstrap\Html::a($htmlTarea,
-                                                    ['/procesos/view', 'id' => $alerta->proceso_id]);
+                                                    ['/procesos/view', 'id' => $alerta->proceso_id],['onclick' => "marcarAlertas({$alerta->proceso_id},{$alerta->usuario_id});"]);
                                             ?>
                                         </li>
                                     <?php endforeach; ?>

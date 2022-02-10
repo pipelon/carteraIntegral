@@ -90,7 +90,7 @@ jQuery("document").ready(function () {
             jQuery(this).removeAttr("disabled");
         });
     });
-    
+
     /* FUNCIONES PARA LOS ACUERDOS DE PAGOS */
     jQuery(".dynamicform_wrapper_acuerdo_pagos").on("afterInsert", function (e, item) {
         jQuery(".dynamicform_wrapper_acuerdo_pagos .panel-title-pagos").each(function (index) {
@@ -117,8 +117,44 @@ jQuery("document").ready(function () {
     /* CREAR NOMBRE DE JUZGADO */
     $('#departamento-id, #ciudad-id').change(function () {
         $("#juzgado").val("");
+        $("#codigoEntidad").val("");
+        $("#codigoEspecialidad").val("");
+        $("#codigoDespacho").val("");
+        $("#radicado").val("");
     });
+
+    $('#departamento-id').change(function () {
+        /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
+        $.ajax({
+            url: '../departamentos/datadepartamento',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#codigoDepartamento").val(data.codigo_departamento);
+            }
+        });
+    });
+    
+    $('#ciudad-id').change(function () {
+        /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
+        $.ajax({
+            url: '../ciudades/dataciudad',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#codigoCiudad").val(data.codigo_ciudad);
+            }
+        });
+    });
+
     $('#jurisdiccion-competent-id').change(function () {
+        
         if ($("#departamento-id").val() != "" && $("#ciudad-id").val() != "" && $(this).val() != "") {
             let nombre = $("#departamento-id option:selected").text() + ", " +
                     $("#ciudad-id option:selected").text() + ", " +
@@ -127,6 +163,22 @@ jQuery("document").ready(function () {
         } else {
             $("#juzgado").val("");
         }
+
+        /* OBTENGO TODA LA INFO DE LA JURISDICCION NECESARIA PARA CREAR EL RADICADO */
+        $.ajax({
+            url: '../jurisdicciones-competentes/datajurisdiccion',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            async:false,
+            success: function (data) {
+                $("#codigoEntidad").val(data.codigo_entidad);
+                $("#codigoEspecialidad").val(data.codigo_especialidad);
+                $("#codigoDespacho").val(data.despacho);
+            }
+        });
 
     });
 
@@ -141,6 +193,33 @@ jQuery("document").ready(function () {
         } else {
             $(".divAcuerdoPago").hide("slow");
         }
+    });
+
+
+    /* CREAR EL RADICADO */
+    $('#departamento-id, #ciudad-id, #jurisdiccion-competent-id, #jur_anio_radicado, #jur_consecutivo_proceso, #jur_instancia_radicado').change(function () {
+        let codigoDepartamento = $("#codigoDepartamento").val().toString();
+        let codigoCiudad = $("#codigoCiudad").val().toString();
+        let codigoEntidad = $("#codigoEntidad").val().toString();
+        let codigoEspecialidad = $("#codigoEspecialidad").val().toString();
+        let codigoDespacho = $("#codigoDespacho").val().toString();
+        let anio = $("#jur_anio_radicado").val().toString();
+        let consecutivo = $("#jur_consecutivo_proceso").val().toString();
+        let instancia = $("#jur_instancia_radicado").val().toString();
+        console.info(codigoDepartamento);
+        console.info(codigoCiudad);
+        console.info(codigoEntidad);
+        console.info(codigoEspecialidad);
+        console.info(codigoDespacho);
+        console.info(anio);
+        console.info(consecutivo);
+        console.info(instancia);
+        if (codigoCiudad != "" && codigoCiudad != "" && codigoEntidad != "" &&
+                codigoEspecialidad != "" && codigoDespacho != "" &&
+                anio != "" && consecutivo != "" && instancia != "") {
+            $("#radicado").val(codigoDepartamento + codigoCiudad + codigoEntidad + codigoEspecialidad + codigoDespacho + anio + consecutivo + instancia);
+        }
+        
     });
 
 });

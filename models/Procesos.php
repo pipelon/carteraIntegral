@@ -39,6 +39,9 @@ use Yii;
  * @property int|null $jur_ciudad_id Ciudad
  * @property int|null $jur_jurisdiccion_competent_id Jurisdicción competente
  * @property string|null $jur_juzgado Juzgado
+ * @property string|null $jur_anio_radicado Juzgado
+ * @property string|null $jur_consecutivo_proceso Juzgado
+ * @property string|null $jur_instancia_radicado Juzgado
  * @property string|null $jur_radicado Radicado			 
  * @property int|null $jur_tipo_proceso_id Tipo de proceso
  * @property int|null $jur_etapas_procesal_id Etapa procesal
@@ -124,6 +127,9 @@ class Procesos extends \yii\db\ActiveRecord {
             [['prejur_resultado_estudio_bienes'], 'string', 'max' => 12],
             [['carpeta'], 'string', 'max' => 100],
             [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
+            [['jur_consecutivo_proceso'], 'string', 'max' => 5, 'min' => 5],
+            [['jur_anio_radicado'], 'string', 'max' => 5],
+            [['jur_instancia_radicado'], 'string', 'max' => 2],
             [['deleted_by', 'jur_radicado'], 'string', 'max' => 45],
             [['jur_ciudad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['jur_ciudad_id' => 'id']],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
@@ -183,6 +189,9 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_ciudad_id' => 'Ciudad',
             'jur_jurisdiccion_competent_id' => 'Jurisdicción competente',
             'jur_juzgado' => 'Juzgado',
+            'jur_anio_radicado' => 'Año',
+            'jur_consecutivo_proceso' => 'Consecutivo proceso',
+            'jur_instancia_radicado' => 'Instancia', 
             'jur_radicado'=> 'Radicado',
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',

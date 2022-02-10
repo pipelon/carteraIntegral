@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use AlertasClase;
 use Yii;
 use app\models\Alertas;
 use app\models\AlertasSearch;
@@ -133,4 +134,14 @@ class AlertasController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionMarcaralertas() {
+        $post = Yii::$app->request->post();
+        $idProceso = $post['idProceso'];
+        $idUsuario = $post['idUsuario'];
+
+        Alertas::updateAll(['visto'=>'1','fecha_visto'=>date('Y-m-d H:i:s')], ['usuario_id'=>$idUsuario,'proceso_id'=>$idProceso]);
+        return true;
+    }
+
 }

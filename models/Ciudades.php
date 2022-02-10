@@ -35,7 +35,7 @@ class Ciudades extends BeforeModel {
         return [
             [['departamento_id', 'nombre'], 'required'],
             [['departamento_id'], 'integer'],
-            [['created', 'modified'], 'safe'],
+            [['created', 'modified', 'codigo_ciudad'], 'safe'],
             ['nombre', 'filter', 'filter' => 'strtoupper'],
             [['nombre', 'created_by', 'modified_by'], 'string', 'max' => 45],
             [['departamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Departamentos::className(), 'targetAttribute' => ['departamento_id' => 'id']],
@@ -50,6 +50,7 @@ class Ciudades extends BeforeModel {
             'id' => 'ID',
             'departamento_id' => 'Departamento',
             'nombre' => 'Nombre',
+            'codigo_ciudad' => 'Código de la ciudad',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',

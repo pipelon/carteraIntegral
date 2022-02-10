@@ -10,24 +10,22 @@ use app\models\Ciudades;
 /**
  * CiudadesSearch represents the model behind the search form of `app\models\Ciudades`.
  */
-class CiudadesSearch extends Ciudades
-{
+class CiudadesSearch extends Ciudades {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'departamento_id'], 'integer'],
-            [['nombre', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
+            [['nombre', 'codigo_ciudad', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class CiudadesSearch extends Ciudades
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Ciudades::find();
 
         // add conditions that should always apply here
@@ -67,9 +64,11 @@ class CiudadesSearch extends Ciudades
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'created_by', $this->created_by])
-            ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
+                ->andFilterWhere(['like', 'codigo_ciudad', $this->codigo_ciudad])
+                ->andFilterWhere(['like', 'created_by', $this->created_by])
+                ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 
         return $dataProvider;
     }
+
 }

@@ -44,7 +44,9 @@ use yii\bootstrap\ActiveForm;
             ?>
             <?= $form->field($model, 'departamento_id')->dropDownList($departamentos); ?>
 
-            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>            
+            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>   
+            
+            <?= $form->field($model, 'codigo_ciudad')->textInput(['maxlength' => true]) ?>
 
         </div>
     </div>

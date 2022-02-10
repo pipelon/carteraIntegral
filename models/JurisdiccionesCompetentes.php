@@ -9,12 +9,19 @@ use Yii;
  *
  * @property int $id ID
  * @property int $ciudad_id Ciudad
- * @property int|null $numero Número
+ * @property string $entidad Entidad
+ * @property int $codigo_entidad Código de entidad
+ * @property string $especialidad Especialidad
+ * @property int $codigo_especialidad Código de especialidad
+ * @property int $despacho Despacho
  * @property string $nombre Nombre
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
+ * @property int|null $delete Borrado
+ * @property string|null $deleted Borrado
+ * @property string|null $deleted_by Borrado por
  *
  * @property Ciudades $ciudad
  * @property Procesos[] $procesos
@@ -33,12 +40,12 @@ class JurisdiccionesCompetentes extends BeforeModel {
      */
     public function rules() {
         return [
-            [['ciudad_id', 'nombre'], 'required'],
-            [['ciudad_id', 'numero'], 'integer'],
-            [['created', 'modified'], 'safe'],
+            [['ciudad_id', 'entidad', 'codigo_entidad', 'especialidad', 'codigo_especialidad', 'despacho', 'nombre'], 'required'],
+            [['ciudad_id', 'codigo_entidad', 'codigo_especialidad', 'despacho', 'delete'], 'integer'],
+            [['created', 'modified', 'deleted'], 'safe'],
+            [['entidad', 'especialidad', 'created_by', 'modified_by', 'deleted_by'], 'string', 'max' => 45],
             [['nombre'], 'string', 'max' => 100],
-            [['created_by', 'modified_by'], 'string', 'max' => 45],
-            ['nombre', 'filter', 'filter' => 'strtoupper'],
+            [['nombre', 'entidad', 'especialidad'], 'filter', 'filter' => 'strtoupper'],
             [['ciudad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['ciudad_id' => 'id']],
         ];
     }
@@ -50,12 +57,19 @@ class JurisdiccionesCompetentes extends BeforeModel {
         return [
             'id' => 'ID',
             'ciudad_id' => 'Ciudad',
-            'numero' => 'Número',
+            'entidad' => 'Entidad',
+            'codigo_entidad' => 'Código de entidad',
+            'especialidad' => 'Especialidad',
+            'codigo_especialidad' => 'Código de especialidad',
+            'despacho' => 'Despacho',
             'nombre' => 'Nombre',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',
             'modified_by' => 'Modificado por',
+            'delete' => 'Borrado',
+            'deleted' => 'Borrado',
+            'deleted_by' => 'Borrado por',
         ];
     }
 

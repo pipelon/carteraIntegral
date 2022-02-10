@@ -110,6 +110,15 @@ class DepartamentosController extends Controller {
 
         return $this->redirect(['index']);
     }
+    
+     public function actionDatadepartamento() {
+        $post = Yii::$app->request->post();
+        $id = $post['id'];
+        $model = $this->findModel($id);
+        return \yii\helpers\Json::encode([
+            'codigo_departamento' => $model->codigo_departamento
+        ]);
+    }
 
     /**
      * Finds the Departamentos model based on its primary key value.
