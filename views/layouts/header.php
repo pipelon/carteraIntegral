@@ -5,21 +5,42 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+$url = \yii\helpers\Url::to(['alertas/marcaralertas']);
+$baseUrl = \Yii::$app->request->BaseUrl;
+$script = <<< JS
+    $("document").ready(function () {
+        
+        $("#marcarAlertas").click(function (e) {
+            e.preventDefault();
+            let idUsuario = $(this).data("usuario");
+            let idProceso = $(this).data("proceso");
+            $.ajax({
+                url: '$url',
+                type: 'post',
+                async: false,
+                data: {
+                    idProceso: idProceso,
+                    idUsuario: idUsuario
+                },
+                success: function (data) {
+                    location.href = '$baseUrl/procesos/view?id='+idProceso;
+                }
+            });            
+        });        
+        
+    });
+JS;
+$this->registerJs($script);
 ?>
 <script>
-    function marcarAlertas(idProceso,idUsuario){
-        $.ajax({
-            url: '<?=\Yii::$app->request->BaseUrl?>/alertas/marcaralertas',
-            type: 'post',
-            data: {
-                idProceso: idProceso,
-                idUsuario: idUsuario
-            },
-            success: function (data) {
+//    $("document").ready(function () {
+//        $("#marcarAlertas").click(function (e) {
+//            
+//        });
+//    });
+//    function marcarAlertas(idProceso, idUsuario) {
 
-            }
-        });
-    }
+//    }
 </script>
 
 <header class="main-header">
@@ -99,7 +120,7 @@ use yii\helpers\Html;
 
                     <?php
                     $alertas = \app\models\Alertas::find()
-                            ->where(['usuario_id' => Yii::$app->user->identity->id,'visto'=>0])
+                            ->where(['usuario_id' => Yii::$app->user->identity->id, 'visto' => 0])
                             ->orderBy(['created' => SORT_DESC])
                             ->limit(10)
                             ->all();
@@ -123,14 +144,22 @@ use yii\helpers\Html;
                         </li>
                         <?php if (count($alertas) >= 1): ?>
                             <li>
-                                
+
                                 <ul class="menu">
                                     <?php foreach ($alertas as $alerta) : ?>
                                         <li>
                                             <?php
-                                            $htmlTarea = "<i class='fa fa-warning text-yellow'></i> {$alerta->descripcion_alerta}";                                            
+                                            $htmlTarea = "<i class='fa fa-warning text-yellow'></i> {$alerta->descripcion_alerta}";
                                             echo \yii\bootstrap\Html::a($htmlTarea,
-                                                    ['/procesos/view', 'id' => $alerta->proceso_id],['onclick' => "marcarAlertas({$alerta->proceso_id},{$alerta->usuario_id});"]);
+                                                    [
+                                                        '/procesos/view', 'id' => $alerta->proceso_id],
+                                                    [
+                                                        //'onclick' => "marcarAlertas({$alerta->proceso_id},{$alerta->usuario_id});"
+                                                        'data-proceso' => $alerta->proceso_id,
+                                                        'data-usuario' => $alerta->usuario_id,
+                                                        'id' => 'marcarAlertas'
+                                                    ]
+                                            );
                                             ?>
                                         </li>
                                     <?php endforeach; ?>
