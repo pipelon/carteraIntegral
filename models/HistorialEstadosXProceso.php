@@ -14,21 +14,19 @@ use Yii;
  * @property string $created Fecha en la que se crea el registro
  * @property string $created_by Usuario que crea el registro
  */
-class HistorialEstadosXProceso extends \yii\db\ActiveRecord
-{
+class HistorialEstadosXProceso extends \yii\db\ActiveRecord {
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'historial_estados_x_proceso';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['proceso_id', 'etapa_procesal_id', 'tipo_proceso_id', 'created', 'created_by'], 'required'],
             [['proceso_id', 'etapa_procesal_id', 'tipo_proceso_id'], 'integer'],
@@ -40,8 +38,7 @@ class HistorialEstadosXProceso extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'Identificador del estado por proceso',
             'proceso_id' => 'Identificador del proceso',

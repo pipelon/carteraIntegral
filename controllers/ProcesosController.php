@@ -263,6 +263,11 @@ class ProcesosController extends Controller {
         //TAREAS ACTUALES PARA MOSTRAR EN LA EDICION
         $modelTareas = $model->tareas;
 
+        //ACTUAL TIPO DE PROCESO PARA COMPRAR CUANDO SEA CAMBIADO
+        $old_jur_tipo_proceso_id = $model->jur_tipo_proceso_id;
+        //ACTUAL ESTAPA PROCESAL PARA COMPRAR CUANDO SEA CAMBIADA
+        $old_jur_etapas_procesal_id = $model->jur_etapas_procesal_id;
+
         if ($model->load(Yii::$app->request->post())) {
 
             // SE GUARDA EL REGISTRO
@@ -481,6 +486,18 @@ class ProcesosController extends Controller {
                     $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
                     $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
                     $gestPreJur->save();
+                }
+
+                //SI EL TIPO DE PROCESO O LA ETAPA PROCESAL CAMBIO, LO ALMACENO
+                if ($old_jur_tipo_proceso_id != $model->jur_tipo_proceso_id ||
+                        $old_jur_etapas_procesal_id != $model->jur_etapas_procesal_id) {
+                    $histEstaXProc = new \app\models\HistorialEstadosXProceso();
+                    $histEstaXProc->proceso_id = $model->id;
+                    $histEstaXProc->etapa_procesal_id = $model->jur_etapas_procesal_id;
+                    $histEstaXProc->tipo_proceso_id = $model->jur_tipo_proceso_id;
+                    $histEstaXProc->created = date('Y-m-d H:i:s');
+                    $histEstaXProc->created_by = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                    $histEstaXProc->save();
                 }
 
 
