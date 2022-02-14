@@ -220,8 +220,106 @@ return [
         'activo' => true,
         'diasParaAlerta' => '30', //dias habiles
         'asunto' => 'CILES - Alertas: Verbal - Ejecutivo Continuación.',
-        'descripcion' => 'Verbal - - Ejecutivo Continuación.'
-    ],         
+        'descripcion' => 'Verbal - Ejecutivo Continuación.'
+    ],                 
+    'alertaConciliacionExtraJudicial_RecepcionDePoder' => [
+        'tipo_alerta_id' => 32, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Conciliación ExtraJudicial Recepcion de Poder.',
+        'descripcion' => 'Alertas: Conciliación ExtraJudicial Recepcion de Poder.'
+    ],                    
+    'alertaConciliacionExtraJudicial_RadicacionConciliacion' => [
+        'tipo_alerta_id' => 33, 
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Conciliación ExtraJudicial Radicación.',
+        'descripcion' => 'Alertas: Conciliación ExtraJudicial Radicación.'
+    ],                    
+    'alertaConciliacionExtraJudicial_FijacionFechaAudicencia' => [
+        'tipo_alerta_id' => 34, 
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Conciliación ExtraJudicial Fijación Fecha Audicencia.',
+        'descripcion' => 'Alertas: Conciliación ExtraJudicial Fijación Fecha Audicencia.'
+    ],                    
+    'alertaConciliacionExtraJudicial_RadicacionDemanda' => [
+        'tipo_alerta_id' => 35, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Conciliación ExtraJudicial Radicación Demanda.',
+        'descripcion' => 'Alertas: Conciliación ExtraJudicial Radicación Demanda.'
+    ],            
+    'alertaVerbalSumario_RecepcionDePoder' => [
+        'tipo_alerta_id' => 36, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal sumario recepción de poder.',
+        'descripcion' => 'Verbal sumario recepción de poder.'
+    ],
+    'alertaVerbalSumario_RadicacionDemanda' => [
+        'tipo_alerta_id' => 37,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario Radicación demanda.',
+        'descripcion' => 'Verbal Sumario Radicación demanda.'
+    ],
+    'alertaVerbalSumario_InadmisionDemanda' => [
+        'tipo_alerta_id' => 38,
+        'activo' => true,
+        'diasParaAlerta' => '4', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario Inadmisión Demanda.',
+        'descripcion' => 'Verbal Sumario Inadmisión Demanda.'
+    ],    
+    'alertaVerbalSumario_AdmisionDemanda' => [
+        'tipo_alerta_id' => 39,
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario Admisión Demanda.',
+        'descripcion' => 'Verbal sumario Admisión Demanda.'
+    ],    
+    'alertaVerbalSumario_Notificacion' => [
+        'tipo_alerta_id' => 40,
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Notificación jurídica verbal sumario.',
+        'descripcion' => 'Notificación jurídica verbal sumario.'
+    ],        
+    'alertaVerbalSumario_Excepciones' => [
+        'tipo_alerta_id' => 41, 
+        'activo' => true,
+        'diasParaAlerta' => '2', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario - El despacho corre las excepciones.',
+        'descripcion' => 'Verbal Sumario - El despacho corre las excepciones.'
+    ],        
+    'alertaVerbalSumario_AudienciaUnica' => [
+        'tipo_alerta_id' => 42, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario Audiencia Unica.',
+        'descripcion' => 'Verbal Sumario Audiencia Unica.'
+    ],            
+    'alertaVerbalSumario_SentenciaFavorableA' => [
+        'tipo_alerta_id' => 43, 
+        'activo' => true,
+        'diasParaAlerta' => '120', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario - Sentencia Favorable despues de las excepciones.',
+        'descripcion' => 'Verbal Sumario - Sentencia Favorable despues de las excepciones.'
+    ],            
+    'alertaVerbalSumario_SentenciaFavorableD' => [
+        'tipo_alerta_id' => 44, 
+        'activo' => true,
+        'diasParaAlerta' => '360', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario - Sentencia Favorable despues del radicado.',
+        'descripcion' => 'Verbal Sumario- Sentencia Favorable despues del radicado.'
+    ],            
+    'alertaVerbalSumario_EjecutivoContinuacion' => [
+        'tipo_alerta_id' => 45, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Verbal Sumario - Ejecutivo a Continuación.',
+        'descripcion' => 'Verbal Sumario - Ejecutivo a Continuación.'
+    ],           
     'ayudas' => [
         'default' => 'Default',
         'clientes' => 'Clientes',
