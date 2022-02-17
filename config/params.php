@@ -319,6 +319,286 @@ return [
         'diasParaAlerta' => '30', //dias habiles
         'asunto' => 'CILES - Alertas: Verbal Sumario - Ejecutivo a Continuación.',
         'descripcion' => 'Verbal Sumario - Ejecutivo a Continuación.'
+    ],                
+    'alertaOrdinarioLaboral_RecepcionDePoder' => [
+        'tipo_alerta_id' => 46, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral Recepcion De Poder.',
+        'descripcion' => 'Ordinario Laboral Recepcion De Poder..'
+    ], 
+    'alertaOrdinarioLaboral_RadicacionDemanda' => [
+        'tipo_alerta_id' => 47,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral Radicación demanda.',
+        'descripcion' => 'Ordinario Laboral Radicación demanda.'
+    ], 
+    'alertaOrdinarioLaboral_DevolucionDemanda' => [
+        'tipo_alerta_id' => 47,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral Devolución demanda.',
+        'descripcion' => 'Ordinario Laboral Devolución demanda.'
+    ],    
+    'alertaOrdinarioLaboral_AdmisionDemanda' => [
+        'tipo_alerta_id' => 48,
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral Admisión Demanda.',
+        'descripcion' => 'Ordinario Laboral Admisión Demanda.'
+    ],    
+    'alertaOrdinarioLaboral_Notificacion' => [
+        'tipo_alerta_id' => 49,
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Notificación jurídica ordinario laboral.',
+        'descripcion' => 'Notificación jurídica ordinario laboral.'
+    ],
+    'alertaOrdinarioLaboral_ReformaDemanda' => [
+        'tipo_alerta_id' => 50,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Reforma demanda jurídica ordinario laboral.',
+        'descripcion' => 'Reforma demanda jurídica ordinario laboral.'
+    ],        
+    'alertaOrdinarioLaboral_AudienciaInicial' => [
+        'tipo_alerta_id' => 51, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral Audiencia Inicial.',
+        'descripcion' => 'Ordinario Laboral Audiencia Inicial.'
+    ],        
+    'alertaOrdinarioLaboral_AudienciaTramiteJuzgamiento' => [
+        'tipo_alerta_id' => 52, 
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral Audiencia Trámite y Juzgamiento.',
+        'descripcion' => 'Ordinario Laboral Audiencia Trámite y Juzgamiento.'
+    ],            
+    'alertaOrdinarioLaboral_SentenciaFavorableD' => [
+        'tipo_alerta_id' => 53, 
+        'activo' => true,
+        'diasParaAlerta' => '360', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral - Sentencia Favorable despues del radicado.',
+        'descripcion' => 'Ordinario Laboral - Sentencia Favorable despues del radicado.'
+    ],            
+    'alertaOrdinarioLaboral_EjecutivoContinuacion' => [
+        'tipo_alerta_id' => 54, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Ordinario Laboral - Ejecutivo a Continuación.',
+        'descripcion' => 'Ordinario Laboral - Ejecutivo a Continuación.'
+    ],                
+    'alertaNulidad_RecepcionDePoder' => [
+        'tipo_alerta_id' => 55, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Recepcion De Poder.',
+        'descripcion' => 'Nulidad Recepcion De Poder..'
+    ], 
+    'alertaNulidad_RadicacionDemanda' => [
+        'tipo_alerta_id' => 56,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Radicación demanda.',
+        'descripcion' => 'Nulidad Radicación demanda.'
+    ],
+    'alertaNulidad_InadmisionDemanda' => [
+        'tipo_alerta_id' => 57,
+        'activo' => true,
+        'diasParaAlerta' => '9', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Inadmisión Demanda.',
+        'descripcion' => 'Nulidad Inadmisión Demanda.'
+    ],    
+    'alertaNulidad_AdmisionDemanda' => [
+        'tipo_alerta_id' => 58,
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Admisión Demanda.',
+        'descripcion' => 'Nulidad Admisión Demanda.'
+    ],    
+    'alertaNulidad_Notificacion' => [
+        'tipo_alerta_id' => 59,
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Notificación jurídica nulidad.',
+        'descripcion' => 'Notificación jurídica nulidad.'
+    ],        
+    'alertaNulidad_Excepciones' => [
+        'tipo_alerta_id' => 60, 
+        'activo' => true,
+        'diasParaAlerta' => '2', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad - El despacho corre las excepciones.',
+        'descripcion' => 'Nulidad - El despacho corre las excepciones.'
+    ],        
+    'alertaNulidad_AudienciaInicial' => [
+        'tipo_alerta_id' => 61, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Audiencia Inicial.',
+        'descripcion' => 'Nulidad Audiencia Inicial.'
+    ],            
+    'alertaNulidad_AudienciaFallo' => [
+        'tipo_alerta_id' => 62, 
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Audiencia de Fallo.',
+        'descripcion' => 'Nulidad Audiencia de Fallo.'
+    ],            
+    'alertaNulidad_SentenciaFavorableA' => [
+        'tipo_alerta_id' => 63, 
+        'activo' => true,
+        'diasParaAlerta' => '90', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad - Sentencia Favorable despues de las excepciones.',
+        'descripcion' => 'Nulidad - Sentencia Favorable despues de las excepciones.'
+    ],            
+    'alertaNulidad_EjecutivoContinuacion' => [
+        'tipo_alerta_id' => 64, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad - Ejecutivo a Continuación.',
+        'descripcion' => 'Nulidad - Ejecutivo a Continuación.'
+    ],                
+    'alertaNulidadRestablecimiento_RecepcionDePoder' => [
+        'tipo_alerta_id' => 65, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - Recepcion De Poder.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - Recepcion De Poder..'
+    ], 
+    'alertaNulidadRestablecimiento_RadicacionDemanda' => [
+        'tipo_alerta_id' => 66,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - Radicación demanda.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - Radicación demanda.'
+    ],
+    'alertaNulidadRestablecimiento_InadmisionDemanda' => [
+        'tipo_alerta_id' => 67,
+        'activo' => true,
+        'diasParaAlerta' => '9', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - Inadmisión Demanda.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - Inadmisión Demanda.'
+    ],    
+    'alertaNulidadRestablecimiento_AdmisionDemanda' => [
+        'tipo_alerta_id' => 68,
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho -  Admisión Demanda.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho -  Admisión Demanda.'
+    ],    
+    'alertaNulidadRestablecimiento_Notificacion' => [
+        'tipo_alerta_id' => 69,
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Notificación jurídica nulidad Restablecimiento de derecho -  .',
+        'descripcion' => 'Notificación jurídica nulidad Restablecimiento de derecho -  .'
+    ],        
+    'alertaNulidadRestablecimiento_Excepciones' => [
+        'tipo_alerta_id' => 70, 
+        'activo' => true,
+        'diasParaAlerta' => '2', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - El despacho corre las excepciones.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - El despacho corre las excepciones.'
+    ],        
+    'alertaNulidadRestablecimiento_AudienciaInicial' => [
+        'tipo_alerta_id' => 71, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - Audiencia Inicial.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - Audiencia Inicial.'
+    ],            
+    'alertaNulidadRestablecimiento_AudienciaFallo' => [
+        'tipo_alerta_id' => 72, 
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - Audiencia de Fallo.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - Audiencia de Fallo.'
+    ],            
+    'alertaNulidadRestablecimiento_SentenciaFavorableA' => [
+        'tipo_alerta_id' => 73, 
+        'activo' => true,
+        'diasParaAlerta' => '90', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - Sentencia Favorable despues de las excepciones.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - Sentencia Favorable despues de las excepciones.'
+    ],            
+    'alertaNulidadRestablecimiento_EjecutivoContinuacion' => [
+        'tipo_alerta_id' => 74, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Nulidad Restablecimiento de derecho - Ejecutivo a Continuación.',
+        'descripcion' => 'Nulidad Restablecimiento de derecho - Ejecutivo a Continuación.'
+    ],                
+    'alertaReparacionDirecta_RecepcionDePoder' => [
+        'tipo_alerta_id' => 75, 
+        'activo' => true,
+        'diasParaAlerta' => '3', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - Recepcion De Poder.',
+        'descripcion' => 'Reparación Directa - Recepcion De Poder.'
+    ], 
+    'alertaReparacionDirecta_RadicacionDemanda' => [
+        'tipo_alerta_id' => 76,
+        'activo' => true,
+        'diasParaAlerta' => '5', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - Radicación demanda.',
+        'descripcion' => 'Reparación Directa - Radicación demanda.'
+    ],
+    'alertaReparacionDirecta_InadmisionDemanda' => [
+        'tipo_alerta_id' => 77,
+        'activo' => true,
+        'diasParaAlerta' => '9', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - Inadmisión Demanda.',
+        'descripcion' => 'Reparación Directa - Inadmisión Demanda.'
+    ],    
+    'alertaReparacionDirecta_AdmisionDemanda' => [
+        'tipo_alerta_id' => 78,
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa -  Admisión Demanda.',
+        'descripcion' => 'Reparación Directa -  Admisión Demanda.'
+    ],    
+    'alertaReparacionDirecta_Notificacion' => [
+        'tipo_alerta_id' => 79,
+        'activo' => true,
+        'diasParaAlerta' => '15', //dias habiles
+        'asunto' => 'CILES - Alertas: Notificación jurídica Reparación Directa.',
+        'descripcion' => 'Notificación jurídica jurídica Reparación Directa.'
+    ],        
+    'alertaReparacionDirecta_Excepciones' => [
+        'tipo_alerta_id' => 80, 
+        'activo' => true,
+        'diasParaAlerta' => '2', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - El despacho corre las excepciones.',
+        'descripcion' => 'Reparación Directa - El despacho corre las excepciones.'
+    ],        
+    'alertaReparacionDirecta_AudienciaInicial' => [
+        'tipo_alerta_id' => 81, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - Audiencia Inicial.',
+        'descripcion' => 'Reparación Directa - Audiencia Inicial.'
+    ],            
+    'alertaReparacionDirecta_AudienciaFallo' => [
+        'tipo_alerta_id' => 82, 
+        'activo' => true,
+        'diasParaAlerta' => '60', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - Audiencia de Fallo.',
+        'descripcion' => 'Reparación Directa - Audiencia de Fallo.'
+    ],            
+    'alertaReparacionDirecta_SentenciaFavorableA' => [
+        'tipo_alerta_id' => 83, 
+        'activo' => true,
+        'diasParaAlerta' => '90', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - Sentencia Favorable despues de las excepciones.',
+        'descripcion' => 'Reparación Directa - Sentencia Favorable despues de las excepciones.'
+    ],             
+    'alertaReparacionDirecta_EjecutivoContinuacion' => [
+        'tipo_alerta_id' => 84, 
+        'activo' => true,
+        'diasParaAlerta' => '30', //dias habiles
+        'asunto' => 'CILES - Alertas: Reparación Directa - Ejecutivo a Continuación.',
+        'descripcion' => 'Reparación Directa - Ejecutivo a Continuación.'
     ],           
     'ayudas' => [
         'default' => 'Default',

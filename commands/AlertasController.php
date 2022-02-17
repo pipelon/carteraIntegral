@@ -239,7 +239,184 @@ class AlertasController extends Controller
                 $arraydeAlertas = $this->hallarAlertas('alertaVerbalSumario_EjecutivoContinuacion',$proceso);
                 if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
 
-            
+                #=======================================================================
+                # ALERTAS ORDINARIO LABORAL
+                #=======================================================================
+
+                //Esta alerta validará si debe generarse la recepción del poder
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_RecepcionDePoder',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se radicó la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_RadicacionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se radicó la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_DevolucionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se admitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_AdmisionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas; 
+                
+                //Esta alerta validará si se admitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_Notificacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se admitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_ReformaDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia Inicial del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_AudienciaInicial',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia de trámite y juzgamiento del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_AudienciaTramiteJuzgamiento',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene sentencia favorable despues de radicada la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_SentenciaFavorableD',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se debe enviar a ejecutivo a continuacion despues de la sentencia
+                $arraydeAlertas = $this->hallarAlertas('alertaOrdinarioLaboral_EjecutivoContinuacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                #=======================================================================
+                # ALERTAS NULIDAD
+                #=======================================================================
+
+                //Esta alerta validará si debe generarse la recepción del poder
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_RecepcionDePoder',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se radicó la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_RadicacionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se inadmitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_InadmisionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se admitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_AdmisionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se admitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_Notificacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene excepciones del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_Excepciones',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia Inicial del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_AudienciaInicial',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia de fallo del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_AudienciaFallo',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene sentencia favorable despues de las excepciones
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_SentenciaFavorableA',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se debe enviar a ejecutivo a continuacion despues de la sentencia
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidad_EjecutivoContinuacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+
+                #=======================================================================
+                # ALERTAS NULIDAD RESTABLECIMIENTO DERECHO
+                #=======================================================================
+
+                //Esta alerta validará si debe generarse la recepción del poder
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_RecepcionDePoder',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se radicó la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_RadicacionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se inadmitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_InadmisionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se admitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_AdmisionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se notifico la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_Notificacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene excepciones del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_Excepciones',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia Inicial del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_AudienciaInicial',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia de fallo del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_AudienciaFallo',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene sentencia favorable despues de las excepciones
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_SentenciaFavorableA',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se debe enviar a ejecutivo a continuacion despues de la sentencia
+                $arraydeAlertas = $this->hallarAlertas('alertaNulidadRestablecimiento_EjecutivoContinuacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                #=======================================================================
+                # ALERTAS REPARACION DIRECTA
+                #=======================================================================
+
+                //Esta alerta validará si debe generarse la recepción del poder
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_RecepcionDePoder',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;    
+
+                //Esta alerta validará si se radicó la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_RadicacionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;  
+                
+                //Esta alerta validará si se inadmitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_InadmisionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;   
+                
+                //Esta alerta validará si se admitió demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_AdmisionDemanda',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se notifico la demanda
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_Notificacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+                
+                //Esta alerta validará si se tiene excepciones del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_Excepciones',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia Inicial del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_AudienciaInicial',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene Audiencia de fallo del proceso
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_AudienciaFallo',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se tiene sentencia favorable despues de las excepciones
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_SentenciaFavorableA',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+                //Esta alerta validará si se debe enviar a ejecutivo a continuacion despues de la sentencia
+                $arraydeAlertas = $this->hallarAlertas('alertaReparacionDirecta_EjecutivoContinuacion',$proceso);
+                if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+       
+
         }
 
             #=======================================================================
@@ -247,7 +424,7 @@ class AlertasController extends Controller
             #=======================================================================
             /*
              * Si este proceso tiene alertas para enviar obtengo 
-             * sus colaboradore y su lider
+             * sus colaboradores y su lider
              */
             if (count($alertasPorProceso) > 0) {
                 $ids_procesos = array_keys($alertasPorProceso);
@@ -445,6 +622,188 @@ class AlertasController extends Controller
 
     /**
      * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la notificación, en los procesos jurídicos de tipo nulidad.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_Notificacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesNotificacion = \Yii::$app->params['alertaNulidad_Notificacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 93 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 15 días para enviar esta alerta.
+        $fechaAdmisionDemanda = $this->hallarFechaProcesoAnterior($proceso->id, 9, 92);
+
+        if (!$fechaAdmisionDemanda) return false; // no se tiene audiencia inicial
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaNotificacion = $this->hallarFechaAlerta($fechaAdmisionDemanda, $diasHabilesNotificacion);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaNotificacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la notificación, en los procesos jurídicos de tipo nulidad restablecimiento.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_Notificacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesNotificacion = \Yii::$app->params['alertaNulidadRestablecimiento_Notificacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 106 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 15 días para enviar esta alerta.
+        $fechaAdmisionDemanda = $this->hallarFechaProcesoAnterior($proceso->id, 10, 105);
+
+        if (!$fechaAdmisionDemanda) return false; // no se tiene audiencia inicial
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaNotificacion = $this->hallarFechaAlerta($fechaAdmisionDemanda, $diasHabilesNotificacion);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaNotificacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la notificación, en los procesos jurídicos de tipo reparacion directa.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_Notificacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesNotificacion = \Yii::$app->params['alertaReparacionDirecta_Notificacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 119 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 15 días para enviar esta alerta.
+        $fechaAdmisionDemanda = $this->hallarFechaProcesoAnterior($proceso->id, 11, 118);
+
+        if (!$fechaAdmisionDemanda) return false; // no se tiene audiencia inicial
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaNotificacion = $this->hallarFechaAlerta($fechaAdmisionDemanda, $diasHabilesNotificacion);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaNotificacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la reforma de la demanda, en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_ReformaDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesReforma = \Yii::$app->params['alertaOrdinarioLaboral_ReformaDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 181 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 15 días para enviar esta alerta.
+        $fechaNotificacion = $this->hallarFechaProcesoAnterior($proceso->id, 8, 80);
+
+        if (!$fechaNotificacion) return false; // no se tiene audiencia inicial
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaReforma = $this->hallarFechaAlerta($fechaNotificacion, $diasHabilesReforma);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaReforma > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la notificación, en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_Notificacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesNotificacion = \Yii::$app->params['alertaOrdinarioLaboral_Notificacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 80 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 15 días para enviar esta alerta.
+        $fechaAdmisionDemanda = $this->hallarFechaProcesoAnterior($proceso->id, 8, 79);
+
+        if (!$fechaAdmisionDemanda) return false; // no se tiene audiencia inicial
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaNotificacion = $this->hallarFechaAlerta($fechaAdmisionDemanda, $diasHabilesNotificacion);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaNotificacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
      * verbal ejecutivo a continuacion, en los procesos jurídicos de tipo verbal.
      * 
      * @author Diego Castano <proyectos@onicsoft.com.co>
@@ -517,6 +876,151 @@ class AlertasController extends Controller
 
     /**
      * Esta funcion se encargará de procesar todas las alertas referentes al
+     * ejecutivo a continuacion, en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_EjecutivoContinuacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesEjecutivo = \Yii::$app->params['alertaOrdinarioLaboral_EjecutivoContinuacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 183 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la sentencia para poder calcular los 30 días para enviar esta alerta.
+        $fechaSentencia = $this->hallarFechaProcesoAnterior($proceso->id, 8, 84);
+
+        if (!$fechaSentencia) return false; // no se tiene sentencia, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaEjecutivo = $this->hallarFechaAlerta($fechaSentencia, $diasHabilesEjecutivo);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaEjecutivo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * ejecutivo a continuacion, en los procesos jurídicos de tipo nulidad.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_EjecutivoContinuacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesEjecutivo = \Yii::$app->params['alertaNulidad_EjecutivoContinuacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 187 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la sentencia para poder calcular los 30 días para enviar esta alerta.
+        $fechaSentencia = $this->hallarFechaProcesoAnterior($proceso->id, 9, 97);
+
+        if (!$fechaSentencia) return false; // no se tiene sentencia, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaEjecutivo = $this->hallarFechaAlerta($fechaSentencia, $diasHabilesEjecutivo);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaEjecutivo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * ejecutivo a continuacion, en los procesos jurídicos de tipo nulidad restablecimiento de derecho.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_EjecutivoContinuacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesEjecutivo = \Yii::$app->params['alertaNulidadRestablecimiento_EjecutivoContinuacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 191 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la sentencia para poder calcular los 30 días para enviar esta alerta.
+        $fechaSentencia = $this->hallarFechaProcesoAnterior($proceso->id, 10, 110);
+
+        if (!$fechaSentencia) return false; // no se tiene sentencia, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaEjecutivo = $this->hallarFechaAlerta($fechaSentencia, $diasHabilesEjecutivo);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaEjecutivo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * ejecutivo a continuacion, en los procesos jurídicos de tipo nulidad restablecimiento de derecho.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_EjecutivoContinuacion($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesEjecutivo = \Yii::$app->params['alertaReparacionDirecta_EjecutivoContinuacion']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 195 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la sentencia para poder calcular los 30 días para enviar esta alerta.
+        $fechaSentencia = $this->hallarFechaProcesoAnterior($proceso->id, 11, 123);
+
+        if (!$fechaSentencia) return false; // no se tiene sentencia, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaEjecutivo = $this->hallarFechaAlerta($fechaSentencia, $diasHabilesEjecutivo);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaEjecutivo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
      * la Audiencia de Fallo, en los procesos jurídicos de tipo ejecutivo.
      * 
      * @author Diego Castano <proyectos@onicsoft.com.co>
@@ -583,6 +1087,150 @@ class AlertasController extends Controller
 
         //Si no es tiempo de la alerta continuar con el siguiente proceso
         if ($fechaAudienciaFallo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la Audiencia de Fallo, en los procesos jurídicos de tipo nulidad.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_AudienciaFallo($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaFallo = \Yii::$app->params['alertaNulidad_AudienciaFallo']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 96 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 60 días para enviar esta alerta.
+        $fechaAudienciaInicial = $this->hallarFechaProcesoAnterior($proceso->id, 9, 95);
+
+        if (!$fechaAudienciaInicial) return false; // no se tiene audiencia inicial, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaFallo = $this->hallarFechaAlerta($fechaAudienciaInicial, $diasAudienciaFallo);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaFallo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la Audiencia de Fallo, en los procesos jurídicos de tipo nulidad restablecimiento de derecho.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_AudienciaFallo($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaFallo = \Yii::$app->params['alertaNulidadRestablecimiento_AudienciaFallo']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 109 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 60 días para enviar esta alerta.
+        $fechaAudienciaInicial = $this->hallarFechaProcesoAnterior($proceso->id, 10, 108);
+
+        if (!$fechaAudienciaInicial) return false; // no se tiene audiencia inicial, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaFallo = $this->hallarFechaAlerta($fechaAudienciaInicial, $diasAudienciaFallo);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaFallo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la Audiencia de Fallo, en los procesos jurídicos de tipo nulidad restablecimiento de derecho.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_AudienciaFallo($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaFallo = \Yii::$app->params['alertaReparacionDirecta_AudienciaFallo']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 122 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 60 días para enviar esta alerta.
+        $fechaAudienciaInicial = $this->hallarFechaProcesoAnterior($proceso->id, 11, 121);
+
+        if (!$fechaAudienciaInicial) return false; // no se tiene audiencia inicial, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaFallo = $this->hallarFechaAlerta($fechaAudienciaInicial, $diasAudienciaFallo);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaFallo > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la Audiencia de Trámite y Juzgamiento, en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_AudienciaTramiteJuzgamiento($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaTramite = \Yii::$app->params['alertaOrdinarioLaboral_AudienciaTramiteJuzgamiento']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 182 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la la audiencia inicial para poder calcular los 60 días para enviar esta alerta.
+        $fechaAudienciaInicial = $this->hallarFechaProcesoAnterior($proceso->id, 8, 82);
+
+        if (!$fechaAudienciaInicial) return false; // no se tiene audiencia inicial, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaTramite = $this->hallarFechaAlerta($fechaAudienciaInicial, $diasAudienciaTramite);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaTramite > $hoy) {
             return false;
         }
 
@@ -771,6 +1419,114 @@ class AlertasController extends Controller
 
     /**
      * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la alerta Nulidad Sentencia Favorable despues de las excepciones, en los procesos jurídicos de tipo nulidad.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_SentenciaFavorableA($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasSentenciaFavorableA = \Yii::$app->params['alertaNulidad_SentenciaFavorableA']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 97 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepciones para poder calcular los 120 días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 9, 186);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaSentenciaFavorableA = $this->hallarFechaAlerta($fechaExcepciones, $diasSentenciaFavorableA);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaSentenciaFavorableA > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la alerta Nulidad Sentencia Favorable despues de las excepciones, en los procesos jurídicos de tipo nulidad restablecimiento de derecho.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_SentenciaFavorableA($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasSentenciaFavorableA = \Yii::$app->params['alertaNulidadRestablecimiento_SentenciaFavorableA']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 110 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepciones para poder calcular los 120 días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 10, 190);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaSentenciaFavorableA = $this->hallarFechaAlerta($fechaExcepciones, $diasSentenciaFavorableA);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaSentenciaFavorableA > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la alerta Nulidad Sentencia Favorable despues de las excepciones, en los procesos jurídicos de tipo nulidad restablecimiento de derecho.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_SentenciaFavorableA($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasSentenciaFavorableA = \Yii::$app->params['alertaReparacionDirecta_SentenciaFavorableA']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 123 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepciones para poder calcular los 120 días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 11, 194);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaSentenciaFavorableA = $this->hallarFechaAlerta($fechaExcepciones, $diasSentenciaFavorableA);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaSentenciaFavorableA > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
      * la alertaVerbalSumario_SentenciaFavorable despues de radicarse la demanda, en los procesos jurídicos de tipo verbal sumario.
      * 
      * @author Diego Castano <proyectos@onicsoft.com.co>
@@ -791,6 +1547,42 @@ class AlertasController extends Controller
 
         //Obtener la fecha del radicado para poder calcular los 360 días para enviar esta alerta.
         $fechaRadicado = $this->hallarFechaProcesoAnterior($proceso->id, 4, 26);
+
+        if (!$fechaRadicado) return false; // no se tiene radicado, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaSentenciaFavorableD = $this->hallarFechaAlerta($fechaRadicado, $diasSentenciaFavorableD);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaSentenciaFavorableD > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * la alerta sentencia favorable despues de radicarse la demanda, en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_SentenciaFavorableD($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasSentenciaFavorableD = \Yii::$app->params['alertaOrdinarioLaboral_SentenciaFavorableD']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 84 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha del radicado para poder calcular los 360 días para enviar esta alerta.
+        $fechaRadicado = $this->hallarFechaProcesoAnterior($proceso->id, 8, 78);
 
         if (!$fechaRadicado) return false; // no se tiene radicado, no se alerta
 
@@ -919,6 +1711,43 @@ class AlertasController extends Controller
 
     /**
      * Esta funcion se encargará de procesar todas las alertas referentes al
+     * las audiencias iniciales, en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_AudienciaInicial($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaInicial = \Yii::$app->params['alertaOrdinarioLaboral_AudienciaInicial']['diasParaAlerta'];
+
+        //Si la audiencia inicial ya se hizo, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 82 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepcione para poder calcular los 30 días para enviar esta alerta.
+        $fechaNotificacion = $this->hallarFechaProcesoAnterior($proceso->id, 8, 80);
+
+        if (!$fechaNotificacion) return false; // no se tiene tampoco fecha de notificacion , no se alerta
+
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaInicial = $this->hallarFechaAlerta($fechaNotificacion, $diasAudienciaInicial);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaInicial > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
      * las audiencias iniciales, en los procesos jurídicos de tipo verbal.
      * 
      * @author Diego Castano <proyectos@onicsoft.com.co>
@@ -939,6 +1768,114 @@ class AlertasController extends Controller
 
         //Obtener la fecha de las excepcione para poder calcular los 30 días para enviar esta alerta.
         $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 3, 170);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaInicial = $this->hallarFechaAlerta($fechaExcepciones, $diasAudienciaInicial);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaInicial > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * las audiencias iniciales, en los procesos jurídicos de nulidad restablecimiento de derecho.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_AudienciaInicial($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaInicial = \Yii::$app->params['alertaNulidadRestablecimiento_AudienciaInicial']['diasParaAlerta'];
+
+        //Si la audiencia inicial ya se hizo, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 108 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepcione para poder calcular los 30 días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 10, 190);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaInicial = $this->hallarFechaAlerta($fechaExcepciones, $diasAudienciaInicial);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaInicial > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * las audiencias iniciales, en los procesos jurídicos de reparación directa.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_AudienciaInicial($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaInicial = \Yii::$app->params['alertaReparacionDirecta_AudienciaInicial']['diasParaAlerta'];
+
+        //Si la audiencia inicial ya se hizo, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 121 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepcione para poder calcular los 30 días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 11, 194);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAudienciaInicial = $this->hallarFechaAlerta($fechaExcepciones, $diasAudienciaInicial);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAudienciaInicial > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * las audiencias iniciales, en los procesos jurídicos de nulidad.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_AudienciaInicial($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasAudienciaInicial = \Yii::$app->params['alertaNulidad_AudienciaInicial']['diasParaAlerta'];
+
+        //Si la audiencia inicial ya se hizo, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 95 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepcione para poder calcular los 30 días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 9, 186);
 
         if (!$fechaExcepciones) return false; // no se tiene excepciones
 
@@ -1063,6 +2000,114 @@ class AlertasController extends Controller
 
     /**
      * Esta funcion se encargará de procesar todas las alertas referentes al
+     * las excepciones del despacho, en los procesos jurídicos de tipo verbal sumario.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_Excepciones($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesExcepciones = \Yii::$app->params['alertaNulidad_Excepciones']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 186 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepcione para poder calcular los días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 9, 186);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones no es esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaExcepciones = $this->hallarFechaAlerta($fechaExcepciones, $diasHabilesExcepciones);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaExcepciones > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * las excepciones del despacho, en los procesos jurídicos de tipo verbal sumario.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_Excepciones($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesExcepciones = \Yii::$app->params['alertaNulidadRestablecimiento_Excepciones']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 190 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepcione para poder calcular los días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 10, 190);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones no es esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaExcepciones = $this->hallarFechaAlerta($fechaExcepciones, $diasHabilesExcepciones);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaExcepciones > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * las excepciones del despacho, en los procesos jurídicos de tipo verbal sumario.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_Excepciones($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesExcepciones = \Yii::$app->params['alertaReparacionDirecta_Excepciones']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 194 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de las excepcione para poder calcular los días para enviar esta alerta.
+        $fechaExcepciones = $this->hallarFechaProcesoAnterior($proceso->id, 11, 194);
+
+        if (!$fechaExcepciones) return false; // no se tiene excepciones no es esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaExcepciones = $this->hallarFechaAlerta($fechaExcepciones, $diasHabilesExcepciones);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaExcepciones > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
      * avance de 60 días del Mandamiento de Pago , en los procesos jurídicos de tipo ejecutivo.
      * 
      * @author Diego Castano <proyectos@onicsoft.com.co>
@@ -1163,6 +2208,159 @@ class AlertasController extends Controller
 
         //Si no es tiempo de la alerta continuar con el siguiente proceso
         if ($fechaAlertaFijacionFecha > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * recepción del poder en los procesos jurídicos de tipo ordinario laboral. Esta alerta se sale del molde 
+     * que usan casi todas donde se consulta por le fecha del estado anterior para calcular cuando se envía la
+     * alerta.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_RecepcionDePoder($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRecepcionPoder = \Yii::$app->params['alertaOrdinarioLaboral_RecepcionDePoder']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 179 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de recepcion del poder para poder calcular los 3 días para enviar esta alerta.
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id, 8, 179);
+
+        if ($fechaRecepcionPoder) return false; // tiene recepción de poder no hay que alertar
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaPoder = $this->hallarFechaAlerta($proceso->jur_fecha_recepcion, $diasHabilesRecepcionPoder);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaPoder > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+     /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * recepción del poder en los procesos jurídicos de tipo nulidad. Esta alerta se sale del molde 
+     * que usan casi todas donde se consulta por le fecha del estado anterior para calcular cuando se envía la
+     * alerta.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_RecepcionDePoder($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRecepcionPoder = \Yii::$app->params['alertaNulidad_RecepcionDePoder']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 184 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de recepcion del poder para poder calcular los 3 días para enviar esta alerta.
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id, 9, 184);
+
+        if ($fechaRecepcionPoder) return false; // tiene recepción de poder no hay que alertar
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaPoder = $this->hallarFechaAlerta($proceso->jur_fecha_recepcion, $diasHabilesRecepcionPoder);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaPoder > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * recepción del poder en los procesos jurídicos de tipo nulidad restablecimiento de derecho. Esta alerta se sale del molde 
+     * que usan casi todas donde se consulta por le fecha del estado anterior para calcular cuando se envía la
+     * alerta.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_RecepcionDePoder($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRecepcionPoder = \Yii::$app->params['alertaNulidadRestablecimiento_RecepcionDePoder']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 188 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de recepcion del poder para poder calcular los 3 días para enviar esta alerta.
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id, 10, 188);
+
+        if ($fechaRecepcionPoder) return false; // tiene recepción de poder no hay que alertar
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaPoder = $this->hallarFechaAlerta($proceso->jur_fecha_recepcion, $diasHabilesRecepcionPoder);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaPoder > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes al
+     * recepción del poder en los procesos jurídicos de tipo reparacion directa. Esta alerta se sale del molde 
+     * que usan casi todas donde se consulta por le fecha del estado anterior para calcular cuando se envía la
+     * alerta.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_RecepcionDePoder($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRecepcionPoder = \Yii::$app->params['alertaReparacionDirecta_RecepcionDePoder']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 192 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de recepcion del poder para poder calcular los 3 días para enviar esta alerta.
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id, 11, 192);
+
+        if ($fechaRecepcionPoder) return false; // tiene recepción de poder no hay que alertar
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaPoder = $this->hallarFechaAlerta($proceso->jur_fecha_recepcion, $diasHabilesRecepcionPoder);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaPoder > $hoy) {
             return false;
         }
 
@@ -1503,6 +2701,188 @@ class AlertasController extends Controller
         return true;
     }
 
+    
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la devolución de la demanda en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_DevolucionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesDevolucionDemanda = \Yii::$app->params['alertaOrdinarioLaboral_DevolucionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 180 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        // Validar cuando se envío el poder
+        $fechaDevolucion = $this->hallarFechaProcesoAnterior($proceso->id,8,180);
+
+        if (!$fechaDevolucion) return false; // no tiene fecha de devolucion, no se evalua esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaDevolucion = $this->hallarFechaAlerta($fechaDevolucion, $diasHabilesDevolucionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaDevolucion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la radicación de la demanda en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_RadicacionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRadicacionDemanda = \Yii::$app->params['alertaOrdinarioLaboral_RadicacionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 78 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        // Validar cuando se envío el poder
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id,8,179);
+
+        if (!$fechaRecepcionPoder) return false; // no tiene fecha de recepción, no se evalua esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaRadicacion = $this->hallarFechaAlerta($fechaRecepcionPoder, $diasHabilesRadicacionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaRadicacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la radicación de la demanda en los procesos jurídicos de tipo nulidad restablecimiento.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_RadicacionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRadicacionDemanda = \Yii::$app->params['alertaNulidadRestablecimiento_RadicacionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 104 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        // Validar cuando se envío el poder
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id,10,188);
+
+        if (!$fechaRecepcionPoder) return false; // no tiene fecha de recepción, no se evalua esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaRadicacion = $this->hallarFechaAlerta($fechaRecepcionPoder, $diasHabilesRadicacionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaRadicacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la radicación de la demanda en los procesos jurídicos de tipo reparacion directa.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_RadicacionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRadicacionDemanda = \Yii::$app->params['alertaReparacionDirecta_RadicacionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 117 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        // Validar cuando se envío el poder
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id,11,192);
+
+        if (!$fechaRecepcionPoder) return false; // no tiene fecha de recepción, no se evalua esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaRadicacion = $this->hallarFechaAlerta($fechaRecepcionPoder, $diasHabilesRadicacionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaRadicacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la radicación de la demanda en los procesos jurídicos de tipo nulidad.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_RadicacionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesRadicacionDemanda = \Yii::$app->params['alertaNulidad_RadicacionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 91 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        // Validar cuando se envío el poder
+        $fechaRecepcionPoder = $this->hallarFechaProcesoAnterior($proceso->id,9,184);
+
+        if (!$fechaRecepcionPoder) return false; // no tiene fecha de recepción, no se evalua esta alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAlertaRadicacion = $this->hallarFechaAlerta($fechaRecepcionPoder, $diasHabilesRadicacionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAlertaRadicacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Esta funcion se encargará de procesar todas las alertas referentes a
      * la inadmision de la demanda en los procesos jurídicos de tipo verbal.
@@ -1577,6 +2957,114 @@ class AlertasController extends Controller
 
     /**
      * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la inadmision de la demanda en los procesos jurídicos de tipo nulidad .
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_InadmisionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesInadmisionDemanda = \Yii::$app->params['alertaNulidad_InadmisionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 185 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la inadmision para poder calcular los días para enviar esta alerta.
+        $fechaInadmision = $this->hallarFechaProcesoAnterior($proceso->id, 9, 185);
+
+        if (!$fechaInadmision) return false; // no se tiene inadmision, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaInadmisionDemanda = $this->hallarFechaAlerta($fechaInadmision, $diasHabilesInadmisionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaInadmisionDemanda > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la inadmision de la demanda en los procesos jurídicos de tipo nulidad .
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_InadmisionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesInadmisionDemanda = \Yii::$app->params['alertaNulidadRestablecimiento_InadmisionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 189 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la inadmision para poder calcular los días para enviar esta alerta.
+        $fechaInadmision = $this->hallarFechaProcesoAnterior($proceso->id, 10, 189);
+
+        if (!$fechaInadmision) return false; // no se tiene inadmision, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaInadmisionDemanda = $this->hallarFechaAlerta($fechaInadmision, $diasHabilesInadmisionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaInadmisionDemanda > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la inadmision de la demanda en los procesos jurídicos de tipo reparacion directa .
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_InadmisionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesInadmisionDemanda = \Yii::$app->params['alertaReparacionDirecta_InadmisionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 193 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la inadmision para poder calcular los días para enviar esta alerta.
+        $fechaInadmision = $this->hallarFechaProcesoAnterior($proceso->id, 11, 193);
+
+        if (!$fechaInadmision) return false; // no se tiene inadmision, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaInadmisionDemanda = $this->hallarFechaAlerta($fechaInadmision, $diasHabilesInadmisionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaInadmisionDemanda > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
      * la admisión de la demanda en los procesos jurídicos de tipo verbal.
      * 
      * @author Diego Castano <proyectos@onicsoft.com.co>
@@ -1597,6 +3085,42 @@ class AlertasController extends Controller
 
         //Obtener la fecha de la radicación para poder calcular los 60 días para enviar esta alerta.
         $fechaRadicacion = $this->hallarFechaProcesoAnterior($proceso->id, 3, 10);
+
+        if (!$fechaRadicacion) return false; // no se tiene radicacion, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAdmisionDemanda = $this->hallarFechaAlerta($fechaRadicacion, $diasHabilesAdmisionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAdmisionDemanda > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la admisión de la demanda en los procesos jurídicos de tipo ordinario laboral.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaOrdinarioLaboral_AdmisionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesAdmisionDemanda = \Yii::$app->params['alertaOrdinarioLaboral_AdmisionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 8 && $proceso->jur_etapas_procesal_id == 79 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la radicación para poder calcular los 60 días para enviar esta alerta.
+        $fechaRadicacion = $this->hallarFechaProcesoAnterior($proceso->id, 8, 78);
 
         if (!$fechaRadicacion) return false; // no se tiene radicacion, no se alerta
 
@@ -1633,6 +3157,114 @@ class AlertasController extends Controller
 
         //Obtener la fecha de la radicación para poder calcular los 60 días para enviar esta alerta.
         $fechaRadicacion = $this->hallarFechaProcesoAnterior($proceso->id, 4, 26);
+
+        if (!$fechaRadicacion) return false; // no se tiene radicacion, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAdmisionDemanda = $this->hallarFechaAlerta($fechaRadicacion, $diasHabilesAdmisionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAdmisionDemanda > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la admisión de la demanda en los procesos jurídicos de tipo nulidad.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidad_AdmisionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesAdmisionDemanda = \Yii::$app->params['alertaNulidad_AdmisionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 9 && $proceso->jur_etapas_procesal_id == 92 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la radicación para poder calcular los 60 días para enviar esta alerta.
+        $fechaRadicacion = $this->hallarFechaProcesoAnterior($proceso->id, 9, 91);
+
+        if (!$fechaRadicacion) return false; // no se tiene radicacion, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAdmisionDemanda = $this->hallarFechaAlerta($fechaRadicacion, $diasHabilesAdmisionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAdmisionDemanda > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la admisión de la demanda en los procesos jurídicos de tipo nulidad restablecimiento.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaNulidadRestablecimiento_AdmisionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesAdmisionDemanda = \Yii::$app->params['alertaNulidadRestablecimiento_AdmisionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 10 && $proceso->jur_etapas_procesal_id == 105 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la radicación para poder calcular los 60 días para enviar esta alerta.
+        $fechaRadicacion = $this->hallarFechaProcesoAnterior($proceso->id, 10, 104);
+
+        if (!$fechaRadicacion) return false; // no se tiene radicacion, no se alerta
+
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaAdmisionDemanda = $this->hallarFechaAlerta($fechaRadicacion, $diasHabilesAdmisionDemanda);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaAdmisionDemanda > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de procesar todas las alertas referentes a
+     * la admisión de la demanda en los procesos jurídicos de tipo nulidad restablecimiento.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaReparacionDirecta_AdmisionDemanda($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesAdmisionDemanda = \Yii::$app->params['alertaReparacionDirecta_AdmisionDemanda']['diasParaAlerta'];
+
+        //Si el poder ya fue recibido, pasar al siguiente registro
+        if ($proceso->jur_tipo_proceso_id == 11 && $proceso->jur_etapas_procesal_id == 118 && isset($proceso->jur_fecha_etapa_procesal) && $proceso->jur_fecha_etapa_procesal != "") {
+            return false;
+        }
+
+        //Obtener la fecha de la radicación para poder calcular los 60 días para enviar esta alerta.
+        $fechaRadicacion = $this->hallarFechaProcesoAnterior($proceso->id, 11, 117);
 
         if (!$fechaRadicacion) return false; // no se tiene radicacion, no se alerta
 

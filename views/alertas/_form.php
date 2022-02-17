@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Alertas */
@@ -41,7 +42,18 @@ use yii\bootstrap\ActiveForm;
 
         <?= $form->field($model, 'pospuesta')->dropDownList(Yii::$app->utils->getFilterConditional()); ?>
 
-        <?= $form->field($model, 'fecha_pospuesta')->textInput() ?>
+        <?= $form->field($model, 'fecha_pospuesta')->widget(DatePicker::classname(), [
+                'options' => [
+                    'placeholder' => '- Ingrese una fecha --'
+                            ],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                                 ]
+            ]);
+        ?>
 
         <?= $form->field($model, 'dias_pospuesta')->textInput() ?>
 
