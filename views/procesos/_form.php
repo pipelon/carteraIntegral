@@ -162,6 +162,31 @@ $form = ActiveForm::begin(
     </div>
 </div>
 
+<!-- ESTADO DEL PROCESO -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">ESTADO DEL PROCESO</h3>
+    </div>
+    <div class="box-body">
+        <div class="row-field">
+            <?php
+            $estadosProcesoList = yii\helpers\ArrayHelper::map(
+                            \app\models\EstadosProceso::find()
+                                    ->where(['activo' => 1])
+                                    ->orderBy(['nombre' => SORT_ASC])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?=
+            $form->field($model, 'estado_proceso_id', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estado_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"
+            ])->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -'])
+            ?>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
 <!-- COLABORADORES -->
 <div class="box box-primary collapsed-box">
     <div class="box-header with-border">
@@ -1059,31 +1084,6 @@ $form = ActiveForm::begin(
                 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estrec_comentarios']) . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textarea(['rows' => 6])
-            ?>
-        </div>
-    </div>
-    <!-- /.box-body -->
-</div>
-
-<!-- ESTADO DEL PROCESO -->
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">ESTADO DEL PROCESO</h3>
-    </div>
-    <div class="box-body">
-        <div class="row-field">
-            <?php
-            $estadosProcesoList = yii\helpers\ArrayHelper::map(
-                            \app\models\EstadosProceso::find()
-                                    ->where(['activo' => 1])
-                                    ->orderBy(['nombre' => SORT_ASC])
-                                    ->all()
-                            , 'id', 'nombre');
-            ?>
-            <?=
-            $form->field($model, 'estado_proceso_id', [
-                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estado_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"
-            ])->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -'])
             ?>
         </div>
     </div>
