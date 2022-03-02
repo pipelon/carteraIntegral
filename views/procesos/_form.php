@@ -258,10 +258,16 @@ $form = ActiveForm::begin(
             )
             ?>
             <?=
-            $form->field($model, 'prejur_comentarios_carta', [
-                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_comentarios_carta']) . "{label}\n{input}\n{hint}\n{error}"
-            ])->textInput(['maxlength' => true])
-            ?>
+            $form->field($model, 'prejur_fecha_carta')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => '- Ingrese una fecha --'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]);
+            ?>            
         </div>
         <div class="row-field">
             <?=
@@ -275,10 +281,16 @@ $form = ActiveForm::begin(
             )
             ?>
             <?=
-            $form->field($model, 'prejur_comentarios_llamada', [
-                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_comentarios_llamada']) . "{label}\n{input}\n{hint}\n{error}",
-            ])->textInput(['maxlength' => true])
-            ?>
+            $form->field($model, 'prejur_fecha_llamada')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => '- Ingrese una fecha --'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]);
+            ?>            
         </div>
         <div class="row-field">
             <?=
@@ -292,9 +304,15 @@ $form = ActiveForm::begin(
             )
             ?>
             <?=
-            $form->field($model, 'prejur_comentarios_visita', [
-                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['prejur_comentarios_visita']) . "{label}\n{input}\n{hint}\n{error}",
-            ])->textInput(['maxlength' => true])
+            $form->field($model, 'prejur_fecha_visita')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => '- Ingrese una fecha --'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]);
             ?>
         </div>
         <!-- ACUERDO DE PAGOS -->
@@ -769,7 +787,7 @@ $form = ActiveForm::begin(
             ]);
             ?>
             <?= $form->field($model, 'jur_juzgado', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
-            
+
         </div>
 
         <!-- RADICADO -->
@@ -806,14 +824,14 @@ $form = ActiveForm::begin(
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_instancia_radicado']) . "{label}\n{input}\n{hint}\n{error}"
             ])->dropDownList(['00' => '00', '01' => '01', '02' => '02'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado'])
             ?>
-            
+
             <!-- CAMPOS OCULTOS CON LA INFO DE CODIGO ENTIDAD Y ESPECIALIDAD -->
             <?= Html::hiddenInput('codigoDepartamento', "", ['id' => 'codigoDepartamento']); ?>
             <?= Html::hiddenInput('codigoCiudad', "", ['id' => 'codigoCiudad']); ?>
             <?= Html::hiddenInput('codigoEntidad', "", ['id' => 'codigoEntidad']); ?>
             <?= Html::hiddenInput('codigoEspecialidad', "", ['id' => 'codigoEspecialidad']); ?>
             <?= Html::hiddenInput('codigoDespacho', "", ['id' => 'codigoDespacho']); ?>
-            
+
             <?= $form->field($model, 'jur_radicado', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado']) ?>
         </div>
 

@@ -16,11 +16,11 @@ use Yii;
  * @property float|null $prejur_valor_activacion Valor de activación
  * @property float|null $prejur_saldo_actual Saldo actual
  * @property string|null $prejur_carta_enviada ¿Se envía carta?
- * @property string|null $prejur_comentarios_carta Comentarios
+ * @property string|null $prejur_fecha_carta Comentarios
  * @property string|null $prejur_llamada_realizada ¿Se realiza llamada telefónica?
- * @property string|null $prejur_comentarios_llamada Comentarios
+ * @property string|null $prejur_fecha_llamada Comentarios
  * @property string|null $prejur_visita_domiciliaria ¿Se realiza visita domiciliaria?
- * @property string|null $prejur_comentarios_visita Comentarios							   
+ * @property string|null $prejur_fecha_visita Comentarios							   
  * @property string|null $prejur_acuerdo_pago ¿Hay acuerdo de pago?																	
  * @property string|null $prejur_fecha_no_acuerdo_pago Fecha de marcación de que no hubo acuerdo de pago
  * @property string $prejur_resultado_estudio_bienes Resultado del estudio de bienes
@@ -112,7 +112,8 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_fecha_estudio_bienes', 'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
             'prejur_gestiones_prejuridicas', 'jur_documentos_activacion',
             'colaboradores', 'deleted', 'jur_gestion_juridica', 'jur_gestiones_juridicas',
-                'jur_demandados', 'jur_fecha_etapa_procesal'], 'safe'],
+            'jur_demandados', 'jur_fecha_etapa_procesal', 'prejur_fecha_carta',
+            'prejur_fecha_llamada', 'prejur_fecha_visita'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -121,8 +122,7 @@ class Procesos extends \yii\db\ActiveRecord {
             [['prejur_carta_enviada', 'prejur_llamada_realizada',
             'prejur_visita_domiciliaria', 'prejur_acuerdo_pago',
             'prejur_informe_castigo_enviado', 'prejur_carta_castigo_enviada'], 'string', 'max' => 3],
-            [['prejur_comentarios_carta', 'prejur_comentarios_llamada',
-            'prejur_comentarios_visita', 'jur_juzgado'], 'string', 'max' => 200],
+            [['jur_juzgado'], 'string', 'max' => 200],
             [['jur_juzgado'], 'string', 'max' => 200],
             [['prejur_resultado_estudio_bienes'], 'string', 'max' => 12],
             [['carpeta'], 'string', 'max' => 100],
@@ -144,8 +144,7 @@ class Procesos extends \yii\db\ActiveRecord {
             [['jefe_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['jefe_id' => 'id']],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
-            'estrec_tiempo_recuperacion', 'estrec_comentarios', 'prejur_comentarios_carta',
-            'prejur_comentarios_llamada', 'prejur_comentarios_visita'], 'filter', 'filter' => 'strtoupper']
+            'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'filter', 'filter' => 'strtoupper']
         ];
     }
 
@@ -163,11 +162,11 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_valor_activacion' => 'Valor de activación',
             'prejur_saldo_actual' => 'Saldo actual',
             'prejur_carta_enviada' => '¿Se envía carta?',
-            'prejur_comentarios_carta' => 'Comentarios',
+            'prejur_fecha_carta' => 'Fecha',
             'prejur_llamada_realizada' => '¿Se realiza llamada telefónica?',
-            'prejur_comentarios_llamada' => 'Comentarios',
+            'prejur_fecha_llamada' => 'Fecha',
             'prejur_visita_domiciliaria' => '¿Se realiza visita domiciliaria?',
-            'prejur_comentarios_visita' => 'Comentarios',
+            'prejur_fecha_visita' => 'Fecha',
             'prejur_acuerdo_pago' => '¿Hay acuerdo de pago?',
             'prejur_fecha_no_acuerdo_pago' => 'Fecha de marcación de que no hubo acuerdo de pago',
             'prejur_resultado_estudio_bienes' => 'Resultado del estudio de bienes',
@@ -191,8 +190,8 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_juzgado' => 'Juzgado',
             'jur_anio_radicado' => 'Año',
             'jur_consecutivo_proceso' => 'Consecutivo proceso',
-            'jur_instancia_radicado' => 'Instancia', 
-            'jur_radicado'=> 'Radicado',
+            'jur_instancia_radicado' => 'Instancia',
+            'jur_radicado' => 'Radicado',
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',
             'jur_fecha_etapa_procesal' => 'Fecha etapa procesal',
@@ -261,7 +260,7 @@ class Procesos extends \yii\db\ActiveRecord {
     public function getDocactivacionXProcesos() {
         return $this->hasMany(DocactivacionXProceso::className(), ['proceso_id' => 'id']);
     }
-    
+
     /**
      * Gets query for [[DemandadosXProceso]].
      *
@@ -279,7 +278,7 @@ class Procesos extends \yii\db\ActiveRecord {
     public function getGestionesPrejuridicas() {
         return $this->hasMany(GestionesPrejuridicas::className(), ['proceso_id' => 'id'])->orderBy(['fecha_gestion' => SORT_DESC]);
     }
-    
+
     /**
      * Gets query for [[GestionesPrejuridicas]].
      *

@@ -228,6 +228,11 @@ CREATE TABLE `ciudades` (
 -- (170, 3, 'EXCEPCIONES', 1, 0, '2022-02-06 14:24:36', 'admin', '2022-02-06 14:24:36', 'admin', NULL, NULL),
 -- (171, 3, 'EJECUTIVO A CONTINUACIÓN', 1, 0, '2022-02-06 15:02:39', 'admin', '2022-02-06 15:02:39', 'admin', NULL, NULL);
 
+alter table `db_cartera_integral`.`procesos` 
+   change `prejur_comentarios_carta` `prejur_fecha_carta` date NULL  comment 'Fecha', 
+   change `prejur_comentarios_llamada` `prejur_fecha_llamada` date NULL  comment 'Fecha', 
+   change `prejur_comentarios_visita` `prejur_fecha_visita` date NULL  comment 'Fecha';
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

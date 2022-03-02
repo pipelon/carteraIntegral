@@ -40,7 +40,7 @@ class ProcesosSearch extends Procesos {
      */
     public function search($params) {
         $query = Procesos::find();
-        $query->joinWith(['cliente', 'deudor', 'estadoProceso']);
+        $query->joinWith(['cliente', 'deudor', 'estadoProceso', 'jurJurisdiccionCompetent']);
 
         // add conditions that should always apply here
 
@@ -74,6 +74,7 @@ class ProcesosSearch extends Procesos {
         $query->andFilterWhere(['like', 'clientes.nombre', $this->buscador])
                 ->orFilterWhere(['like', 'deudores.nombre', $this->buscador])
                 ->orFilterWhere(['like', 'estados_proceso.nombre', $this->buscador])
+                ->orFilterWhere(['like', 'jurisdicciones_competentes.nombre', $this->buscador])
                 ->orFilterWhere(['like', 'jur_radicado', $this->buscador]);
 
         return $dataProvider;
