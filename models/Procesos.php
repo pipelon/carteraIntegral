@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "procesos".
  *
  * @property int $id ID
- * @property int $cliente_id Cliente
- * @property int $deudor_id Deudor
+ * @property int $cliente_id Demandante
+ * @property int $deudor_id Demandado
  * @property int $jefe_id Líder
  * @property int|null $plataforma_id Plataforma							   
  * @property string|null $prejur_fecha_recepcion Fecha recepción
@@ -154,8 +154,8 @@ class Procesos extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'cliente_id' => 'Cliente',
-            'deudor_id' => 'Deudor',
+            'cliente_id' => 'Demandante',
+            'deudor_id' => 'Demandado',
             'jefe_id' => 'Líder',
             'plataforma_id' => 'Plataforma',
             'prejur_fecha_recepcion' => 'Fecha recepción',

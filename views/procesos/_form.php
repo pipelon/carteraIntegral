@@ -18,15 +18,6 @@ use wbraganca\dynamicform\DynamicFormWidget;
 $this->registerJsFile(Yii::getAlias('@web') . '/js/proceso.js', ['depends' => [yii\web\JqueryAsset::className()]]);
 ?>
 
-<!-- BOTON VOLVER -->
-<div class="procesos-form box box-primary">
-    <div class="box-header with-border">
-        <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
-            <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default']) ?>
-        <?php endif; ?> 
-    </div>
-</div>
-
 <!-- INICIO DEL FORMULARIO -->
 <?php
 $form = ActiveForm::begin(
@@ -46,6 +37,40 @@ $form = ActiveForm::begin(
                 ]
 );
 ?>
+<!-- BOTON GUARDAR FORMULARIOS -->
+<div class="box box-primary">    
+    <div class="box-footer">
+        <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
+        <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
+            <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
+        <?php endif; ?> 
+    </div>
+</div>
+
+<!-- ESTADO DEL PROCESO -->
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">ESTADO DEL PROCESO</h3>
+    </div>
+    <div class="box-body">
+        <div class="row-field">
+            <?php
+            $estadosProcesoList = yii\helpers\ArrayHelper::map(
+                            \app\models\EstadosProceso::find()
+                                    ->where(['activo' => 1])
+                                    ->orderBy(['nombre' => SORT_ASC])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?=
+            $form->field($model, 'estado_proceso_id', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estado_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"
+            ])->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -'])
+            ?>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
 
 <!-- ROW PARA CLIENTES Y DEUDORES -->
 <div class="row">
@@ -160,31 +185,6 @@ $form = ActiveForm::begin(
             </div>
         </div>
     </div>
-</div>
-
-<!-- ESTADO DEL PROCESO -->
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">ESTADO DEL PROCESO</h3>
-    </div>
-    <div class="box-body">
-        <div class="row-field">
-            <?php
-            $estadosProcesoList = yii\helpers\ArrayHelper::map(
-                            \app\models\EstadosProceso::find()
-                                    ->where(['activo' => 1])
-                                    ->orderBy(['nombre' => SORT_ASC])
-                                    ->all()
-                            , 'id', 'nombre');
-            ?>
-            <?=
-            $form->field($model, 'estado_proceso_id', [
-                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['estado_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"
-            ])->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -'])
-            ?>
-        </div>
-    </div>
-    <!-- /.box-body -->
 </div>
 
 <!-- COLABORADORES -->
