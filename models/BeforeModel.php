@@ -43,6 +43,7 @@ class BeforeModel extends \yii\db\ActiveRecord {
         'app\models\DocumentosActivacion',
         'app\models\Deudores',
         'app\models\Clientes',
+        'app\models\TiposAlertas',
     ];
 
     public function behaviors() {
