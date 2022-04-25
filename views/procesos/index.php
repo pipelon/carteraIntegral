@@ -78,21 +78,21 @@ $exportColumns = [
         'attribute' => 'prejur_carta_enviada',
         'format' => 'raw',
         'value' => function ($data) {
-            return "<b>{$data->prejur_carta_enviada}</b>, Comentario: {$data->prejur_comentarios_carta}";
+            return "<b>{$data->prejur_carta_enviada}</b>, Comentario: {$data->prejur_fecha_carta}";
         }
     ],
     [
         'attribute' => 'prejur_llamada_realizada',
         'format' => 'raw',
         'value' => function ($data) {
-            return "<b>{$data->prejur_llamada_realizada}</b>, Comentario: {$data->prejur_comentarios_llamada}";
+            return "<b>{$data->prejur_llamada_realizada}</b>, Comentario: {$data->prejur_fecha_llamada}";
         }
     ],
     [
         'attribute' => 'prejur_visita_domiciliaria',
         'format' => 'raw',
         'value' => function ($data) {
-            return "<b>{$data->prejur_visita_domiciliaria}</b>, Comentario: {$data->prejur_comentarios_visita}";
+            return "<b>{$data->prejur_visita_domiciliaria}</b>, Comentario: {$data->prejur_fecha_visita}";
         }
     ],
     'prejur_acuerdo_pago',
