@@ -233,7 +233,7 @@ CREATE TABLE `ciudades` (
 --    change `prejur_comentarios_llamada` `prejur_fecha_llamada` date NULL  comment 'Fecha', 
 --    change `prejur_comentarios_visita` `prejur_fecha_visita` date NULL  comment 'Fecha';
 
-INSERT INTO `tipo_procesos` (`id`, `nombre`, `activo`, `delete`, `created`, `created_by`, `modified`, `modified_by`, `deleted`, `deleted_by`) VALUES
+/*INSERT INTO `tipo_procesos` (`id`, `nombre`, `activo`, `delete`, `created`, `created_by`, `modified`, `modified_by`, `deleted`, `deleted_by`) VALUES
 (17, 'TUTELA', 1, 0, '2022-04-17 10:18:01', 'admin', '2022-04-17 10:18:01', 'admin', NULL, NULL),
 (18, 'INSOLVENCIA LEY 1116', 1, 0, '2022-04-17 15:51:51', 'admin', '2022-04-17 15:51:51', 'admin', NULL, NULL),
 (19, 'LIQUIDACION ENTIDADES DE SALUD', 1, 0, '2022-04-17 16:20:34', 'admin', '2022-04-17 16:20:34', 'admin', NULL, NULL);
@@ -409,6 +409,16 @@ INSERT INTO `tipos_alertas` (`tipo_alerta_id`, `dias_para_alerta`, `asunto`, `de
 (101, 5, 'CILES - Alertas: Liquidacion de Entidades de Salud - Recurso Reposicion.', 'Liquidacion de Entidades de Salud - Recurso Reposicion.', '1', NULL, NULL, '2021-07-30 11:15:37', 'admin', '2021-07-30 11:15:37', 'admin', 0, '0000-00-00 00:00:00', ''),
 (102, 2, 'gdeh', 'htgrhr', '1', NULL, NULL, '2022-04-20 08:50:16', 'admin', '2022-04-20 08:57:17', 'admin', 1, '2022-04-20 08:57:17', 'admin');
 
+*/
+
+ALTER TABLE `db_cartera_integral`.`tipos_alertas` 
+   ADD COLUMN `tipo_proceso_id_1` INT NULL COMMENT 'El tipo de proceso de la cual depende' AFTER `activa`,
+   ADD COLUMN `tipo_proceso_id_2` INT NULL COMMENT 'El tipo de proceso de la cual depende' AFTER `depende_de_etapa_1`;
+
+alter table `db_cartera_integral`.`tipos_alertas` 
+   change `delete` `delete` tinyint(1) default '0' NULL  comment 'borrado', 
+   change `deleted` `deleted` datetime NULL  comment 'borrado', 
+   change `deleted_by` `deleted_by` varchar(45) character set latin1 collate latin1_swedish_ci NULL  comment 'borrado por';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
