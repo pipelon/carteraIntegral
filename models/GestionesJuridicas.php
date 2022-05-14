@@ -34,7 +34,7 @@ class GestionesJuridicas extends \yii\db\ActiveRecord {
             [['fecha_gestion'], 'safe'],
             [['descripcion_gestion'], 'string'],
             [['usuario_gestion'], 'string', 'max' => 100],
-            [['usuario_gestion', 'descripcion_gestion'], 'filter', 'filter' => 'strtoupper'],
+            [['usuario_gestion'], 'filter', 'filter' => 'strtoupper'],
             [['proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => Procesos::className(), 'targetAttribute' => ['proceso_id' => 'id']],
         ];
     }

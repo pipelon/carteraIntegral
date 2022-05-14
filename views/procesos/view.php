@@ -154,6 +154,17 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                 'prejur_informe_castigo_enviado',
                 'prejur_carta_castigo_enviada',
                 'prejur_concepto_viabilidad:ntext',
+                [
+                    'attribute' => 'prejur_gestiones_prejuridicas',
+                    'format' => 'raw',
+                    'value' => implode("<br />", \yii\helpers\ArrayHelper::map(
+                                    $model->gestionesPrejuridicas,
+                                    'id', function($modelGestionsPre) {
+                                        return "<b>Usuario:</b> {$modelGestionsPre->usuario_gestion}, <b>Fecha:</b> {$modelGestionsPre->fecha_gestion} <br /> {$modelGestionsPre->descripcion_gestion} <br /><br />";
+                                    }
+                            )
+                    ),
+                ],
                 'prejur_otros:ntext',
                 [
                     'label' => strtoupper('JURÍDICO'),
@@ -236,6 +247,17 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                 ],
                 'jur_juzgado',
                 'jur_radicado',
+                [
+                    'attribute' => 'jur_gestiones_juridicas',
+                    'format' => 'raw',
+                    'value' => implode("<br />", \yii\helpers\ArrayHelper::map(
+                                    $model->gestionesJuridicas,
+                                    'id', function($modelGestionsPre) {
+                                        return "<b>Usuario:</b> {$modelGestionsPre->usuario_gestion}, <b>Fecha:</b> {$modelGestionsPre->fecha_gestion} <br /> {$modelGestionsPre->descripcion_gestion} <br /><br />";
+                                    }
+                            )
+                    ),
+                ],
                 [
                     'label' => strtoupper('Documentos'),
                     'value' => '',

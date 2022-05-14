@@ -132,6 +132,19 @@ $exportColumns = [
     'prejur_informe_castigo_enviado',
     'prejur_carta_castigo_enviada',
     'prejur_concepto_viabilidad:ntext',
+    [
+        'attribute' => 'prejur_gestiones_prejuridicas',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return implode("\r", \yii\helpers\ArrayHelper::map(
+                            $data->gestionesPrejuridicas,
+                            'id', function($modelGestionsPre) {
+                                return "<b>Usuario:</b> {$modelGestionsPre->usuario_gestion}, <b>Fecha:</b> {$modelGestionsPre->fecha_gestion} \r {$modelGestionsPre->descripcion_gestion} \r";
+                            }
+                    )
+            );
+        },
+    ],
     'prejur_otros:ntext',
     'jur_fecha_recepcion:date',
     [
@@ -215,6 +228,19 @@ $exportColumns = [
     'jur_juzgado',
     'jur_radicado',
     [
+        'attribute' => 'jur_gestiones_juridicas',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return implode("\r", \yii\helpers\ArrayHelper::map(
+                            $data->gestionesJuridicas,
+                            'id', function($modelGestionsPre) {
+                                return "<b>Usuario:</b> {$modelGestionsPre->usuario_gestion}, <b>Fecha:</b> {$modelGestionsPre->fecha_gestion} \r {$modelGestionsPre->descripcion_gestion}\r\r";
+                            }
+                    )
+            );
+        },
+    ],
+    [
         'attribute' => 'carpeta',
         'format' => 'raw',
         'value' => function ($data) {
@@ -263,7 +289,7 @@ $exportColumns = [
             return $data->estadoProceso->nombre ?? null;
         },
     ],
-];        
+];
 
 //TIPOS DE EXPORTACION
 $exportConfig = [
@@ -273,7 +299,7 @@ $exportConfig = [
     ExportMenu::FORMAT_PDF => false
 ];
 //MENU DE EXPORTACION
-$fullExportMenu =  ExportMenu::widget(
+$fullExportMenu = ExportMenu::widget(
                 [
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -292,11 +318,11 @@ $fullExportMenu =  ExportMenu::widget(
 ?>
 
 <div class="row">
-    
+
     <div class="col-md-6 " style="margin-bottom: 10px;">
         <?= $fullExportMenu; ?>
     </div>
-    
+
     <div class="col-md-6 " style="margin-bottom: 10px;">
         <?php if (\Yii::$app->user->can('/procesos/create') || \Yii::$app->user->can('/*')) : ?> 
             <?= Html::a('<i class="flaticon-add" ></i> ' . 'Nuevo proceso', ['create'], ['class' => 'btn btn-primary pull-right']) ?>
