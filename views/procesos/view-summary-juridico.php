@@ -70,39 +70,53 @@ yii\bootstrap\Modal::begin([
 </div>
 
 <hr />
+
+
 <?php
-$form = yii\bootstrap\ActiveForm::begin(
-                [
-                    'id' => "form_prejur",
-                    'fieldConfig' => [
-                        'template' => "{label}\n{input}\n{hint}\n{error}\n",
-                        'options' => ['class' => 'form-group col-md-6'],
-                        'horizontalCssClasses' => [
-                            'label' => '',
-                            'offset' => '',
-                            'wrapper' => '',
-                            'error' => '',
-                            'hint' => '',
+$colaboradores = array_column($model->procesosXColaboradores, 'user_id');
+//Lider
+$lider = $model->jefe_id;
+//ID usuario logueado
+$userId = (int) \Yii::$app->user->id;
+//SI EL USUARIO PUEDE EDITAR
+if ((in_array($userId, $colaboradores) ||
+        $userId == $lider ||
+        Yii::$app->user->identity->isSuperAdmin()) && \Yii::$app->user->can('/procesos/update')) :
+    ?>
+    <?php
+    $form = yii\bootstrap\ActiveForm::begin(
+                    [
+                        'id' => "form_prejur",
+                        'fieldConfig' => [
+                            'template' => "{label}\n{input}\n{hint}\n{error}\n",
+                            'options' => ['class' => 'form-group col-md-6'],
+                            'horizontalCssClasses' => [
+                                'label' => '',
+                                'offset' => '',
+                                'wrapper' => '',
+                                'error' => '',
+                                'hint' => '',
+                            ],
                         ],
-                    ],
-                ]
-);
-?>
-<?=
-$form->field($model, 'jur_gestion_juridica', [
-    'options' => ['class' => 'form-group col-md-12'],
-])->textarea(['rows' => 6])
-?>
-<?=
-yii\helpers\Html::a('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', 'javascript:void(0)',
-        [
-            'class' => 'btn btn-primary create',
-            'style' => 'margin-left: 15px;'
-        ]
-)
-?>
-<?php yii\bootstrap\ActiveForm::end(); ?>
-<br /><br />
+                    ]
+    );
+    ?>
+    <?=
+    $form->field($model, 'jur_gestion_juridica', [
+        'options' => ['class' => 'form-group col-md-12'],
+    ])->textarea(['rows' => 6])
+    ?>
+    <?=
+    yii\helpers\Html::a('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', 'javascript:void(0)',
+            [
+                'class' => 'btn btn-primary create',
+                'style' => 'margin-left: 15px;'
+            ]
+    )
+    ?>
+    <?php yii\bootstrap\ActiveForm::end(); ?>
+    <br /><br />
+<?php endif; ?>
 <?php if (!empty($model->jur_gestiones_juridicas)): ?>
     <div class="gestion-prejuridica popupProceso">
         <h4>Gestión jurídica</h4><br />
