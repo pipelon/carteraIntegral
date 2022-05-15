@@ -539,6 +539,35 @@ class AlertasController extends Controller
             $this->enviarEmail($alertasPorProceso);
         }
     }
+    
+    /**
+     * ESTA SERIA LA NUEVA FUNCION USANDO LA BASE DE DATOS
+     * 
+     * Para llamarla coge desde los params de una vez el id de la alerta y eso es lo q envias a la fucion
+     * 
+     * Ejemplo:
+     * 
+     * $idAlerta = \Yii::$app->params['alertaPrejuridico_LlamadaRealizada']['tipo_alerta_id']; // Ejemplo 2
+     * $proceso = "9";
+     * $this->hallarAlertas($idAlerta, $proceso)
+     * 
+     * @param type $idAlerta
+     * @param type $proceso
+     * @return boolean
+     */
+    private function hallarAlertas2($idAlerta, $proceso) {
+        $dataAlerta = \app\models\TiposAlertas::findOne($idAlerta); //Aqui tienes toda la info de la alerta        
+        if ($dataAlerta->activa) {
+            if (self::$tipoAlerta($proceso)) {
+                return [
+                    "asunto" => $dataAlerta->asunto,
+                    "descripcion" => $dataAlerta->descripcion,
+                    "tipo_alerta_id" => $dataAlerta->tipo_alerta_id
+                ];
+            }
+        }
+        return false;
+    }
 
     /**
      * Esta funcion se encargará de hallar si hay alertas de cierto tipo para el proceso indicado
