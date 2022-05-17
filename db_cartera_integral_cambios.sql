@@ -424,6 +424,10 @@ alter table `db_cartera_integral`.`procesos`
    change `jur_valor_activacion` `jur_valor_activacion` decimal(20,0) NULL  comment 'Valor activación', 
    change `jur_saldo_actual` `jur_saldo_actual` decimal(20,2) NULL  comment 'Saldo actual';
 
+ALTER TABLE `db_cartera_integral`.`procesos` 
+   CHANGE `prejur_valor_activacion` `prejur_valor_activacion` DECIMAL(20,0) NULL  COMMENT 'Valor de activación', 
+   CHANGE `prejur_saldo_actual` `prejur_saldo_actual` DECIMAL(20,0) NULL  COMMENT 'Saldo actual';
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
