@@ -428,6 +428,9 @@ ALTER TABLE `db_cartera_integral`.`procesos`
    CHANGE `prejur_valor_activacion` `prejur_valor_activacion` DECIMAL(20,0) NULL  COMMENT 'Valor de activación', 
    CHANGE `prejur_saldo_actual` `prejur_saldo_actual` DECIMAL(20,0) NULL  COMMENT 'Saldo actual';
 
+alter table `db_cartera_integral`.`deudores` 
+   change `nombre` `nombre` varchar(100) character set utf8 collate utf8_general_ci NOT NULL comment 'Nombres';
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
