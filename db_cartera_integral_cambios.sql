@@ -420,6 +420,10 @@ alter table `db_cartera_integral`.`tipos_alertas`
    change `deleted` `deleted` datetime NULL  comment 'borrado', 
    change `deleted_by` `deleted_by` varchar(45) character set latin1 collate latin1_swedish_ci NULL  comment 'borrado por';
 
+alter table `db_cartera_integral`.`procesos` 
+   change `jur_valor_activacion` `jur_valor_activacion` decimal(20,0) NULL  comment 'Valor activación', 
+   change `jur_saldo_actual` `jur_saldo_actual` decimal(20,2) NULL  comment 'Saldo actual';
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
