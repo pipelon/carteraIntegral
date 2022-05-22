@@ -122,11 +122,22 @@ if ((in_array($userId, $colaboradores) ||
         <div class="row">
 
             <?php foreach ($model->prejur_gestiones_prejuridicas as $gestion) : ?>
-                <div class="col-md-12">
+                <div class="col-md-11">
                     <blockquote>
                         <?= nl2br($gestion->descripcion_gestion); ?>
                         <small><?= $gestion->usuario_gestion; ?> el <cite title="Source Title"><?= $gestion->fecha_gestion; ?></cite></small>
                     </blockquote>
+                </div>
+                <div class="col-md-1">
+                    <?php if ($gestion->usuario_gestion == Yii::$app->user->identity->fullName || Yii::$app->user->identity->isSuperAdmin()) : ?>
+                        <?=
+                        \yii\helpers\Html::a('<span class="flaticon-edit" ></span>', 'javascript:void(0)', [
+                            'title' => 'Editar',
+                            'class' => 'btn btn-default pull-right edit-comment',
+                            'data-comment-id' => $gestion->id
+                        ]);
+                        ?>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -134,6 +145,21 @@ if ((in_array($userId, $colaboradores) ||
 <?php endif; ?>
 
 <script type="text/javascript">
+
+    $(".edit-comment").click(function () {        
+        $.ajax({
+            url: '../procesos/gestion-pre-juridica',
+            type: 'post',
+            data: {
+                id: $(this).data("comment-id")
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#procesos-prejur_gestion_prejuridica").val(data.descripcion_gestion);
+                $("#procesos-prejur_gestion_prejuridica").attr("data-id-comment", data.id);
+            }
+        });        
+    });
 
     $(".create").click(function () {
         /* 
@@ -147,6 +173,11 @@ if ((in_array($userId, $colaboradores) ||
          */
         var form = $('#form_prejur');
         var formData = form.serialize();
+        
+        var idComment = $("#procesos-prejur_gestion_prejuridica").data("id-comment");
+        if (typeof idComment !== "undefined") {
+            formData = formData + '&CommentEditId=' + idComment;
+        }        
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),

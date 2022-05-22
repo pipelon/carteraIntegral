@@ -527,12 +527,18 @@ class ProcesosController extends Controller {
             if ($model->load(Yii::$app->request->post())) {
 
                 if (!empty($model->prejur_gestion_prejuridica)) {
-                    $gestPreJur = new \app\models\GestionesPrejuridicas();
-                    $gestPreJur->proceso_id = $model->id;
-                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
-                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
-                    $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
-                    $gestPreJur->save();
+                    if (isset($_POST["CommentEditId"])) {
+                        $gestPreJur = \app\models\GestionesPrejuridicas::findOne($_POST["CommentEditId"]);
+                        $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
+                        $gestPreJur->save();
+                    } else {
+                        $gestPreJur = new \app\models\GestionesPrejuridicas();
+                        $gestPreJur->proceso_id = $model->id;
+                        $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                        $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                        $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
+                        $gestPreJur->save();
+                    }
 
                     //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
                     $model = $this->findModel($id);
@@ -565,12 +571,19 @@ class ProcesosController extends Controller {
             if ($model->load(Yii::$app->request->post())) {
 
                 if (!empty($model->jur_gestion_juridica)) {
-                    $gestPreJur = new \app\models\GestionesJuridicas();
-                    $gestPreJur->proceso_id = $model->id;
-                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
-                    $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
-                    $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
-                    $gestPreJur->save();
+                    
+                    if (isset($_POST["CommentEditId"])) {
+                        $gestPreJur = \app\models\GestionesJuridicas::findOne($_POST["CommentEditId"]);
+                        $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
+                        $gestPreJur->save();
+                    } else {
+                        $gestPreJur = new \app\models\GestionesJuridicas();
+                        $gestPreJur->proceso_id = $model->id;
+                        $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                        $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                        $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
+                        $gestPreJur->save();
+                    }
 
                     //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
                     $model = $this->findModel($id);
@@ -613,6 +626,30 @@ class ProcesosController extends Controller {
         \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
+    }
+
+    public function actionGestionPreJuridica() {
+        $post = Yii::$app->request->post();
+        $id = $post['id'];
+        $model = \app\models\GestionesPrejuridicas::findOne($id);
+        return \yii\helpers\Json::encode([
+                    'id' => $model->id,
+                    'fecha_gestion' => $model->fecha_gestion,
+                    'usuario_gestion' => $model->usuario_gestion,
+                    'descripcion_gestion' => $model->descripcion_gestion
+        ]);
+    }
+
+    public function actionGestionJuridica() {
+        $post = Yii::$app->request->post();
+        $id = $post['id'];
+        $model = \app\models\GestionesJuridicas::findOne($id);
+        return \yii\helpers\Json::encode([
+                    'id' => $model->id,
+                    'fecha_gestion' => $model->fecha_gestion,
+                    'usuario_gestion' => $model->usuario_gestion,
+                    'descripcion_gestion' => $model->descripcion_gestion
+        ]);
     }
 
     /**
