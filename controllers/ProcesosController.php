@@ -571,7 +571,7 @@ class ProcesosController extends Controller {
             if ($model->load(Yii::$app->request->post())) {
 
                 if (!empty($model->jur_gestion_juridica)) {
-                    
+
                     if (isset($_POST["CommentEditId"])) {
                         $gestPreJur = \app\models\GestionesJuridicas::findOne($_POST["CommentEditId"]);
                         $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
@@ -601,6 +601,29 @@ class ProcesosController extends Controller {
             Yii::$app->end();
         }
 
+        return $this->renderPartial('view-summary-juridico', [
+                    'model' => $model
+        ]);
+    }
+
+    public function actionCambiarEtapaPopup($id) {
+        $model = $this->findModel($id);
+        if (Yii::$app->getRequest()->isAjax) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
+                $model = $this->findModel($id);
+                //GESTIONES PRE JURIDICAS PARA MOSTRAR 
+                $model->jur_gestiones_juridicas = $model->gestionesJuridicas;
+                return $this->renderAjax('view-summary-juridico', [
+                            'model' => $model
+                ]);
+            } else {
+                return $this->renderAjax('view-summary-juridico', [
+                            'model' => $model
+                ]);
+            }
+            Yii::$app->end();
+        }
         return $this->renderPartial('view-summary-juridico', [
                     'model' => $model
         ]);

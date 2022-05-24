@@ -71,11 +71,13 @@ class ProcesosSearch extends Procesos {
           ->andFilterWhere(['like', 'jur_valor_activacion', $this->jur_valor_activacion])
           ->andFilterWhere(['like', 'jur_saldo_actual', $this->jur_saldo_actual]); */
 
-        $query->andFilterWhere(['like', 'clientes.nombre', $this->buscador])
-                ->orFilterWhere(['like', 'deudores.nombre', $this->buscador])
-                ->orFilterWhere(['like', 'estados_proceso.nombre', $this->buscador])
-                ->orFilterWhere(['like', 'jurisdicciones_competentes.nombre', $this->buscador])
-                ->orFilterWhere(['like', 'jur_radicado', $this->buscador]);
+        $query->andFilterWhere(['like', 'clientes.nombre', trim($this->buscador)])
+                ->orFilterWhere(['like', 'clientes.documento', trim($this->buscador)])
+                ->orFilterWhere(['like', 'deudores.nombre', trim($this->buscador)])
+                ->orFilterWhere(['like', 'deudores.documento', trim($this->buscador)])
+                ->orFilterWhere(['like', 'estados_proceso.nombre', trim($this->buscador)])
+                ->orFilterWhere(['like', 'jurisdicciones_competentes.nombre', trim($this->buscador)])
+                ->orFilterWhere(['like', 'jur_radicado', trim($this->buscador)]);
 
         return $dataProvider;
     }

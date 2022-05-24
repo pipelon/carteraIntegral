@@ -139,7 +139,7 @@ $exportColumns = [
             return implode("\r", \yii\helpers\ArrayHelper::map(
                             $data->gestionesPrejuridicas,
                             'id', function($modelGestionsPre) {
-                                return "<b>Usuario:</b> {$modelGestionsPre->usuario_gestion}, <b>Fecha:</b> {$modelGestionsPre->fecha_gestion} \r {$modelGestionsPre->descripcion_gestion} \r";
+                                return "{$modelGestionsPre->descripcion_gestion} \r";
                             }
                     )
             );
@@ -234,7 +234,7 @@ $exportColumns = [
             return implode("\r", \yii\helpers\ArrayHelper::map(
                             $data->gestionesJuridicas,
                             'id', function($modelGestionsPre) {
-                                return "<b>Usuario:</b> {$modelGestionsPre->usuario_gestion}, <b>Fecha:</b> {$modelGestionsPre->fecha_gestion} \r {$modelGestionsPre->descripcion_gestion}\r\r";
+                                return "{$modelGestionsPre->descripcion_gestion}\r\r";
                             }
                     )
             );
@@ -475,7 +475,15 @@ $fullExportMenu = ExportMenu::widget(
                                 <?= isset($proceso->jurEtapasProcesal->nombre) ? $proceso->jurEtapasProcesal->nombre : '-'; ?>
                                 <br />
                                 <b>Juzgado: </b>
-                                <?= isset($proceso->jur_juzgado) ? $proceso->jur_juzgado : '-'; ?>
+                                <?php
+                                if (isset($proceso->jur_juzgado)) {
+                                    $temp = explode(",", $proceso->jur_juzgado);
+                                    $newJuzgado = end($temp);
+                                    echo $newJuzgado;
+                                } else {
+                                    echo '-';
+                                }
+                                ?>
                             </p>
 
                         </div>

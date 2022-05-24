@@ -31,17 +31,57 @@ yii\bootstrap\Modal::begin([
             ?>
         </p>
         <br />
+        <?php
+        $form = yii\bootstrap\ActiveForm::begin(['id' => "form_etapaprocesal", "action" => ["procesos/cambiar-etapa-popup", "id" => $model->id]]);
+        ?>
         <p class="text-muted">
-            <b>Tipo de proceso: </b>
-            <?= isset($model->jurTipoProceso->nombre) ? $model->jurTipoProceso->nombre : '-'; ?>
-            <br />
-            <b>Etapa procesal: </b>
-            <?= isset($model->jurEtapasProcesal->nombre) ? $model->jurEtapasProcesal->nombre : '-'; ?>
-            <br />
+
+            <?php
+            $tipoProcesosList = yii\helpers\ArrayHelper::map(
+                            \app\models\TipoProcesos::find()
+                                    ->where(['activo' => 1])
+                                    ->all()
+                            , 'id', 'nombre');
+            ?>
+            <?=
+                    $form->field($model, 'jur_tipo_proceso_id')
+                    ->dropDownList($tipoProcesosList, ['prompt' => '- Seleccion un tipo de proceso -', 'id' => 'tipo-proceso-id'])
+            ?>
+            <?=
+            $form->field($model, 'jur_etapas_procesal_id')->widget(\kartik\depdrop\DepDrop::classname(), [
+                'options' => ['id' => 'etapa-procesal-id'],
+                'data' => [$model->jur_etapas_procesal_id => 'default'],
+                'pluginOptions' => [
+                    'depends' => ['tipo-proceso-id'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una etapa procesal -',
+                    'url' => yii\helpers\Url::to(['/etapas-procesales/etapasprocesalesporprocesoid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>    
+            <?=
+            yii\helpers\Html::a('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Cambiar etapa', 'javascript:void(0)',
+                    [
+                        'class' => 'btn btn-primary cambiarEtapa'
+                    ]
+            )
+            ?>
+            <br /><br /><br />
             <b>Juzgado: </b>
-            <?= isset($model->jur_juzgado) ? $model->jur_juzgado : '-'; ?>
+            <?php
+            if (isset($model->jur_juzgado)) {
+                $temp = explode(",", $model->jur_juzgado);
+                $newJuzgado = end($temp);
+                echo $newJuzgado;
+            } else {
+                echo '-';
+            }
+            ?>
+
         </p>
 
+        <?php yii\bootstrap\ActiveForm::end(); ?>
     </div>
     <!-- RESUMEN DEUDA -->
     <div class="col-md-4">
@@ -146,6 +186,28 @@ if ((in_array($userId, $colaboradores) ||
 <?php endif; ?>
 
 <script type="text/javascript">
+
+    $(".cambiarEtapa").click(function () {
+        /* 
+         * CUANDO SE GUARDA MUCHAS VECES SE ESTABAN ABRIENDO MULTIPLES POPUP
+         * ESTO EVITA ESE COMPORTAMIENTO EXRAÑO
+         */
+        $('.modal-backdrop').remove();
+
+        /*
+         * GUARDO LA GESTION Y RECARGO EL DIV CON LA NUEVA INFO         * 
+         */
+        var form = $('#form_etapaprocesal');
+        var formData = form.serialize();
+        $.ajax({
+            url: form.attr("action"),
+            type: form.attr("method"),
+            data: formData,
+            success: function (response) {
+                $('#ajax_result-juridico').html(response);
+            }
+        });
+    });
 
     $(".edit-comment").click(function () {
         $.ajax({
