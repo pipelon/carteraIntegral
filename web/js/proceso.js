@@ -123,6 +123,24 @@ jQuery("document").ready(function () {
         $("#radicado").val("");
     });
 
+    /* CREAR NOMBRE DE JUZGADO 2 */
+    $('#departamento-id-2, #ciudad-id-2').change(function () {
+        $("#juzgado-2").val("");
+        $("#codigoEntidad_2").val("");
+        $("#codigoEspecialidad_2").val("");
+        $("#codigoDespacho_2").val("");
+        $("#radicado-2").val("");
+    });
+
+    /* CREAR NOMBRE DE JUZGADO 3 */
+    $('#departamento-id-3, #ciudad-id-3').change(function () {
+        $("#juzgado-3").val("");
+        $("#codigoEntidad_3").val("");
+        $("#codigoEspecialidad_3").val("");
+        $("#codigoDespacho_3").val("");
+        $("#radicado-3").val("");
+    });
+
     $('#departamento-id').change(function () {
         /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
         $.ajax({
@@ -137,7 +155,7 @@ jQuery("document").ready(function () {
             }
         });
     });
-    
+
     $('#ciudad-id').change(function () {
         /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
         $.ajax({
@@ -154,7 +172,7 @@ jQuery("document").ready(function () {
     });
 
     $('#jurisdiccion-competent-id').change(function () {
-        
+
         if ($("#departamento-id").val() != "" && $("#ciudad-id").val() != "" && $(this).val() != "") {
             let nombre = $("#departamento-id option:selected").text() + ", " +
                     $("#ciudad-id option:selected").text() + ", " +
@@ -172,11 +190,131 @@ jQuery("document").ready(function () {
                 id: $(this).val()
             },
             dataType: 'json',
-            async:false,
+            async: false,
             success: function (data) {
                 $("#codigoEntidad").val(data.codigo_entidad);
                 $("#codigoEspecialidad").val(data.codigo_especialidad);
                 $("#codigoDespacho").val(data.despacho);
+            }
+        });
+
+    });
+
+    // RADICADO 2
+    $('#departamento-id-2').change(function () {
+        /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
+        $.ajax({
+            url: '../departamentos/datadepartamento',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#codigoDepartamento_2").val(data.codigo_departamento);
+            }
+        });
+    });
+
+    $('#ciudad-id-2').change(function () {
+        /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
+        $.ajax({
+            url: '../ciudades/dataciudad',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#codigoCiudad_2").val(data.codigo_ciudad);
+            }
+        });
+    });
+
+    $('#jurisdiccion-competent-id-2').change(function () {
+
+        if ($("#departamento-id-2").val() != "" && $("#ciudad-id-2").val() != "" && $(this).val() != "") {
+            let nombre = $("#departamento-id-2 option:selected").text() + ", " +
+                    $("#ciudad-id-2 option:selected").text() + ", " +
+                    $("#jurisdiccion-competent-id-2 option:selected").text();
+            $("#juzgado-2").val(nombre);
+        } else {
+            $("#juzgado-2").val("");
+        }
+
+        /* OBTENGO TODA LA INFO DE LA JURISDICCION NECESARIA PARA CREAR EL RADICADO */
+        $.ajax({
+            url: '../jurisdicciones-competentes/datajurisdiccion',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                $("#codigoEntidad_2").val(data.codigo_entidad);
+                $("#codigoEspecialidad_2").val(data.codigo_especialidad);
+                $("#codigoDespacho_2").val(data.despacho);
+            }
+        });
+
+    });
+
+    // RADICADO 3
+    $('#departamento-id-3').change(function () {
+        /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
+        $.ajax({
+            url: '../departamentos/datadepartamento',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#codigoDepartamento_3").val(data.codigo_departamento);
+            }
+        });
+    });
+
+    $('#ciudad-id-3').change(function () {
+        /* OBTENGO EL CODIGO DEL DEPARTAMENTO */
+        $.ajax({
+            url: '../ciudades/dataciudad',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            success: function (data) {
+                $("#codigoCiudad_3").val(data.codigo_ciudad);
+            }
+        });
+    });
+
+    $('#jurisdiccion-competent-id-3').change(function () {
+
+        if ($("#departamento-id-3").val() != "" && $("#ciudad-id-3").val() != "" && $(this).val() != "") {
+            let nombre = $("#departamento-id-3 option:selected").text() + ", " +
+                    $("#ciudad-id-3 option:selected").text() + ", " +
+                    $("#jurisdiccion-competent-id-3 option:selected").text();
+            $("#juzgado-3").val(nombre);
+        } else {
+            $("#juzgado-3").val("");
+        }
+
+        /* OBTENGO TODA LA INFO DE LA JURISDICCION NECESARIA PARA CREAR EL RADICADO */
+        $.ajax({
+            url: '../jurisdicciones-competentes/datajurisdiccion',
+            type: 'post',
+            data: {
+                id: $(this).val()
+            },
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                $("#codigoEntidad_3").val(data.codigo_entidad);
+                $("#codigoEspecialidad_3").val(data.codigo_especialidad);
+                $("#codigoDespacho_3").val(data.despacho);
             }
         });
 
@@ -206,20 +344,71 @@ jQuery("document").ready(function () {
         let anio = $("#jur_anio_radicado").val().toString();
         let consecutivo = $("#jur_consecutivo_proceso").val().toString();
         let instancia = $("#jur_instancia_radicado").val().toString();
-        console.info(codigoDepartamento);
-        console.info(codigoCiudad);
-        console.info(codigoEntidad);
-        console.info(codigoEspecialidad);
-        console.info(codigoDespacho);
-        console.info(anio);
-        console.info(consecutivo);
-        console.info(instancia);
         if (codigoCiudad != "" && codigoCiudad != "" && codigoEntidad != "" &&
                 codigoEspecialidad != "" && codigoDespacho != "" &&
                 anio != "" && consecutivo != "" && instancia != "") {
             $("#radicado").val(codigoDepartamento + codigoCiudad + codigoEntidad + codigoEspecialidad + codigoDespacho + anio + consecutivo + instancia);
         }
-        
+
+    });
+
+    /* CREAR EL RADICADO 2 */
+    $('#departamento-id-2, #ciudad-id-2, #jurisdiccion-competent-id-2, #jur_anio_radicado_2, #jur_consecutivo_proceso_2, #jur_instancia_radicado_2').change(function () {
+        let codigoDepartamento = $("#codigoDepartamento_2").val().toString();
+        let codigoCiudad = $("#codigoCiudad_2").val().toString();
+        let codigoEntidad = $("#codigoEntidad_2").val().toString();
+        let codigoEspecialidad = $("#codigoEspecialidad_2").val().toString();
+        let codigoDespacho = $("#codigoDespacho_2").val().toString();
+        let anio = $("#jur_anio_radicado_2").val().toString();
+        let consecutivo = $("#jur_consecutivo_proceso_2").val().toString();
+        let instancia = $("#jur_instancia_radicado_2").val().toString();
+        if (codigoCiudad != "" && codigoCiudad != "" && codigoEntidad != "" &&
+                codigoEspecialidad != "" && codigoDespacho != "" &&
+                anio != "" && consecutivo != "" && instancia != "") {
+            $("#radicado-2").val(codigoDepartamento + codigoCiudad + codigoEntidad + codigoEspecialidad + codigoDespacho + anio + consecutivo + instancia);
+        }
+
+    });
+
+    /* CREAR EL RADICADO 3 */
+    $('#departamento-id-3, #ciudad-id-3, #jurisdiccion-competent-id-3, #jur_anio_radicado_3, #jur_consecutivo_proceso_3, #jur_instancia_radicado_3').change(function () {
+        let codigoDepartamento = $("#codigoDepartamento_3").val().toString();
+        let codigoCiudad = $("#codigoCiudad_3").val().toString();
+        let codigoEntidad = $("#codigoEntidad_3").val().toString();
+        let codigoEspecialidad = $("#codigoEspecialidad_3").val().toString();
+        let codigoDespacho = $("#codigoDespacho_3").val().toString();
+        let anio = $("#jur_anio_radicado_3").val().toString();
+        let consecutivo = $("#jur_consecutivo_proceso_3").val().toString();
+        let instancia = $("#jur_instancia_radicado_3").val().toString();
+        if (codigoCiudad != "" && codigoCiudad != "" && codigoEntidad != "" &&
+                codigoEspecialidad != "" && codigoDespacho != "" &&
+                anio != "" && consecutivo != "" && instancia != "") {
+            $("#radicado-3").val(codigoDepartamento + codigoCiudad + codigoEntidad + codigoEspecialidad + codigoDespacho + anio + consecutivo + instancia);
+        }
+
+    });
+
+    /* VACIAR RADICADO RAPIDAMENTE */
+    $(".vaciarRadicado").click(function () {
+        let numRad = "";
+        let numRad_ = "";
+        if ($(this).data("radicado-numero") != "1") {
+            numRad = "-" + $(this).data("radicado-numero");
+            numRad_ = "_" + $(this).data("radicado-numero");
+        }
+        $("#departamento-id" + numRad).val("");
+        $("#ciudad-id" + numRad).val("");
+        $("#jurisdiccion-competent-id" + numRad).val("");
+        $("#juzgado" + numRad).val("");
+        $("#jur_anio_radicado" + numRad_).val("");
+        $("#jur_consecutivo_proceso" + numRad_).val("");
+        $("#jur_instancia_radicado" + numRad_).val("");
+        $("#radicado" + numRad).val("");
+        $("#codigoDepartamento" + numRad_).val("");
+        $("#codigoCiudad" + numRad_).val("");
+        $("#codigoEntidad" + numRad_).val("");
+        $("#codigoEspecialidad" + numRad_).val("");
+        $("#codigoDespacho" + numRad_).val("");
     });
 
 });

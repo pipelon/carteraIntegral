@@ -156,6 +156,28 @@ $this->registerJs($js);
                 </div>
             </div>
 
+            <!-- USUARIO -->
+            <div class="row-field">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Usuario que maneja este cliente</h3>
+                    </div>
+                    <div class="box-body">
+                        <?php
+                        $usuariosClientesList = yii\helpers\ArrayHelper::map(
+                                        \Yii::$app->user->identity->getUserNamesByRole("Cliente")
+                                        , 'id', 'name')
+                        ?>
+
+                        <?=
+                        $form->field($model, 'usuario_id')->dropDownList($usuariosClientesList, ['prompt' => '- Seleccione un usuario -'])
+                        ?>
+                        
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="box-footer">

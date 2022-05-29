@@ -431,6 +431,28 @@ ALTER TABLE `db_cartera_integral`.`procesos`
 alter table `db_cartera_integral`.`deudores` 
    change `nombre` `nombre` varchar(100) character set utf8 collate utf8_general_ci NOT NULL comment 'Nombres';
 
+ALTER TABLE `db_cartera_integral`.`procesos` 
+   ADD COLUMN `jur_departamento_id_2` INT(11) NULL AFTER `jur_radicado`, 
+   ADD COLUMN `jur_ciudad_id_2` INT(11) NULL AFTER `jur_departamento_id_2`, 
+   ADD COLUMN `jur_jurisdiccion_competent_id_2` INT(11) NULL AFTER `jur_ciudad_id_2`, 
+   ADD COLUMN `jur_juzgado_2` VARCHAR(200) NULL AFTER `jur_jurisdiccion_competent_id_2`, 
+   ADD COLUMN `jur_anio_radicado_2` CHAR(4) NULL AFTER `jur_juzgado_2`, 
+   ADD COLUMN `jur_consecutivo_proceso_2` CHAR(5) NULL AFTER `jur_anio_radicado_2`, 
+   ADD COLUMN `jur_instancia_radicado_2` CHAR(2) NULL AFTER `jur_consecutivo_proceso_2`, 
+   ADD COLUMN `jur_radicado_2` VARCHAR(45) NULL AFTER `jur_instancia_radicado_2`, 
+   ADD COLUMN `jur_departamento_id_3` INT(11) NULL AFTER `jur_radicado_2`, 
+   ADD COLUMN `jur_ciudad_id_3` INT(11) NULL AFTER `jur_departamento_id_3`, 
+   ADD COLUMN `jur_jurisdiccion_competent_id_3` INT(11) NULL AFTER `jur_ciudad_id_3`, 
+   ADD COLUMN `jur_juzgado_3` VARCHAR(200) NULL AFTER `jur_jurisdiccion_competent_id_3`, 
+   ADD COLUMN `jur_anio_radicado_3` CHAR(4) NULL AFTER `jur_juzgado_3`, 
+   ADD COLUMN `jur_consecutivo_proceso_3` CHAR(5) NULL AFTER `jur_anio_radicado_3`, 
+   ADD COLUMN `jur_instancia_radicado_3` CHAR(2) NULL AFTER `jur_consecutivo_proceso_3`, 
+   ADD COLUMN `jur_radicado_3` VARCHAR(45) NULL AFTER `jur_instancia_radicado_3`;
+
+ALTER TABLE `db_cartera_integral`.`clientes` 
+   ADD COLUMN `usuario_id` INT NULL COMMENT 'Usuario' AFTER `id`,
+   CHANGE `deleted` `deleted` DATETIME NULL  COMMENT 'Borrado';
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

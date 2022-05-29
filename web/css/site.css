@@ -331,3 +331,34 @@ ul.navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a{
     font-size: 12px;
     padding-top: 5px;
 }
+
+h4.radicadoText{
+    color: #333333;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    margin: 10px 15px;
+    padding: 10px;
+}
+.infoGeneral .info-box{
+    min-height: 50px;
+}
+.infoGeneral .info-box-icon{
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
+    line-height: 50px;
+}
+.infoGeneral .progress-description, 
+.infoGeneral .info-box-text{
+    font-size: 11px;
+}
+.infoGeneral .info-box-number{
+    font-size: 15px;
+}
+.infoGeneral .info-box-content{
+    margin-left: 50px;
+}
+.vaciarRadicado{
+    display: inline-block;
+    float: right;
+}

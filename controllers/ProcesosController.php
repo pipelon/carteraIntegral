@@ -51,6 +51,16 @@ class ProcesosController extends Controller {
      */
     public function actionView($id) {
         $model = $this->findModel($id);
+        
+        // SI SOY USUARIO TIPO CLIENTE Y NO PUEDO VER ESTE CLIENTE RETURN
+        if (Yii::$app->user->identity->isCliente()) {
+            $clientesIds = Yii::$app->user->identity->getClientsByUser();
+            $ids = array_column($clientesIds, 'id');
+            if(!in_array($model->cliente_id, $ids)){
+                return $this->redirect(['index']);
+            }
+            
+        }
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
         $pagos = $model->consolidadoPagosJuridicos;
@@ -610,8 +620,6 @@ class ProcesosController extends Controller {
         $model = $this->findModel($id);
         if (Yii::$app->getRequest()->isAjax) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
-                $model = $this->findModel($id);
                 //GESTIONES PRE JURIDICAS PARA MOSTRAR 
                 $model->jur_gestiones_juridicas = $model->gestionesJuridicas;
                 return $this->renderAjax('view-summary-juridico', [

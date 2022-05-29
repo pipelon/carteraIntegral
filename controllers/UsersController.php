@@ -113,7 +113,9 @@ class UsersController extends Controller {
                 $model->profile_image->saveAs('perfiles/' . $fileName);
                 $model->profile_image = $fileName;
                 //elimino la antigua
-                unlink('perfiles/' . $beforeImage);
+                if (file_exists('perfiles/' . $beforeImage) && !empty($beforeImage)) {
+                    unlink('perfiles/' . $beforeImage);
+                }
             }
 
             // si no se cambio la foto entonces sigo con la antigua
@@ -134,7 +136,7 @@ class UsersController extends Controller {
 
             //guardo los cambios
             if ($model->save()) {
-                
+
                 //LOG
                 $mensaje = "El usuario #'{$id}' ha sido actualizado.";
                 \Yii::info($mensaje, "cartera");
@@ -164,11 +166,11 @@ class UsersController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        
+
         $model = $this->findModel($id);
-        
+
         $this->findModel($id)->delete();
-        
+
         //LOG
         $mensaje = "El usuario '{$model->username}' ha sido eliminado.";
         \Yii::info($mensaje, "cartera");

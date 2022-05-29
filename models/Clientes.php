@@ -8,6 +8,8 @@ use Yii;
  * This is the model class for table "clientes".
  *
  * @property int $id ID
+ * @property int|null $usuario_id Usuario
+ * @property string $nombre Nombre
  * @property string $tipo_documento Tipo de documento
  * @property string $documento Documento
  * @property string $direccion Dirección física
@@ -26,11 +28,17 @@ use Yii;
  * @property string|null $telefono_persona_contacto_3 Teléfonos
  * @property string|null $email_persona_contacto_3 Correo electrónico
  * @property string|null $cargo_persona_contacto_3 Cargo
- * @property string|null $carpeta
+ * @property string|null $carpeta Carpeta Google Drive
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
+ * @property int|null $delete Borrado
+ * @property string|null $deleted Borrado
+ * @property string|null $deleted_by Borrado por
+ *
+ * @property Users $usuario
+ * @property Procesos[] $procesos
  */
 class Clientes extends BeforeModel {
 
@@ -46,25 +54,13 @@ class Clientes extends BeforeModel {
      */
     public function rules() {
         return [
-            [['tipo_documento', 'nombre', 'documento', 'direccion',
-            'nombre_representante_legal', 'telefono_representante_legal',
-            'email_representante_legal', 'nombre_persona_contacto_1',
-            'telefono_persona_contacto_1', 'email_persona_contacto_1',
-            'cargo_persona_contacto_1'], 'required'],
-            [['email_representante_legal', 'email_persona_contacto_1',
-            'email_persona_contacto_2', 'email_persona_contacto_3'], 'email'],
-            [['created', 'modified'], 'safe'],
+            [['usuario_id', 'delete'], 'integer'],
+            [['nombre', 'tipo_documento', 'documento', 'direccion', 'nombre_representante_legal', 'telefono_representante_legal', 'email_representante_legal', 'nombre_persona_contacto_1', 'telefono_persona_contacto_1', 'email_persona_contacto_1', 'cargo_persona_contacto_1'], 'required'],
+            [['created', 'modified', 'deleted'], 'safe'],
+            [['nombre', 'nombre_representante_legal', 'telefono_representante_legal', 'email_representante_legal', 'nombre_persona_contacto_1', 'telefono_persona_contacto_1', 'email_persona_contacto_1', 'cargo_persona_contacto_1', 'nombre_persona_contacto_2', 'telefono_persona_contacto_2', 'email_persona_contacto_2', 'cargo_persona_contacto_2', 'nombre_persona_contacto_3', 'telefono_persona_contacto_3', 'email_persona_contacto_3', 'cargo_persona_contacto_3', 'created_by', 'modified_by', 'deleted_by'], 'string', 'max' => 45],
             [['tipo_documento'], 'string', 'max' => 30],
             [['documento'], 'string', 'max' => 20],
             [['direccion', 'carpeta'], 'string', 'max' => 100],
-            [['nombre', 'nombre_representante_legal', 'telefono_representante_legal',
-            'email_representante_legal','nombre_persona_contacto_1', 'telefono_persona_contacto_1',
-            'email_persona_contacto_1', 'cargo_persona_contacto_1',
-            'nombre_persona_contacto_2', 'telefono_persona_contacto_2',
-            'email_persona_contacto_2', 'cargo_persona_contacto_2',
-            'nombre_persona_contacto_3', 'telefono_persona_contacto_3',
-            'email_persona_contacto_3', 'cargo_persona_contacto_3',
-            'created_by', 'modified_by'], 'string', 'max' => 45],
             [['tipo_documento', 'nombre', 'documento', 'direccion',
             'nombre_representante_legal', 'telefono_representante_legal',
             'email_representante_legal', 'nombre_persona_contacto_1',
@@ -74,6 +70,7 @@ class Clientes extends BeforeModel {
             'cargo_persona_contacto_2', 'nombre_persona_contacto_3',
             'telefono_persona_contacto_3', 'email_persona_contacto_3',
             'cargo_persona_contacto_3'], 'filter', 'filter' => 'strtoupper'],
+            [['usuario_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['usuario_id' => 'id']],
         ];
     }
 
@@ -83,6 +80,7 @@ class Clientes extends BeforeModel {
     public function attributeLabels() {
         return [
             'id' => 'ID',
+            'usuario_id' => 'Usuario',
             'nombre' => 'Nombre',
             'tipo_documento' => 'Tipo de documento',
             'documento' => 'Documento',
@@ -107,7 +105,28 @@ class Clientes extends BeforeModel {
             'created_by' => 'Creado por',
             'modified' => 'Modificado',
             'modified_by' => 'Modificado por',
+            'delete' => 'Borrado',
+            'deleted' => 'Borrado',
+            'deleted_by' => 'Borrado por',
         ];
+    }
+
+    /**
+     * Gets query for [[Usuario]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsuario() {
+        return $this->hasOne(Users::className(), ['id' => 'usuario_id']);
+    }
+
+    /**
+     * Gets query for [[Procesos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProcesos() {
+        return $this->hasMany(Procesos::className(), ['cliente_id' => 'id']);
     }
 
 }

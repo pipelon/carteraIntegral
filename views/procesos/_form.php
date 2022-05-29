@@ -778,6 +778,7 @@ $form = ActiveForm::begin(
 
         <!-- JUZGADO -->
         <div class="row-field">
+            <h4 class="radicadoText">Radicado<a class="vaciarRadicado" data-radicado-numero="1" href="javascript:void(0)"><i class="fa fa-trash-o"></i></a></h4>
             <?php
             $departamentos = yii\helpers\ArrayHelper::map(
                             \app\models\Departamentos::find()
@@ -817,7 +818,6 @@ $form = ActiveForm::begin(
 
         <!-- RADICADO -->
         <div class="row-field">
-
             <?=
             $form->field($model, 'jur_anio_radicado', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_anio_radicado']) . "{label}\n{input}\n{hint}\n{error}"
@@ -858,6 +858,164 @@ $form = ActiveForm::begin(
             <?= Html::hiddenInput('codigoDespacho', "", ['id' => 'codigoDespacho']); ?>
 
             <?= $form->field($model, 'jur_radicado', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado']) ?>
+        </div>
+
+
+        <!-- JUZGADO 2 -->
+        <div class="row-field">
+            <h4 class="radicadoText">Radicado #2<a class="vaciarRadicado" data-radicado-numero="2" href="javascript:void(0)"><i class="fa fa-trash-o"></i></a></h4>
+            <?= $form->field($model, 'jur_departamento_id_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_departamento_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->dropDownList($departamentos, ['prompt' => '- Seleccion un departamento -', 'id' => 'departamento-id-2']) ?>
+            <?=
+            $form->field($model, 'jur_ciudad_id_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_ciudad_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
+                'options' => ['id' => 'ciudad-id-2'],
+                'data' => [$model->jur_ciudad_id_2 => 'default'],
+                'pluginOptions' => [
+                    'depends' => ['departamento-id-2'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una ciudad -',
+                    'url' => Url::to(['/ciudades/ciudadesxdepartamentoid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?=
+            $form->field($model, 'jur_jurisdiccion_competent_id_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
+                'options' => ['id' => 'jurisdiccion-competent-id-2'],
+                'data' => [$model->jur_jurisdiccion_competent_id_2 => 'default'],
+                'pluginOptions' => [
+                    'depends' => ['ciudad-id-2'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una jurisdicción -',
+                    'url' => Url::to(['/jurisdicciones-competentes/jurisdiccionesxciudadid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?= $form->field($model, 'jur_juzgado_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado-2']) ?>
+
+        </div>
+
+        <!-- RADICADO 2 -->
+        <div class="row-field">
+            <?=
+            $form->field($model, 'jur_anio_radicado_2', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_anio_radicado']) . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(['2010' => '2010',
+                '2011' => '2011',
+                '2012' => '2012',
+                '2013' => '2013',
+                '2014' => '2014',
+                '2015' => '2015',
+                '2016' => '2016',
+                '2017' => '2017',
+                '2018' => '2018',
+                '2019' => '2019',
+                '2020' => '2020',
+                '2021' => '2021',
+                '2022' => '2022',
+                '2023' => '2023',
+                '2024' => '2024',
+                '2025' => '2025',
+                '2026' => '2026',
+                '2027' => '2027',
+                '2028' => '2028',
+                '2029' => '2029',
+                '2030' => '2030'], ['prompt' => '- Seleccione un año -', 'id' => 'jur_anio_radicado_2'])
+            ?>
+            <?= $form->field($model, 'jur_consecutivo_proceso_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_consecutivo_proceso']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['id' => 'jur_consecutivo_proceso_2']) ?>
+            <?=
+            $form->field($model, 'jur_instancia_radicado_2', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_instancia_radicado']) . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado_2'])
+            ?>
+
+            <!-- CAMPOS OCULTOS CON LA INFO DE CODIGO ENTIDAD Y ESPECIALIDAD -->
+            <?= Html::hiddenInput('codigoDepartamento_2', "", ['id' => 'codigoDepartamento_2']); ?>
+            <?= Html::hiddenInput('codigoCiudad_2', "", ['id' => 'codigoCiudad_2']); ?>
+            <?= Html::hiddenInput('codigoEntidad_2', "", ['id' => 'codigoEntidad_2']); ?>
+            <?= Html::hiddenInput('codigoEspecialidad_2', "", ['id' => 'codigoEspecialidad_2']); ?>
+            <?= Html::hiddenInput('codigoDespacho_2', "", ['id' => 'codigoDespacho_2']); ?>
+
+            <?= $form->field($model, 'jur_radicado_2', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado-2']) ?>
+        </div>
+
+
+        <!-- JUZGADO 3 -->
+        <div class="row-field">   
+            <h4 class="radicadoText">Radicado #3<a class="vaciarRadicado" data-radicado-numero="3" href="javascript:void(0)"><i class="fa fa-trash-o"></i></a></h4>
+            <?= $form->field($model, 'jur_departamento_id_3', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_departamento_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->dropDownList($departamentos, ['prompt' => '- Seleccion un departamento -', 'id' => 'departamento-id-3']) ?>
+            <?=
+            $form->field($model, 'jur_ciudad_id_3', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_ciudad_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
+                'options' => ['id' => 'ciudad-id-3'],
+                'data' => [$model->jur_ciudad_id_3 => 'default'],
+                'pluginOptions' => [
+                    'depends' => ['departamento-id-3'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una ciudad -',
+                    'url' => Url::to(['/ciudades/ciudadesxdepartamentoid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?=
+            $form->field($model, 'jur_jurisdiccion_competent_id_3', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
+                'options' => ['id' => 'jurisdiccion-competent-id-3'],
+                'data' => [$model->jur_jurisdiccion_competent_id_3 => 'default'],
+                'pluginOptions' => [
+                    'depends' => ['ciudad-id-3'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una jurisdicción -',
+                    'url' => Url::to(['/jurisdicciones-competentes/jurisdiccionesxciudadid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?= $form->field($model, 'jur_juzgado_3', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado-3']) ?>
+
+        </div>
+
+        <!-- RADICADO 3 -->
+        <div class="row-field">            
+            <?=
+            $form->field($model, 'jur_anio_radicado_3', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_anio_radicado']) . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(['2010' => '2010',
+                '2011' => '2011',
+                '2012' => '2012',
+                '2013' => '2013',
+                '2014' => '2014',
+                '2015' => '2015',
+                '2016' => '2016',
+                '2017' => '2017',
+                '2018' => '2018',
+                '2019' => '2019',
+                '2020' => '2020',
+                '2021' => '2021',
+                '2022' => '2022',
+                '2023' => '2023',
+                '2024' => '2024',
+                '2025' => '2025',
+                '2026' => '2026',
+                '2027' => '2027',
+                '2028' => '2028',
+                '2029' => '2029',
+                '2030' => '2030'], ['prompt' => '- Seleccione un año -', 'id' => 'jur_anio_radicado_3'])
+            ?>
+            <?= $form->field($model, 'jur_consecutivo_proceso_3', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_consecutivo_proceso']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['id' => 'jur_consecutivo_proceso_3']) ?>
+            <?=
+            $form->field($model, 'jur_instancia_radicado_3', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_instancia_radicado']) . "{label}\n{input}\n{hint}\n{error}"
+            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado_3'])
+            ?>
+
+            <!-- CAMPOS OCULTOS CON LA INFO DE CODIGO ENTIDAD Y ESPECIALIDAD -->
+            <?= Html::hiddenInput('codigoDepartamento_3', "", ['id' => 'codigoDepartamento_3']); ?>
+            <?= Html::hiddenInput('codigoCiudad_3', "", ['id' => 'codigoCiudad_3']); ?>
+            <?= Html::hiddenInput('codigoEntidad_3', "", ['id' => 'codigoEntidad_3']); ?>
+            <?= Html::hiddenInput('codigoEspecialidad_3', "", ['id' => 'codigoEspecialidad_3']); ?>
+            <?= Html::hiddenInput('codigoDespacho_3', "", ['id' => 'codigoDespacho_3']); ?>
+
+            <?= $form->field($model, 'jur_radicado_3', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado-3']) ?>
         </div>
 
         <!-- GESTIONES JURIDICAS -->

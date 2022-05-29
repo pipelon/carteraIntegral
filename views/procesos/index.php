@@ -291,6 +291,172 @@ $exportColumns = [
     ],
 ];
 
+//COLUMNAS PARA EL EXPORTABLE SI SOY CLIENTE
+if (Yii::$app->user->identity->isCliente()) {
+    $exportColumns = [
+        'id',
+        [
+            'attribute' => 'cliente_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->cliente->nombre . ' (' . $data->cliente->documento . ')';
+            },
+        ],
+        [
+            'attribute' => 'deudor_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->deudor->nombre . ' (' . $data->deudor->marca . ')';
+            },
+        ],
+        'prejur_fecha_recepcion:date',
+        [
+            'attribute' => 'prejur_tipo_caso',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->prejurTipoCaso->nombre ?? null;
+            },
+        ],
+        'prejur_valor_activacion:decimal',
+        'prejur_saldo_actual:decimal',
+        'prejur_acuerdo_pago',
+        [
+            'label' => 'acuerdos de pagos',
+            'format' => 'raw',
+            'value' => function ($data) {
+                //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
+                $acuerdoPagos = $data->consolidadoPagosPrejuridicos;
+                $htmlPago = '';
+                foreach ($acuerdoPagos as $pago) {
+                    $htmlPago .= "<b>Fecha acuerdo de pago:</b> {$pago->fecha_acuerdo_pago}<br/>"
+                            . "<b>Valor acordado:</b> " . number_format($pago->valor_acuerdo_pago, 2, ",", ".") . "<br/>"
+                            . "<b>Descripción:</b> {$pago->descripcion}<br/>"
+                            . "<b>Fecha pago realizado:</b> {$pago->fecha_pago_realizado}<br/>"
+                            . "<b>Valor pagado:</b> " . number_format($pago->valor_pagado, 2, ",", ".") . "<br/><br/>";
+                }
+                return $htmlPago;
+            }
+        ],
+        'prejur_consulta_rama_judicial:ntext',
+        'prejur_consulta_entidad_reguladora:ntext',
+        'prejur_resultado_estudio_bienes',
+        [
+            'attribute' => 'prejur_estudio_bienes',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return implode("\r", \yii\helpers\ArrayHelper::map(
+                                $data->bienesXProcesos,
+                                'bien_id', function($modelBiexPro) {
+                                    return "<b>" . $modelBiexPro->bien->nombre . ": </b>" . $modelBiexPro->comentario;
+                                }
+                        )
+                );
+            },
+        ],
+        [
+            'attribute' => 'prejur_gestiones_prejuridicas',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return implode("\r", \yii\helpers\ArrayHelper::map(
+                                $data->gestionesPrejuridicas,
+                                'id', function($modelGestionsPre) {
+                                    return "{$modelGestionsPre->descripcion_gestion} \r";
+                                }
+                        )
+                );
+            },
+        ],
+        'jur_fecha_recepcion:date',
+        [
+            'attribute' => 'jur_demandados',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return implode("\r", \yii\helpers\ArrayHelper::map(
+                                $data->demandadosXProceso,
+                                'demandado_id', function($modelDemxPro) {
+                                    return $modelDemxPro->nombre;
+                                }
+                        )
+                );
+            },
+        ],
+        [
+            'label' => 'Consolidado de pagos',
+            'format' => 'raw',
+            'value' => function ($data) {
+                //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
+                $pagos = $data->consolidadoPagosJuridicos;
+                $htmlPago = '';
+                foreach ($pagos as $pago) {
+                    $htmlPago .= '<b>Fecha:</b> ' . $pago->fecha_pago . ' \r'
+                            . '<b>Valor:</b> ' . number_format($pago->valor_pago, 2, ",", ".") . '\r\r';
+                }
+                return $htmlPago;
+            }
+        ],
+        'jur_valor_activacion:decimal',
+        'jur_saldo_actual:decimal',
+        [
+            'attribute' => 'jur_tipo_proceso_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->jurTipoProceso->nombre ?? null;
+            },
+        ],
+        'jur_fecha_etapa_procesal',
+        [
+            'attribute' => 'jur_etapas_procesal_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->jurEtapasProcesal->nombre ?? null;
+            },
+        ],
+        [
+            'attribute' => 'jur_departamento_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->jurDepartamento->nombre ?? null;
+            },
+        ],
+        [
+            'attribute' => 'jur_ciudad_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->jurCiudad->nombre ?? null;
+            },
+        ],
+        [
+            'attribute' => 'jur_jurisdiccion_competent_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->jurJurisdiccionCompetent->nombre ?? null;
+            },
+        ],
+        'jur_juzgado',
+        'jur_radicado',
+        [
+            'attribute' => 'jur_gestiones_juridicas',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return implode("\r", \yii\helpers\ArrayHelper::map(
+                                $data->gestionesJuridicas,
+                                'id', function($modelGestionsPre) {
+                                    return "{$modelGestionsPre->descripcion_gestion}\r\r";
+                                }
+                        )
+                );
+            },
+        ],
+        [
+            'attribute' => 'estado_proceso_id',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return $data->estadoProceso->nombre ?? null;
+            },
+        ],
+    ];
+}
+
 //TIPOS DE EXPORTACION
 $exportConfig = [
     ExportMenu::FORMAT_TEXT => false,
@@ -341,9 +507,19 @@ $fullExportMenu = ExportMenu::widget(
 
                     <!-- SI EL PROCESO ESTA EN JURIDICO SE DEBE MOSTARR EL NUMERO DEL RADICADO -->
                     <?php if ($proceso->estado_proceso_id == '5') : ?>
-                        <h3 class="box-title" style="font-size: 18px !important;">
+                        <h3 class="box-title" style="font-size: 12px !important;">
                             <b>Radicado #:</b> <?= $proceso->jur_radicado; ?>
                         </h3>
+                        <?php if (!empty($proceso->jur_radicado_2)) : ?>
+                            <h3 class="box-title" style="font-size: 12px !important;">
+                                <b>Radicado #2:</b> <?= $proceso->jur_radicado_2; ?>
+                            </h3>
+                        <?php endif; ?>
+                        <?php if (!empty($proceso->jur_radicado_3)) : ?>
+                            <h3 class="box-title" style="font-size: 12px !important;">
+                                <b>Radicado #3:</b> <?= $proceso->jur_radicado_3; ?>
+                            </h3>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                     <!-- BOTONES DE EDICIÓN, VISTA Y BORRADO -->

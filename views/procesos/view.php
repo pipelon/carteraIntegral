@@ -225,6 +225,12 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                     },
                 ],
                 [
+                    'label' => strtoupper('RADICADO'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                [
                     'attribute' => 'jur_departamento_id',
                     'format' => 'raw',
                     'value' => function ($data) {
@@ -247,6 +253,64 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                 ],
                 'jur_juzgado',
                 'jur_radicado',
+                [
+                    'label' => strtoupper('RADICADO #2'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                [
+                    'attribute' => 'jur_departamento_id_2',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurDepartamento2->nombre ?? null;
+                    },
+                ],
+                [
+                    'attribute' => 'jur_ciudad_id_2',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurCiudad2->nombre ?? null;
+                    },
+                ],
+                [
+                    'attribute' => 'jur_jurisdiccion_competent_id_2',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurJurisdiccionCompetent2->nombre ?? null;
+                    },
+                ],
+                'jur_juzgado_2',
+                'jur_radicado_2',
+                [
+                    'label' => strtoupper('RADICADO #3'),
+                    'value' => '',
+                    'contentOptions' => ['class' => 'bg-light-blue'],
+                    'captionOptions' => ['class' => 'bg-light-blue'],
+                ],
+                [
+                    'attribute' => 'jur_departamento_id_3',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurDepartamento3->nombre ?? null;
+                    },
+                ],
+                [
+                    'attribute' => 'jur_ciudad_id_3',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurCiudad3->nombre ?? null;
+                    },
+                ],
+                [
+                    'attribute' => 'jur_jurisdiccion_competent_id_3',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->jurJurisdiccionCompetent3->nombre ?? null;
+                    },
+                ],
+                'jur_juzgado_3',
+                'jur_radicado_3',
                 [
                     'attribute' => 'jur_gestiones_juridicas',
                     'format' => 'raw',

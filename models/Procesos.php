@@ -43,6 +43,22 @@ use Yii;
  * @property string|null $jur_consecutivo_proceso Juzgado
  * @property string|null $jur_instancia_radicado Juzgado
  * @property string|null $jur_radicado Radicado			 
+ * @property int|null $jur_departamento_id_2 Departamento
+ * @property int|null $jur_ciudad_id_2 Ciudad
+ * @property int|null $jur_jurisdiccion_competent_id_2 Jurisdicción competente
+ * @property string|null $jur_juzgado_2 Juzgado
+ * @property string|null $jur_anio_radicado_2 Juzgado
+ * @property string|null $jur_consecutivo_proces_2o Juzgado
+ * @property string|null $jur_instancia_radicado_2 Juzgado
+ * @property string|null $jur_radicado_2 Radicado			 
+ * @property int|null $jur_departamento_id_3 Departamento
+ * @property int|null $jur_ciudad_id_3 Ciudad
+ * @property int|null $jur_jurisdiccion_competent_id_3 Jurisdicción competente
+ * @property string|null $jur_juzgado_3 Juzgado
+ * @property string|null $jur_anio_radicado_3 Juzgado
+ * @property string|null $jur_consecutivo_proceso_3 Juzgado
+ * @property string|null $jur_instancia_radicado_3 Juzgado
+ * @property string|null $jur_radicado_3 Radicado			 
  * @property int|null $jur_tipo_proceso_id Tipo de proceso
  * @property int|null $jur_etapas_procesal_id Etapa procesal
  * @property string|null $jur_fecha_etapa_procesal Fecha Etapa procesal
@@ -106,7 +122,9 @@ class Procesos extends \yii\db\ActiveRecord {
             [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
             'estado_proceso_id', 'jur_departamento_id', 'jur_ciudad_id',
-            'jur_jurisdiccion_competent_id',], 'integer'],
+            'jur_jurisdiccion_competent_id','jur_departamento_id_2', 'jur_ciudad_id_2',
+            'jur_jurisdiccion_competent_id_2','jur_departamento_id_3', 'jur_ciudad_id_3',
+            'jur_jurisdiccion_competent_id_3'], 'integer'],
             [['prejur_fecha_recepcion', 'prejur_fecha_no_acuerdo_pago',
             'jur_fecha_recepcion', 'prejur_resultado_estudio_bienes',
             'prejur_fecha_estudio_bienes', 'prejur_comentarios_estudio_bienes', 'prejur_gestion_prejuridica',
@@ -123,17 +141,22 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_visita_domiciliaria', 'prejur_acuerdo_pago',
             'prejur_informe_castigo_enviado', 'prejur_carta_castigo_enviada'], 'string', 'max' => 3],
             [['jur_juzgado'], 'string', 'max' => 200],
-            [['jur_juzgado'], 'string', 'max' => 200],
+            [['jur_juzgado_2'], 'string', 'max' => 200],
+            [['jur_juzgado_3'], 'string', 'max' => 200],
             [['prejur_resultado_estudio_bienes'], 'string', 'max' => 12],
             [['carpeta'], 'string', 'max' => 100],
             [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
-            [['jur_consecutivo_proceso'], 'string', 'max' => 5, 'min' => 5],
-            [['jur_anio_radicado'], 'string', 'max' => 5],
-            [['jur_instancia_radicado'], 'string', 'max' => 2],
-            [['deleted_by', 'jur_radicado'], 'string', 'max' => 45],
+            [['jur_consecutivo_proceso','jur_consecutivo_proceso_2', 'jur_consecutivo_proceso_3'], 'string', 'max' => 5, 'min' => 5],
+            [['jur_anio_radicado','jur_anio_radicado_2','jur_anio_radicado_3'], 'string', 'max' => 5],
+            [['jur_instancia_radicado','jur_instancia_radicado_2', 'jur_instancia_radicado_3'], 'string', 'max' => 2],
+            [['deleted_by', 'jur_radicado', 'jur_radicado_2', 'jur_radicado_3'], 'string', 'max' => 45],
             [['jur_ciudad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['jur_ciudad_id' => 'id']],
+            [['jur_ciudad_id_2'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['jur_ciudad_id_2' => 'id']],
+            [['jur_ciudad_id_3'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['jur_ciudad_id_3' => 'id']],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['jur_departamento_id'], 'exist', 'skipOnError' => true, 'targetClass' => Departamentos::className(), 'targetAttribute' => ['jur_departamento_id' => 'id']],
+            [['jur_departamento_id_2'], 'exist', 'skipOnError' => true, 'targetClass' => Departamentos::className(), 'targetAttribute' => ['jur_departamento_id_2' => 'id']],
+            [['jur_departamento_id_3'], 'exist', 'skipOnError' => true, 'targetClass' => Departamentos::className(), 'targetAttribute' => ['jur_departamento_id_3' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
             [['estado_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => EstadosProceso::className(), 'targetAttribute' => ['estado_proceso_id' => 'id']],
             [['jur_etapas_procesal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesales::className(), 'targetAttribute' => ['jur_etapas_procesal_id' => 'id']],
@@ -193,6 +216,22 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_consecutivo_proceso' => 'Consecutivo proceso',
             'jur_instancia_radicado' => 'Instancia',
             'jur_radicado' => 'Radicado',
+            'jur_departamento_id_2' => 'Departamento',
+            'jur_ciudad_id_2' => 'Ciudad',
+            'jur_jurisdiccion_competent_id_2' => 'Jurisdicción competente',
+            'jur_juzgado_2' => 'Juzgado',
+            'jur_anio_radicado_2' => 'Año',
+            'jur_consecutivo_proceso_2' => 'Consecutivo proceso',
+            'jur_instancia_radicado_2' => 'Instancia',
+            'jur_radicado_2' => 'Radicado',
+            'jur_departamento_id_3' => 'Departamento',
+            'jur_ciudad_id_3' => 'Ciudad',
+            'jur_jurisdiccion_competent_id_3' => 'Jurisdicción competente',
+            'jur_juzgado_3' => 'Juzgado',
+            'jur_anio_radicado_3' => 'Año',
+            'jur_consecutivo_proceso_3' => 'Consecutivo proceso',
+            'jur_instancia_radicado_3' => 'Instancia',
+            'jur_radicado_3' => 'Radicado',
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',
             'jur_fecha_etapa_procesal' => 'Fecha etapa procesal',
@@ -298,6 +337,24 @@ class Procesos extends \yii\db\ActiveRecord {
     public function getJurCiudad() {
         return $this->hasOne(Ciudades::className(), ['id' => 'jur_ciudad_id']);
     }
+    
+    /**
+     * Gets query for [[JurCiudad]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurCiudad2() {
+        return $this->hasOne(Ciudades::className(), ['id' => 'jur_ciudad_id_2']);
+    }
+    
+    /**
+     * Gets query for [[JurCiudad]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurCiudad3() {
+        return $this->hasOne(Ciudades::className(), ['id' => 'jur_ciudad_id_3']);
+    }
 
     /**
      * Gets query for [[Cliente]].
@@ -315,6 +372,24 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getJurDepartamento() {
         return $this->hasOne(Departamentos::className(), ['id' => 'jur_departamento_id']);
+    }
+    
+    /**
+     * Gets query for [[JurDepartamento]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurDepartamento2() {
+        return $this->hasOne(Departamentos::className(), ['id' => 'jur_departamento_id_2']);
+    }
+    
+    /**
+     * Gets query for [[JurDepartamento]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurDepartamento3() {
+        return $this->hasOne(Departamentos::className(), ['id' => 'jur_departamento_id_3']);
     }
 
     /**
@@ -351,6 +426,24 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getJurJurisdiccionCompetent() {
         return $this->hasOne(JurisdiccionesCompetentes::className(), ['id' => 'jur_jurisdiccion_competent_id']);
+    }
+    
+    /**
+     * Gets query for [[JurJurisdiccionCompetent]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurJurisdiccionCompetent2() {
+        return $this->hasOne(JurisdiccionesCompetentes::className(), ['id' => 'jur_jurisdiccion_competent_id_2']);
+    }
+    
+    /**
+     * Gets query for [[JurJurisdiccionCompetent]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurJurisdiccionCompetent3() {
+        return $this->hasOne(JurisdiccionesCompetentes::className(), ['id' => 'jur_jurisdiccion_competent_id_3']);
     }
 
     /**

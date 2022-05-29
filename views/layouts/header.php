@@ -55,7 +55,7 @@ $this->registerJs($script);
                         'alt' => 'User Image',
                         'style' => 'width: 96px; padding: 0; margin-top: -15px; max-height: none;'
             ])
-            . '</span>', Yii::$app->homeUrl, ['class' => 'logo'])
+            . '</span>', \yii\helpers\Url::to(['procesos/index']), ['class' => 'logo'])
     ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
@@ -67,6 +67,8 @@ $this->registerJs($script);
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
+                
+                <?php if (!Yii::$app->user->identity->isCliente()): ?>
 
                 <li class="dropdown notifications-menu">
                     <!-- CONTAR LAS TAREAS PENDIENTES DEL USUARIO -->
@@ -170,6 +172,7 @@ $this->registerJs($script);
                     </ul>
                 </li>
 
+                <?php endif; ?>
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

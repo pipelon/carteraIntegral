@@ -110,8 +110,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
     public function getFullName() {
         return $this->fullName;
     }
-    
-    public function getProfileImage(){
+
+    public function getProfileImage() {
         return $this->profile_image;
     }
 
@@ -157,7 +157,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         }
         return false;
     }
-    
+
     public function isColaborador($id = "") {
         $userId = empty($id) ? \Yii::$app->user->getId() : $id;
         $arrRoles = \Yii::$app->authManager->getRolesByUser($userId);
@@ -166,7 +166,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         }
         return false;
     }
-    
+
     public function isLider($id = "") {
         $userId = empty($id) ? \Yii::$app->user->getId() : $id;
         $arrRoles = \Yii::$app->authManager->getRolesByUser($userId);
@@ -175,7 +175,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         }
         return false;
     }
-    
+
     public function isCliente() {
         $arrRoles = \Yii::$app->authManager->getRolesByUser(\Yii::$app->user->getId());
         if (array_key_exists('Cliente', $arrRoles)) {
@@ -183,12 +183,20 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         }
         return false;
     }
-    
+
     public function getUserNamesByRole($role) {
         return Users::find()
-        ->join('LEFT JOIN','auth_assignment','auth_assignment.user_id = id')
-        ->where(['auth_assignment.item_name' => $role])
-        ->all();
+                        ->join('LEFT JOIN', 'auth_assignment', 'auth_assignment.user_id = id')
+                        ->where(['auth_assignment.item_name' => $role])
+                        ->all();
+    }
+
+    public function getClientsByUser() {
+        return Clientes::find()
+                        ->select("id")
+                        ->where(['usuario_id' => \Yii::$app->user->getId()])
+                        ->asArray()
+                        ->all();
     }
 
 }
