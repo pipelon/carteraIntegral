@@ -58,19 +58,6 @@ class ProcesosSearch extends Procesos {
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        /* $query->andFilterWhere([
-          'id' => $this->id,
-          'cliente_id' => $this->cliente_id,
-          'deudor_id' => $this->deudor_id,
-          'estado_proceso_id' => $this->estado_proceso_id
-          ]); */
-
-        /* $query->andFilterWhere(['like', 'prejur_valor_activacion', $this->prejur_valor_activacion])
-          ->andFilterWhere(['like', 'prejur_saldo_actual', $this->prejur_saldo_actual])
-          ->andFilterWhere(['like', 'jur_valor_activacion', $this->jur_valor_activacion])
-          ->andFilterWhere(['like', 'jur_saldo_actual', $this->jur_saldo_actual]); */
-
         $query->andFilterWhere(['like', 'clientes.nombre', trim($this->buscador)])
                 ->orFilterWhere(['like', 'clientes.documento', trim($this->buscador)])
                 ->orFilterWhere(['like', 'deudores.nombre', trim($this->buscador)])

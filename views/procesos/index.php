@@ -507,9 +507,11 @@ $fullExportMenu = ExportMenu::widget(
 
                     <!-- SI EL PROCESO ESTA EN JURIDICO SE DEBE MOSTARR EL NUMERO DEL RADICADO -->
                     <?php if ($proceso->estado_proceso_id == '5') : ?>
-                        <h3 class="box-title" style="font-size: 12px !important;">
-                            <b>Radicado #:</b> <?= $proceso->jur_radicado; ?>
-                        </h3>
+                        <?php if (!empty($proceso->jur_radicado)) : ?>
+                            <h3 class="box-title" style="font-size: 12px !important;">
+                                <b>Radicado #:</b> <?= $proceso->jur_radicado; ?>
+                            </h3>
+                        <?php endif; ?>
                         <?php if (!empty($proceso->jur_radicado_2)) : ?>
                             <h3 class="box-title" style="font-size: 12px !important;">
                                 <b>Radicado #2:</b> <?= $proceso->jur_radicado_2; ?>
@@ -729,6 +731,30 @@ $fullExportMenu = ExportMenu::widget(
 
     <?php endforeach; ?>
 </div>
+
+<?php
+//PAGINADOR A MANO PQ NO SE USO EL WIDGET
+// Obtener el número de elementos de la página actual
+$count = $dataProvider->getCount();
+// Obtener el número total de elementos entre todas las páginas
+$totalCount = $dataProvider->getTotalCount();
+// Total de paginas
+$totalPaginas = ceil($totalCount / 20); #$count
+// url para conservar el filtro en caso que exista
+$url = parse_url(Yii::$app->request->url);
+
+$pagina = $_GET['page'] ?? 1;
+$search = $_GET['ProcesosSearch']['buscador'] ?? "";
+?>
+<ul class="pagination">
+    <?php
+    for ($i = 1; $i <= $totalPaginas; $i++) {
+        $active = $pagina == $i ? "active" : "";
+        echo "<li class='{$active}'>" . Html::a($i, Url::to(['procesos/index', 'ProcesosSearch[buscador]' => $search, 'page' => $i])) . "</li>";
+    }
+    ?>
+
+</ul>
 
 <?= Html::tag('div', '', ['id' => 'ajax_result-prejuridico']); ?>
 <?= Html::tag('div', '', ['id' => 'ajax_result-juridico']); ?>
