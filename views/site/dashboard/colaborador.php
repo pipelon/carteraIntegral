@@ -1,149 +1,93 @@
-<!-- PROCESOS EN LOS QUE ERES COLABORADO -->
 <?php
+/**
+ * PROCESOS POR COLABORADOR CON TODAS SUS TAREAS
+ */
 $procesos = app\models\Procesos::find()
         ->joinWith('procesosXColaboradores')
-        ->joinWith('cliente')
-        ->joinWith('deudor')
-        ->joinWith('estadoProceso')
         ->where([
             'user_id' => \Yii::$app->user->getId()
         ])
         ->orderBy(['id' => SORT_DESC])
-        ->limit(10)
-        ->asArray()
         ->all();
 ?>
-<?php if (!empty($procesos)) : ?>
-    <div class = "col-md-5">
-        <div class = "box box-primary">
-            <div class = "box-header with-border">
-                <h3 class = "box-title">Procesos en los que eres colaborador</h3>
-                <div class = "box-tools pull-right">
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
-                    </button>
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
-                </div>
-            </div>
-            <!--/.box-header -->
-            <div class = "box-body">
-                <div class = "table-responsive">
-                    <table class = "table no-margin">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Cliente</th>
-                                <th>Deudor</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($procesos as $proceso) : ?>
-                                <tr>
-                                    <td><?= \yii\bootstrap\Html::a("{$proceso['id']}", ['/procesos/view', 'id' => $proceso['id']]); ?></td>
-                                    <td><?= $proceso["cliente"]["nombre"]; ?></td>
-                                    <td><?= $proceso["deudor"]["nombre"]; ?></td>
-                                    <td>
-                                        <?php
-                                        switch ($proceso["estado_proceso_id"]) {
-                                            case "1":
-                                                $labelEstado = 'warning';
-                                                break;
-                                            case "2":
-                                            case "3":
-                                                $labelEstado = 'danger';
-                                                break;
-                                            default:
-                                                $labelEstado = 'success';
-                                        }
-                                        ?>
-                                        <span class="label label-<?= $labelEstado; ?>">
-                                            <?= $proceso["estadoProceso"]["nombre"]; ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <!--/.table-responsive -->
-            </div>
-            <!--/.box-body -->
-            <div class = "box-footer clearfix">
-                <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')): ?>
-                    <?= \yii\bootstrap\Html::a('Ver todos los procesos', ['/procesos/index'], ['class' => 'btn btn-sm btn-primary btn-flat pull-right']); ?>
-                <?php endif; ?>
-            </div>
-            <!--/.box-footer -->
-        </div>
-    </div>
-<?php endif; ?>
-<!-- TAREAS ASIGNADAS AL USUARIO -->
-<?php
-$tareas = app\models\Tareas::find()
-        ->joinWith('jefe')
-        ->joinWith('user')
-        ->where([
-            'user_id' => \Yii::$app->user->getId(),
-            'estado' => "0"
-        ])
-        ->orderBy(['fecha_esperada' => SORT_ASC])
-        ->limit(10)
-        ->asArray()
-        ->all();
-?>
-<?php if (!empty($tareas)) : ?>
-    <div class = "col-md-7">
-        <div class = "box box-primary">
-            <div class = "box-header with-border">
-                <h3 class = "box-title">Tareas asignadas a ti</h3>
-                <div class = "box-tools pull-right">
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
-                    </button>
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
-                </div>
-            </div>
-            <!--/.box-header -->
-            <div class = "box-body">
-                <div class = "table-responsive">
-                    <table class = "table no-margin">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Líder</th>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($tareas as $tarea) : ?>
-                                <tr>
-                                    <td><?= \yii\bootstrap\Html::a("{$tarea['proceso_id']}", ['/procesos/view', 'id' => $tarea['proceso_id']]); ?></td>
-                                    <td><?= $tarea["jefe"]["name"]; ?></td>
-                                    <td><?= $tarea["fecha_esperada"]; ?></td>
-                                    <td><?= $tarea["descripcion"]; ?></td>
-                                    <td>
-                                        <?php
-                                        if ($tarea["estado"] == '0') {
-                                            $labelEstado = 'warning';
-                                            $estadoTarea = 'pendiente';
-                                        } else {
-                                            $labelEstado = 'success';
-                                            $estadoTarea = 'finalziada';
-                                        }
-                                        ?>
+<div class="col-md-12">
+    <?php $i = 0; ?>
+    <?php foreach ($procesos as $proceso) : ?>
+        <?php if ($i % 2 == 0) : ?>
+            <div class="row">
+            <?php endif; ?>
+            <div class="col-md-6">
+                <div class="box box-default">
+                    <div class="box-body infoGeneral">
+                        <p>
+                            <?= \yii\bootstrap\Html::a("Proceso #{$proceso['id']}", ['/procesos/view', 'id' => $proceso['id']]); ?>
+                            <br /><br />
+                            <?= $proceso->cliente->nombre ?>
+                            <br />
+                            <b><?= Yii::$app->utils->filtroTipoDocumento($proceso->cliente->tipo_documento); ?>: </b>
+                            <?= $proceso->cliente->documento; ?>
+                            <br />
+                            <i class="fa fa-map-marker" style="color: #000;"></i> <?= $proceso->cliente->direccion; ?>                                
+                        </p>
+                        <hr />
+                        <h4>Tareas</h4>
+                        <ul class="todo-list ui-sortable">
+                            <?php if (count($proceso->tareas) > 0) : ?>
+                                <?php foreach ($proceso->tareas as $tarea) : ?>
+                                    <?php
+                                    /*
+                                     * Calcular tareas pronto a vencer para semaforo
+                                     */
+                                    $currentDate = new DateTime(date("Y-m-d"));
+                                    $fechaEsperada = new DateTime($tarea->fecha_esperada);
+                                    $diff = $currentDate->diff($fechaEsperada);
 
-                                        <span class="label label-<?= $labelEstado; ?>">
-                                            <?= $estadoTarea; ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                    switch (true) {
+                                        case $diff->invert == 0 && $diff->days > 3:
+                                            $semaforoIcon = "fa-check-square-o text-green";
+                                            $semaforoLabel = "label-success";
+                                            break;
+                                        case $diff->invert == 0 && $diff->days <= 3 && $diff->days >= 0:
+                                            $semaforoIcon = "fa-warning text-yellow";
+                                            $semaforoLabel = "label-warning";
+                                            break;
+                                        case $diff->invert == 1:
+                                            $semaforoIcon = "fa-warning text-red";
+                                            $semaforoLabel = "label-danger";
+                                            break;
+                                        default:
+                                            $semaforoIcon = "fa-check-square-o text-green";
+                                            $semaforoLabel = "label-success";
+                                            break;
+                                    }
+                                    ?>
+                                    <li>
+                                        <span class="text"><?= "<i class='fa {$semaforoIcon}'></i> {$tarea->descripcion}"; ?></span>
+                                        <small class="label <?= $semaforoLabel; ?>"><i class="fa fa-clock-o"></i> <?= $tarea->fecha_esperada; ?></small>                           
+                                    </li>
+
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <span class="text">Sin tareas</span> 
+                            <?php endif; ?>
+                        </ul>
+
+                    </div>
+                    <div class="box-footer clearfix no-border">
+                        <?= \yii\bootstrap\Html::a("<i class='flaticon-edit'></i> Editar proceso", ['/procesos/update', 'id' => $proceso['id']], ['class' => 'btn btn-default pull-right']); ?>
+
+                    </div>
                 </div>
-                <!--/.table-responsive -->
+
             </div>
-        </div>
-    </div>
-<?php endif; ?>
+                <?php $i++; ?>
+            <?php if ($i % 2 == 0) : ?>
+            </div>
+        <?php endif; ?>
+
+        
+
+    <?php endforeach; ?>
+</div>
+
+

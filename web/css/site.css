@@ -362,3 +362,9 @@ h4.radicadoText{
     display: inline-block;
     float: right;
 }
+ul.navbar-nav > li.notifications-menu ul.dropdown-menu{
+    width: 400px;
+}
+.todo-list > li .label{
+    float: right;
+}

@@ -12,7 +12,7 @@ $this->title = 'CILES';
             <?php if (!Yii::$app->user->identity->isCliente()): ?>
 
                 <!-- PROCESOS EN GESTION -->
-                <div class="col-md-3 col-sm-6 col-xs-12">
+<!--                <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-yellow"><i class="flaticon-list-3"></i></span>
                         <div class="info-box-content">
@@ -20,9 +20,9 @@ $this->title = 'CILES';
                             <span class="info-box-number">80<small>%</small></span>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!-- PROCESOS TERMINADOS -->
-                <div class="col-md-3 col-sm-6 col-xs-12">
+<!--                <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-green"><i class="flaticon-interface"></i></span>
                         <div class="info-box-content">
@@ -30,9 +30,9 @@ $this->title = 'CILES';
                             <span class="info-box-number">15<small>%</small></span>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!-- PROCESOS CATIGADOS -->
-                <div class="col-md-3 col-sm-6 col-xs-12">
+<!--                <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-red"><i class="flaticon-danger"></i></span>
                         <div class="info-box-content">
@@ -40,9 +40,9 @@ $this->title = 'CILES';
                             <span class="info-box-number">5<small>%</small></span>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!-- PROCESOS DEVUELTOS -->
-                <div class="col-md-3 col-sm-6 col-xs-12">
+<!--                <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
                         <span class="info-box-icon bg-orange"><i class="flaticon-close"></i></span>
                         <div class="info-box-content">
@@ -50,7 +50,7 @@ $this->title = 'CILES';
                             <span class="info-box-number">0<small>%</small></span>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
             <?php endif; ?>
 

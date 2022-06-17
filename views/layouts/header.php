@@ -55,7 +55,7 @@ $this->registerJs($script);
                         'alt' => 'User Image',
                         'style' => 'width: 96px; padding: 0; margin-top: -15px; max-height: none;'
             ])
-            . '</span>', \yii\helpers\Url::to(['procesos/index']), ['class' => 'logo'])
+            . '</span>', \yii\helpers\Url::to(['site/index']), ['class' => 'logo'])
     ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
@@ -67,110 +67,139 @@ $this->registerJs($script);
         <div class="navbar-custom-menu">
 
             <ul class="nav navbar-nav">
-                
+
                 <?php if (!Yii::$app->user->identity->isCliente()): ?>
 
-                <li class="dropdown notifications-menu">
-                    <!-- CONTAR LAS TAREAS PENDIENTES DEL USUARIO -->
-                    <?php
-                    $tareas = \app\models\Tareas::find()
-                            ->where(['user_id' => Yii::$app->user->identity->id, 'estado' => '0'])
-                            ->limit(10)
-                            ->all();
-                    ?>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="flaticon-calendar-1"></i>
-                        <?php if (count($tareas) >= 1): ?>
-                            <span class="label label-warning"><?= count($tareas); ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">
-
+                    <li class="dropdown notifications-menu">
+                        <!-- CONTAR LAS TAREAS PENDIENTES DEL USUARIO -->
+                        <?php
+                        $tareas = \app\models\Tareas::find()
+                                ->where(['user_id' => Yii::$app->user->identity->id, 'estado' => '0'])
+                                ->orderBy("fecha_esperada asc")
+                                ->limit(10)
+                                ->all();
+                        ?>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="flaticon-calendar-1"></i>
                             <?php if (count($tareas) >= 1): ?>
-                                <?php $plural = count($tareas) > 1 ? "s" : ""; ?>
-                                <?= "Tienes " . count($tareas) . " tarea{$plural} pendiente{$plural}"; ?>
-                            <?php else: ?>
-                                <?= "No tienes tareas pendientes"; ?>
+                                <span class="label label-warning"><?= count($tareas); ?></span>
                             <?php endif; ?>
-                        </li>
-                        <?php if (count($tareas) >= 1): ?>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">
 
-                                <ul class="menu">
-                                    <?php foreach ($tareas as $tarea) : ?>
-                                        <li>
-                                            <?php
-                                            $htmlTarea = "<span class='tarea_desc'>{$tarea->descripcion}</span>";
-                                            $htmlTarea .= "<span class='label label-warning' style='float: right'>";
-                                            $htmlTarea .= "<i class='flaticon-calendar-1'></i> {$tarea->fecha_esperada}";
-                                            $htmlTarea .= "</span>";
-                                            echo \yii\bootstrap\Html::a($htmlTarea,
-                                                    ['/procesos/view', 'id' => $tarea['proceso_id']]);
-                                            ?>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-
+                                <?php if (count($tareas) >= 1): ?>
+                                    <?php $plural = count($tareas) > 1 ? "s" : ""; ?>
+                                    <?= "Tienes " . count($tareas) . " tarea{$plural} pendiente{$plural}"; ?>
+                                <?php else: ?>
+                                    <?= "No tienes tareas pendientes"; ?>
+                                <?php endif; ?>
                             </li>
-                        <?php endif; ?>
-                    </ul>
-                </li>
+                            <?php if (count($tareas) >= 1): ?>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
 
-                <li class="dropdown notifications-menu">
+                                    <ul class="menu">
+                                        <?php foreach ($tareas as $tarea) : ?>
 
-                    <?php
-                    $alertas = \app\models\Alertas::find()
-                            ->where(['usuario_id' => Yii::$app->user->identity->id, 'visto' => 0])
-                            ->orderBy(['created' => SORT_DESC])
-                            ->limit(10)
-                            ->all();
-                    ?>
+                                            <?php
+                                            /*
+                                             * Calcular tareas pronto a vencer para semaforo
+                                             */
+                                            $currentDate = new DateTime(date("Y-m-d"));
+                                            $fechaEsperada = new DateTime($tarea->fecha_esperada);
+                                            $diff = $currentDate->diff($fechaEsperada);
 
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="flaticon-bell"></i>
-                        <?php if (count($alertas) >= 1): ?>
-                            <span class="label label-warning"><?= count($alertas); ?></span>
-                        <?php endif; ?>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">
+                                            switch (true) {
+                                                case $diff->invert == 0 && $diff->days > 3:
+                                                    $semaforoIcon = "fa-check-square-o text-green";
+                                                    $semaforoLabel = "label-success";
+                                                    break;
+                                                case $diff->invert == 0 && $diff->days <= 3 && $diff->days >= 0:
+                                                    $semaforoIcon = "fa-warning text-yellow";
+                                                    $semaforoLabel = "label-warning";
+                                                    break;
+                                                case $diff->invert == 1:
+                                                    $semaforoIcon = "fa-warning text-red";
+                                                    $semaforoLabel = "label-danger";
+                                                    break;
+                                                default:
+                                                    $semaforoIcon = "fa-check-square-o text-green";
+                                                    $semaforoLabel = "label-success";
+                                                    break;
+                                            }
+                                            ?>
+                                            <li>
+                                                <?php
+                                                $htmlTarea = "<i class='fa {$semaforoIcon}'></i><span class='tarea_desc'>{$tarea->descripcion}</span>";
+                                                $htmlTarea .= "<span class='label {$semaforoLabel}' style='float: right'>";
+                                                $htmlTarea .= "<i class='flaticon-calendar-1'></i> {$tarea->fecha_esperada}";
+                                                $htmlTarea .= "</span>";
+                                                echo \yii\bootstrap\Html::a($htmlTarea,
+                                                        ['/procesos/view', 'id' => $tarea['proceso_id']]);
+                                                ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
 
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown notifications-menu">
+
+                        <?php
+                        $alertas = \app\models\Alertas::find()
+                                ->where(['usuario_id' => Yii::$app->user->identity->id, 'visto' => 0])
+                                ->orderBy(['created' => SORT_DESC])
+                                ->limit(10)
+                                ->all();
+                        ?>
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="flaticon-bell"></i>
                             <?php if (count($alertas) >= 1): ?>
-                                <?php $plural = count($alertas) > 1 ? "s" : ""; ?>
-                                <?= "Tienes " . count($alertas) . " alerta{$plural} pendiente{$plural}"; ?>
-                            <?php else: ?>
-                                <?= "No tienes alertas pendientes"; ?>
+                                <span class="label label-warning"><?= count($alertas); ?></span>
                             <?php endif; ?>
-                        </li>
-                        <?php if (count($alertas) >= 1): ?>
-                            <li>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">
 
-                                <ul class="menu">
-                                    <?php foreach ($alertas as $alerta) : ?>
-                                        <li>
-                                            <?php
-                                            $htmlTarea = "<i class='fa fa-warning text-yellow'></i> {$alerta->descripcion_alerta}";
-                                            echo \yii\bootstrap\Html::a($htmlTarea,
-                                                    [
-                                                        '/procesos/view', 'id' => $alerta->proceso_id],
-                                                    [
-                                                        //'onclick' => "marcarAlertas({$alerta->proceso_id},{$alerta->usuario_id});"
-                                                        'data-proceso' => $alerta->proceso_id,
-                                                        'data-usuario' => $alerta->usuario_id,
-                                                        'id' => 'marcarAlertas'
-                                                    ]
-                                            );
-                                            ?>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
+                                <?php if (count($alertas) >= 1): ?>
+                                    <?php $plural = count($alertas) > 1 ? "s" : ""; ?>
+                                    <?= "Tienes " . count($alertas) . " alerta{$plural} pendiente{$plural}"; ?>
+                                <?php else: ?>
+                                    <?= "No tienes alertas pendientes"; ?>
+                                <?php endif; ?>
                             </li>
-                            <!--<li class="footer"><a href="#">Ver todo...</a></li>-->
-                        <?php endif; ?>
-                    </ul>
-                </li>
+                            <?php if (count($alertas) >= 1): ?>
+                                <li>
+
+                                    <ul class="menu">
+                                        <?php foreach ($alertas as $alerta) : ?>
+                                            <li>
+                                                <?php
+                                                $htmlTarea = "<i class='fa fa-warning text-yellow'></i> {$alerta->descripcion_alerta}";
+                                                echo \yii\bootstrap\Html::a($htmlTarea,
+                                                        [
+                                                            '/procesos/view', 'id' => $alerta->proceso_id],
+                                                        [
+                                                            //'onclick' => "marcarAlertas({$alerta->proceso_id},{$alerta->usuario_id});"
+                                                            'data-proceso' => $alerta->proceso_id,
+                                                            'data-usuario' => $alerta->usuario_id,
+                                                            'id' => 'marcarAlertas'
+                                                        ]
+                                                );
+                                                ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                                <!--<li class="footer"><a href="#">Ver todo...</a></li>-->
+                            <?php endif; ?>
+                        </ul>
+                    </li>
 
                 <?php endif; ?>
 

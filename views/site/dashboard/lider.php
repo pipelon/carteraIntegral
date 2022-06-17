@@ -1,150 +1,73 @@
 <!-- PROCESOS EN LOS QUE ERES JEFE -->
 <?php
 $procesos = app\models\Procesos::find()
+        ->select("procesos_x_colaboradores.*, t.*, u.name")
         ->joinWith('procesosXColaboradores')
-        ->joinWith('cliente')
-        ->joinWith('deudor')
-        ->joinWith('estadoProceso')
+        ->innerJoin(['t' => 'tareas'], '`t`.`proceso_id` = `procesos`.`id` AND `t`.`user_id` = `procesos_x_colaboradores`.`user_id`')
+        ->innerJoin(['u' => 'users'], '`t`.`user_id` = `u`.`id`')
         ->where([
-            'jefe_id' => \Yii::$app->user->getId()
+            'procesos.jefe_id' => \Yii::$app->user->getId(),
+            't.estado' => 0
         ])
-        ->orderBy(['id' => SORT_DESC])
-        ->limit(10)
+        ->andWhere(['<', 't.fecha_esperada', date('Y-m-d')])
         ->asArray()
         ->all();
-?>
-<?php if (!empty($procesos)): ?>
-    <div class="col-md-5">
-        <div class = "box box-primary">
-            <div class = "box-header with-border">
-                <h3 class = "box-title">Procesos en los que eres jefe</h3>
-                <div class = "box-tools pull-right">
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
-                    </button>
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
-                </div>
-            </div>
-            <!--/.box-header -->
-            <div class = "box-body">
-                <div class = "table-responsive">
-                    <table class = "table no-margin">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Cliente</th>
-                                <th>Deudor</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($procesos as $proceso) : ?>
-                                <tr>
-                                    <td><?= \yii\bootstrap\Html::a("{$proceso['id']}", ['/procesos/view', 'id' => $proceso['id']]); ?></td>
-                                    <td><?= $proceso["cliente"]["nombre"]; ?></td>
-                                    <td><?= $proceso["deudor"]["nombre"]; ?></td>
-                                    <td>
-                                        <?php
-                                        switch ($proceso["estado_proceso_id"]) {
-                                            case "1":
-                                                $labelEstado = 'warning';
-                                                break;
-                                            case "2":
-                                            case "3":
-                                                $labelEstado = 'danger';
-                                                break;
-                                            default:
-                                                $labelEstado = 'success';
-                                        }
-                                        ?>
-                                        <span class="label label-<?= $labelEstado; ?>">
-                                            <?= $proceso["estadoProceso"]["nombre"]; ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <!--/.table-responsive -->
-            </div>
-            <!--/.box-body -->
-            <div class = "box-footer clearfix">
-                <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')): ?>
-                    <?= \yii\bootstrap\Html::a('Ver todos los procesos', ['/procesos/index'], ['class' => 'btn btn-sm btn-primary btn-flat pull-right']); ?>
-                <?php endif; ?>
-            </div>
-            <!--/.box-footer -->
-        </div>
-    </div>
-<?php endif; ?>
 
-<!-- TAREAS EN LAS QUE ERES JEFE -->
-<?php
-$tareas = app\models\Tareas::find()
-        ->joinWith('jefe')
-        ->joinWith('user')
-        ->where([
-            'jefe_id' => \Yii::$app->user->getId(),
-            'estado' => "0"
-        ])
-        ->orderBy(['fecha_esperada' => SORT_ASC])
-        ->limit(10)
-        ->asArray()
-        ->all();
+$colaboradores = [];
+foreach ($procesos as $proceso) {
+    $colaboradores[$proceso['user_id']]['nombre']= $proceso['name'];
+    $colaboradores[$proceso['user_id']]['procesos'][$proceso['proceso_id']][] = [
+        'fecha_esperada' => $proceso['fecha_esperada'],
+        'descripcion' => $proceso['descripcion'],
+    ];
+}
 ?>
-<?php if (!empty($tareas)): ?>
-    <div class="col-md-7">
-        <div class = "box box-primary">
-            <div class = "box-header with-border">
-                <h3 class = "box-title">Tareas para gestionar</h3>
-                <div class = "box-tools pull-right">
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
-                    </button>
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
-                </div>
-            </div>
-            <!--/.box-header -->
-            <div class = "box-body">
-                <div class = "table-responsive">
-                    <table class = "table no-margin">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Asignado a</th>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($tareas as $tarea) : ?>
-                                <tr>
-                                    <td><?= \yii\bootstrap\Html::a("{$tarea['proceso_id']}", ['/procesos/view', 'id' => $tarea['proceso_id']]); ?></td>
-                                    <td><?= $tarea["user"]["name"]; ?></td>
-                                    <td><?= $tarea["fecha_esperada"]; ?></td>
-                                    <td><?= $tarea["descripcion"]; ?></td>
-                                    <td>
-                                        <?php
-                                        if ($tarea["estado"] == '0') {
-                                            $labelEstado = 'warning';
-                                            $estadoTarea = 'pendiente';
-                                        } else {
-                                            $labelEstado = 'success';
-                                            $estadoTarea = 'finalziada';
-                                        }
-                                        ?>
+<div class="col-md-12">
+    <?php $i = 0; ?>
+    <?php foreach ($colaboradores as $colaborador => $procesos) : ?>
 
-                                        <span class="label label-<?= $labelEstado; ?>">
-                                            <?= $estadoTarea; ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+        <?php if ($i % 2 == 0) : ?>
+            <div class="row">
+            <?php endif; ?>
+            <div class="col-md-6">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <?= $procesos['nombre']; ?>
+                    </div>
+                    <div class="box-body infoGeneral">
+
+                        <?php foreach ($procesos['procesos'] as $proceso => $tareas) : ?>
+                            <p>
+                                <?= \yii\bootstrap\Html::a("Proceso #{$proceso}", ['/procesos/view', 'id' => $proceso]); ?>                                                    
+                            </p>
+                            <hr />
+                            <h4>Tareas</h4>
+                            <ul class="todo-list ui-sortable">
+                                <?php if (count($tareas) > 0) : ?>
+                                    <?php foreach ($tareas as $tarea) : ?>
+                                        <li>
+                                            <span class="text"><?= "<i class='fa fa-warning text-red'></i> {$tarea['descripcion']}"; ?></span>
+                                            <small class="label label-danger"><i class="fa fa-clock-o"></i> <?= $tarea['fecha_esperada']; ?></small>                           
+                                        </li>
+
+
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <span class="text">Sin tareas</span> 
+                                <?php endif; ?>
+                            </ul>
+                            <br />
+                        <?php endforeach; ?>
+
+                    </div>
+                    <div class="box-footer clearfix no-border"></div>
                 </div>
-                <!--/.table-responsive -->
             </div>
-        </div>
-    </div>
-<?php endif; ?>
+            <?php $i++; ?>
+            <?php if ($i % 2 == 0) : ?>
+            </div>
+        <?php endif; ?>    
+
+    <?php endforeach; ?>
+</div>
+

@@ -19,6 +19,8 @@
                         <i class="fa fa-bookmark" style="color: #000;"></i> <?= $model->marca; ?>
                         <br />
                         <i class="fa fa-map-marker" style="color: #000;"></i> <?= $model->direccion; ?>
+                        <br />
+                        <i class="fa fa-map-o" style="color: #000;"></i> <?= $model->ciudad; ?>
                     </p>
                 </div>
             </div>            

@@ -21,6 +21,8 @@ yii\bootstrap\Modal::begin([
             <i class="fa fa-bookmark" style="color: #000;"></i> <?= $model->deudor->marca; ?>
             <br />
             <i class="fa fa-map-marker" style="color: #000;"></i> <?= $model->deudor->direccion; ?>
+            <br />
+            <i class="fa fa-map-o" style="color: #000;"></i> <?= $model->deudor->ciudad; ?>
         </p>
         <br />
         Representante Legal

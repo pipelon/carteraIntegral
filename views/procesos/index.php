@@ -577,7 +577,7 @@ $fullExportMenu = ExportMenu::widget(
                                 <b><?= Yii::$app->utils->filtroTipoDocumento($proceso->cliente->tipo_documento); ?>: </b>
                                 <?= $proceso->cliente->documento; ?>
                                 <br />
-                                <i class="fa fa-map-marker" style="color: #000;"></i> <?= $proceso->deudor->direccion; ?>
+                                <i class="fa fa-map-marker" style="color: #000;"></i> <?= $proceso->cliente->direccion; ?>                                
                             </p>
                         </div>
                         <!-- DEUDOR -->
@@ -591,6 +591,8 @@ $fullExportMenu = ExportMenu::widget(
                                 <i class="fa fa-bookmark" style="color: #000;"></i> <?= $proceso->deudor->marca; ?>
                                 <br />
                                 <i class="fa fa-map-marker" style="color: #000;"></i> <?= $proceso->deudor->direccion; ?>
+                                <br />
+                                <i class="fa fa-map-o" style="color: #000;"></i> <?= $proceso->deudor->ciudad; ?>
                             </p>
                         </div>
                         <div class="col-md-2 invoice-col vertical-center">
