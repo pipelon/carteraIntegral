@@ -615,14 +615,6 @@ class ProcesosController extends Controller {
                     'model' => $model
         ]);
     }
-    
-    public function actionResumenTarea($idProceso,$title) {
-        $model = Procesos::find($idProceso)->one();
-        return $this->renderPartial('resumen-tarea', [
-                    'model' => $model,
-                    'title' => $title
-        ]);
-    }
 
     public function actionCambiarEtapaPopup($id) {
         $model = $this->findModel($id);
