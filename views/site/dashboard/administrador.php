@@ -1,143 +1,95 @@
-<!-- LOS ULTIMOS 10 PROCESOS -->
+<!-- TODOS LOS CLIENTES TODOS SUS PROCESOS Y TODOS SUS COLABORADORES -->
 <?php
-$procesos = app\models\Procesos::find()
-        ->joinWith('procesosXColaboradores')
-        ->joinWith('cliente')
-        ->joinWith('deudor')
-        ->joinWith('estadoProceso')
-        ->orderBy(['id' => SORT_DESC])
-        ->limit(10)
+$tareasXClientes = app\models\Clientes::find()
+        ->select(["clientes.id", "clientes.nombre", "tareas.*"])
+        ->joinWith('procesos', true, 'INNER JOIN')
+        ->innerJoin('tareas', 'tareas.proceso_id = procesos.id')
+        ->where([
+            'tareas.estado' => 0
+        ])
         ->asArray()
+        ->orderBy("clientes.nombre, tareas.proceso_id, user_id, tareas.fecha_esperada ASC")
         ->all();
+
+if(!empty($tareasXClientes)) {
+$clienteNombre = $procesos = [];
+$rowEscrito = false;
 ?>
-<?php if (!empty($procesos)) : ?>
-    <div class="col-md-5">
-        <div class = "box box-primary">
-            <div class = "box-header with-border">
-                <h3 class = "box-title">Procesos</h3>
-                <div class = "box-tools pull-right">
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
-                    </button>
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
-                </div>
-            </div>
-            <!--/.box-header -->
-            <div class = "box-body">
-                <div class = "table-responsive">
-                    <table class = "table no-margin">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Cliente</th>
-                                <th>Deudor</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($procesos as $proceso) : ?>
-                                <tr>
-                                    <td><?= \yii\bootstrap\Html::a("{$proceso['id']}", ['/procesos/view', 'id' => $proceso['id']]); ?></td>
-                                    <td><?= $proceso["cliente"]["nombre"]; ?></td>
-                                    <td><?= $proceso["deudor"]["nombre"]; ?></td>
-                                    <td>
-                                        <?php
-                                        switch ($proceso["estado_proceso_id"]) {
-                                            case "1":
-                                                $labelEstado = 'warning';
-                                                break;
-                                            case "2":
-                                            case "3":
-                                                $labelEstado = 'danger';
-                                                break;
-                                            default:
-                                                $labelEstado = 'success';
-                                        }
-                                        ?>
-                                        <span class="label label-<?= $labelEstado; ?>">
-                                            <?= $proceso["estadoProceso"]["nombre"]; ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <!--/.table-responsive -->
-            </div>
-            <!--/.box-body -->
-            <div class = "box-footer clearfix">
-                <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')): ?>
-                    <?= \yii\bootstrap\Html::a('Ver todos los procesos', ['/procesos/index'], ['class' => 'btn btn-sm btn-primary btn-flat pull-right']); ?>
+
+
+<div class="row">
+    <?php foreach ($tareasXClientes as $tareaXCliente) : ?>
+
+        <?php if (!in_array($tareaXCliente['nombre'], $clienteNombre)) : ?>
+            <?php if ($rowEscrito): ?>
+            </div></div></div>
+        <?php endif; ?>
+        <?php $rowEscrito = true; ?>
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-body box-tareas-admin">
+                    <?php array_push($clienteNombre, $tareaXCliente['nombre']); ?>
+                    <h4><?= $tareaXCliente['nombre']; ?></h4>
                 <?php endif; ?>
-            </div>
-            <!--/.box-footer -->
-        </div>
-    </div>
-<?php endif; ?>
 
-<!-- TODAS LAS TAREAS -->
-<?php
-$tareas = app\models\Tareas::find()
-        ->joinWith('jefe')
-        ->joinWith('user')
-        ->orderBy(['id' => SORT_DESC])
-        ->limit(10)
-        ->asArray()
-        ->all();
-?>
-<?php if (!empty($tareas)) : ?>
-    <div class="col-md-7">
-        <div class = "box box-primary">
-            <div class = "box-header with-border">
-                <h3 class = "box-title">Tareas</h3>
-                <div class = "box-tools pull-right">
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "collapse"><i class = "fa fa-minus"></i>
-                    </button>
-                    <button type = "button" class = "btn btn-box-tool" data-widget = "remove"><i class = "fa fa-times"></i></button>
-                </div>
-            </div>
-            <!--/.box-header -->
-            <div class = "box-body">
-                <div class = "table-responsive">
-                    <table class = "table no-margin">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Asignado a</th>
-                                <th>Fecha</th>
-                                <th>Descripción</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($tareas as $tarea) : ?>
-                                <tr>
-                                    <td><?= \yii\bootstrap\Html::a("{$tarea['proceso_id']}", ['/procesos/view', 'id' => $tarea['proceso_id']]); ?></td>
-                                    <td><?= $tarea["user"]["name"]; ?></td>
-                                    <td><?= $tarea["fecha_esperada"]; ?></td>
-                                    <td><?= $tarea["descripcion"]; ?></td>
-                                    <td>
-                                        <?php
-                                        if ($tarea["estado"] == '0') {
-                                            $labelEstado = 'warning';
-                                            $estadoTarea = 'pendiente';
-                                        } else {
-                                            $labelEstado = 'success';
-                                            $estadoTarea = 'finalziada';
-                                        }
-                                        ?>
+                <?php if (!in_array($tareaXCliente['proceso_id'], $procesos)) : ?>
+                    <?php array_push($procesos, $tareaXCliente['proceso_id']); ?>
+                    <p>&nbsp;</p>
+                    <p>
+                        <?= \yii\bootstrap\Html::a("<i class='fa fa- flaticon-list-2'></i> Proceso #{$tareaXCliente['proceso_id']}", ['/procesos/view', 'id' => $tareaXCliente['proceso_id']]); ?>                                                    
+                    </p>                    
+                <?php endif; ?>       
 
-                                        <span class="label label-<?= $labelEstado; ?>">
-                                            <?= $estadoTarea; ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                <!-- SEMAFORO TAREA -->    
+                <?php
+                $currentDate = new DateTime(date("Y-m-d"));
+                $fechaEsperada = new DateTime($tareaXCliente['fecha_esperada']);
+                $diff = $currentDate->diff($fechaEsperada);
+                switch (true) {
+                    case $diff->invert == 0 && $diff->days > 3:
+                        $semaforoIcon = "fa-check-square-o";
+                        $semaforoBg = "bg-green";
+                        $semaforoLabel = "label-success";
+                        break;
+                    case $diff->invert == 0 && $diff->days <= 3 && $diff->days >= 0:
+                        $semaforoIcon = "fa-warning";
+                        $semaforoBg = "bg-yellow";
+                        $semaforoLabel = "label-warning";
+                        break;
+                    case $diff->invert == 1:
+                        $semaforoIcon = "fa-warning";
+                        $semaforoBg = "bg-red";
+                        $semaforoLabel = "label-danger";
+                        break;
+                    default:
+                        $semaforoIcon = "fa-check-square-o";
+                        $semaforoBg = "bg-green";
+                        $semaforoLabel = "label-success";
+                        break;
+                }
+                ?>
+
+                <div class="info-box <?= $semaforoBg; ?>">
+                    <span class="info-box-icon"><i class="fa <?= $semaforoIcon; ?>"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text"><?= $tareaXCliente['descripcion']; ?></span>
+                        <span class="info-box-number"></span>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-description">
+                            <?php
+                            $colaborador = \app\models\Users::findIdentity($tareaXCliente['user_id']);
+                            ?>
+                            <i class="fa fa-user"></i> <?= $colaborador->name; ?> <i class="fa fa-calendar"></i> <?= $tareaXCliente['fecha_esperada']; ?>
+                        </span>
+                    </div>
                 </div>
-                <!--/.table-responsive -->
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
+
+
+            <?php endforeach; ?>
+
+        </div></div></div>
+</div>
+<?php 
+}

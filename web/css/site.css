@@ -368,3 +368,17 @@ ul.navbar-nav > li.notifications-menu ul.dropdown-menu{
 .todo-list > li .label{
     float: right;
 }
+
+
+.box-tareas-admin span.info-box-icon{
+    height: 60px;
+    width: 60px;
+    font-size: 25px;
+    line-height: 60px;
+}
+.box-tareas-admin .info-box{
+    min-height: 60px;
+}
+.box-tareas-admin .info-box-content{
+    margin-left: 60px;
+}

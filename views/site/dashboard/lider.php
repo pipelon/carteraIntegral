@@ -1,73 +1,85 @@
-<!-- PROCESOS EN LOS QUE ERES JEFE -->
+<!-- TODOS LOS COLABORADORES Y SUS PROCESOS -->
 <?php
-$procesos = app\models\Procesos::find()
-        ->select("procesos_x_colaboradores.*, t.*, u.name")
-        ->joinWith('procesosXColaboradores')
-        ->innerJoin(['t' => 'tareas'], '`t`.`proceso_id` = `procesos`.`id` AND `t`.`user_id` = `procesos_x_colaboradores`.`user_id`')
-        ->innerJoin(['u' => 'users'], '`t`.`user_id` = `u`.`id`')
+$tareas = app\models\Tareas::find()
         ->where([
-            'procesos.jefe_id' => \Yii::$app->user->getId(),
-            't.estado' => 0
+            'jefe_id' => \Yii::$app->user->getId(),
+            'estado' => 0
         ])
-        ->andWhere(['<', 't.fecha_esperada', date('Y-m-d')])
         ->asArray()
+        ->orderBy("proceso_id, user_id, tareas.fecha_esperada ASC")
         ->all();
-
-$colaboradores = [];
-foreach ($procesos as $proceso) {
-    $colaboradores[$proceso['user_id']]['nombre']= $proceso['name'];
-    $colaboradores[$proceso['user_id']]['procesos'][$proceso['proceso_id']][] = [
-        'fecha_esperada' => $proceso['fecha_esperada'],
-        'descripcion' => $proceso['descripcion'],
-    ];
-}
+if(!empty($tareas)) {
+$procesos2 = [];
+$rowEscrito2 = false;
 ?>
-<div class="col-md-12">
-    <?php $i = 0; ?>
-    <?php foreach ($colaboradores as $colaborador => $procesos) : ?>
-
-        <?php if ($i % 2 == 0) : ?>
-            <div class="row">
+<div class="row">
+    <?php foreach ($tareas as $tarea) : ?>
+    
+    
+    
+        <?php if (!in_array($tarea['proceso_id'], $procesos2)) : ?>
+            <?php if ($rowEscrito2): ?>
+                </div></div></div>
             <?php endif; ?>
+            <?php $rowEscrito2 = true; ?>
             <div class="col-md-6">
-                <div class="box box-default">
-                    <div class="box-header">
-                        <?= $procesos['nombre']; ?>
-                    </div>
-                    <div class="box-body infoGeneral">
+            <div class="box box-primary">
+                <div class="box-body box-tareas-admin">
+                    <?php array_push($procesos2, $tarea['proceso_id']); ?>
+                    <p>&nbsp;</p>
+                    <p>
+                        <?= \yii\bootstrap\Html::a("<i class='fa fa- flaticon-list-2'></i> Proceso #{$tarea['proceso_id']}", ['/procesos/view', 'id' => $tarea['proceso_id']]); ?>                                                    
+                    </p> 
+        <?php endif; ?>
+        <!-- SEMAFORO TAREA -->    
+        <?php
+        $currentDate = new DateTime(date("Y-m-d"));
+        $fechaEsperada = new DateTime($tarea['fecha_esperada']);
+        $diff = $currentDate->diff($fechaEsperada);
+        switch (true) {
+            case $diff->invert == 0 && $diff->days > 3:
+                $semaforoIcon = "fa-check-square-o";
+                $semaforoBg = "bg-green";
+                $semaforoLabel = "label-success";
+                break;
+            case $diff->invert == 0 && $diff->days <= 3 && $diff->days >= 0:
+                $semaforoIcon = "fa-warning";
+                $semaforoBg = "bg-yellow";
+                $semaforoLabel = "label-warning";
+                break;
+            case $diff->invert == 1:
+                $semaforoIcon = "fa-warning";
+                $semaforoBg = "bg-red";
+                $semaforoLabel = "label-danger";
+                break;
+            default:
+                $semaforoIcon = "fa-check-square-o";
+                $semaforoBg = "bg-green";
+                $semaforoLabel = "label-success";
+                break;
+        }
+        ?>
 
-                        <?php foreach ($procesos['procesos'] as $proceso => $tareas) : ?>
-                            <p>
-                                <?= \yii\bootstrap\Html::a("Proceso #{$proceso}", ['/procesos/view', 'id' => $proceso]); ?>                                                    
-                            </p>
-                            <hr />
-                            <h4>Tareas</h4>
-                            <ul class="todo-list ui-sortable">
-                                <?php if (count($tareas) > 0) : ?>
-                                    <?php foreach ($tareas as $tarea) : ?>
-                                        <li>
-                                            <span class="text"><?= "<i class='fa fa-warning text-red'></i> {$tarea['descripcion']}"; ?></span>
-                                            <small class="label label-danger"><i class="fa fa-clock-o"></i> <?= $tarea['fecha_esperada']; ?></small>                           
-                                        </li>
-
-
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <span class="text">Sin tareas</span> 
-                                <?php endif; ?>
-                            </ul>
-                            <br />
-                        <?php endforeach; ?>
-
-                    </div>
-                    <div class="box-footer clearfix no-border"></div>
+        <div class="info-box <?= $semaforoBg; ?>">
+            <span class="info-box-icon"><i class="fa <?= $semaforoIcon; ?>"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text"><?= $tarea['descripcion']; ?></span>
+                <span class="info-box-number"></span>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 0%"></div>
                 </div>
+                <span class="progress-description">
+                    <?php
+                    $colaborador = \app\models\Users::findIdentity($tarea['user_id']);
+                    ?>
+                    <i class="fa fa-user"></i> <?= $colaborador->name; ?> <i class="fa fa-calendar"></i> <?= $tarea['fecha_esperada']; ?>
+                </span>
             </div>
-            <?php $i++; ?>
-            <?php if ($i % 2 == 0) : ?>
-            </div>
-        <?php endif; ?>    
-
+        </div>            
+    
+        
     <?php endforeach; ?>
+        </div></div></div>
 </div>
-
+<?php
+}
