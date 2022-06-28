@@ -821,7 +821,7 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_anio_radicado', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_anio_radicado']) . "{label}\n{input}\n{hint}\n{error}"
-            ])->dropDownList(['2010' => '2010',
+            ])->dropDownList(['2008' => '2008','2009' => '2009','2010' => '2010',
                 '2011' => '2011',
                 '2012' => '2012',
                 '2013' => '2013',
