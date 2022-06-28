@@ -125,7 +125,7 @@ class Gdrive extends Component {
             }else{
                 $this->out .=  "<span class='not-set'>No se pudo cargar los archivos del drive. Revise el ID de la carpeta.</span>";
             }
-        } catch (Exception $e) {
+        } catch (GoogleServiceException $e) {
             $this->out .=  "<span class='not-set'>No se pudo cargar los archivos del drive: ".  $e->getMessage(). "</span>";
         }
         
