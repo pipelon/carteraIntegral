@@ -225,8 +225,57 @@ $exportColumns = [
             return $data->jurJurisdiccionCompetent->nombre ?? null;
         },
     ],
+    'jur_jurisdiccion_competent_caso_especial_id',
     'jur_juzgado',
     'jur_radicado',
+    [
+        'attribute' => 'jur_departamento_id_2',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return $data->jurDepartamento2->nombre ?? null;
+        },
+    ],
+    [
+        'attribute' => 'jur_ciudad_id_2',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return $data->jurCiudad2->nombre ?? null;
+        },
+    ],
+    [
+        'attribute' => 'jur_jurisdiccion_competent_id_2',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return $data->jurJurisdiccionCompetent2->nombre ?? null;
+        },
+    ],
+    'jur_jurisdiccion_competent_caso_especial_id_2',
+    'jur_juzgado_2',
+    'jur_radicado_2',
+    [
+        'attribute' => 'jur_departamento_id_3',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return $data->jurDepartamento3->nombre ?? null;
+        },
+    ],
+    [
+        'attribute' => 'jur_ciudad_id_3',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return $data->jurCiudad3->nombre ?? null;
+        },
+    ],
+    [
+        'attribute' => 'jur_jurisdiccion_competent_id_3',
+        'format' => 'raw',
+        'value' => function ($data) {
+            return $data->jurJurisdiccionCompetent3->nombre ?? null;
+        },
+    ],
+    'jur_jurisdiccion_competent_caso_especial_id_3',
+    'jur_juzgado_3',
+    'jur_radicado_3',
     [
         'attribute' => 'jur_gestiones_juridicas',
         'format' => 'raw',
@@ -247,15 +296,6 @@ $exportColumns = [
             if ($data->carpeta) {
                 $url = 'https://drive.google.com/open?id=' . $data->carpeta;
                 return Html::a($url, $url, ['target' => '_blank']);
-            }
-        },
-    ],
-    [
-        'label' => strtoupper('Archivos'),
-        'format' => 'raw',
-        'value' => function ($data) {
-            if ($data->carpeta) {
-                return Yii::$app->gdrive->leerArchivosCarpeta($data->carpeta);
             }
         },
     ],

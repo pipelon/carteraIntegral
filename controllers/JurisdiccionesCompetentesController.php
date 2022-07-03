@@ -28,6 +28,11 @@ class JurisdiccionesCompetentesController extends Controller {
         ];
     }
 
+    public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+
     /**
      * Lists all JurisdiccionesCompetentes models.
      * @return mixed
@@ -138,9 +143,9 @@ class JurisdiccionesCompetentesController extends Controller {
         $id = $post['id'];
         $model = $this->findModel($id);
         return \yii\helpers\Json::encode([
-            'codigo_entidad' => $model->codigo_entidad,
-            'codigo_especialidad' => $model->codigo_especialidad,
-            'despacho' => $model->despacho
+                    'codigo_entidad' => $model->codigo_entidad,
+                    'codigo_especialidad' => $model->codigo_especialidad,
+                    'despacho' => $model->despacho
         ]);
     }
 

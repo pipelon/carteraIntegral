@@ -369,7 +369,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                     'value' => function ($data) use ($tareas) {
                         $htmlPago = '';
                         foreach ($tareas as $tarea) {
-                            $estado = $tarea->estado ? '<span class="badge bg-green">Terminada</span>' : '<span class="badge bg-orange">Pendiente</span>';
+                            $estado = $tarea->estado == 1 ? '<span class="badge bg-green">Terminada el ' . $tarea->fecha_finalizacion . '</span>' : '<span class="badge bg-orange">Pendiente</span>';
                             $htmlPago .= "<b>Asignado a: </b>{$tarea->user->name} <br />"
                                     . "<b> Jefe: </b>{$tarea->jefe->name} <br />"
                                     . "<b> Fecha: </b>{$tarea->fecha_esperada} <br />"

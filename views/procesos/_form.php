@@ -751,7 +751,7 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_etapas_procesal_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_etapas_procesal_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
                 'options' => ['id' => 'etapa-procesal-id'],
-                'data' => [$model->jur_etapas_procesal_id => 'default'],
+                'data' => [$model->jur_etapas_procesal_id => $model->jurEtapasProcesal->nombre ?? 'default'],
                 'pluginOptions' => [
                     'depends' => ['tipo-proceso-id'],
                     'initialize' => true,
@@ -812,6 +812,15 @@ $form = ActiveForm::begin(
                 ]
             ]);
             ?>
+            <?=
+            $form->field($model, 'jur_jurisdiccion_competent_caso_especial_id', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}",
+            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES', 
+                'PROCURADURÍA' => 'PROCURADURÍA', 
+                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL', 
+                'CENTRO PRIVADO DE CONCILIACIÓN' => 'CENTRO PRIVADO DE CONCILIACIÓN',
+                'OTROS' => 'OTROS'], ['prompt' => '- Seleccione una jurisdiccion -', 'id' => 'jur_jurisdiccion_competent_caso_especial_id'])
+            ?>
             <?= $form->field($model, 'jur_juzgado', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado']) ?>
 
         </div>
@@ -847,7 +856,7 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_instancia_radicado', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_instancia_radicado']) . "{label}\n{input}\n{hint}\n{error}"
-            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado'])
+            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02', '--' => 'Sin instancia'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado'])
             ?>
 
             <!-- CAMPOS OCULTOS CON LA INFO DE CODIGO ENTIDAD Y ESPECIALIDAD -->
@@ -891,6 +900,15 @@ $form = ActiveForm::begin(
                 ]
             ]);
             ?>
+            <?=
+            $form->field($model, 'jur_jurisdiccion_competent_caso_especial_id_2', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}",
+            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES', 
+                'PROCURADURÍA' => 'PROCURADURÍA', 
+                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL', 
+                'CENTRO PRIVADO DE CONCILIACIÓN' => 'CENTRO PRIVADO DE CONCILIACIÓN',
+                'OTROS' => 'OTROS'], ['prompt' => '- Seleccione una jurisdiccion -', 'id' => 'jur_jurisdiccion_competent_caso_especial_id_2'])
+            ?>
             <?= $form->field($model, 'jur_juzgado_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado-2']) ?>
 
         </div>
@@ -926,7 +944,7 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_instancia_radicado_2', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_instancia_radicado']) . "{label}\n{input}\n{hint}\n{error}"
-            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado_2'])
+            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02', '--' => 'Sin instancia'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado_2'])
             ?>
 
             <!-- CAMPOS OCULTOS CON LA INFO DE CODIGO ENTIDAD Y ESPECIALIDAD -->
@@ -970,6 +988,15 @@ $form = ActiveForm::begin(
                 ]
             ]);
             ?>
+            <?=
+            $form->field($model, 'jur_jurisdiccion_competent_caso_especial_id_3', [
+                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}",
+            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES', 
+                'PROCURADURÍA' => 'PROCURADURÍA', 
+                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL', 
+                'CENTRO PRIVADO DE CONCILIACIÓN' => 'CENTRO PRIVADO DE CONCILIACIÓN',
+                'OTROS' => 'OTROS'], ['prompt' => '- Seleccione una jurisdiccion -', 'id' => 'jur_jurisdiccion_competent_caso_especial_id_3'])
+            ?>
             <?= $form->field($model, 'jur_juzgado_3', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado-3']) ?>
 
         </div>
@@ -1005,7 +1032,7 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_instancia_radicado_3', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_instancia_radicado']) . "{label}\n{input}\n{hint}\n{error}"
-            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado_3'])
+            ])->dropDownList(['00' => '00', '01' => '01', '02' => '02', '--' => 'Sin instancia'], ['prompt' => '- Seleccione una instancia -', 'id' => 'jur_instancia_radicado_3'])
             ?>
 
             <!-- CAMPOS OCULTOS CON LA INFO DE CODIGO ENTIDAD Y ESPECIALIDAD -->

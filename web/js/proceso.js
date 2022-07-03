@@ -76,7 +76,7 @@ jQuery("document").ready(function () {
         });
         $(".dynamicform_wrapper_tareas .item:last input").removeAttr("disabled");
         $(".dynamicform_wrapper_tareas .item:last select").removeAttr("disabled");
-        $(".dynamicform_wrapper_tareas .item:last input").removeAttr("readonly");
+        $(".dynamicform_wrapper_tareas .item:last input").removeAttr("readonly").val("");
         $(".dynamicform_wrapper_tareas .item:last .removeTarea").show();
     });
     jQuery(".dynamicform_wrapper_tareas").on("afterDelete", function (e) {
@@ -410,6 +410,105 @@ jQuery("document").ready(function () {
         $("#codigoEspecialidad" + numRad_).val("");
         $("#codigoDespacho" + numRad_).val("");
     });
+
+    /* SI ES UN EDIT DEBO LLENAR LOS CAMPOS OCULTOS */
+    if ($('#departamento-id').val() != '' && $('#ciudad-id').val() != '' &&
+            $('#jurisdiccion-competent-id').val() != '' && $('#juzgado').val() != '' &&
+            $('#jur_anio_radicado').val() != '' && $('#jur_consecutivo_proceso').val() != ''
+            && $('#jur_instancia_radicado').val() != '' && $('#radicado').val() != '') {
+
+        $('#codigoDepartamento').val($('#departamento-id').val());
+        $('#codigoCiudad').val($('#ciudad-id').val());
+        $('#jurisdiccion-competent-id').trigger("change");
+    }
+    if ($('#departamento-id-2').val() != '' && $('#ciudad-id-2').val() != '' &&
+            $('#jurisdiccion-competent-id-2').val() != '' && $('#juzgado-2').val() != '' &&
+            $('#jur_anio_radicado_2').val() != '' && $('#jur_consecutivo_proceso_2').val() != ''
+            && $('#jur_instancia_radicado_2').val() != '' && $('#radicado-2').val() != '') {
+
+        $('#codigoDepartamento_2').val($('#departamento-id-2').val());
+        $('#codigoCiudad_2').val($('#ciudad-id-2').val());
+        $('#jurisdiccion-competent-id-2').trigger("change");
+    }
+    if ($('#departamento-id-3').val() != '' && $('#ciudad-id-3').val() != '' &&
+            $('#jurisdiccion-competent-id-3').val() != '' && $('#juzgado-3').val() != '' &&
+            $('#jur_anio_radicado_3').val() != '' && $('#jur_consecutivo_proceso_3').val() != ''
+            && $('#jur_instancia_radicado_3').val() != '' && $('#radicado-3').val() != '') {
+
+        $('#codigoDepartamento_3').val($('#departamento-id-3').val());
+        $('#codigoCiudad_3').val($('#ciudad-id-3').val());
+        $('#jurisdiccion-competent-id-3').trigger("change");
+    }
+
+
+    /*SI ETAPA PROCESAL ES IMCUMPLIMIENTO DE ACUERDO ENTONCES LAS JURISDICCIONES ESTARAN QUEMADAS*/
+
+    $("#etapa-procesal-id").change(function () {
+
+        if ($("#etapa-procesal-id option:selected").text() == 'INCUMPLIMIENTO DEL ACUERDO') {
+            $('#jur_anio_radicado').attr('disabled', true);
+            $('#jur_consecutivo_proceso').attr('readonly', true);
+            $('#jur_instancia_radicado').attr('disabled', true);
+            $('#radicado').attr('readonly', false);
+
+            $('#jur_anio_radicado_2').attr('disabled', true);
+            $('#jur_consecutivo_proceso_2').attr('readonly', true);
+            $('#jur_instancia_radicado_2').attr('disabled', true);
+            $('#radicado-2').attr('readonly', false);
+
+            $('#jur_anio_radicado_3').attr('disabled', true);
+            $('#jur_consecutivo_proceso_3').attr('readonly', true);
+            $('#jur_instancia_radicado_3').attr('disabled', true);
+            $('#radicado-3').attr('readonly', false);
+
+            $(".field-jur_jurisdiccion_competent_caso_especial_id").show();
+            $(".field-jur_jurisdiccion_competent_caso_especial_id_2").show();
+            $(".field-jur_jurisdiccion_competent_caso_especial_id_3").show();
+            $(".field-jurisdiccion-competent-id").hide();
+            $(".field-jurisdiccion-competent-id-2").hide();
+            $(".field-jurisdiccion-competent-id-3").hide();
+            
+            $("#jurisdiccion-competent-id").val("");
+            $("#jurisdiccion-competent-id_2").val("");
+            $("#jurisdiccion-competent-id_3").val("");
+            $("#juzgado").val("");
+            $("#juzgado-2").val("");
+            $("#juzgado-3").val("");
+
+        } else {
+
+            $('#jur_anio_radicado').attr('disabled', false);
+            $('#jur_consecutivo_proceso').attr('readonly', false);
+            $('#jur_instancia_radicado').attr('disabled', false);
+            $('#radicado').attr('readonly', true);
+
+            $('#jur_anio_radicado_2').attr('disabled', false);
+            $('#jur_consecutivo_proceso_2').attr('readonly', false);
+            $('#jur_instancia_radicado_2').attr('disabled', false);
+            $('#radicado-2').attr('readonly', true);
+
+            $('#jur_anio_radicado_3').attr('disabled', false);
+            $('#jur_consecutivo_proceso_3').attr('readonly', false);
+            $('#jur_instancia_radicado_3').attr('disabled', false);
+            $('#radicado-3').attr('readonly', true);
+
+            $(".field-jur_jurisdiccion_competent_caso_especial_id").hide();
+            $(".field-jur_jurisdiccion_competent_caso_especial_id_2").hide();
+            $(".field-jur_jurisdiccion_competent_caso_especial_id_3").hide();
+            $(".field-jurisdiccion-competent-id").show();
+            $(".field-jurisdiccion-competent-id-2").show();
+            $(".field-jurisdiccion-competent-id-3").show();
+            
+            $("#jur_jurisdiccion_competent_caso_especial_id").val("");
+            $("#jur_jurisdiccion_competent_caso_especial_id_2").val("");
+            $("#jur_jurisdiccion_competent_caso_especial_id_3").val("");            
+
+        }
+    });
+
+    $("#etapa-procesal-id").trigger("change");
+
+
 
 });
 

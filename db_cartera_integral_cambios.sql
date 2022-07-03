@@ -453,6 +453,13 @@ ALTER TABLE `db_cartera_integral`.`clientes`
    ADD COLUMN `usuario_id` INT NULL COMMENT 'Usuario' AFTER `id`,
    CHANGE `deleted` `deleted` DATETIME NULL  COMMENT 'Borrado';
 
+ALTER TABLE `db_cartera_integral`.`procesos` 
+   ADD COLUMN `jur_jurisdiccion_competent_caso_especial_id` VARCHAR(255) NULL AFTER `jur_jurisdiccion_competent_id`, 
+   ADD COLUMN `jur_jurisdiccion_competent_caso_especial_id_2` VARCHAR(255) NULL AFTER `jur_jurisdiccion_competent_id_2`, 
+   ADD COLUMN `jur_jurisdiccion_competent_caso_especial_id_3` VARCHAR(255) NULL AFTER `jur_jurisdiccion_competent_id_3`,
+   CHANGE `jur_jurisdiccion_competent_id` `jur_jurisdiccion_competent_id` INT(11) NULL  COMMENT 'Jurisdicción competente', 
+   CHANGE `jur_jurisdiccion_competent_id_3` `jur_jurisdiccion_competent_id_3` INT(11) NULL 
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
