@@ -131,6 +131,7 @@ class JurisdiccionesCompetentesController extends Controller {
                                 ]
                         )
                         ->asArray()
+                        ->orderBy("name ASC")
                         ->all();
                 return ['output' => $out, 'selected' => ''];
             }

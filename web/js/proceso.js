@@ -419,7 +419,7 @@ jQuery("document").ready(function () {
 
         $('#codigoDepartamento').val($('#departamento-id').val());
         $('#codigoCiudad').val($('#ciudad-id').val());
-        $('#jurisdiccion-competent-id').trigger("change");
+        //$('#jurisdiccion-competent-id').trigger("change");
     }
     if ($('#departamento-id-2').val() != '' && $('#ciudad-id-2').val() != '' &&
             $('#jurisdiccion-competent-id-2').val() != '' && $('#juzgado-2').val() != '' &&
@@ -428,7 +428,7 @@ jQuery("document").ready(function () {
 
         $('#codigoDepartamento_2').val($('#departamento-id-2').val());
         $('#codigoCiudad_2').val($('#ciudad-id-2').val());
-        $('#jurisdiccion-competent-id-2').trigger("change");
+        //$('#jurisdiccion-competent-id-2').trigger("change");
     }
     if ($('#departamento-id-3').val() != '' && $('#ciudad-id-3').val() != '' &&
             $('#jurisdiccion-competent-id-3').val() != '' && $('#juzgado-3').val() != '' &&
@@ -437,7 +437,7 @@ jQuery("document").ready(function () {
 
         $('#codigoDepartamento_3').val($('#departamento-id-3').val());
         $('#codigoCiudad_3').val($('#ciudad-id-3').val());
-        $('#jurisdiccion-competent-id-3').trigger("change");
+        //$('#jurisdiccion-competent-id-3').trigger("change");
     }
 
 
