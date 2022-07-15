@@ -507,7 +507,7 @@ $exportConfig = [
 //MENU DE EXPORTACION
 $fullExportMenu = ExportMenu::widget(
                 [
-                    'dataProvider' => $dataProvider,
+                    'dataProvider' => $exportDataProvider,
                     'filterModel' => $searchModel,
                     'columns' => $exportColumns,
                     'showConfirmAlert' => false,

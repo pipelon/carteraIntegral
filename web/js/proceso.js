@@ -443,9 +443,14 @@ jQuery("document").ready(function () {
 
     /*SI ETAPA PROCESAL ES IMCUMPLIMIENTO DE ACUERDO ENTONCES LAS JURISDICCIONES ESTARAN QUEMADAS*/
 
-    $("#etapa-procesal-id").change(function () {
+    $("#tipo-proceso-id").change(function () {
 
-        if ($("#etapa-procesal-id option:selected").text() == 'INCUMPLIMIENTO DEL ACUERDO') {
+        if ($("#tipo-proceso-id option:selected").text() == 'CONCILIACIÓN EXTRAJUDICIAL'
+                || $("#tipo-proceso-id option:selected").text().trim() == 'INSOLVENCIA'
+                || $("#tipo-proceso-id option:selected").text().trim() == 'INSOLVENCIA PERSONA NATURAL'
+                || $("#tipo-proceso-id option:selected").text().trim() == 'INSOLVENCIA LEY 1116') {
+            
+            console.info("etre");
             $('#jur_anio_radicado').attr('disabled', true);
             $('#jur_consecutivo_proceso').attr('readonly', true);
             $('#jur_instancia_radicado').attr('disabled', true);
@@ -506,7 +511,7 @@ jQuery("document").ready(function () {
         }
     });
 
-    $("#etapa-procesal-id").trigger("change");
+    $("#tipo-proceso-id").trigger("change");
 
 
 

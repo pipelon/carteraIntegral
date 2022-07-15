@@ -53,7 +53,7 @@ use yii\bootstrap\ActiveForm;
             <?= $form->field($model, 'codigo_especialidad')->textInput() ?>
 
             <?php 
-            for ($i=1; $i <= 99; $i++){
+            for ($i=0; $i <= 999; $i++){
                 $valor = str_pad($i, 3, "0", STR_PAD_LEFT);
                 $numeros[$valor] = $valor;
             }

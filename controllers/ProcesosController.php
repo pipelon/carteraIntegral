@@ -37,10 +37,13 @@ class ProcesosController extends Controller {
     public function actionIndex() {
         $searchModel = new ProcesosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $exportDataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $exportDataProvider->pagination = false;
 
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'exportDataProvider' => $exportDataProvider,
         ]);
     }
 
@@ -51,15 +54,14 @@ class ProcesosController extends Controller {
      */
     public function actionView($id) {
         $model = $this->findModel($id);
-        
+
         // SI SOY USUARIO TIPO CLIENTE Y NO PUEDO VER ESTE CLIENTE RETURN
         if (Yii::$app->user->identity->isCliente()) {
             $clientesIds = Yii::$app->user->identity->getClientsByUser();
             $ids = array_column($clientesIds, 'id');
-            if(!in_array($model->cliente_id, $ids)){
+            if (!in_array($model->cliente_id, $ids)) {
                 return $this->redirect(['index']);
             }
-            
         }
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
@@ -450,7 +452,7 @@ class ProcesosController extends Controller {
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LAS TAREAS
                 if (isset($_POST['Tareas'])) {
- 
+
                     $oldValues = array_merge(
                             ArrayHelper::map($modelTareas, 'id', (string) 'id'),
                             ArrayHelper::map($modelTareas, 'id', (string) 'user_id'),
@@ -469,7 +471,7 @@ class ProcesosController extends Controller {
                             ArrayHelper::map($_POST['Tareas'], 'id', 'estado')
                     );
                     $deletedTareas = array_merge(array_diff_assoc($oldValues, $newValues), array_diff_assoc($newValues, $oldValues));
-                    
+
                     if (!empty($deletedTareas)) {
                         \app\models\Tareas::deleteAll(['proceso_id' => $model->id]);
                         foreach ($_POST['Tareas'] as $tarea) {
@@ -480,7 +482,7 @@ class ProcesosController extends Controller {
                             $mdlTareas->fecha_esperada = $tarea['fecha_esperada'];
                             $mdlTareas->descripcion = $tarea['descripcion'];
                             $mdlTareas->estado = $tarea['estado'] ?? '0';
-                            if($tarea['estado'] == 1){
+                            if ($tarea['estado'] == 1) {
                                 $mdlTareas->fecha_finalizacion = date('Y-m-d');
                             }
                             $mdlTareas->save();

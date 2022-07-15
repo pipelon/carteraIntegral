@@ -716,6 +716,13 @@ $form = ActiveForm::begin(
                     ->where(['id' => $model->deudor_id])
                     ->all();
 
+            $elRestoDeudores = \app\models\Deudores::find()
+                    ->select([
+                        'nombre'
+                    ])
+                    ->orderBy("nombre ASC")
+                    ->all();
+
             $listDeudores = [];
             if (!empty($listDeudoresyCode)) {
 
@@ -731,12 +738,21 @@ $form = ActiveForm::begin(
             } else {
                 $listDeudores = [];
             }
+
+            if (!empty($elRestoDeudores)) {
+
+                foreach ($elRestoDeudores as $restoDeudor) {
+                    $listDeudores[$restoDeudor->nombre] = "{$restoDeudor->nombre}";
+                }
+            }
             ?>
-            <?=
-            $form->field($model, 'jur_demandados', [
-                "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_demandados']) . "{label}\n{input}\n{hint}\n{error}",
-            ])->checkboxList($listDeudores)
-            ?>
+            <div style="height: 300px; overflow: auto; margin-bottom: 50px;">
+                <?=
+                $form->field($model, 'jur_demandados', [
+                    "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_demandados']) . "{label}\n{input}\n{hint}\n{error}",
+                ])->checkboxList($listDeudores)
+                ?>
+            </div>
         </div>
 
         <div class="row-field">
@@ -815,9 +831,9 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_jurisdiccion_competent_caso_especial_id', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}",
-            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES', 
-                'PROCURADURÍA' => 'PROCURADURÍA', 
-                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL', 
+            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES',
+                'PROCURADURÍA' => 'PROCURADURÍA',
+                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL',
                 'CENTRO PRIVADO DE CONCILIACIÓN' => 'CENTRO PRIVADO DE CONCILIACIÓN',
                 'OTROS' => 'OTROS'], ['prompt' => '- Seleccione una jurisdiccion -', 'id' => 'jur_jurisdiccion_competent_caso_especial_id'])
             ?>
@@ -830,7 +846,7 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_anio_radicado', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_anio_radicado']) . "{label}\n{input}\n{hint}\n{error}"
-            ])->dropDownList(['2008' => '2008','2009' => '2009','2010' => '2010',
+            ])->dropDownList(['2008' => '2008', '2009' => '2009', '2010' => '2010',
                 '2011' => '2011',
                 '2012' => '2012',
                 '2013' => '2013',
@@ -903,9 +919,9 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_jurisdiccion_competent_caso_especial_id_2', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}",
-            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES', 
-                'PROCURADURÍA' => 'PROCURADURÍA', 
-                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL', 
+            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES',
+                'PROCURADURÍA' => 'PROCURADURÍA',
+                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL',
                 'CENTRO PRIVADO DE CONCILIACIÓN' => 'CENTRO PRIVADO DE CONCILIACIÓN',
                 'OTROS' => 'OTROS'], ['prompt' => '- Seleccione una jurisdiccion -', 'id' => 'jur_jurisdiccion_competent_caso_especial_id_2'])
             ?>
@@ -991,9 +1007,9 @@ $form = ActiveForm::begin(
             <?=
             $form->field($model, 'jur_jurisdiccion_competent_caso_especial_id_3', [
                 "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_jurisdiccion_competent_id']) . "{label}\n{input}\n{hint}\n{error}",
-            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES', 
-                'PROCURADURÍA' => 'PROCURADURÍA', 
-                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL', 
+            ])->dropDownList(['SUPERSOCIEDADES' => 'SUPERSOCIEDADES',
+                'PROCURADURÍA' => 'PROCURADURÍA',
+                'CENTRO DE CONCILIACIÓN POLICIA NACIONAL' => 'CENTRO DE CONCILIACIÓN POLICIA NACIONAL',
                 'CENTRO PRIVADO DE CONCILIACIÓN' => 'CENTRO PRIVADO DE CONCILIACIÓN',
                 'OTROS' => 'OTROS'], ['prompt' => '- Seleccione una jurisdiccion -', 'id' => 'jur_jurisdiccion_competent_caso_especial_id_3'])
             ?>
