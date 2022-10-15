@@ -458,7 +458,12 @@ ALTER TABLE `db_cartera_integral`.`procesos`
    ADD COLUMN `jur_jurisdiccion_competent_caso_especial_id_2` VARCHAR(255) NULL AFTER `jur_jurisdiccion_competent_id_2`, 
    ADD COLUMN `jur_jurisdiccion_competent_caso_especial_id_3` VARCHAR(255) NULL AFTER `jur_jurisdiccion_competent_id_3`,
    CHANGE `jur_jurisdiccion_competent_id` `jur_jurisdiccion_competent_id` INT(11) NULL  COMMENT 'Jurisdicción competente', 
-   CHANGE `jur_jurisdiccion_competent_id_3` `jur_jurisdiccion_competent_id_3` INT(11) NULL 
+   CHANGE `jur_jurisdiccion_competent_id_3` `jur_jurisdiccion_competent_id_3` INT(11) NULL;
+
+ALTER TABLE `db_cartera_integral`.`procesos` 
+   ADD COLUMN `jur_comentario_radicado_1` TEXT NULL COMMENT 'Comentarios' AFTER `jur_radicado`, 
+   ADD COLUMN `jur_comentario_radicado_2` TEXT NULL COMMENT 'Comentarios' AFTER `jur_radicado_2`, 
+   ADD COLUMN `jur_comentario_radicado_3` TEXT NULL COMMENT 'Comentarios' AFTER `jur_radicado_3`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

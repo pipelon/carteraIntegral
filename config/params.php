@@ -760,6 +760,9 @@ return [
         'estado_proceso_id' => 'estado_proceso_id',
         'jur_anio_radicado' => 'jur_anio_radicado',
         'jur_consecutivo_proceso' => 'jur_consecutivo_proceso',
-        'jur_instancia_radicado' => 'jur_instancia_radicado'
+        'jur_instancia_radicado' => 'jur_instancia_radicado',
+        'jur_comentario_radicado_1' => 'jur_comentario_radicado_1',
+        'jur_comentario_radicado_2' => 'jur_comentario_radicado_2',
+        'jur_comentario_radicado_3' => 'jur_comentario_radicado_3'
     ]
 ];

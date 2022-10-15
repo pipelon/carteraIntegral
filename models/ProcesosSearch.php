@@ -40,7 +40,7 @@ class ProcesosSearch extends Procesos {
      */
     public function search($params) {
         $query = Procesos::find();
-        $query->joinWith(['cliente', 'deudor', 'estadoProceso', 'jurJurisdiccionCompetent']);
+        $query->joinWith(['cliente', 'deudor', 'estadoProceso', 'jurJurisdiccionCompetent', 'procesosXColaboradores']);
 
         // add conditions that should always apply here
 
@@ -67,6 +67,13 @@ class ProcesosSearch extends Procesos {
                 ->orFilterWhere(['like', 'jur_radicado', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado_2', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)]);
+
+        if (Yii::$app->user->identity->isColaborador() &&
+                !Yii::$app->user->identity->isLider() &&
+                !Yii::$app->user->identity->isCliente() &&
+                !Yii::$app->user->identity->isSuperAdmin()) {
+            $query->andFilterWhere(['like', 'procesos_x_colaboradores.user_id', \Yii::$app->user->id]);
+        }
 
         // SI EL USUARIO LOGUEADO ES CLIENTE, SOLO VE SU INFO
         if (Yii::$app->user->identity->isCliente()) {

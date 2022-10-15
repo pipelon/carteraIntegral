@@ -884,6 +884,15 @@ $form = ActiveForm::begin(
 
             <?= $form->field($model, 'jur_radicado', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado']) ?>
         </div>
+        
+        <div class="row-field">
+            <?=
+            $form->field($model, 'jur_comentario_radicado_1', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_comentario_radicado_1']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
 
 
         <!-- JUZGADO 2 -->
@@ -927,8 +936,8 @@ $form = ActiveForm::begin(
             ?>
             <?= $form->field($model, 'jur_juzgado_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado-2']) ?>
 
-        </div>
-
+        </div>     
+        
         <!-- RADICADO 2 -->
         <div class="row-field">
             <?=
@@ -972,7 +981,15 @@ $form = ActiveForm::begin(
 
             <?= $form->field($model, 'jur_radicado_2', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado-2']) ?>
         </div>
-
+        
+        <div class="row-field">
+            <?=
+            $form->field($model, 'jur_comentario_radicado_2', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_comentario_radicado_2']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
+        </div>
 
         <!-- JUZGADO 3 -->
         <div class="row-field">   
@@ -1059,6 +1076,15 @@ $form = ActiveForm::begin(
             <?= Html::hiddenInput('codigoDespacho_3', "", ['id' => 'codigoDespacho_3']); ?>
 
             <?= $form->field($model, 'jur_radicado_3', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado-3']) ?>
+        </div>
+        
+        <div class="row-field">
+            <?=
+            $form->field($model, 'jur_comentario_radicado_3', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_comentario_radicado_3']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
         </div>
 
         <!-- GESTIONES JURIDICAS -->

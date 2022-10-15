@@ -228,6 +228,7 @@ $exportColumns = [
     'jur_jurisdiccion_competent_caso_especial_id',
     'jur_juzgado',
     'jur_radicado',
+    'jur_comentario_radicado_1',
     [
         'attribute' => 'jur_departamento_id_2',
         'format' => 'raw',
@@ -252,6 +253,7 @@ $exportColumns = [
     'jur_jurisdiccion_competent_caso_especial_id_2',
     'jur_juzgado_2',
     'jur_radicado_2',
+    'jur_comentario_radicado_2',
     [
         'attribute' => 'jur_departamento_id_3',
         'format' => 'raw',
@@ -276,6 +278,7 @@ $exportColumns = [
     'jur_jurisdiccion_competent_caso_especial_id_3',
     'jur_juzgado_3',
     'jur_radicado_3',
+    'jur_comentario_radicado_3',
     [
         'attribute' => 'jur_gestiones_juridicas',
         'format' => 'raw',
@@ -537,6 +540,16 @@ $fullExportMenu = ExportMenu::widget(
     </div>   
 
     <?php foreach ($procesos as $idProceso => $proceso) : ?>
+
+        <?php
+        //Colaboradores
+        $colaboradores = array_column($proceso->procesosXColaboradores, 'user_id');
+        //Lider
+        $lider = $proceso->jefe_id;
+        //ID usuario logueado
+        $userId = (int) \Yii::$app->user->id;
+        
+        ?>
         <div class="col-md-12">
 
             <!-- PROCESO -->
@@ -567,12 +580,6 @@ $fullExportMenu = ExportMenu::widget(
                     <!-- BOTONES DE EDICIÓN, VISTA Y BORRADO -->
                     <div class="box-tools pull-right">
                         <?php
-                        //Colaboradores
-                        $colaboradores = array_column($proceso->procesosXColaboradores, 'user_id');
-                        //Lider
-                        $lider = $proceso->jefe_id;
-                        //ID usuario logueado
-                        $userId = (int) \Yii::$app->user->id;
                         //SI EL USUARIO PUEDE EDITAR
                         if ((in_array($userId, $colaboradores) ||
                                 $userId == $lider ||

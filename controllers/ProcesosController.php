@@ -154,6 +154,12 @@ class ProcesosController extends Controller {
                         $demXpro->nombre = $demandado;
                         $demXpro->save();
                     }
+                } else {
+                    $demXpro = new \app\models\DemandadosXProceso();
+                    $demXpro->proceso_id = $model->id;
+                    $demXpro->demandado_id = $model->deudor->nombre;
+                    $demXpro->nombre = $model->deudor->nombre;
+                    $demXpro->save();
                 }
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO
@@ -481,7 +487,7 @@ class ProcesosController extends Controller {
                             $mdlTareas->jefe_id = $model->jefe_id;
                             $mdlTareas->fecha_esperada = $tarea['fecha_esperada'];
                             $mdlTareas->descripcion = $tarea['descripcion'];
-                            $mdlTareas->estado = $tarea['estado'] ?? '0';
+                            $mdlTareas->estado = $tarea['estado'] != '' ? $tarea['estado'] : '0';
                             if ($tarea['estado'] == 1) {
                                 $mdlTareas->fecha_finalizacion = date('Y-m-d');
                             }
