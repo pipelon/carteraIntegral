@@ -37,6 +37,10 @@ $form = ActiveForm::begin(
                 ]
 );
 ?>
+
+<!-- CAMPO OCULTO PARA SABER SI ESTOY CREANDO O EDITANDO Y ASI EVITAR EL AUTOSAVE EN EL CREATE -->
+<?= Html::hiddenInput('isUpdateForm', !$model->isNewRecord ? "si" : "no", ['id' => 'isUpdateForm']); ?>
+
 <!-- BOTON GUARDAR FORMULARIOS -->
 <div class="box box-primary">    
     <div class="box-footer">
@@ -1094,6 +1098,17 @@ $form = ActiveForm::begin(
                 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_gestion_juridica']) . "{label}\n{input}\n{hint}\n{error}\n",
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textarea(['rows' => 6])
+            ?>
+            <?=
+            $form->field($model, 'jur_fecha_gestion_juridica')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => '- Ingrese una fecha --'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                    'todayBtn' => true,
+                ]
+            ]);
             ?>
             <?php if (!empty($model->jur_gestiones_juridicas)): ?>
                 <?php foreach ($model->jur_gestiones_juridicas as $gestion) : ?>

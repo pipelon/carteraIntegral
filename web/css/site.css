@@ -382,3 +382,17 @@ ul.navbar-nav > li.notifications-menu ul.dropdown-menu{
 .box-tareas-admin .info-box-content{
     margin-left: 60px;
 }
+#autoSave{
+    position: fixed; 
+    top: 0;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 200px;
+    z-index: 10000;
+    background: red;
+    text-align: center;
+    padding: 10px;
+    background: #dff0d8;
+}

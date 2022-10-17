@@ -107,6 +107,7 @@ class Procesos extends \yii\db\ActiveRecord {
     public $jur_gestion_juridica;
     public $jur_gestiones_juridicas;
     public $jur_demandados;
+    public $jur_fecha_gestion_juridica;
 
     /**
      * {@inheritdoc}
@@ -135,7 +136,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'colaboradores', 'deleted', 'jur_gestion_juridica', 'jur_gestiones_juridicas',
             'jur_demandados', 'jur_fecha_etapa_procesal', 'prejur_fecha_carta',
             'prejur_fecha_llamada', 'prejur_fecha_visita', 'jur_comentario_radicado_1',
-            'jur_comentario_radicado_2', 'jur_comentario_radicado_3'], 'safe'],
+            'jur_comentario_radicado_2', 'jur_comentario_radicado_3', 'jur_fecha_gestion_juridica','prejur_estudio_bienes'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -251,6 +252,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_documentos_activacion' => 'Documentos de activación',
             'jur_demandados' => 'Codeudores',
             'jur_gestiones_juridicas' => 'Gestiones jurídicas',
+            'jur_fecha_gestion_juridica' => 'Fecha gestión',
             'carpeta' => 'Carpeta Google Drive',
             'estrec_pretenciones' => 'Pretenciones',
             'estrec_probabilidad_recuperacion' => 'Probabilidad de recuperación',

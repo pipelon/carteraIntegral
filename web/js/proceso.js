@@ -449,7 +449,7 @@ jQuery("document").ready(function () {
                 || $("#tipo-proceso-id option:selected").text().trim() == 'INSOLVENCIA'
                 || $("#tipo-proceso-id option:selected").text().trim() == 'INSOLVENCIA PERSONA NATURAL'
                 || $("#tipo-proceso-id option:selected").text().trim() == 'INSOLVENCIA LEY 1116') {
-            
+
             console.info("etre");
             $('#jur_anio_radicado').attr('disabled', true);
             $('#jur_consecutivo_proceso').attr('readonly', true);
@@ -472,7 +472,7 @@ jQuery("document").ready(function () {
             $(".field-jurisdiccion-competent-id").hide();
             $(".field-jurisdiccion-competent-id-2").hide();
             $(".field-jurisdiccion-competent-id-3").hide();
-            
+
             $("#jurisdiccion-competent-id").val("");
             $("#jurisdiccion-competent-id_2").val("");
             $("#jurisdiccion-competent-id_3").val("");
@@ -503,17 +503,33 @@ jQuery("document").ready(function () {
             $(".field-jurisdiccion-competent-id").show();
             $(".field-jurisdiccion-competent-id-2").show();
             $(".field-jurisdiccion-competent-id-3").show();
-            
+
             $("#jur_jurisdiccion_competent_caso_especial_id").val("");
             $("#jur_jurisdiccion_competent_caso_especial_id_2").val("");
-            $("#jur_jurisdiccion_competent_caso_especial_id_3").val("");            
+            $("#jur_jurisdiccion_competent_caso_especial_id_3").val("");
 
         }
     });
 
     $("#tipo-proceso-id").trigger("change");
 
+    //AUTO GUARDAR EL FORMULARIO CADA 5 MINUTOS
+    setInterval(function () {
 
+        var isUpdateForm = $("#isUpdateForm").val();
+        if (isUpdateForm === "si") {
+            $('body').append('<div id="autoSave">¡Guardado automático!</div>');
+            var formData = $("#dynamic-form").serialize() + '&typeSave=autoSave';
+            $.ajax({
+                type: "POST",
+                url: $("#dynamic-form").attr("action"),
+                data: formData,
+                success: function (response) {
+                    $("#autoSave").remove();
+                }
+            });
+        }
+    }, 300000);
 
 });
 

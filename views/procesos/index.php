@@ -286,7 +286,7 @@ $exportColumns = [
             return implode("\r", \yii\helpers\ArrayHelper::map(
                             $data->gestionesJuridicas,
                             'id', function($modelGestionsPre) {
-                                return "{$modelGestionsPre->descripcion_gestion}\r\r";
+                                return "<b>{$modelGestionsPre->fecha_gestion}:</b> {$modelGestionsPre->descripcion_gestion}\r";
                             }
                     )
             );
@@ -548,7 +548,6 @@ $fullExportMenu = ExportMenu::widget(
         $lider = $proceso->jefe_id;
         //ID usuario logueado
         $userId = (int) \Yii::$app->user->id;
-        
         ?>
         <div class="col-md-12">
 

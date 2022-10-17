@@ -199,6 +199,19 @@ if ((in_array($userId, $colaboradores) ||
         'options' => ['class' => 'form-group col-md-12'],
     ])->textarea(['rows' => 6])
     ?>
+    <div class="col-sm-12 no-padding">
+        <?=
+        $form->field($model, 'jur_fecha_gestion_juridica')->widget(\kartik\date\DatePicker::classname(), [
+            'options' => ['placeholder' => '- Ingrese una fecha --'],
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'todayBtn' => true,
+            ]
+        ]);
+        ?>
+    </div>
     <?=
     yii\helpers\Html::a('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', 'javascript:void(0)',
             [

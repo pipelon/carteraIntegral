@@ -191,10 +191,15 @@ class ProcesosController extends Controller {
                 if (!empty($model->jur_gestion_juridica)) {
                     $gestPreJur = new \app\models\GestionesJuridicas();
                     $gestPreJur->proceso_id = $model->id;
-                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->fecha_gestion = !empty($model->jur_fecha_gestion_juridica) ? $model->jur_fecha_gestion_juridica : date('Y-m-d H:i:s');
                     $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
                     $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
                     $gestPreJur->save();
+                }
+                
+                //SI FUE UN AUTOGUARDADO ME QUEDO EN LA PAGINA SIN REFRESCAR
+                if (isset($_POST["typeSave"]) && $_POST["typeSave"] == 'autoSave') {
+                    return;
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -504,7 +509,7 @@ class ProcesosController extends Controller {
                 if (!empty($model->jur_gestion_juridica)) {
                     $gestPreJur = new \app\models\GestionesJuridicas();
                     $gestPreJur->proceso_id = $model->id;
-                    $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                    $gestPreJur->fecha_gestion = !empty($model->jur_fecha_gestion_juridica) ? $model->jur_fecha_gestion_juridica : date('Y-m-d H:i:s');
                     $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
                     $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
                     $gestPreJur->save();
@@ -522,6 +527,10 @@ class ProcesosController extends Controller {
                     $histEstaXProc->save();
                 }
 
+                //SI FUE UN AUTOGUARDADO ME QUEDO EN LA PAGINA SIN REFRESCAR
+                if (isset($_POST["typeSave"]) && $_POST["typeSave"] == 'autoSave') {
+                    return;
+                }
 
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -601,7 +610,7 @@ class ProcesosController extends Controller {
                     } else {
                         $gestPreJur = new \app\models\GestionesJuridicas();
                         $gestPreJur->proceso_id = $model->id;
-                        $gestPreJur->fecha_gestion = date('Y-m-d H:i:s');
+                        $gestPreJur->fecha_gestion = !empty($model->jur_fecha_gestion_juridica) ? $model->jur_fecha_gestion_juridica : date('Y-m-d H:i:s');
                         $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
                         $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
                         $gestPreJur->save();
