@@ -179,7 +179,7 @@ if ((in_array($userId, $colaboradores) ||
     <?php
     $form = yii\bootstrap\ActiveForm::begin(
                     [
-                        'id' => "form_prejur",
+                        'id' => "form_jur",
                         'fieldConfig' => [
                             'template' => "{label}\n{input}\n{hint}\n{error}\n",
                             'options' => ['class' => 'form-group col-md-6'],
@@ -300,7 +300,7 @@ if ((in_array($userId, $colaboradores) ||
         /*
          * GUARDO LA GESTION Y RECARGO EL DIV CON LA NUEVA INFO         * 
          */
-        var form = $('#form_prejur');
+        var form = $('#form_jur');
         var formData = form.serialize();
 
         var idComment = $("#procesos-jur_gestion_juridica").data("id-comment");
