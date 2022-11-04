@@ -465,6 +465,18 @@ ALTER TABLE `db_cartera_integral`.`procesos`
    ADD COLUMN `jur_comentario_radicado_2` TEXT NULL COMMENT 'Comentarios' AFTER `jur_radicado_2`, 
    ADD COLUMN `jur_comentario_radicado_3` TEXT NULL COMMENT 'Comentarios' AFTER `jur_radicado_3`;
 
+DROP TABLE IF EXISTS `valores_activacion_juridico`;
+
+CREATE TABLE `valores_activacion_juridico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `valor` decimal(20,2) NOT NULL COMMENT 'Valor',
+  `fecha` datetime NOT NULL COMMENT 'Fecha',
+  `proceso_id` int(11) NOT NULL COMMENT 'Proceso id',
+  PRIMARY KEY (`id`),
+  KEY `fk_valores_activacion_juridico_procesos_idx` (`proceso_id`),
+  CONSTRAINT `fk_valores_activacion_juridico_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

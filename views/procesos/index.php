@@ -187,7 +187,19 @@ $exportColumns = [
             return $htmlPago;
         }
     ],
-    'jur_valor_activacion:decimal',
+    [
+        'label' => 'valores de activación',
+        'format' => 'raw',
+        'value' => function ($data) {
+            //VALORES DE ACTIVACION ACTUALES PARA MOSTRAR
+            $valoresActivacion = $data->valoresActivacionJuridico;
+            $htmlValor = '';
+            foreach ($valoresActivacion as $valorActivacion) {
+                $htmlValor .= "<b>Valor de activación:</b> " . number_format($valorActivacion->valor, 2, ",", ".") . "\r\r";
+            }
+            return $htmlValor;
+        }
+    ],
     'jur_saldo_actual:decimal',
     [
         'attribute' => 'jur_tipo_proceso_id',
@@ -762,7 +774,16 @@ $fullExportMenu = ExportMenu::widget(
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-right">
-                                <h5 class="description-header">$<?= number_format($proceso->jur_valor_activacion, 0, ",", "."); ?></h5>
+                                <?php
+                                $vActi = $proceso->valoresActivacionJuridico;
+                                $count = 0;
+                                $totalVA = 0;
+                                foreach ((array)$vActi as $va) {
+                                    $count++;
+                                    $totalVA += $va->valor;
+                                }
+                                ?>
+                                <h5 class="description-header">(<?= $count; ?>) $<?= number_format($totalVA, 2, ",", "."); ?></h5>
                                 <span class="description-text">JUR: V. activación</span>
                             </div>
                         </div>

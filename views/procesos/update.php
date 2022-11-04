@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Actualizar';
         'modelPagos' => $modelPagos,
         'modelAcuerdoPagos' => $modelAcuerdoPagos,
         'modelTareas' => $modelTareas,
+        'modelVActivaciones' => $modelVActivaciones
     ])
     ?>
 

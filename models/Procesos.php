@@ -78,6 +78,7 @@ use Yii;
  * @property Alertas[] $alertas
  * @property BienesXProceso[] $bienesXProcesos
  * @property ConsolidadoPagosJuridicos[] $consolidadoPagosJuridicos
+ * @property ValoresActivacionJuridico[] ValoresActivacionJuridico
  * @property ConsolidadoPagosPrejuridicos[] $consolidadoPagosPrejuridicos																		 
  * @property DocactivacionXProceso[] $docactivacionXProcesos
  * @property GestionesPrejuridicas[] $gestionesPrejuridicas
@@ -136,7 +137,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'colaboradores', 'deleted', 'jur_gestion_juridica', 'jur_gestiones_juridicas',
             'jur_demandados', 'jur_fecha_etapa_procesal', 'prejur_fecha_carta',
             'prejur_fecha_llamada', 'prejur_fecha_visita', 'jur_comentario_radicado_1',
-            'jur_comentario_radicado_2', 'jur_comentario_radicado_3', 'jur_fecha_gestion_juridica','prejur_estudio_bienes'], 'safe'],
+            'jur_comentario_radicado_2', 'jur_comentario_radicado_3', 'jur_fecha_gestion_juridica', 'prejur_estudio_bienes'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -297,6 +298,15 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getConsolidadoPagosJuridicos() {
         return $this->hasMany(ConsolidadoPagosJuridicos::className(), ['proceso_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ValoresActivacionJuridico]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getValoresActivacionJuridico() {
+        return $this->hasMany(ValoresActivacionJuridico::className(), ['proceso_id' => 'id']);
     }
 
     /**

@@ -69,6 +69,9 @@ class ProcesosController extends Controller {
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
         $acuerdoPagos = $model->consolidadoPagosPrejuridicos;
+        
+        //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
+        $valoresActivacion = $model->valoresActivacionJuridico;
 
         //TAREAS ACTUALES PARA MOSTRAR
         $tareas = $model->tareas;
@@ -78,6 +81,7 @@ class ProcesosController extends Controller {
                     'pagos' => $pagos,
                     'acuerdoPagos' => $acuerdoPagos,
                     'tareas' => $tareas,
+                    'valoresActivacion' => $valoresActivacion
         ]);
     }
 
@@ -94,6 +98,8 @@ class ProcesosController extends Controller {
         $modelPagos = [new ConsolidadoPagosJuridicos];
         //MODELO DE TAREAS
         $modelTareas = [new \app\models\Tareas];
+        //MODELO DE ACTIVACIONES
+        $modelVActivaciones = [new \app\models\ValoresActivacionJuridico()];
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -196,7 +202,7 @@ class ProcesosController extends Controller {
                     $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
                     $gestPreJur->save();
                 }
-                
+
                 //SI FUE UN AUTOGUARDADO ME QUEDO EN LA PAGINA SIN REFRESCAR
                 if (isset($_POST["typeSave"]) && $_POST["typeSave"] == 'autoSave') {
                     return;
@@ -208,7 +214,8 @@ class ProcesosController extends Controller {
                             'model' => $model,
                             'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
                             'modelAcuerdoPagos' => (empty($modelAcuerdoPagos)) ? [new \app\models\ConsolidadoPagosPrejuridicos] : $modelAcuerdoPagos,
-                            'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
+                            'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas,
+                            'modelVActivaciones' => (empty($modelVActivaciones)) ? [new \app\models\ValoresActivacionJuridico] : $modelVActivaciones
                 ]);
             }
         } else {
@@ -216,7 +223,8 @@ class ProcesosController extends Controller {
                         'model' => $model,
                         'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
                         'modelAcuerdoPagos' => (empty($modelAcuerdoPagos)) ? [new \app\models\ConsolidadoPagosPrejuridicos] : $modelAcuerdoPagos,
-                        'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
+                        'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas,
+                        'modelVActivaciones' => (empty($modelVActivaciones)) ? [new \app\models\ValoresActivacionJuridico] : $modelVActivaciones
             ]);
         }
     }
@@ -279,6 +287,9 @@ class ProcesosController extends Controller {
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR EN LA EDICION
         $modelPagos = $model->consolidadoPagosJuridicos;
+
+        //VALORES DE ACTIVACION DEL JURIDICO
+        $modelVActivaciones = $model->valoresActivacionJuridico;
 
         //ACUERDO DE PAGOS ACTUALES PARA MOSTRAR EN LA EDICION
         $modelAcuerdoPagos = $model->consolidadoPagosPrejuridicos;
@@ -440,6 +451,33 @@ class ProcesosController extends Controller {
                         \Yii::info($mensaje, "cartera");
                     }
                 }
+                
+                // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS VALORES DE ACTIVACION              
+                if (isset($_POST['ValoresActivacionJuridico'])) {
+                    $oldValues = array_merge(
+                            ArrayHelper::map($modelVActivaciones, 'id', 'id'),
+                            ArrayHelper::map($modelVActivaciones, 'id', 'valor')
+                    );
+                    $newValues = array_merge(
+                            ArrayHelper::map($_POST['ValoresActivacionJuridico'], 'id', 'id'),
+                            ArrayHelper::map($_POST['ValoresActivacionJuridico'], 'id', 'valor')
+                    );
+                    $deletedValores = array_merge(array_diff($oldValues, $newValues), array_diff($newValues, $oldValues));
+                    if (!empty($deletedValores)) {
+                        \app\models\ValoresActivacionJuridico::deleteAll(['proceso_id' => $model->id]);
+                        foreach ($_POST['ValoresActivacionJuridico'] as $valor) {
+                            $mdlValores = new \app\models\ValoresActivacionJuridico;
+                            $mdlValores->valor = $valor['valor'];
+                            $mdlValores->fecha = date('Y-m-d H:i:s');
+                            $mdlValores->proceso_id = $model->id;
+                            $mdlValores->save();
+                        }
+
+                        //LOG
+                        $mensaje = "Los valores de activación juridicos del proceso #{$id} han sido cambiados.";
+                        \Yii::info($mensaje, "cartera");
+                    }
+                }
 
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS COONSOLIDADOS DE PAGO 
                 if (isset($_POST['ConsolidadoPagosPrejuridicos'])) {
@@ -543,7 +581,8 @@ class ProcesosController extends Controller {
                         'model' => $model,
                         'modelPagos' => (empty($modelPagos)) ? [new ConsolidadoPagosJuridicos] : $modelPagos,
                         'modelAcuerdoPagos' => (empty($modelAcuerdoPagos)) ? [new \app\models\ConsolidadoPagosPrejuridicos] : $modelAcuerdoPagos,
-                        'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas
+                        'modelTareas' => (empty($modelTareas)) ? [new \app\models\Tareas] : $modelTareas,
+                        'modelVActivaciones' => (empty($modelVActivaciones)) ? [new \app\models\ValoresActivacionJuridico] : $modelVActivaciones
             ]);
         }
     }

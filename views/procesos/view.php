@@ -207,7 +207,17 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                         return $htmlPago;
                     }
                 ],
-                'jur_valor_activacion:decimal',
+                [
+                    'label' => 'Valores de activación',
+                    'format' => 'raw',
+                    'value' => function ($data) use ($valoresActivacion) {
+                        $htmlValores = '';
+                        foreach ($valoresActivacion as $valorActivacion) {
+                            $htmlValores .= "<b>Valor activación:</b> " . number_format($valorActivacion->valor, 2, ",", ".") . "<br/><br/>";
+                        }
+                        return $htmlValores;
+                    }
+                ],
                 'jur_saldo_actual:decimal',
                 [
                     'attribute' => 'jur_tipo_proceso_id',

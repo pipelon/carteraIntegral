@@ -51,8 +51,17 @@ $userId = (int) \Yii::$app->user->id;
                 <div class="info-box">
                     <span class="info-box-icon bg-green"><i class="fa fa-dollar"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Valor activación</span>
-                        <span class="info-box-number"><?= number_format($model->jur_valor_activacion, 2, ',', '.'); ?></span>
+                        <?php
+                        $vActi = $model->valoresActivacionJuridico;
+                        $count = 0;
+                        $totalVA = 0;
+                        foreach ((array) $vActi as $va) {
+                            $count++;
+                            $totalVA += $va->valor;
+                        }
+                        ?>
+                        <span class="info-box-text">(<?= $count; ?>) Valor activación</span>
+                        <span class="info-box-number"> $<?= number_format($totalVA, 2, ",", "."); ?></span>
                     </div>
                 </div>
             </div>

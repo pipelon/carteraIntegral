@@ -40,7 +40,9 @@ class ProcesosSearch extends Procesos {
      */
     public function search($params) {
         $query = Procesos::find();
-        $query->joinWith(['cliente', 'deudor', 'estadoProceso', 'jurJurisdiccionCompetent', 'procesosXColaboradores']);
+        $query->joinWith(['cliente', 'deudor', 'estadoProceso',
+            'jurJurisdiccionCompetent', 'procesosXColaboradores',
+            'valoresActivacionJuridico']);
 
         // add conditions that should always apply here
 
@@ -66,7 +68,8 @@ class ProcesosSearch extends Procesos {
                 ->orFilterWhere(['like', 'jurisdicciones_competentes.nombre', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado_2', trim($this->buscador)])
-                ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)]);
+                ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)])
+                ->orFilterWhere(['like', 'valores_activacion_juridico.valor', trim($this->buscador)]);
 
         if (Yii::$app->user->identity->isColaborador() &&
                 !Yii::$app->user->identity->isLider() &&

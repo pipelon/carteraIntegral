@@ -634,8 +634,57 @@ $form = ActiveForm::begin(
             ?>
         </div>
         <div class="row-field">
-            <?= $form->field($model, 'jur_valor_activacion', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_valor_activacion']) . "{label}\n{input}\n{hint}\n{error}\n",])->textInput() ?>
+            <?php //= $form->field($model, 'jur_valor_activacion', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_valor_activacion']) . "{label}\n{input}\n{hint}\n{error}\n",])->textInput() ?>
             <?= $form->field($model, 'jur_saldo_actual', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_saldo_actual']) . "{label}\n{input}\n{hint}\n{error}\n",])->textInput() ?>
+        </div>
+
+        <div class="row-field col-md-12">
+            <?php
+            DynamicFormWidget::begin([
+                'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetBody' => '.container-items', // required: css class selector
+                'widgetItem' => '.item', // required: css class
+                'limit' => 5, // the maximum times, an element can be cloned (default 999)
+                'min' => 0, // 0 or 1 (default 1)
+                'insertButton' => '.add-item', // css class
+                'deleteButton' => '.remove-item', // css class
+                'model' => $modelVActivaciones[0],
+                'formId' => 'dynamic-form',
+                'formFields' => [
+                    'valor'
+                ],
+            ]);
+            ?>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="flaticon-coins"></i> Valores de activación
+                    <button type="button" class="pull-right add-item btn btn-primary btn-xs"><i class="flaticon-add"></i> Agregar valor activación</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body container-items"><!-- widgetContainer -->
+                    <?php foreach ($modelVActivaciones as $index => $modelVActivacion): ?>
+                        <div class="item panel panel-default"><!-- widgetBody -->
+                            <div class="panel-heading">
+                                <span class="panel-title-valor">Valor activación: <?= ($index + 1) ?></span>
+                                <button type="button" class="pull-right remove-item btn btn-danger btn-xs"><i class="flaticon-circle"></i></button>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-body">
+                                <?php
+                                // necessary for update action.
+                                if (!$modelVActivacion->isNewRecord) {
+                                    echo Html::activeHiddenInput($modelVActivacion, "[{$index}]id");
+                                }
+                                ?>
+                                <?= $form->field($modelVActivacion, "[{$index}]valor")->textInput() ?>                                
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <?php DynamicFormWidget::end(); ?>
         </div>
 
         <!-- CONSOLIDADO DE PAGOS -->
@@ -888,7 +937,7 @@ $form = ActiveForm::begin(
 
             <?= $form->field($model, 'jur_radicado', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado']) ?>
         </div>
-        
+
         <div class="row-field">
             <?=
             $form->field($model, 'jur_comentario_radicado_1', [
@@ -941,7 +990,7 @@ $form = ActiveForm::begin(
             <?= $form->field($model, 'jur_juzgado_2', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_juzgado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'juzgado-2']) ?>
 
         </div>     
-        
+
         <!-- RADICADO 2 -->
         <div class="row-field">
             <?=
@@ -985,7 +1034,7 @@ $form = ActiveForm::begin(
 
             <?= $form->field($model, 'jur_radicado_2', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado-2']) ?>
         </div>
-        
+
         <div class="row-field">
             <?=
             $form->field($model, 'jur_comentario_radicado_2', [
@@ -1081,7 +1130,7 @@ $form = ActiveForm::begin(
 
             <?= $form->field($model, 'jur_radicado_3', ["options" => ['class' => 'form-group col-md-12'], 'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_radicado']) . "{label}\n{input}\n{hint}\n{error}\n"])->textInput(['readOnly' => true, 'id' => 'radicado-3']) ?>
         </div>
-        
+
         <div class="row-field">
             <?=
             $form->field($model, 'jur_comentario_radicado_3', [

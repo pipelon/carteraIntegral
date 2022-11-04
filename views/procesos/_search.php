@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
             <span class="input-group-addon flaticon-search-magnifier-interface-symbol"></span>{input}<span class="input-group-btn">
                       <button type="submit" class="btn btn-primary btn-flat">Buscar!</button>
                     </span></div>{error}{hint}'
-    ])->textInput(['placeholder' => "# de radicado, documento y nombre de clientes y/o deudores, estados"]);
+    ])->textInput(['placeholder' => "# de radicado, documento y nombre de clientes,valor de activación y/o deudores, estados"]);
     ?>
 
     <?php ActiveForm::end(); ?>
