@@ -641,7 +641,7 @@ $form = ActiveForm::begin(
         <div class="row-field col-md-12">
             <?php
             DynamicFormWidget::begin([
-                'widgetContainer' => 'dynamicform_wrapper_tareas', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
+                'widgetContainer' => 'dynamicform_wrapper_valor_activacion', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
                 'widgetBody' => '.container-items', // required: css class selector
                 'widgetItem' => '.item', // required: css class
                 'limit' => 5, // the maximum times, an element can be cloned (default 999)

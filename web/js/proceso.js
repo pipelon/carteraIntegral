@@ -113,6 +113,19 @@ jQuery("document").ready(function () {
             jQuery(this).html("Acuerdo: " + (index + 1));
         });
     });
+    
+    
+    /* FUNCIONES PARA LOS VALORES DE ACTIVACION */
+    jQuery(".dynamicform_wrapper_valor_activacion").on("afterInsert", function (e, item) {
+        jQuery(".dynamicform_wrapper_valor_activacion .panel-title-valor").each(function (index) {
+            jQuery(this).html("Valor activación: " + (index + 1));
+        });        
+    });
+    jQuery(".dynamicform_wrapper_valor_activacion").on("afterDelete", function (e) {
+        jQuery(".dynamicform_wrapper_valor_activacion .panel-title-valor").each(function (index) {
+            jQuery(this).html("Valor activación: " + (index + 1));
+        });
+    });
 
     /* CREAR NOMBRE DE JUZGADO */
     $('#departamento-id, #ciudad-id').change(function () {
