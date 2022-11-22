@@ -477,6 +477,9 @@ CREATE TABLE `valores_activacion_juridico` (
   CONSTRAINT `fk_valores_activacion_juridico_procesos` FOREIGN KEY (`proceso_id`) REFERENCES `procesos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
+ALTER TABLE `db_cartera_integral`.`procesos` 
+   ADD COLUMN `modified` DATETIME NULL AFTER estado_proceso_id;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

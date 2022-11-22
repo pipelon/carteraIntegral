@@ -96,6 +96,12 @@ class UsersController extends Controller {
      * @return mixed
      */
     public function actionUpdate($id) {
+        
+        //VALIDO QUE SOLO PUEDA VERSE EL USUARIO PROPIO
+        if ((!is_null($id) && $id != Yii::$app->user->identity->getId()) && !Yii::$app->user->identity->isSuperAdmin()) {
+            throw new \yii\web\ForbiddenHttpException('No tienes permisos para acceder a este usuario.');
+        }
+        
         $model = $this->findModel($id);
 
         //clave y usuario anterior

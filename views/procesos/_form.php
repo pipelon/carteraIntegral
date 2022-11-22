@@ -655,7 +655,7 @@ $form = ActiveForm::begin(
                 ],
             ]);
             ?>
-            
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="flaticon-coins"></i> Valores de activación
@@ -749,8 +749,8 @@ $form = ActiveForm::begin(
         </div>
         <!-- FIN CONSOLIDADO DE PAGOS -->
 
-        <!--DEMANDADOS -->
-        <div class="row-field">
+        <!--DEMANDADOS / CODEUDORES -->
+        <div class="row-field">            
             <?php
             $listDeudoresyCode = \app\models\Deudores::find()
                     ->select([
@@ -797,17 +797,25 @@ $form = ActiveForm::begin(
                 foreach ($elRestoDeudores as $restoDeudor) {
                     $listDeudores[$restoDeudor->nombre] = "{$restoDeudor->nombre}";
                 }
+                echo $form->field($model, 'jur_demandados')->widget(Select2::className(), [
+                    'pluginOptions' => [
+                        'tags' => true,
+                        'multiple' => true,
+                    ],
+                    'data' => $listDeudores,
+                ]);
             }
             ?>
-            <div style="height: 300px; overflow: auto; margin-bottom: 50px;">
-                <?=
+            <!--<div style="height: 300px; overflow: auto; margin-bottom: 50px;">-->
+                <?php /*=
                 $form->field($model, 'jur_demandados', [
                     "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_demandados']) . "{label}\n{input}\n{hint}\n{error}",
                 ])->checkboxList($listDeudores)
-                ?>
-            </div>
+                */?>
+            <!--</div>-->
         </div>
 
+        <!-- TIPO DE PROCESO -->
         <div class="row-field">
             <?php
             $tipoProcesosList = yii\helpers\ArrayHelper::map(

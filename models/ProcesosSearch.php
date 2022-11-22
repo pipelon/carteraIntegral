@@ -48,7 +48,7 @@ class ProcesosSearch extends Procesos {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['id' => SORT_DESC]]
+            'sort' => ['defaultOrder' => ['modified' => SORT_ASC]]
         ]);
 
         $this->load($params);
