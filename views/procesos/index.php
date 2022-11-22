@@ -778,7 +778,7 @@ $fullExportMenu = ExportMenu::widget(
                                 $vActi = $proceso->valoresActivacionJuridico;
                                 $count = 0;
                                 $totalVA = 0;
-                                foreach ((array)$vActi as $va) {
+                                foreach ((array) $vActi as $va) {
                                     $count++;
                                     $totalVA += $va->valor;
                                 }
@@ -802,28 +802,38 @@ $fullExportMenu = ExportMenu::widget(
 </div>
 
 <?php
-//PAGINADOR A MANO PQ NO SE USO EL WIDGET
-// Obtener el número de elementos de la página actual
-$count = $dataProvider->getCount();
-// Obtener el número total de elementos entre todas las páginas
-$totalCount = $dataProvider->getTotalCount();
-// Total de paginas
-$totalPaginas = ceil($totalCount / 20); #$count
-// url para conservar el filtro en caso que exista
-$url = parse_url(Yii::$app->request->url);
+echo \yii\widgets\LinkPager::widget([
+    'pagination' => $dataProvider->pagination,
+    'firstPageLabel' => 'Inicio',
+    'lastPageLabel' => 'Fin'
+]);
 
-$pagina = $_GET['page'] ?? 1;
-$search = $_GET['ProcesosSearch']['buscador'] ?? "";
+////PAGINADOR A MANO PQ NO SE USO EL WIDGET
+//// Obtener el número de elementos de la página actual
+//$count = $dataProvider->getCount();
+//// Obtener el número total de elementos entre todas las páginas
+//$totalCount = $dataProvider->getTotalCount();
+//// Total de paginas
+//$totalPaginas = ceil($totalCount / 20); #$count
+//// url para conservar el filtro en caso que exista
+//$url = parse_url(Yii::$app->request->url);
+//
+//$pagina = $_GET['page'] ?? 1;
+//$search = $_GET['ProcesosSearch']['buscador'] ?? "";
+//
 ?>
-<ul class="pagination">
-    <?php
-    for ($i = 1; $i <= $totalPaginas; $i++) {
-        $active = $pagina == $i ? "active" : "";
-        echo "<li class='{$active}'>" . Html::a($i, Url::to(['procesos/index', 'ProcesosSearch[buscador]' => $search, 'page' => $i])) . "</li>";
-    }
-    ?>
 
-</ul>
+
+<!--<ul class="pagination">-->
+<?php
+//    for ($i = 1; $i <= $totalPaginas; $i++) {
+//        $active = $pagina == $i ? "active" : "";
+//        echo "<li class='{$active}'>" . Html::a($i, Url::to(['procesos/index', 'ProcesosSearch[buscador]' => $search, 'page' => $i])) . "</li>";
+//    }
+//    
+?>
+
+<!--</ul>-->
 
 <?= Html::tag('div', '', ['id' => 'ajax_result-prejuridico']); ?>
 <?= Html::tag('div', '', ['id' => 'ajax_result-juridico']); ?>
