@@ -13,6 +13,7 @@ $this->title = 'Procesos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<!-- BUSCADOR DE LOS PROCESOS -->
 <?php
 echo $this->render('_search', ['model' => $searchModel]);
 $procesos = $dataProvider->getModels();
@@ -801,40 +802,16 @@ $fullExportMenu = ExportMenu::widget(
     <?php endforeach; ?>
 </div>
 
+<!-- PAGINADOR -->
 <?php
 echo \yii\widgets\LinkPager::widget([
     'pagination' => $dataProvider->pagination,
     'firstPageLabel' => 'Inicio',
     'lastPageLabel' => 'Fin'
 ]);
-
-////PAGINADOR A MANO PQ NO SE USO EL WIDGET
-//// Obtener el número de elementos de la página actual
-//$count = $dataProvider->getCount();
-//// Obtener el número total de elementos entre todas las páginas
-//$totalCount = $dataProvider->getTotalCount();
-//// Total de paginas
-//$totalPaginas = ceil($totalCount / 20); #$count
-//// url para conservar el filtro en caso que exista
-//$url = parse_url(Yii::$app->request->url);
-//
-//$pagina = $_GET['page'] ?? 1;
-//$search = $_GET['ProcesosSearch']['buscador'] ?? "";
-//
 ?>
 
-
-<!--<ul class="pagination">-->
-<?php
-//    for ($i = 1; $i <= $totalPaginas; $i++) {
-//        $active = $pagina == $i ? "active" : "";
-//        echo "<li class='{$active}'>" . Html::a($i, Url::to(['procesos/index', 'ProcesosSearch[buscador]' => $search, 'page' => $i])) . "</li>";
-//    }
-//    
-?>
-
-<!--</ul>-->
-
+<!-- MODALES -->
 <?= Html::tag('div', '', ['id' => 'ajax_result-prejuridico']); ?>
 <?= Html::tag('div', '', ['id' => 'ajax_result-juridico']); ?>
 <?php
@@ -843,7 +820,6 @@ yii\bootstrap\Modal::begin([
     'size' => yii\bootstrap\Modal::SIZE_LARGE,
 ]);
 yii\bootstrap\Modal::end();
-
 $this->registerJs("$(function() {
    $('.popupModal').click(function(e) {
      e.preventDefault();
