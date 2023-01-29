@@ -348,7 +348,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                         }
                     },
                 ],
-                [
+                /*[
                     'label' => strtoupper('Archivos'),
                     'format' => 'raw',
                     'value' => function ($data) {
@@ -356,7 +356,7 @@ $canEdit = in_array($userId, $colaboradores) || $userId == $lider || Yii::$app->
                             return Yii::$app->gdrive->leerArchivosCarpeta($data->carpeta);
                         }
                     },
-                ],
+                ],*/
                 [
                     'label' => strtoupper('ESTADO DE RECUPERACIÓN'),
                     'value' => '',
