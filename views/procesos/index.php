@@ -654,7 +654,7 @@ $fullExportMenu = ExportMenu::widget(
                                 <i class="fa fa-map-o" style="color: #000;"></i> <?= $proceso->deudor->ciudad; ?>
                             </p>
                         </div>
-                        <div class="col-md-2 invoice-col vertical-center" <?= Yii::$app->user->identity->isCliente() ? "style='display: grid'" : "" ?>>
+                        <div class="col-md-2 invoice-col vertical-center" style="display: grid">
                             <?=
                             Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Resumen prejurídico',
                                     'javascript:void(0)',
@@ -674,15 +674,13 @@ $fullExportMenu = ExportMenu::widget(
                                     ]
                             );
                             ?>
-                            <?php
-                            # Mostrar el enlace de prejuridico también
-                            if (Yii::$app->user->identity->isCliente()) {
-                                echo Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Resumen jurídico',
-                                        'javascript:void(0)',
-                                        [
-                                            'title' => 'clientes',
-                                            'class' => 'btn btn-default',
-                                            'onclick' => "                                    
+                            <?=
+                            Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Resumen jurídico',
+                                    'javascript:void(0)',
+                                    [
+                                        'title' => 'clientes',
+                                        'class' => 'btn btn-default',
+                                        'onclick' => "                                    
                                                 $.ajax({
                                                         type    :'POST',
                                                         cache   : false,
@@ -692,9 +690,8 @@ $fullExportMenu = ExportMenu::widget(
                                                         }
                                                 });
                                                 return false;",
-                                        ]
-                                );
-                            }
+                                    ]
+                            );
                             ?>                            
                         </div>
                         <div class="col-md-2 invoice-col vertical-center estado-proceso">
@@ -748,17 +745,14 @@ $fullExportMenu = ExportMenu::widget(
                             </p>
 
                         </div>
-                        <div class="col-md-2 invoice-col vertical-center" <?= Yii::$app->user->identity->isCliente() ? "style='display: grid'" : "" ?>>
-                            <?php
-                            # Mostrar el enlace de prejuridico también
-                            if (Yii::$app->user->identity->isCliente()) {
-                                echo "<br />";
-                                echo Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Resumen prejurídico',
-                                        'javascript:void(0)',
-                                        [
-                                            'title' => 'clientes',
-                                            'class' => 'btn btn-default',
-                                            'onclick' => "                                    
+                        <div class="col-md-2 invoice-col vertical-center" style="display: grid">
+                            <?=
+                            Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Resumen prejurídico',
+                                    'javascript:void(0)',
+                                    [
+                                        'title' => 'clientes',
+                                        'class' => 'btn btn-default',
+                                        'onclick' => "                                    
                                                 $.ajax({
                                                         type    :'POST',
                                                         cache   : false,
@@ -768,9 +762,8 @@ $fullExportMenu = ExportMenu::widget(
                                                         }
                                                 });
                                                 return false;",
-                                        ]
-                                );
-                            }
+                                    ]
+                            );
                             ?>
                             <?=
                             Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Resumen jurídico',
