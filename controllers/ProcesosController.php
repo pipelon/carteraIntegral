@@ -69,7 +69,7 @@ class ProcesosController extends Controller {
 
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
         $acuerdoPagos = $model->consolidadoPagosPrejuridicos;
-        
+
         //CONSOLIDADO DE PAGOS ACTUALES PARA MOSTRAR
         $valoresActivacion = $model->valoresActivacionJuridico;
 
@@ -451,7 +451,7 @@ class ProcesosController extends Controller {
                         \Yii::info($mensaje, "cartera");
                     }
                 }
-                
+
                 // SI EL GUARDADO DEL PROCESO FUE EXITOSO SE DEBEN GUARDAR LOS VALORES DE ACTIVACION              
                 if (isset($_POST['ValoresActivacionJuridico'])) {
                     $oldValues = array_merge(
@@ -674,6 +674,22 @@ class ProcesosController extends Controller {
         return $this->renderPartial('view-summary-juridico', [
                     'model' => $model
         ]);
+    }
+
+    public function actionViewSummaryRadicado() {
+        if (Yii::$app->getRequest()->isAjax) {
+            return $this->renderAjax('view-summary-radicado', [
+                        'depa' => $_POST['depa'],
+                        'ciu' => $_POST['ciu'],
+                        'juz' => $_POST['juz'],
+                        'ano' => $_POST['ano'],
+                        'con' => $_POST['con'], 
+                        'ins' => $_POST['ins'],
+                        'comment' => $_POST['coment'],
+                        'radicado' => $_POST['radicado'],
+            ]);
+        }
+        Yii::$app->end();
     }
 
     public function actionCambiarEtapaPopup($id) {

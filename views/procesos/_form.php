@@ -807,11 +807,11 @@ $form = ActiveForm::begin(
             }
             ?>
             <!--<div style="height: 300px; overflow: auto; margin-bottom: 50px;">-->
-                <?php /*=
-                $form->field($model, 'jur_demandados', [
-                    "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_demandados']) . "{label}\n{input}\n{hint}\n{error}",
-                ])->checkboxList($listDeudores)
-                */?>
+            <?php /* =
+              $form->field($model, 'jur_demandados', [
+              "template" => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_demandados']) . "{label}\n{input}\n{hint}\n{error}",
+              ])->checkboxList($listDeudores)
+             */ ?>
             <!--</div>-->
         </div>
 
@@ -1200,6 +1200,12 @@ $form = ActiveForm::begin(
                 'options' => ['class' => 'form-group col-md-12'],
             ])->textInput(['maxlength' => true])
             ?>
+            <?php
+            if (!$model->isNewRecord && !empty($model->carpeta)) {
+                $url = 'https://drive.google.com/open?id=' . $model->carpeta;
+                echo Html::a($url, $url, ['target' => '_blank']);
+            }
+            ?>
         </div>
     </div>
     <!-- /.box-body -->
@@ -1329,13 +1335,13 @@ $form = ActiveForm::begin(
                                     );
                                     ?>
                                 <?php endif; ?>
-                                <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
+    <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+<?php endforeach; ?>
                 </div>
             </div>
-            <?php DynamicFormWidget::end(); ?>
+<?php DynamicFormWidget::end(); ?>
         </div>
     </div>
 </div>
@@ -1395,7 +1401,7 @@ $form = ActiveForm::begin(
         <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
         <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
-        <?php endif; ?> 
+<?php endif; ?> 
     </div>
 </div>
 

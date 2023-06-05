@@ -217,8 +217,10 @@ $exportColumns = [
             return $data->jurEtapasProcesal->nombre ?? null;
         },
     ],
+    # Radicado 1            
     [
         'attribute' => 'jur_departamento_id',
+        'label' => 'Departamento Radicado #1',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurDepartamento->nombre ?? null;
@@ -226,6 +228,7 @@ $exportColumns = [
     ],
     [
         'attribute' => 'jur_ciudad_id',
+        'label' => 'Ciudad Radicado #1',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurCiudad->nombre ?? null;
@@ -233,17 +236,28 @@ $exportColumns = [
     ],
     [
         'attribute' => 'jur_jurisdiccion_competent_id',
+        'label' => 'Jurisdicción competente Radicado #1',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurJurisdiccionCompetent->nombre ?? null;
         },
     ],
-    'jur_jurisdiccion_competent_caso_especial_id',
-    'jur_juzgado',
-    'jur_radicado',
-    'jur_comentario_radicado_1',
+    [
+        'attribute' => 'jur_juzgado',
+        'label' => 'Juzgado Radicado #1'
+    ],
+    [
+        'attribute' => 'jur_radicado',
+        'label' => 'Radicado #1'
+    ],
+    [
+        'attribute' => 'jur_comentario_radicado_1',
+        'label' => 'Comentario radicado #1'
+    ],
+    # Radicado 2
     [
         'attribute' => 'jur_departamento_id_2',
+        'label' => 'Departamento Radicado #2',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurDepartamento2->nombre ?? null;
@@ -251,6 +265,7 @@ $exportColumns = [
     ],
     [
         'attribute' => 'jur_ciudad_id_2',
+        'label' => 'Ciudad Radicado #2',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurCiudad2->nombre ?? null;
@@ -258,17 +273,28 @@ $exportColumns = [
     ],
     [
         'attribute' => 'jur_jurisdiccion_competent_id_2',
+        'label' => 'Jurisdicción competente Radicado #2',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurJurisdiccionCompetent2->nombre ?? null;
         },
     ],
-    'jur_jurisdiccion_competent_caso_especial_id_2',
-    'jur_juzgado_2',
-    'jur_radicado_2',
-    'jur_comentario_radicado_2',
+    [
+        'attribute' => 'jur_juzgado_2',
+        'label' => 'Juzgado Radicado #2'
+    ],
+    [
+        'attribute' => 'jur_radicado_2',
+        'label' => 'Radicado #2'
+    ],
+    [
+        'attribute' => 'jur_comentario_radicado_2',
+        'label' => 'Comentario radicado #2'
+    ],
+    # Radicado 3
     [
         'attribute' => 'jur_departamento_id_3',
+        'label' => 'Departamento Radicado #3',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurDepartamento3->nombre ?? null;
@@ -276,6 +302,7 @@ $exportColumns = [
     ],
     [
         'attribute' => 'jur_ciudad_id_3',
+        'label' => 'Ciudad Radicado #3',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurCiudad3->nombre ?? null;
@@ -283,15 +310,24 @@ $exportColumns = [
     ],
     [
         'attribute' => 'jur_jurisdiccion_competent_id_3',
+        'label' => 'Jurisdicción competente Radicado #3',
         'format' => 'raw',
         'value' => function ($data) {
             return $data->jurJurisdiccionCompetent3->nombre ?? null;
         },
     ],
-    'jur_jurisdiccion_competent_caso_especial_id_3',
-    'jur_juzgado_3',
-    'jur_radicado_3',
-    'jur_comentario_radicado_3',
+    [
+        'attribute' => 'jur_juzgado_3',
+        'label' => 'Juzgado Radicado #3'
+    ],
+    [
+        'attribute' => 'jur_radicado_3',
+        'label' => 'Radicado #3'
+    ],
+    [
+        'attribute' => 'jur_comentario_radicado_3',
+        'label' => 'Comentario radicado #3'
+    ],
     [
         'attribute' => 'jur_gestiones_juridicas',
         'format' => 'raw',
@@ -576,16 +612,100 @@ $fullExportMenu = ExportMenu::widget(
                             <h3 class="box-title" style="font-size: 12px !important;">
                                 <b>Radicado #:</b> <?= $proceso->jur_radicado; ?>
                             </h3>
+                            <?=
+                            Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Ver',
+                                    'javascript:void(0)',
+                                    [
+                                        'title' => 'clientes',
+                                        'class' => 'btn btn-default',
+                                        'onclick' => "
+                                            $.ajax({
+                                                type: 'POST',
+                                                cache: false,
+                                                url     : '" . Url::to(['procesos/view-summary-radicado']) . "',
+                                                data: {
+                                                    'depa': '" . $proceso->jurDepartamento->nombre . "',
+                                                    'ciu': '" . $proceso->jurCiudad->nombre . "',                                                    
+                                                    'juz': '" . $proceso->jur_juzgado . "',
+                                                    'ano': '" . $proceso->jur_anio_radicado . "',
+                                                    'con': '" . $proceso->jur_consecutivo_proceso . "',
+                                                    'ins': '" . $proceso->jur_instancia_radicado . "',
+                                                    'radicado': '" . $proceso->jur_radicado . "',
+                                                    'coment': '" . $proceso->jur_comentario_radicado_1 . "',
+                                                },
+                                                success: function (response) {
+                                                    $('#ajax_result-radicado').html(response);
+                                                }
+                                            }); return false;",
+                                    ]
+                            );
+                            ?>
                         <?php endif; ?>
                         <?php if (!empty($proceso->jur_radicado_2)) : ?>
                             <h3 class="box-title" style="font-size: 12px !important;">
                                 <b>Radicado #2:</b> <?= $proceso->jur_radicado_2; ?>
                             </h3>
+                            <?=
+                            Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Ver',
+                                    'javascript:void(0)',
+                                    [
+                                        'title' => 'clientes',
+                                        'class' => 'btn btn-default',
+                                        'onclick' => "
+                                            $.ajax({
+                                                type: 'POST',
+                                                cache: false,
+                                                url     : '" . Url::to(['procesos/view-summary-radicado']) . "',
+                                                data: {
+                                                    'depa': '" . $proceso->jurDepartamento2->nombre . "',
+                                                    'ciu': '" . $proceso->jurCiudad2->nombre . "',                                                    
+                                                    'juz': '" . $proceso->jur_juzgado_2 . "',
+                                                    'ano': '" . $proceso->jur_anio_radicado_2 . "',
+                                                    'con': '" . $proceso->jur_consecutivo_proceso_2 . "',
+                                                    'ins': '" . $proceso->jur_instancia_radicado_2 . "',
+                                                    'radicado': '" . $proceso->jur_radicado_2 . "',
+                                                    'coment': '" . $proceso->jur_comentario_radicado_2 . "',
+                                                },
+                                                success: function (response) {
+                                                    $('#ajax_result-radicado').html(response);
+                                                }
+                                            }); return false;",
+                                    ]
+                            );
+                            ?>
                         <?php endif; ?>
                         <?php if (!empty($proceso->jur_radicado_3)) : ?>
                             <h3 class="box-title" style="font-size: 12px !important;">
                                 <b>Radicado #3:</b> <?= $proceso->jur_radicado_3; ?>
                             </h3>
+                            <?=
+                            Html::a('<i class="flaticon-search-magnifier-interface-symbol"></i> Ver',
+                                    'javascript:void(0)',
+                                    [
+                                        'title' => 'clientes',
+                                        'class' => 'btn btn-default',
+                                        'onclick' => "
+                                            $.ajax({
+                                                type: 'POST',
+                                                cache: false,
+                                                url     : '" . Url::to(['procesos/view-summary-radicado']) . "',
+                                                data: {
+                                                    'depa': '" . $proceso->jurDepartamento3->nombre . "',
+                                                    'ciu': '" . $proceso->jurCiudad3->nombre . "',                                                    
+                                                    'juz': '" . $proceso->jur_juzgado_3 . "',
+                                                    'ano': '" . $proceso->jur_anio_radicado_3 . "',
+                                                    'con': '" . $proceso->jur_consecutivo_proceso_3 . "',
+                                                    'ins': '" . $proceso->jur_instancia_radicado_3 . "',
+                                                    'radicado': '" . $proceso->jur_radicado_3 . "',
+                                                    'coment': '" . $proceso->jur_comentario_radicado_3 . "',
+                                                },
+                                                success: function (response) {
+                                                    $('#ajax_result-radicado').html(response);
+                                                }
+                                            }); return false;",
+                                    ]
+                            );
+                            ?>
                         <?php endif; ?>
                     <?php endif; ?>
 
@@ -852,6 +972,7 @@ echo \yii\widgets\LinkPager::widget([
 <!-- MODALES -->
 <?= Html::tag('div', '', ['id' => 'ajax_result-prejuridico']); ?>
 <?= Html::tag('div', '', ['id' => 'ajax_result-juridico']); ?>
+<?= Html::tag('div', '', ['id' => 'ajax_result-radicado']); ?>
 <?php
 yii\bootstrap\Modal::begin([
     'id' => 'modal',

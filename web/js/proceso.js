@@ -349,6 +349,7 @@ jQuery("document").ready(function () {
 
     /* CREAR EL RADICADO */
     $('#departamento-id, #ciudad-id, #jurisdiccion-competent-id, #jur_anio_radicado, #jur_consecutivo_proceso, #jur_instancia_radicado').change(function () {
+        console.info("entreee");
         let codigoDepartamento = $("#codigoDepartamento").val().toString();
         let codigoCiudad = $("#codigoCiudad").val().toString();
         let codigoEntidad = $("#codigoEntidad").val().toString();
@@ -360,6 +361,7 @@ jQuery("document").ready(function () {
         if (codigoCiudad != "" && codigoCiudad != "" && codigoEntidad != "" &&
                 codigoEspecialidad != "" && codigoDespacho != "" &&
                 anio != "" && consecutivo != "" && instancia != "") {
+            console.info("entreee2");
             $("#radicado").val(codigoDepartamento + codigoCiudad + codigoEntidad + codigoEspecialidad + codigoDespacho + anio + consecutivo + instancia);
         }
 
