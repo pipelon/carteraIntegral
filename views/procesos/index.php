@@ -716,7 +716,7 @@ $fullExportMenu = ExportMenu::widget(
                         if ((in_array($userId, $colaboradores) ||
                                 $userId == $lider ||
                                 Yii::$app->user->identity->isSuperAdmin()) && \Yii::$app->user->can('/procesos/update')) {
-                            echo Html::a('<span class="flaticon-edit" ></span>', Url::to(['procesos/update', 'id' => $proceso->id]), [
+                            echo Html::a('<span class="flaticon-edit" ></span>', Url::to(['procesos/update', 'id' => $proceso->id, 'filter' => base64_encode(Yii::$app->request->getQueryString())]), [
                                 'title' => 'Editar',
                                 'class' => 'btn btn-default'
                             ]);

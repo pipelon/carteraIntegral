@@ -210,7 +210,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'prejur_consulta_rama_judicial' => 'Consulta rama judicial',
             'prejur_consulta_entidad_reguladora' => 'Consulta entidad reguladora',
             'prejur_estudio_bienes' => 'Estudio de bienes',
-            'prejur_concepto_viabilidad' => 'Concepto  viabilidad',
+            'prejur_concepto_viabilidad' => 'Concepto',
             'prejur_gestion_prejuridica' => 'Gestión pre jurídica',
             'prejur_gestiones_prejuridicas' => 'Gestiones pre-jurídicas',
             'jur_gestion_juridica' => 'Gestión jurídica',

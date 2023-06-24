@@ -235,9 +235,9 @@ class ProcesosController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id, $filter = "") {
         $model = $this->findModel($id);
-
+        
         /*
          * *********************************************************************
          * SOLO SI ES UNO DE LOS COLABORADORES, EL LIDER O EL SUPER 
@@ -568,9 +568,12 @@ class ProcesosController extends Controller {
                 //SI FUE UN AUTOGUARDADO ME QUEDO EN LA PAGINA SIN REFRESCAR
                 if (isset($_POST["typeSave"]) && $_POST["typeSave"] == 'autoSave') {
                     return;
-                }
-
-                return $this->redirect(['view', 'id' => $model->id]);
+                }                
+                
+                //return $this->redirect(['view', 'id' => $model->id]);                
+                $redirect = !empty($filter) ? "index?" . base64_decode($filter) : "index";
+                return $this->redirect([$redirect]);
+                
             } else {
                 return $this->render('create', [
                             'model' => $model,
@@ -683,7 +686,7 @@ class ProcesosController extends Controller {
                         'ciu' => $_POST['ciu'],
                         'juz' => $_POST['juz'],
                         'ano' => $_POST['ano'],
-                        'con' => $_POST['con'], 
+                        'con' => $_POST['con'],
                         'ins' => $_POST['ins'],
                         'comment' => $_POST['coment'],
                         'radicado' => $_POST['radicado'],

@@ -113,13 +113,13 @@ jQuery("document").ready(function () {
             jQuery(this).html("Acuerdo: " + (index + 1));
         });
     });
-    
-    
+
+
     /* FUNCIONES PARA LOS VALORES DE ACTIVACION */
     jQuery(".dynamicform_wrapper_valor_activacion").on("afterInsert", function (e, item) {
         jQuery(".dynamicform_wrapper_valor_activacion .panel-title-valor").each(function (index) {
             jQuery(this).html("Valor activación: " + (index + 1));
-        });        
+        });
     });
     jQuery(".dynamicform_wrapper_valor_activacion").on("afterDelete", function (e) {
         jQuery(".dynamicform_wrapper_valor_activacion .panel-title-valor").each(function (index) {
@@ -545,6 +545,30 @@ jQuery("document").ready(function () {
             });
         }
     }, 300000);
+
+    /**
+     * SI EN ENVIAR CARTA, LLAMADA O VISITA SE PONE SI ENTONCES PONER LA FECHA DE HOY
+     */
+    $("#procesos-prejur_carta_enviada, #procesos-prejur_llamada_realizada, #procesos-prejur_visita_domiciliaria").change(function () {
+
+        let val = $(this).val();
+        let id = $(this).attr("id");
+        var fecha = new Date();        
+        var year = fecha.getFullYear();
+        var month = ("0" + (fecha.getMonth() + 1)).slice(-2);
+        var day = ("0" + fecha.getDate()).slice(-2);
+        var fechaFormateada = year + "-" + month + "-" + day;
+
+        if (val == "SI" && id == "procesos-prejur_carta_enviada") {
+            $("#procesos-prejur_fecha_carta").val(fechaFormateada);
+        }
+        if (val == "SI" && id == "procesos-prejur_llamada_realizada") {
+            $("#procesos-prejur_fecha_llamada").val(fechaFormateada);
+        }
+        if (val == "SI" && id == "procesos-prejur_visita_domiciliaria") {
+            $("#procesos-prejur_fecha_visita").val(fechaFormateada);
+        }
+    });
 
 });
 
