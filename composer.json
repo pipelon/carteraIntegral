@@ -27,7 +27,9 @@
         "google/apiclient": "^2.0",
         "wbraganca/yii2-dynamicform": "dev-master",
         "kartik-v/yii2-widget-fileinput": "^1.1",
-        "phpmailer/phpmailer": "^6.5"
+        "phpmailer/phpmailer": "^6.5",
+        "phpoffice/phpexcel": "dev-develop",
+        "kartik-v/yii2-mpdf": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -45,6 +47,9 @@
         "process-timeout": 1800,
         "fxp-asset": {
             "enabled": false
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
         }
     },
     "scripts": {

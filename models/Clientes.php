@@ -38,6 +38,7 @@ use Yii;
  * @property string|null $deleted_by Borrado por
  *
  * @property Users $usuario
+ * @property Liquidaciones[] $liquidaciones
  * @property Procesos[] $procesos
  */
 class Clientes extends BeforeModel {
@@ -118,6 +119,15 @@ class Clientes extends BeforeModel {
      */
     public function getUsuario() {
         return $this->hasOne(Users::className(), ['id' => 'usuario_id']);
+    }
+
+    /**
+     * Gets query for [[Liquidaciones]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLiquidaciones() {
+        return $this->hasMany(Liquidaciones::className(), ['cliente_id' => 'id']);
     }
 
     /**

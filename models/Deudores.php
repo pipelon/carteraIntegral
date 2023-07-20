@@ -8,11 +8,14 @@ use Yii;
  * This is the model class for table "deudores".
  *
  * @property int $id ID
+ * @property string $tipo_documento Tido de documento
+ * @property string $documento Documento
  * @property string $nombre Nombres
  * @property string $marca Marca
  * @property string $direccion Dirección física
- * @property string $nombre_representante_legal vNombres
- * @property string $telefono_representante_legalTeléfonos
+ * @property string|null $ciudad Ciudad
+ * @property string $nombre_representante_legal Nombres
+ * @property string $telefono_representante_legal Teléfonos
  * @property string $email_representante_legal Correo electrónico
  * @property string $nombre_persona_contacto_1 Nombres
  * @property string $telefono_persona_contacto_1 Teléfonos
@@ -26,21 +29,28 @@ use Yii;
  * @property string|null $telefono_persona_contacto_3 Teléfonos
  * @property string|null $email_persona_contacto_3 Correo electrónico
  * @property string|null $cargo_persona_contacto_3 Cargo
- * @property string $nombre_codeudor_1 Nombres
- * @property string $documento_codeudor_1 Documento
- * @property string $direccion_codeudor_1 Dirección física
- * @property string $email_codeudor_1 Correo electrónico
- * @property string $telefono_codeudor_1 Teléfonos
+ * @property string|null $nombre_codeudor_1 Nombres
+ * @property string|null $documento_codeudor_1 Documento
+ * @property string|null $direccion_codeudor_1 Dirección física
+ * @property string|null $email_codeudor_1 Correo electrónico
+ * @property string|null $telefono_codeudor_1 Teléfonos
  * @property string|null $nombre_codeudor_2 Nombres
  * @property string|null $documento_codeudor_2 Documento
  * @property string|null $direccion_codeudor_2 Dirección física
  * @property string|null $email_codeudor_2 Correo electrónico
  * @property string|null $telefonol_codeudor_2 Teléfonos
  * @property string|null $comentarios Comentarios
+ * @property string|null $carpeta Carpeta Google Drive
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
  * @property string $modified_by Modificado por
+ * @property int|null $delete Borrado
+ * @property string|null $deleted Borrado
+ * @property string|null $deleted_by Borrado por
+ *
+ * @property Liquidaciones[] $liquidaciones
+ * @property Procesos[] $procesos
  */
 class Deudores extends BeforeModel {
 
@@ -65,7 +75,6 @@ class Deudores extends BeforeModel {
             [['comentarios'], 'string'],
             [['created', 'modified'], 'safe'],
             [['tipo_documento'], 'string', 'max' => 30],
-            [['ciudad'], 'string', 'max' => 30],
             [['documento'], 'string', 'max' => 20],
             [['marca', 'nombre_representante_legal',
             'telefono_representante_legal', 'email_representante_legal',
@@ -141,7 +150,28 @@ class Deudores extends BeforeModel {
             'created_by' => 'Creado por',
             'modified' => 'Modificado',
             'modified_by' => 'Modificado por',
+            'delete' => 'Borrado',
+            'deleted' => 'Borrado',
+            'deleted_by' => 'Borrado por',
         ];
+    }
+
+    /**
+     * Gets query for [[Liquidaciones]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLiquidaciones() {
+        return $this->hasMany(Liquidaciones::className(), ['deudor_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Procesos]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProcesos() {
+        return $this->hasMany(Procesos::className(), ['deudor_id' => 'id']);
     }
 
 }
