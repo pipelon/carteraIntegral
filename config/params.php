@@ -792,5 +792,24 @@ return [
                     <br /><br />",
         "pie" => "Atentamente,<br /> %s <br />LUIS ELKIN PÉREZ ORTIZ<br />"
         . "Director Operativo<br />eperez@carteraintegral.com.co<br />Tel. 4448131"
+    ],
+    'cartaNotificacionDeudaAutorizacion' => [
+        "encabezado" => "%s <br /><br />Medellín, %s de %s de %s"
+        . "<br /><br /> Señores <br /> JUZGADO: %s <br /> E.S.D <br /> DEMANDANTE: %s <br />" 
+        . "DEMANDADO: %s <br /> RADICADO: %s"
+        . "<br /><br /> ASUNTO: Autorización <br /><br />",
+        "cuerpo" => "JOHN JAIRO OSPINA PENAGOS, mayor y vecino de Itagüí, identificado con 
+        cédula de ciudadanía Nro. 98.525.657 de Itagüí -Antioquia y con tarjeta profesional 
+        Nro. 133.396 del Consejo Superior de la Judicatura, en calidad de apoderado 
+        judicial de la parte demandante en el proceso de la referencia, muy 
+        respetuosamente, por medio de la presente me permito autorizar al abogado JAIME 
+        ALONSO ACEVEDO,  identificado con Cédula de Ciudadanía Nro. 98.715.628, 
+        con tarjeta profesional Nro. 293.183 del Consejo Superior de la Judicatura, para revisar 
+        el expediente, solicitar copias, retirar copias, solicitar el desarchivo del proceso, 
+        retirar o acceder a los despachos comisorios, oficios, retirar la demanda y 
+        desgloses, entre otras consultas o trámites que se requieran.",
+        "pie" => "Cordialmente,<br /> %s <br />JOHN JAIRO OSPINA PENAGOS<br />"
+        . "Cédula de ciudadanía Nro. 98.525.657 <br />
+        Tarjeta profesional Nro. 133.396 del C. S de la Judicatura."
     ]
 ];

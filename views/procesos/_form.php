@@ -838,6 +838,11 @@ $form = ActiveForm::begin(
                 ]
             ]);
             ?>
+            <?=
+                Html::a("<span class='flaticon-list-3'></span> Enviar notificación",
+                        ["procesos/vista-previa-notificacion", "id" => $model->id],
+                        ["target" => "_blank", "class" => "btn btn-primary pull-right"]);
+            ?>
         </div>
         <div class="row-field">
             <?=
