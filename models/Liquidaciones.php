@@ -10,11 +10,8 @@ use Yii;
  * @property int $id ID
  * @property int $cliente_id
  * @property int $deudor_id
+ * @property string|null $datos Datos
  * @property string $estado_cuenta Estado de cuenta
- * @property string $numero_factura Número de factura
- * @property string $fecha_inicio Fecha inicio
- * @property string $fecha_fin Fecha finalización
- * @property float $saldo Saldo
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
@@ -37,13 +34,12 @@ class Liquidaciones extends BeforeModel {
      */
     public function rules() {
         return [
-            [['cliente_id', 'deudor_id', 'numero_factura',
-            'fecha_inicio', 'fecha_fin', 'saldo'], 'required'],
+            [['cliente_id', 'deudor_id'], 'required'],
             [['estado_cuenta'], 'required', 'on' => 'create'],
             [['cliente_id', 'deudor_id'], 'integer'],
-            [['fecha_inicio', 'fecha_fin', 'created', 'modified'], 'safe'],
-            [['saldo'], 'number'],
-            [['numero_factura', 'created_by', 'modified_by'], 'string', 'max' => 45],
+            [['created', 'modified'], 'safe'],
+            [['datos'], 'string', 'max' => 500],
+            [['estado_cuenta', 'created_by', 'modified_by'], 'string', 'max' => 45],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::className(), 'targetAttribute' => ['cliente_id' => 'id']],
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
             [['estado_cuenta'], 'file',
@@ -60,17 +56,14 @@ class Liquidaciones extends BeforeModel {
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'cliente_id' => 'Cliente',
-            'deudor_id' => 'Deudor',
-            'estado_cuenta' => 'Estado de cuenta',
-            'numero_factura' => 'Número de factura',
-            'fecha_inicio' => 'Fecha inicio',
-            'fecha_fin' => 'Fecha finalización',
-            'saldo' => 'Saldo',
-            'created' => 'Creado',
-            'created_by' => 'Creado por',
-            'modified' => 'Modificado',
-            'modified_by' => 'Modificado por',
+            'cliente_id' => 'Cliente ID',
+            'deudor_id' => 'Deudor ID',
+            'datos' => 'Datos',
+            'estado_cuenta' => 'Estado Cuenta',
+            'created' => 'Created',
+            'created_by' => 'Created By',
+            'modified' => 'Modified',
+            'modified_by' => 'Modified By',
         ];
     }
 

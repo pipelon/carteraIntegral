@@ -70,19 +70,20 @@ class LiquidacionesController extends Controller {
                 $objReader = \PHPExcel_IOFactory::createReader($file);
                 $objPHPExcel = $objReader->load($model->estado_cuenta->tempName);
                 $excelSheet = $objPHPExcel->getActiveSheet();
-                $spreadSheetAry = $excelSheet->toArray();
+                $spreadSheetAry = $excelSheet->toArray();                
 
                 // SI LOGRO LEER EL EXCEL LO GUARDO
-                if (is_array($spreadSheetAry) && !empty($spreadSheetAry) && count($spreadSheetAry[1]) == 4) {
+                if (is_array($spreadSheetAry) && !empty($spreadSheetAry)) {
                     $fileName = str_replace(" ", "-", $model->estado_cuenta->baseName);
                     $fileName = "EstadoCuenta" . date('ymdhis') . '.' . strtolower($model->estado_cuenta->extension);
                     $model->estado_cuenta->saveAs('liquidaciones/' . $fileName);
                     $model->estado_cuenta = $fileName;
-
-                    $model->numero_factura = strval($spreadSheetAry[1][0]);
-                    $model->fecha_inicio = date("Y-m-d", strtotime($spreadSheetAry[1][1]));
-                    $model->fecha_fin = date("Y-m-d", strtotime($spreadSheetAry[1][2]));
-                    $model->saldo = $spreadSheetAry[1][3];
+                    $model->datos = json_encode($spreadSheetAry);
+                    
+//                    $model->numero_factura = strval($spreadSheetAry[1][0]);
+//                    $model->fecha_inicio = date("Y-m-d", strtotime($spreadSheetAry[1][1]));
+//                    $model->fecha_fin = date("Y-m-d", strtotime($spreadSheetAry[1][2]));
+//                    $model->saldo = $spreadSheetAry[1][3];
                     if (!$model->save()) {
                         return $this->returnPlantillaError($model);
                     }
@@ -197,6 +198,11 @@ class LiquidacionesController extends Controller {
     public function actionVistaPrevia($id, $tipo = 'vista') {
         $model = $this->findModel($id);
         return $this->render('vista-previa', ["model" => $model, "tipo" => $tipo]);
+    }
+    
+    public function actionGenerar($id, $tipo = 'carta') {
+        $model = $this->findModel($id);
+        return $this->render('generar', ["model" => $model, "tipo" => $tipo]);
     }
 
     /**
