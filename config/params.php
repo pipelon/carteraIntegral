@@ -2,8 +2,10 @@
 
 return [
     'adminEmail' => 'info@carteraintegral.com.co',
+    'notificacionesJudicialesEmail' => 'notificacionesjudiciales@carteraintegral.com.co',
+    'notificacionesJudicialesSender' => 'NOTIFICACIONES JUDICIALES CARTERA INTEGRAL',
     //'senderEmail' => 'info@carteraintegral.com.co',
-    'senderName' => 'INFO CARTERA',
+    'senderName' => 'INFO CARTERA INTEGRAL',
     'asuntoAlertasProceso' => 'CILES: alerta de gestion de procesos',
     'alertaPREJuridico_CartaEnviada' => [
         'tipo_alerta_id' => 1,
@@ -811,5 +813,23 @@ return [
         "pie" => "Cordialmente,<br /> %s <br />JOHN JAIRO OSPINA PENAGOS<br />"
         . "Cédula de ciudadanía Nro. 98.525.657 <br />
         Tarjeta profesional Nro. 133.396 del C. S de la Judicatura."
+    ],
+    'cartaNotificacionRelacionTitulosJudiciales' => [
+        "encabezado" => "%s <br /><br />Medellín, %s de %s de %s"
+        . "<br /><br /> Señores <br /> JUZGADO: %s <br /> E.S.D <br /> DEMANDANTE: %s <br />" 
+        . "DEMANDADO: %s <br /> RADICADO: %s"
+        . "<br /><br /> ASUNTO: SOLICITUD RELACIÓN DE TITULOS JUDICIALES <br /><br />",
+        "cuerpo" => "JOHN JAIRO OSPINA PENAGOS, mayor y vecino de Itagüí, identificado con 
+        cédula de ciudadanía Nro. 98.525.657 de Itagüí -Antioquia y con 
+        tarjeta profesional Nro. 133.396 del Consejo Superior de la Judicatura, en calidad de 
+        apoderado judicial de la parte demandante muy respetuosamente, me permito 
+        solicitar al despacho relación de títulos judiciales del proceso de la referencia",
+        "pie" => "Cordialmente,<br /> %s <br />JOHN JAIRO OSPINA PENAGOS<br />"
+        . "Cédula de ciudadanía Nro. 98.525.657 <br />
+        Tarjeta profesional Nro. 133.396 del C. S de la Judicatura."
+    ],
+    'TiposCartas'=>[
+        'NotificacionAutorizacion' => 'Notificación Autorización',
+        'NotificacionRelacionTitulosJudiciales' => 'Notificación Relación Títulos Judiciales'
     ]
 ];
