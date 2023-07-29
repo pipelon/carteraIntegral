@@ -66,11 +66,7 @@ class LiquidacionesController extends Controller {
         if ($model->load(Yii::$app->request->post())) {
             $model->estado_cuenta = UploadedFile::getInstance($model, 'estado_cuenta');
             try {
-                $file = \PHPExcel_IOFactory::identify($model->estado_cuenta->tempName);
-                $objReader = \PHPExcel_IOFactory::createReader($file);
-                $objPHPExcel = $objReader->load($model->estado_cuenta->tempName);
-                $excelSheet = $objPHPExcel->getActiveSheet();
-                $spreadSheetAry = $excelSheet->toArray();                
+                $spreadSheetAry = $this->loadFile($model);
 
                 // SI LOGRO LEER EL EXCEL LO GUARDO
                 if (is_array($spreadSheetAry) && !empty($spreadSheetAry)) {
@@ -79,11 +75,6 @@ class LiquidacionesController extends Controller {
                     $model->estado_cuenta->saveAs('liquidaciones/' . $fileName);
                     $model->estado_cuenta = $fileName;
                     $model->datos = json_encode($spreadSheetAry);
-                    
-//                    $model->numero_factura = strval($spreadSheetAry[1][0]);
-//                    $model->fecha_inicio = date("Y-m-d", strtotime($spreadSheetAry[1][1]));
-//                    $model->fecha_fin = date("Y-m-d", strtotime($spreadSheetAry[1][2]));
-//                    $model->saldo = $spreadSheetAry[1][3];
                     if (!$model->save()) {
                         return $this->returnPlantillaError($model);
                     }
@@ -127,28 +118,24 @@ class LiquidacionesController extends Controller {
             $model->estado_cuenta = UploadedFile::getInstance($model, 'estado_cuenta');
             if (!is_null($model->estado_cuenta)) {
                 try {
-                    $file = \PHPExcel_IOFactory::identify($model->estado_cuenta->tempName);
-                    $objReader = \PHPExcel_IOFactory::createReader($file);
-                    $objPHPExcel = $objReader->load($model->estado_cuenta->tempName);
-                    $excelSheet = $objPHPExcel->getActiveSheet();
-                    $spreadSheetAry = $excelSheet->toArray();
+                    $spreadSheetAry = $this->loadFile($model);
+
+                    //ELIMINAR POSICIONES VACIAS
+                    $spreadSheetAry = array_map('array_filter', $spreadSheetAry);
+                    $spreadSheetAry = array_filter($spreadSheetAry);
 
                     // SI LOGRO LEER EL EXCEL LO GUARDO
-                    if (is_array($spreadSheetAry) && !empty($spreadSheetAry) && count($spreadSheetAry[1]) == 4) {
+                    if (is_array($spreadSheetAry) && !empty($spreadSheetAry)) {
                         $fileName = str_replace(" ", "-", $model->estado_cuenta->baseName);
                         $fileName = "EstadoCuenta" . date('ymdhis') . '.' . strtolower($model->estado_cuenta->extension);
                         $model->estado_cuenta->saveAs('liquidaciones/' . $fileName);
                         $model->estado_cuenta = $fileName;
+                        $model->datos = json_encode($spreadSheetAry);
 
                         //elimino la antigua
                         if (file_exists('liquidaciones/' . $beforeEstadoCuenta) && !empty($beforeEstadoCuenta)) {
                             unlink('liquidaciones/' . $beforeEstadoCuenta);
                         }
-
-                        $model->numero_factura = strval($spreadSheetAry[1][0]);
-                        $model->fecha_inicio = date("Y-m-d", strtotime($spreadSheetAry[1][1]));
-                        $model->fecha_fin = date("Y-m-d", strtotime($spreadSheetAry[1][2]));
-                        $model->saldo = $spreadSheetAry[1][3];
                     } else {
                         return $this->returnPlantillaError($model);
                     }
@@ -169,6 +156,14 @@ class LiquidacionesController extends Controller {
         }
     }
 
+    private function loadFile($model) {
+        $file = \PHPExcel_IOFactory::identify($model->estado_cuenta->tempName);
+        $objReader = \PHPExcel_IOFactory::createReader($file);
+        $objPHPExcel = $objReader->load($model->estado_cuenta->tempName);
+        $excelSheet = $objPHPExcel->getActiveSheet();
+        return $excelSheet->toArray();
+    }
+
     /**
      * Deletes an existing Liquidaciones model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -182,15 +177,6 @@ class LiquidacionesController extends Controller {
             unlink('liquidaciones/' . $model->estado_cuenta);
         }
         $model->delete();
-        //BORRADO LOGICO
-//        $model = $this->findModel($id);
-//        $model->delete = '1';
-//        $model->deleted = new yii\db\Expression('NOW()');
-//        $model->deleted_by = isset(Yii::$app->user->identity->username) ? Yii::$app->user->identity->username : '';
-//        $model->save();
-        //LOG
-//        $mensaje = "El registro #{$id} ha sido eliminado.";
-//        \Yii::info($mensaje, "cartera");
 
         return $this->redirect(['index']);
     }
@@ -199,7 +185,7 @@ class LiquidacionesController extends Controller {
         $model = $this->findModel($id);
         return $this->render('vista-previa', ["model" => $model, "tipo" => $tipo]);
     }
-    
+
     public function actionGenerar($id, $tipo = 'carta') {
         $model = $this->findModel($id);
         return $this->render('generar', ["model" => $model, "tipo" => $tipo]);

@@ -68,7 +68,7 @@ $out = json_decode(\app\components\LiquidacionesWidget::widget([
         </div>
         <div class="row">
             <div class="col-md-2"><b>INTERÉS</b></div>
-            <div class="col-md-10">3,92%</div>
+            <div class="col-md-10"><?= $out->liquidacion->tasa; ?> %</div>
         </div>
 
         <div class="row margin-top-30">
@@ -89,7 +89,7 @@ $out = json_decode(\app\components\LiquidacionesWidget::widget([
                         </tr> 
                     </thead>
                     <tbody>   
-                        <?php foreach ($out->liquidacion as $v) : ?>
+                        <?php foreach ($out->liquidacion->tabla as $v) : ?>
                             <tr>
                                 <td><?= $v[0]; ?></td>
                                 <td><?= $v[1]; ?></td>
