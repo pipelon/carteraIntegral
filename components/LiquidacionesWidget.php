@@ -233,6 +233,11 @@ class LiquidacionesWidget extends Widget {
      */
     private function obtenerTasaUsura() {
 
+        try {
+            
+        } catch (Exception $ex) {
+            
+        }
         //URL DONDE ESTÁ LA TASA DE USUARA QUE USUALMENTE USA ELKIN
         $url = "https://www.larepublica.co/indicadores-economicos/bancos/tasa-de-usura";
 
@@ -247,8 +252,11 @@ class LiquidacionesWidget extends Widget {
         // BUSCAR LA TASA DE USUARA EN EL DIV ESPECIFICADO
         $xpath = new \DOMXPath($dom);
         $divElements = $xpath->query("//div[contains(@class, 'priceIndicator down')]//span[contains(@class, 'price')]");
-
-        return floatval(str_replace(",", ".", $divElements->item(0)->textContent));
+        if (isset($divElements->item(0)->textContent)) {
+            return floatval(str_replace(",", ".", $divElements->item(0)->textContent));
+        } else {
+            return 0;
+        }
     }
 
     private function crearLiquidacion() {
