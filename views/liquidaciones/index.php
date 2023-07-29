@@ -64,11 +64,6 @@ if (\Yii::$app->user->can('/liquidaciones/*') || \Yii::$app->user->can('/*')) {
                                     ->all()
                             , 'id', 'nombre')
                 ],
-                //'estado_cuenta',
-                'numero_factura',
-                //'fecha_inicio',
-                //'fecha_fin',
-                'saldo',
                 [
                     'format' => 'raw',
                     'value' => function ($data) {
@@ -81,7 +76,15 @@ if (\Yii::$app->user->can('/liquidaciones/*') || \Yii::$app->user->can('/*')) {
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Html::a("<span class='flaticon-search-magnifier-interface-symbol'></span> Generar Carta",
-                        ["liquidaciones/vista-previa", "id" => $data->id, "tipo" => "generar"],
+                        ["liquidaciones/generar", "id" => $data->id, "tipo" => "carta"],
+                        ["target" => "_blank"]);
+                    },
+                ],
+                            [
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return Html::a("<span class='flaticon-search-magnifier-interface-symbol'></span> Generar Liquidación",
+                        ["liquidaciones/generar", "id" => $data->id, "tipo" => "liquidacion"],
                         ["target" => "_blank"]);
                     },
                 ],

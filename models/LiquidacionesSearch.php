@@ -19,8 +19,7 @@ class LiquidacionesSearch extends Liquidaciones
     {
         return [
             [['id', 'cliente_id', 'deudor_id'], 'integer'],
-            [['estado_cuenta', 'numero_factura', 'fecha_inicio', 'fecha_fin', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
-            [['saldo'], 'number'],
+            [['estado_cuenta', 'datos', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
 
@@ -64,15 +63,13 @@ class LiquidacionesSearch extends Liquidaciones
             'id' => $this->id,
             'cliente_id' => $this->cliente_id,
             'deudor_id' => $this->deudor_id,
-            'fecha_inicio' => $this->fecha_inicio,
-            'fecha_fin' => $this->fecha_fin,
-            'saldo' => $this->saldo,
+            'datos' => $this->datos,
             'created' => $this->created,
             'modified' => $this->modified,
         ]);
 
         $query->andFilterWhere(['like', 'estado_cuenta', $this->estado_cuenta])
-            ->andFilterWhere(['like', 'numero_factura', $this->numero_factura])
+            ->andFilterWhere(['like', 'datos', $this->datos])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by]);
 
