@@ -232,12 +232,7 @@ class LiquidacionesWidget extends Widget {
      * @return type
      */
     private function obtenerTasaUsura() {
-
-        try {
-            
-        } catch (Exception $ex) {
-            
-        }
+        
         //URL DONDE ESTÁ LA TASA DE USUARA QUE USUALMENTE USA ELKIN
         $url = "https://www.larepublica.co/indicadores-economicos/bancos/tasa-de-usura";
 
