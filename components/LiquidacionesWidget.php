@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use \PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class LiquidacionesWidget extends Widget {
 
@@ -65,21 +66,26 @@ class LiquidacionesWidget extends Widget {
     }
 
     private function generarCarta() {
-        $dompdf = new Dompdf();
+        
+        $options = new Options();
+        //Y debes activar esta opción "TRUE"
+        $options->set('isRemoteEnabled', true);
+        
+        $dompdf = new Dompdf($options);
         $dompdf->loadHtml($this->carta);
         // (Optional) Setup the paper size and orientation
         $dompdf->setPaper('A4', 'landscape');
         // Render the HTML as PDF
         $dompdf->render();
         // Output the generated PDF to Browser
-        $dompdf->stream();
+        $dompdf->stream("liquidacion.pdf");
         exit;
     }
 
     private function crearCarta() {
         // ENCAEBZADO CARTA
         $carta = sprintf(\Yii::$app->params["cartaLiquidacionDeuda"]["encabezado"],
-                \yii\bootstrap\Html::img("@web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
+                \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
                 date("d"),
                 $this->meses[date("m")],
                 date("Y"),
@@ -105,7 +111,7 @@ class LiquidacionesWidget extends Widget {
                 date("Y", strtotime($en10Dias)));
         //PIE DE PAGINA
         $carta .= sprintf(\Yii::$app->params["cartaLiquidacionDeuda"]["pie"],
-                \yii\bootstrap\Html::img("@web/images/firma-elkin.jpg", ["width" => "100px"]));
+                \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/firma-elkin.jpg", ["width" => "100px"]));
 
         $this->carta = $carta;
     }
