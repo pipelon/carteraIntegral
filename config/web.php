@@ -64,6 +64,7 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             //'useFileTransport' => true,
+            //'fileTransportPath' => '@app/web/pdfs/',
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtpout.secureserver.net',

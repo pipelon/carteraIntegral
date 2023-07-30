@@ -4,7 +4,7 @@ return [
     'adminEmail' => 'info@carteraintegral.com.co',
     'notificacionesJudicialesEmail' => 'notificacionesjudiciales@carteraintegral.com.co',
     'notificacionesJudicialesSender' => 'NOTIFICACIONES JUDICIALES CARTERA INTEGRAL',
-    //'senderEmail' => 'info@carteraintegral.com.co',
+    'senderEmail' => 'info@carteraintegral.com.co',
     'senderName' => 'INFO CARTERA INTEGRAL',
     'asuntoAlertasProceso' => 'CILES: alerta de gestion de procesos',
     'alertaPREJuridico_CartaEnviada' => [

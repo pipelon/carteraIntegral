@@ -52,55 +52,69 @@ class NotificacionesWidget extends Widget {
 
         if ($this->tipo == 'vista') {
             return $this->carta;
-        } elseif ($this->tipo == 'generar') {
-            $pdf = new Pdf([
-                'filename' => $this->pathNotificacionPdf.$this->pdfNotificacionName,
-                // set to use core fonts only
-                'mode' => Pdf::MODE_CORE,
-                // A4 paper format
-                'format' => Pdf::FORMAT_A4,
-                // portrait orientation
-                'orientation' => Pdf::ORIENT_PORTRAIT,
-                // stream to browser inline
-                //'destination' => Pdf::DEST_BROWSER,
-                //'destination' => Pdf::DEST_BROWSER,
-                'destination' => Pdf::DEST_FILE,
-                // your html content input
-                'content' => $this->carta,
-                // format content from your own css file if needed or use the
-                // enhanced bootstrap css built by Krajee for mPDF formatting 
-                'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
-                // any css to be embedded if required
-                'cssInline' => '.kv-heading-1{font-size:18px}',
-                // set mPDF properties on the fly
-                'options' => ['title' => 'Krajee Report Title'],
-                // call mPDF methods on the fly
-                'methods' => [
-                    'SetHeader' => ['Cartera Integral'],
-                    'SetFooter' => ['{PAGENO}'],
-                ]
-            ]);
-            // return the pdf output as per the destination setting
-            return $pdf->render();
-            
-            //enviar correo
+        } elseif ($this->tipo == 'generar') {        
+            $this->generarPdf('generar');
+        } elseif ($this->tipo == 'enviar') {
             $this->enviarNotificacion($this->codcarta);
-            
-        }
+        } elseif ($this->tipo == 'descargar') {
+            $this->generarPdf('descargar');
+        } 
     }
 
-    private function enviarNotificacion($codCarta){
-        //enviar correo
-        Yii::$app->mailer->compose()
-        ->setFrom(\Yii::$app->params['notificacionesJudicialesEmail'])
-        ->setTo('dcastanom@gmail.com,pipe.echeverri.1@gmail.com')
-        ->setSubject(\Yii::$app->params['TiposCartas'][$codCarta])
-        ->attachContent($this->pathNotificacionPdf, [
-            "fileName"    => $this->pdfNotificacionName,
-            "contentType" => "application/pdf"
-            ])
-        ->send();
+    public function generarPdf($destination) {
+
+        $pdf = new Pdf([
+            'filename' => ($destination == 'generar')?$this->pathNotificacionPdf.$this->pdfNotificacionName:$this->pdfNotificacionName,
+            //'filename' => $this->pdfNotificacionName,
+            // set to use core fonts only
+            'mode' => Pdf::MODE_CORE,
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            // stream to browser inline
+            //'destination' => Pdf::DEST_DOWNLOAD,
+            //'destination' => Pdf::DEST_BROWSER,
+            'destination' => ($destination == 'generar')?Pdf::DEST_FILE:Pdf::DEST_DOWNLOAD,
+            // your html content input
+            'content' => $this->carta,
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting 
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '.kv-heading-1{font-size:18px}',
+            // set mPDF properties on the fly
+            'options' => ['title' => 'Cartera Integral'],
+            // call mPDF methods on the fly
+            'methods' => [
+                'SetHeader' => ['Cartera Integral'],
+                'SetFooter' => ['{PAGENO}'],
+            ]
+        ]);
+        // return the pdf output as per the destination setting
+        return $pdf->render();
     }
+
+    public function enviarNotificacion($codCarta){
+        //enviar correo
+        try {
+            Yii::$app->mailer->compose()
+            ->setFrom(\Yii::$app->params['notificacionesJudicialesEmail'])
+            ->setTo(\Yii::$app->params['adminEmail'])
+            ->setSubject(\Yii::$app->params['TiposCartas'][$codCarta]." proceso ".$this->demandado)
+            ->attachContent($this->pathNotificacionPdf, [
+                "fileName"    => $this->pdfNotificacionName,
+                "contentType" => "application/pdf"
+                ])
+            ->send();
+            echo "El correo se envió";
+        } catch (Exception $ex) {
+            var_dump($ex);
+            echo "El correo no se pudo enviar";
+        }
+        
+    }  
+
     private function shapeNotificacionAutorizacion(){
         //asignar nombre del pdf
         $this->pdfNotificacionName = $this->codcarta.$this->demandado.date("d-m-Y").'.pdf';      
