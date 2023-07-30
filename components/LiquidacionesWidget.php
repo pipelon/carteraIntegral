@@ -3,12 +3,12 @@
 namespace app\components;
 
 use yii\base\Widget;
-use kartik\mpdf\Pdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use \PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Dompdf\Dompdf;
 
 class LiquidacionesWidget extends Widget {
 
@@ -65,33 +65,15 @@ class LiquidacionesWidget extends Widget {
     }
 
     private function generarCarta() {
-        $pdf = new Pdf([
-            // set to use core fonts only
-            'mode' => Pdf::MODE_CORE,
-            // A4 paper format
-            'format' => Pdf::FORMAT_A4,
-            // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            // stream to browser inline
-            'destination' => Pdf::DEST_BROWSER,
-            // your html content input
-            'content' => $this->carta,
-            // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting 
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
-            // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-            // set mPDF properties on the fly
-            'options' => ['title' => 'Krajee Report Title'],
-            // call mPDF methods on the fly
-            'methods' => [
-                'SetHeader' => ['Krajee Report Header'],
-                'SetFooter' => ['{PAGENO}'],
-            ]
-        ]);
-
-        // return the pdf output as per the destination setting
-        return $pdf->render();
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($this->carta);
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+        // Render the HTML as PDF
+        $dompdf->render();
+        // Output the generated PDF to Browser
+        $dompdf->stream();
+        exit;
     }
 
     private function crearCarta() {
@@ -132,7 +114,7 @@ class LiquidacionesWidget extends Widget {
 
         $spread = new Spreadsheet();
         $sheet = $spread->getActiveSheet();
-        
+
         //LOGO
         $objDrawing = new Drawing();
         $objDrawing->setName('Logo');
@@ -219,12 +201,12 @@ class LiquidacionesWidget extends Widget {
         $objDrawingF->setWorksheet($sheet);
         $sheet->SetCellValue("A" . ($rowCount + 5), "LUIS ELKIN PÉREZ ORTIZ");
         $sheet->SetCellValue("A" . ($rowCount + 6), "Director Operativo");
-        
+
         // Write a new .xlsx file
         $writer = new Xlsx($spread);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="' . urlencode("liquidacion") . '"');
+        header('Content-Disposition: attachment; filename="' . urlencode("liquidacion.xlsx") . '"');
         $writer->save('php://output');
         exit;
     }
