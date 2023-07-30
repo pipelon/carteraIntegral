@@ -4,6 +4,11 @@ namespace app\components;
 
 use yii\base\Widget;
 use kartik\mpdf\Pdf;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use \PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class LiquidacionesWidget extends Widget {
 
@@ -124,12 +129,12 @@ class LiquidacionesWidget extends Widget {
     }
 
     private function generarLiquidacion() {
-        $objPHPExcel = new \PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        $sheet = $objPHPExcel->getActiveSheet();
 
+        $spread = new Spreadsheet();
+        $sheet = $spread->getActiveSheet();
+        
         //LOGO
-        $objDrawing = new \PHPExcel_Worksheet_Drawing();
+        $objDrawing = new Drawing();
         $objDrawing->setName('Logo');
         $objDrawing->setDescription('Logo');
         $objDrawing->setPath("images/logo-cartera-integral-grande.jpg");
@@ -141,13 +146,13 @@ class LiquidacionesWidget extends Widget {
         $sheet->mergeCells('A1:A3');
         $sheet->SetCellValue('B1', 'CARTERA INTEGRAL S.A.S')
                 ->mergeCells('B1:J1')
-                ->getStyle('B1:J1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                ->getStyle('B1:J1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->SetCellValue('B2', 'LIQUIDACIÓN DE DEUDA')
                 ->mergeCells('B2:J2')
-                ->getStyle('B2:J2')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                ->getStyle('B2:J2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->SetCellValue('B3', 'CÓDIGO: M2GPFR02')
                 ->mergeCells('B3:E3')
-                ->getStyle('B3:J3')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                ->getStyle('B3:J3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->SetCellValue('F3', 'VERSIÓN 01')->mergeCells('F3:H3');
         $sheet->SetCellValue('I3', 'PÁGINA 1')->mergeCells('I3:J3');
         $sheet->getStyle("A1:I3")->getFont()->setBold(true);
@@ -183,29 +188,29 @@ class LiquidacionesWidget extends Widget {
         foreach ($this->liquidacion["tabla"] as $v) {
 
             $sheet->setCellValueExplicit("A{$rowCount}", $v[0],
-                    empty($v[0]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            $sheet->setCellValueExplicit("B{$rowCount}", $v[1], \PHPExcel_Cell_DataType::TYPE_STRING);
-            $sheet->setCellValueExplicit("C{$rowCount}", $v[2], \PHPExcel_Cell_DataType::TYPE_STRING);
+                    empty($v[0]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
+            $sheet->setCellValueExplicit("B{$rowCount}", $v[1], DataType::TYPE_STRING);
+            $sheet->setCellValueExplicit("C{$rowCount}", $v[2], DataType::TYPE_STRING);
             $sheet->setCellValueExplicit("D{$rowCount}", $v[3],
-                    empty($v[3]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                    empty($v[3]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit("E{$rowCount}", $v[4],
-                    empty($v[4]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                    empty($v[4]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit("F{$rowCount}", $v[5],
-                    empty($v[5]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                    empty($v[5]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit("G{$rowCount}", $v[6],
-                    empty($v[6]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                    empty($v[6]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit("H{$rowCount}", $v[7],
-                    empty($v[7]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                    empty($v[7]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit("I{$rowCount}", $v[8],
-                    empty($v[8]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                    empty($v[8]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit("J{$rowCount}", $v[9],
-                    empty($v[9]) ? \PHPExcel_Cell_DataType::TYPE_STRING : \PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                    empty($v[9]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
 
             $rowCount++;
         }
 
         //FIRMA
-        $objDrawingF = new \PHPExcel_Worksheet_Drawing();
+        $objDrawingF = new Drawing();
         $objDrawingF->setName('Firma');
         $objDrawingF->setDescription('Firma');
         $objDrawingF->setPath("images/firma-elkin-2.jpg");
@@ -214,13 +219,13 @@ class LiquidacionesWidget extends Widget {
         $objDrawingF->setWorksheet($sheet);
         $sheet->SetCellValue("A" . ($rowCount + 5), "LUIS ELKIN PÉREZ ORTIZ");
         $sheet->SetCellValue("A" . ($rowCount + 6), "Director Operativo");
+        
+        // Write a new .xlsx file
+        $writer = new Xlsx($spread);
 
-
-        header('Content-Type: application/vnd.ms-excel'); //mime type
-        header('Content-Disposition: attachment;filename="you-file-name.xlsx"'); //tell browser what's the file name
-        header('Cache-Control: max-age=0'); //no cache
-        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $objWriter->save('php://output');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . urlencode("liquidacion") . '"');
+        $writer->save('php://output');
         exit;
     }
 
@@ -232,7 +237,7 @@ class LiquidacionesWidget extends Widget {
      * @return type
      */
     private function obtenerTasaUsura() {
-        
+
         //URL DONDE ESTÁ LA TASA DE USUARA QUE USUALMENTE USA ELKIN
         $url = "https://www.larepublica.co/indicadores-economicos/bancos/tasa-de-usura";
 

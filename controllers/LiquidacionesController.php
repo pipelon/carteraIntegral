@@ -120,10 +120,6 @@ class LiquidacionesController extends Controller {
                 try {
                     $spreadSheetAry = $this->loadFile($model);
 
-                    //ELIMINAR POSICIONES VACIAS
-                    $spreadSheetAry = array_map('array_filter', $spreadSheetAry);
-                    $spreadSheetAry = array_filter($spreadSheetAry);
-
                     // SI LOGRO LEER EL EXCEL LO GUARDO
                     if (is_array($spreadSheetAry) && !empty($spreadSheetAry)) {
                         $fileName = str_replace(" ", "-", $model->estado_cuenta->baseName);
@@ -157,11 +153,20 @@ class LiquidacionesController extends Controller {
     }
 
     private function loadFile($model) {
-        $file = \PHPExcel_IOFactory::identify($model->estado_cuenta->tempName);
-        $objReader = \PHPExcel_IOFactory::createReader($file);
-        $objPHPExcel = $objReader->load($model->estado_cuenta->tempName);
-        $excelSheet = $objPHPExcel->getActiveSheet();
-        return $excelSheet->toArray();
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+        $spreadsheet = $reader->load($model->estado_cuenta->tempName);
+        $sheet = $spreadsheet->getSheet($spreadsheet->getFirstSheetIndex());
+        $data = $sheet->toArray();
+        //ELIMINAR POSICIONES VACIAS
+        $spreadSheetAry = array_map('array_filter', $data);
+        $spreadSheetAry = array_filter($spreadSheetAry);
+        return $spreadSheetAry;
+
+        /* $file = \PHPExcel_IOFactory::identify($model->estado_cuenta->tempName);
+          $objReader = \PHPExcel_IOFactory::createReader($file);
+          $objPHPExcel = $objReader->load($model->estado_cuenta->tempName);
+          $excelSheet = $objPHPExcel->getActiveSheet();
+          return $excelSheet->toArray(); */
     }
 
     /**
