@@ -4,8 +4,8 @@ namespace app\components;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
-use kartik\mpdf\Pdf;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class NotificacionesWidget extends Widget {
 
@@ -36,7 +36,7 @@ class NotificacionesWidget extends Widget {
     public function init() {
         parent::init();
         
-        $this->pathNotificacionPdf = Yii::$app->basePath.'/web/pdfs/';
+        //$this->pathNotificacionPdf = Yii::$app->basePath.'/web/pdfs/';
         //elegir el tipo de carta a generar
         switch ($this->codcarta) {
             case 'NotificacionAutorizacion':
@@ -50,52 +50,71 @@ class NotificacionesWidget extends Widget {
 
     public function run() {
 
-        if ($this->tipo == 'vista') {
-            return $this->carta;
-        } elseif ($this->tipo == 'generar') {        
-            $this->generarPdf('generar');
-        } elseif ($this->tipo == 'enviar') {
-            $this->enviarNotificacion($this->codcarta);
-        } elseif ($this->tipo == 'descargar') {
-            $this->generarPdf('descargar');
-        } 
+         switch ($this->tipo) {
+            case 'vista':
+                return $this->carta;
+                break;
+            case 'generar':
+                $this->generarPdf('generar');
+                break;
+            case 'enviar':
+                $this->enviarNotificacion($this->codcarta);
+                break;
+            case 'descargar':
+                $this->generarPdf('descargar');
+                break;
+        }        
+        
     }
 
-    public function generarPdf($destination) {
+    private function generarPdf() {
+        
+        $options = new Options();
+        //Y debes activar esta opción "TRUE"
+        $options->set('isRemoteEnabled', true);
+        
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($this->carta);
+        // Render the HTML as PDF
+        $dompdf->render();
+        // Output the generated PDF to Browser
+        $dompdf->stream($this->pdfNotificacionName);
+        exit;
+        
 
-        $pdf = new Pdf([
-            'filename' => ($destination == 'generar')?$this->pathNotificacionPdf.$this->pdfNotificacionName:$this->pdfNotificacionName,
-            //'filename' => $this->pdfNotificacionName,
-            // set to use core fonts only
-            'mode' => Pdf::MODE_CORE,
-            // A4 paper format
-            'format' => Pdf::FORMAT_A4,
-            // portrait orientation
-            'orientation' => Pdf::ORIENT_PORTRAIT,
-            // stream to browser inline
-            //'destination' => Pdf::DEST_DOWNLOAD,
-            //'destination' => Pdf::DEST_BROWSER,
-            'destination' => ($destination == 'generar')?Pdf::DEST_FILE:Pdf::DEST_DOWNLOAD,
-            // your html content input
-            'content' => $this->carta,
-            // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting 
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
-            // any css to be embedded if required
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-            // set mPDF properties on the fly
-            'options' => ['title' => 'Cartera Integral'],
-            // call mPDF methods on the fly
-            'methods' => [
-                'SetHeader' => ['Cartera Integral'],
-                'SetFooter' => ['{PAGENO}'],
-            ]
-        ]);
-        // return the pdf output as per the destination setting
-        return $pdf->render();
+        // $pdf = new Pdf([
+        //     'filename' => ($destination == 'generar')?$this->pathNotificacionPdf.$this->pdfNotificacionName:$this->pdfNotificacionName,
+        //     //'filename' => $this->pdfNotificacionName,
+        //     // set to use core fonts only
+        //     'mode' => Pdf::MODE_CORE,
+        //     // A4 paper format
+        //     'format' => Pdf::FORMAT_A4,
+        //     // portrait orientation
+        //     'orientation' => Pdf::ORIENT_PORTRAIT,
+        //     // stream to browser inline
+        //     //'destination' => Pdf::DEST_DOWNLOAD,
+        //     //'destination' => Pdf::DEST_BROWSER,
+        //     'destination' => ($destination == 'generar')?Pdf::DEST_FILE:Pdf::DEST_DOWNLOAD,
+        //     // your html content input
+        //     'content' => $this->carta,
+        //     // format content from your own css file if needed or use the
+        //     // enhanced bootstrap css built by Krajee for mPDF formatting 
+        //     'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+        //     // any css to be embedded if required
+        //     'cssInline' => '.kv-heading-1{font-size:18px}',
+        //     // set mPDF properties on the fly
+        //     'options' => ['title' => 'Cartera Integral'],
+        //     // call mPDF methods on the fly
+        //     'methods' => [
+        //         'SetHeader' => ['Cartera Integral'],
+        //         'SetFooter' => ['{PAGENO}'],
+        //     ]
+        // ]);
+        // // return the pdf output as per the destination setting
+        // return $pdf->render();
     }
 
-    public function enviarNotificacion($codCarta){
+    private function enviarNotificacion($codCarta){
         //enviar correo
         try {
             Yii::$app->mailer->compose()
@@ -121,7 +140,7 @@ class NotificacionesWidget extends Widget {
 
         // ENCABEZADO
         $textoCarta = sprintf(\Yii::$app->params["cartaNotificacionDeudaAutorizacion"]["encabezado"],
-        \yii\bootstrap\Html::img("@web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
+        \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
         date("d"),
         $this->meses[date("m")],
         date("Y"),
@@ -135,7 +154,7 @@ class NotificacionesWidget extends Widget {
 
         //PIE DE PAGINA
         $textoCarta .= sprintf(\Yii::$app->params["cartaNotificacionDeudaAutorizacion"]["pie"],
-            \yii\bootstrap\Html::img("@web/images/firma-jhon-jairo.jpg", ["width" => "100px"]));
+            \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/firma-jhon-jairo.jpg", ["width" => "100px"]));
 
         return $textoCarta;
     }
@@ -145,7 +164,7 @@ class NotificacionesWidget extends Widget {
         $this->pdfNotificacionName = $this->codcarta.$this->demandado.date("d-m-Y").'.pdf';
         // ENCABEZADO
         $textoCarta = sprintf(\Yii::$app->params["cartaNotificacionRelacionTitulosJudiciales"]["encabezado"],
-        \yii\bootstrap\Html::img("@web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
+        \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
         date("d"),
         $this->meses[date("m")],
         date("Y"),
@@ -159,7 +178,7 @@ class NotificacionesWidget extends Widget {
 
         //PIE DE PAGINA
         $textoCarta .= sprintf(\Yii::$app->params["cartaNotificacionRelacionTitulosJudiciales"]["pie"],
-            \yii\bootstrap\Html::img("@web/images/firma-jhon-jairo.jpg", ["width" => "100px"]));
+            \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/firma-jhon-jairo.jpg", ["width" => "100px"]));
 
         return $textoCarta;
     }
