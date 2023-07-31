@@ -27,19 +27,29 @@ echo Html::Beginform(
                 <?= 
                 Html::hiddenInput('tipo', $tipo);              
                 ?>
-                <?=
-                Html::button("<span class='flaticon-list-3'></span> Generar",
-                    ['class' => 'btn btn-primary',
-                    'onclick'=>"this.form.tipo.value='generar'; this.form.submit()"
-                    ]);
-                ?>
+                <?php
+                //$email ='';
+                //return Html::mailto('Kontaktaufnahme mit: ' . $email,$email, ['subject' => 'Hi There']);
+                /* $options = [
+                    "class" => "btn btn-primary",
+                            'subject' => $codCarta,
+                            'cc' => 'pipe.echeverry.1@gmail.com',
+                            'attachment' => 'C:\wamp\www\carteraIntegral\web\pdfs\NotificacionAutorizacionDEUDOR PARA HACER PRUEBAS30-07-2023.pdf'
+                            ];
                 
-                <?=
-                Html::button("<span class='flaticon-list-3'></span> Descargar",
-                    ['class' => 'btn btn-primary',
-                    'onclick'=>"this.form.tipo.value='descargar'; this.form.submit()"
-                    ]);
+                echo Html::mailto("<span class='flaticon-list-3 btn btn-primary'></span> Abrir correo",'dcastanom@gmail.com',$options); */
                 ?>
+
+                <?=
+                        Html::a("<span class='flaticon-list-3'></span> Generar",
+                                ["procesos/generar-notificacion", "id" => $model->id, "tipo" => "generar", "codcarta" => $codCarta],
+                                ["target" => "_blank", "class" => "btn btn-primary"]);
+                        ?>
+                        <?=
+                        Html::a("<span class='flaticon-list-3'></span> Enviar",
+                                ["procesos/generar-notificacion", "id" => $model->id, "tipo" => "enviar","codcarta" => $codCarta],
+                                ["target" => "_blank", "class" => "btn btn-primary"]);
+                        ?>
                 <?=
                 Url::remember(['procesos/update', 'id' => $model->id]);
                 ?>

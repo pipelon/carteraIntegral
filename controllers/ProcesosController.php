@@ -767,6 +767,11 @@ class ProcesosController extends Controller {
         return $this->render('vista-previa-notificacion', ["model" => $model, "tipo" => $tipo]);
     }
 
+    public function actionGenerarNotificacion($id, $tipo = 'generar',$codcarta = 'NotificacionRelacionTitulosJudiciales') {
+        $model = $this->findModel($id);
+        return $this->render('generar-notificacion', ["model" => $model, "tipo" => $tipo, "codcarta" => $codcarta]);
+    }
+
 
     /**
      * Finds the Procesos model based on its primary key value.
