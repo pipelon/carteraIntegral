@@ -762,12 +762,12 @@ class ProcesosController extends Controller {
         ]);
     }
 
-    public function actionVistaPreviaNotificacion($id, $tipo = 'vista') {
+    public function actionVistaPreviaNotificacion($id, $tipo = 'vista', $codcarta = 'NotificacionAutorizacion') {
         $model = $this->findModel($id);
-        return $this->render('vista-previa-notificacion', ["model" => $model, "tipo" => $tipo]);
+        return $this->render('vista-previa-notificacion', ["model" => $model, "tipo" => $tipo, "codcarta" => $codcarta]);
     }
 
-    public function actionGenerarNotificacion($id, $tipo = 'generar',$codcarta = 'NotificacionRelacionTitulosJudiciales') {
+    public function actionGenerarNotificacion($id, $tipo = 'generar',$codcarta = 'NotificacionAutorizacion') {
         $model = $this->findModel($id);
         return $this->render('generar-notificacion', ["model" => $model, "tipo" => $tipo, "codcarta" => $codcarta]);
     }

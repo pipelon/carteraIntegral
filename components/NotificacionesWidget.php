@@ -59,7 +59,7 @@ class NotificacionesWidget extends Widget {
                 break;
             case 'enviar':
                 //$this->enviarNotificacion($this->codcarta);
-                $this->generarPdf('enviar');
+                return $this->generarPdf('enviar');
                 break;
             case 'descargar':
                 return $this->generarPdf('descargar');
@@ -81,16 +81,13 @@ class NotificacionesWidget extends Widget {
         if ($destination == 'generar'){
             // Output the generated PDF to Browser
             $dompdf->stream($this->pdfNotificacionName);
+            exit;
         } elseif($destination == 'enviar'){
             $contenido = $dompdf->output();
-            //$nombreDelDocumento = $this->pathNotificacionPdf.$this->pdfNotificacionName;
-            //var_dump($this->pathNotificacionPdf.$this->pdfNotificacionName);
             $bytes = file_put_contents($this->pathNotificacionPdf.$this->pdfNotificacionName, $contenido);
-            $this->enviarNotificacion($this->codcarta);
-        }
-
-        exit;
-       
+            $out = $this->enviarNotificacion($this->codcarta);
+            return  $out;
+        }       
     }
 
     private function enviarNotificacion($codCarta){
@@ -103,10 +100,9 @@ class NotificacionesWidget extends Widget {
             ->setSubject(\Yii::$app->params['TiposCartas'][$codCarta]." proceso ".$this->demandado)
             ->attach($this->pathNotificacionPdf.$this->pdfNotificacionName)
             ->send();
-            //echo "El correo se envió";
+            return  'El correo se envió';
         } catch (Exception $ex) {
-            var_dump($ex);
-            echo "El correo no se pudo enviar";
+            return 'El correo no se envió. Error: '. $ex->getMessage();
         }        
     }  
 
