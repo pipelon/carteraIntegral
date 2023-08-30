@@ -73,7 +73,8 @@ use Yii;
  * @property int $estado_proceso_id Estado del proceso
  * @property int|null $delete Borrado
  * @property string|null $deleted Borrado
- * @property string|null $deleted_by Borrado por												
+ * @property string|null $deleted_by Borrado por		
+ * @property string|null $file Archivos cargados											
  * 							   
  * @property Alertas[] $alertas
  * @property BienesXProceso[] $bienesXProcesos
@@ -138,7 +139,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_demandados', 'jur_fecha_etapa_procesal', 'prejur_fecha_carta',
             'prejur_fecha_llamada', 'prejur_fecha_visita', 'jur_comentario_radicado_1',
             'jur_comentario_radicado_2', 'jur_comentario_radicado_3',
-            'jur_fecha_gestion_juridica', 'prejur_estudio_bienes', 'modified'], 'safe'],
+            'jur_fecha_gestion_juridica', 'prejur_estudio_bienes', 'modified','file'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -177,7 +178,8 @@ class Procesos extends \yii\db\ActiveRecord {
             [['jefe_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['jefe_id' => 'id']],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
-            'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'filter', 'filter' => 'strtoupper']
+            'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'filter', 'filter' => 'strtoupper'],
+            [['file'], 'file','extensions' => 'pdf,doc,docx,xls,xlsx']
         ];
     }
 
@@ -265,6 +267,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'delete' => 'Borrado',
             'deleted' => 'Borrado',
             'deleted_by' => 'Borrado por',
+            'file' => 'Archivos creados'
         ];
     }
 

@@ -8,7 +8,7 @@ $this->title = 'Vista previa notificación';
 $this->params['breadcrumbs'][] = $this->title;
 $request = Yii::$app->request;
 //esto es para el cambio del dropdown codcarta, el cual hace que la pagina se recargue y asigne el codcarta
-$codcarta = isset($request->get()['codcarta'])?$request->get()['codcarta']:"NotificacionAutorizacion";
+$codcarta = isset($request->get()['codcarta'])?$request->get()['codcarta']:"Autorizacion";
 //el tipo no se ajusta ya que siempre viene del controlador y no se cambia dinamicamente como el dropdown
 
 
@@ -27,16 +27,48 @@ echo Html::Beginform(
                 <?= 
                 Html::hiddenInput('tipo', $tipo);              
                 ?>
+                <?php
+
+                // mostrar una laerta cuando falten valores para la carta
+
+                if ((!isset($model->jur_juzgado, $model->cliente->nombre, $model->deudor->nombre, $model->jur_radicado)) 
+                || empty($model->jur_radicado) || empty($model->deudor->nombre) || empty($model->cliente->nombre) || empty($model->jur_juzgado)): ?>
+                <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <?="Faltan valores para la carta"?>
+                        </div>
+                <?php else: ?> 
+
                 <?=
                         Html::a("<span class='flaticon-list-3'></span> Generar",
                                 ["procesos/generar-notificacion", "id" => $model->id, "tipo" => "generar", "codcarta" => $codcarta],
                                 ["target" => "_blank", "class" => "btn btn-primary"]);
                         ?>
-                        <?=
-                        Html::a("<span class='flaticon-list-3'></span> Enviar",
+                        <?php
+                        /*Html::a("<span class='flaticon-list-3'></span> Enviar",
                                 ["procesos/vista-previa-notificacion", "id" => $model->id, "tipo" => "enviar", "codcarta" => $codcarta],
-                                ["class" => "btn btn-primary"]);
+                                ["class" => "btn btn-primary"]);*/
                         ?>
+                        <?=
+                            Html::a("<span class='flaticon-list-3'></span> Enviar",
+                                    'javascript:void(0)',
+                                    [
+                                        'title' => 'emails',
+                                        'class' => 'btn btn-primary',
+                                        'onclick' => "                                    
+                                                $.ajax({
+                                                        type    :'POST',
+                                                        cache   : false,
+                                                        url     : '" . Url::to(['view-enviar-memorial', 'id' => $model->id,"codcarta" => $codcarta]) . "',
+                                                        success : function(response) {
+                                                                $('#ajax_enviar_memorial').html(response);
+                                                        }
+                                                });
+                                                return false;",
+                                    ]
+                            );
+                            ?>
+                <?php endif; ?>   
                 <?=
                 Url::remember(['procesos/update', 'id' => $model->id]);
                 ?>
@@ -70,17 +102,17 @@ echo Html::Beginform(
 <div class="liquidaciones-index box box-primary">
 
     <div class="box-body table-responsive">
+        
         <?php
-
-
-        if ($tipo =='enviar'):
+        if ($tipo =='enviar-email'):
             $out = \app\components\NotificacionesWidget::widget([
                 "tipo" => $tipo,
                 "codcarta" => $codcarta,
                 "id" => $model->id,
                 "juzgado" => $model->jur_juzgado,
                 "demandante" => $model->cliente->nombre,
-                "demandado" => $model->deudor->nombre." - ".$model->deudor->marca
+                "demandado" => $model->deudor->nombre." - ".$model->deudor->marca,
+                "radicado" => $model->jur_radicado
             ]);
 
             if ($out == 'El correo se envió'):
@@ -103,7 +135,8 @@ echo Html::Beginform(
             "id" => $model->id,
             "juzgado" => $model->jur_juzgado,
             "demandante" => $model->cliente->nombre,
-            "demandado" => $model->deudor->nombre." - ".$model->deudor->marca
+            "demandado" => $model->deudor->nombre." - ".$model->deudor->marca,
+            "radicado" => $model->jur_radicado
         ]);
         ?>
         
@@ -112,3 +145,22 @@ echo Html::Beginform(
 
 <?php
 echo Html::endform();
+?>
+<!-- MODALES -->
+
+<?= Html::tag('div', '', ['id' => 'ajax_enviar_memorial']); ?>
+
+<?php
+yii\bootstrap\Modal::begin([
+    'id' => 'modal',
+    'size' => yii\bootstrap\Modal::SIZE_LARGE,
+]);
+yii\bootstrap\Modal::end();
+$this->registerJs("$(function() {
+   $('.popupModal').click(function(e) {
+     e.preventDefault();
+     $('#modal').modal('show').find('.modal-content')
+     .load($(this).attr('href'));
+   });
+});");
+?>

@@ -39,10 +39,10 @@ class NotificacionesWidget extends Widget {
         $this->pathNotificacionPdf = Yii::$app->basePath.'/web/pdfs/';
         //elegir el tipo de carta a generar
         switch ($this->codcarta) {
-            case 'NotificacionAutorizacion':
+            case 'Autorizacion':
                 $this->carta = $this->shapeNotificacionAutorizacion();
                 break;
-            case 'NotificacionRelacionTitulosJudiciales':
+            case 'RelacionTitulosJudiciales':
                 $this->carta = $this->shapeNotificacionRelacionTitulosJudiciales();
                 break;
         }        
@@ -57,12 +57,12 @@ class NotificacionesWidget extends Widget {
             case 'generar':
                 return $this->generarPdf('generar');
                 break;
-            case 'enviar':
-                //$this->enviarNotificacion($this->codcarta);
-                return $this->generarPdf('enviar');
+            case 'enviar-email':
+                $this->enviarNotificacion($this->codcarta);
+                return $this->generarPdf('enviar-email');
                 break;
-            case 'descargar':
-                return $this->generarPdf('descargar');
+            case 'form-correo':
+                return $this->generarPdf('form-correo');
                 break;
         }        
         
@@ -70,23 +70,29 @@ class NotificacionesWidget extends Widget {
 
     private function generarPdf($destination) {
         
-        $options = new Options();
-        //Y debes activar esta opción "TRUE"
-        $options->set('isRemoteEnabled', true);
-        $options->set('defaultFont', 'Arial');
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($this->carta);
-        // Render the HTML as PDF
-        $dompdf->render();
-        if ($destination == 'generar'){
-            // Output the generated PDF to Browser
-            $dompdf->stream($this->pdfNotificacionName);
-            exit;
-        } elseif($destination == 'enviar'){
-            $contenido = $dompdf->output();
-            $bytes = file_put_contents($this->pathNotificacionPdf.$this->pdfNotificacionName, $contenido);
-            $out = $this->enviarNotificacion($this->codcarta);
-            return  $out;
+        try {
+            $options = new Options();
+            //Y debes activar esta opción "TRUE"
+            $options->set('isRemoteEnabled', true);
+            $options->set('defaultFont', 'Arial');
+            $dompdf = new Dompdf($options);
+            $dompdf->loadHtml($this->carta);
+            // Render the HTML as PDF
+            $dompdf->render();
+            if ($destination == 'generar'){
+                // Output the generated PDF to Browser
+                $dompdf->stream($this->pdfNotificacionName);
+                exit;
+            } elseif($destination == 'form-correo'){
+                $rutaPdfs = $this->pathNotificacionPdf;
+                $nombreArchivo = $this->pdfNotificacionName;
+                $contenido = $dompdf->output();
+                $bytes = file_put_contents($rutaPdfs.$nombreArchivo, $contenido);
+                //$out = $this->enviarNotificacion($this->codcarta);
+                return  $nombreArchivo;
+            } 
+        } catch (Exception $ex) {
+            return 'El archivo de carta no se generó. Error: '. $ex->getMessage();
         }       
     }
 
@@ -111,7 +117,7 @@ class NotificacionesWidget extends Widget {
         $this->pdfNotificacionName = $this->codcarta.$this->demandado.date("d-m-Y").'.pdf';      
 
         // ENCABEZADO
-        $textoCarta = sprintf(\Yii::$app->params["cartaNotificacionDeudaAutorizacion"]["encabezado"],
+        $textoCarta = sprintf(\Yii::$app->params["cartaDeudaAutorizacion"]["encabezado"],
         \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
         date("d"),
         $this->meses[date("m")],
@@ -122,10 +128,10 @@ class NotificacionesWidget extends Widget {
         $this->radicado);
 
         // CUERPO
-        $textoCarta .= sprintf(\Yii::$app->params["cartaNotificacionDeudaAutorizacion"]["cuerpo"]);
+        $textoCarta .= sprintf(\Yii::$app->params["cartaDeudaAutorizacion"]["cuerpo"]);
 
         //PIE DE PAGINA
-        $textoCarta .= sprintf(\Yii::$app->params["cartaNotificacionDeudaAutorizacion"]["pie"],
+        $textoCarta .= sprintf(\Yii::$app->params["cartaDeudaAutorizacion"]["pie"],
             \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/firma-jhon-jairo.jpg", ["width" => "100px"]));
 
         return $textoCarta;
@@ -135,7 +141,7 @@ class NotificacionesWidget extends Widget {
         //asignar nombre del pdf
         $this->pdfNotificacionName = $this->codcarta.$this->demandado.date("d-m-Y").'.pdf';
         // ENCABEZADO
-        $textoCarta = sprintf(\Yii::$app->params["cartaNotificacionRelacionTitulosJudiciales"]["encabezado"],
+        $textoCarta = sprintf(\Yii::$app->params["cartaRelacionTitulosJudiciales"]["encabezado"],
         \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
         date("d"),
         $this->meses[date("m")],
@@ -146,10 +152,10 @@ class NotificacionesWidget extends Widget {
         $this->radicado);
 
         // CUERPO
-        $textoCarta .= sprintf(\Yii::$app->params["cartaNotificacionRelacionTitulosJudiciales"]["cuerpo"]);
+        $textoCarta .= sprintf(\Yii::$app->params["cartaRelacionTitulosJudiciales"]["cuerpo"]);
 
         //PIE DE PAGINA
-        $textoCarta .= sprintf(\Yii::$app->params["cartaNotificacionRelacionTitulosJudiciales"]["pie"],
+        $textoCarta .= sprintf(\Yii::$app->params["cartaRelacionTitulosJudiciales"]["pie"],
             \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/firma-jhon-jairo.jpg", ["width" => "100px"]));
 
         return $textoCarta;

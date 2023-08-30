@@ -13,7 +13,6 @@ use wbraganca\dynamicform\DynamicFormWidget;
 /* @var $model app\models\Procesos */
 /* @var $form yii\widgets\ActiveForm */
 
-
 // ARCHIVO CON TODOS LOS JS NECESARIOS PARA EL PROCESO
 $this->registerJsFile(Yii::getAlias('@web') . '/js/proceso.js', ['depends' => [yii\web\JqueryAsset::className()]]);
 ?>
@@ -838,10 +837,18 @@ $form = ActiveForm::begin(
                 ]
             ]);
             ?>
+            <?php
+                //Esto debe mostrase solo a superadministradores y Lideres/colaboradres del proceso
+                if ((Yii::$app->user->identity->isSuperAdmin() || (Yii::$app->user->identity->getId() == $model->jefe_id) || in_array(Yii::$app->user->identity->getId(),$model->colaboradores)) && \Yii::$app->user->can('/procesos/update'))  :
+
+            ?>
             <?=
-                Html::a("<span class='flaticon-list-3'></span> Enviar notificación",
+                Html::a("<span class='flaticon-list-3'></span> Enviar memorial",
                         ["procesos/vista-previa-notificacion", "id" => $model->id],
-                        ["target" => "_blank", "class" => "btn btn-primary pull-right"]);
+                        ["target" => "_self", "class" => "btn btn-primary pull-right"]);
+            ?>
+            <?php
+                endif;
             ?>
         </div>
         <div class="row-field">
