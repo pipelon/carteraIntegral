@@ -153,7 +153,7 @@ class LiquidacionesWidget extends Widget {
         $sheet->SetCellValue('A8', 'FECHA LIQUIDACIÓN')->mergeCells('A8:B8');
         $sheet->SetCellValue('C8', date("Y-m-d"));
         $sheet->SetCellValue('A9', 'FECHA LIQUIDACIÓN')->mergeCells('A9:B9');
-        $sheet->SetCellValue('C9', $this->liquidacion["tasa"] . "%");
+        $sheet->SetCellValue('C9', round($this->liquidacion["tasa"], 2) . "%");
         $sheet->getStyle("A5:A9")->getFont()->setBold(true);
 
         //TABLA ENCABEZADO DE LIQUIDACION
@@ -174,7 +174,7 @@ class LiquidacionesWidget extends Widget {
         foreach ($this->liquidacion["tabla"] as $v) {
 
             $sheet->setCellValueExplicit("A{$rowCount}", $v[0],
-                    empty($v[0]) ? DataType::TYPE_STRING : DataType::TYPE_NUMERIC);
+                    empty($v[0]) || is_string($v[0]) ? DataType::TYPE_STRING : DataType::TYPE_STRING);
             $sheet->setCellValueExplicit("B{$rowCount}", $v[1], DataType::TYPE_STRING);
             $sheet->setCellValueExplicit("C{$rowCount}", $v[2], DataType::TYPE_STRING);
             $sheet->setCellValueExplicit("D{$rowCount}", $v[3],
