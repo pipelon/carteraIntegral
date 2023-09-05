@@ -4,12 +4,14 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Procesos;
+use app\models\Upload;
 use app\models\ProcesosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\ConsolidadoPagosJuridicos;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 
 /**
  * ProcesosController implements the CRUD actions for Procesos model.
@@ -762,10 +764,124 @@ class ProcesosController extends Controller {
         ]);
     }
 
-    public function actionVistaPreviaNotificacion($id, $tipo = 'vista') {
+    public function actionVistaPreviaNotificacion($id, $tipo = 'vista', $codcarta = 'NotificacionAutorizacion') {
         $model = $this->findModel($id);
-        return $this->render('vista-previa-notificacion', ["model" => $model, "tipo" => $tipo]);
+        return $this->render('vista-previa-notificacion', ["model" => $model, "tipo" => $tipo, "codcarta" => $codcarta]);
     }
+
+    public function actionGenerarNotificacion($id, $tipo = 'generar',$codcarta = 'NotificacionAutorizacion') {
+        $model = $this->findModel($id);
+        return $this->render('generar-notificacion', ["model" => $model, "tipo" => $tipo, "codcarta" => $codcarta]);
+    }
+
+
+    public function actionCargarEnviarNotificacion($id) {
+
+        try {
+
+            $config = $errors = [];
+            $input = 'file'; // the input name for files
+            if (empty($_FILES[$input])) {
+                return 'No hay archivos para cargar. Si cree que hay un error consulte con el administrador de la aplicación.';
+            }
+            $total = count($_FILES[$input]['name']); // multiple files
+            $path = 'uploads/'; // your upload path
+            for ($i = 0; $i < $total; $i++) {
+                $tmpFilePath = $_FILES[$input]['tmp_name'][$i]; // the temp file path
+                $fileName = $_FILES[$input]['name'][$i]; // the file name
+                $fileSize = $_FILES[$input]['size'][$i]; // the file size
+                
+                //Make sure we have a file path
+                if ($tmpFilePath != ""){
+                    //Setup our new file path
+                    $newFilePath = $path . $fileName;
+                    //$newFileUrl = 'http://localhost/uploads/' . $fileName;
+                    
+                    //Upload the file into the new path
+                    //var_dump($tmpFilePath, $newFilePath); die;
+                    if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                        //$fileId = $fileName . $i; // some unique key to identify the file
+                        //$preview[] = $newFileUrl;
+                        $config[] = [
+                            //'key' => $fileId,
+                            'caption' => $fileName,
+                            'size' => $fileSize,
+                            //'downloadUrl' => $newFileUrl, // the url to download the file
+                            //'url' => 'http://localhost/delete.php', // server api to delete the file based on key
+                        ];
+                    } else {
+                        $errors[] = $fileName;
+                    }
+                } else {
+                    $errors[] = $fileName;
+                }
+            }
+            $out = ['archivos_cargados' => $config];
+            if (!empty($errors)) {
+                $archivos = count($errors) === 1 ? 'archivo "' . $errors[0]  . '" ' : 'archivos: "' . implode('", "', $errors) . '" ';
+                $out['error'] = 'No se pudo cargar ' . $archivos . '. Intente luego.';
+                return 'Error cargando archivos: '. json_decode($out['error']);
+            }
+            //return json_encode($out);
+        } catch (Exception $ex) {
+            return 'Error cargando archivos: '. $ex->getMessage();
+        }   
+
+        //setear el tipo de carta
+        $codcarta = isset($get['codcarta']) ? $get['codcarta'] :'Autorizacion';
+        $post = Yii::$app->request->post();
+        $pathNotificacionPdf = Yii::$app->basePath.'/web/pdfs/';
+        $pathArchivosCargados = Yii::$app->basePath.'/web/uploads/';
+        //procesar el post
+        if (count($post)>0){//si hay data para procesar el post se valida si se puede enviar correo y si se puede guardar la gestion juridica
+            //validaciones para enviar el correo
+            $archivosCargados = $out['archivos_cargados'];
+            $emailCC = implode(';',explode(';',$post['emailCC']));
+        //enviar correo
+            try {
+                $message = Yii::$app->mailer->compose()
+                ->setFrom(\Yii::$app->params['notificacionesJudicialesEmail'])
+                ->setTo($post['emailPara'])
+                ->setCc(array('FELIPE@ONICSOFT.COM.CO','CODEUDOR1@ONICSOFT.COM.CO','CODEUDOR2@ONICSOFT.COM.CO','NOTIFICACIONESJUDICIALES@CARTERAINTEGRAL.COM.CO'))
+                ->setSubject($post['asunto'])
+                ->setTextBody($post['emailBody'])
+                // attach el archivo de la carta generada por el formulario 
+                ->attach($pathNotificacionPdf.$post['cartaPdf']);
+                foreach ($archivosCargados as $archivo) {
+                    //attach cada archivo cargado por el formulario
+                    $message->attach($pathArchivosCargados.$archivo['caption']);
+                }
+                $message->send();
+                return  'El correo se envió';
+            } catch (Exception $ex) {
+                return 'El correo no se envió. Error: '. $ex->getMessage();
+            }      
+
+        }
+        
+    }
+
+    public function actionViewEnviarMemorial($id) {
+
+
+        $model = $this->findModel($id);
+
+        //setear el tipo de carta
+        $codcarta = isset($get['codcarta']) ? $get['codcarta'] :'Autorizacion';
+
+        if (Yii::$app->getRequest()->isAjax) {
+
+
+                return $this->renderAjax('view-enviar-memorial', [
+                            'model' => $model,
+                            'codcarta' => $codcarta
+                ]);
+
+            Yii::$app->end();
+        }
+    
+    }
+
 
 
     /**

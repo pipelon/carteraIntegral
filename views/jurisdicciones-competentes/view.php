@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'codigo_especialidad',
                 'despacho',
                 'nombre',
+                'email',
                 'created',
                 'created_by',
                 'modified',

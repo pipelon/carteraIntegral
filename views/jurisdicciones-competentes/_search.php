@@ -31,6 +31,8 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'nombre') ?>
 
+    <?php  echo $form->field($model, 'email') ?>
+
     <?php // echo $form->field($model, 'created') ?>
 
     <?php // echo $form->field($model, 'created_by') ?>

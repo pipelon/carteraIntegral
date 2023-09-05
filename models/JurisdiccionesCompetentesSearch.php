@@ -19,7 +19,7 @@ class JurisdiccionesCompetentesSearch extends JurisdiccionesCompetentes
     {
         return [
             [['id', 'ciudad_id', 'codigo_entidad', 'codigo_especialidad', 'despacho', 'delete'], 'integer'],
-            [['entidad', 'especialidad', 'nombre', 'created', 'created_by', 'modified', 'modified_by', 'deleted', 'deleted_by'], 'safe'],
+            [['entidad', 'especialidad', 'nombre', 'email', 'created', 'created_by', 'modified', 'modified_by', 'deleted', 'deleted_by'], 'safe'],
         ];
     }
 
@@ -74,6 +74,7 @@ class JurisdiccionesCompetentesSearch extends JurisdiccionesCompetentes
         $query->andFilterWhere(['like', 'entidad', $this->entidad])
             ->andFilterWhere(['like', 'especialidad', $this->especialidad])
             ->andFilterWhere(['like', 'nombre', $this->nombre])
+            ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'created_by', $this->created_by])
             ->andFilterWhere(['like', 'modified_by', $this->modified_by])
             ->andFilterWhere(['like', 'deleted_by', $this->deleted_by]);

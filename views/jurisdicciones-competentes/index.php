@@ -58,6 +58,7 @@ if (\Yii::$app->user->can('/jurisdicciones-competentes/*') || \Yii::$app->user->
                 'codigo_especialidad',
                 'despacho',
                 'nombre',
+                'email',
                 // 'created',
                 // 'created_by',
                 // 'modified',

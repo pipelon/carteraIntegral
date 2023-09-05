@@ -61,7 +61,10 @@ use yii\bootstrap\ActiveForm;
 
             <?= $form->field($model, 'despacho')->dropDownList($numeros) ?>
 
-            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>           
+            <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?> 
+            
+            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+
 
         </div>
     </div>

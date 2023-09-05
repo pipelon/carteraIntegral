@@ -15,6 +15,7 @@ use Yii;
  * @property int $codigo_especialidad Código de especialidad
  * @property int $despacho Despacho
  * @property string $nombre Nombre
+ * @property string $email Correo electrónico
  * @property string $created Creado
  * @property string $created_by Creado por
  * @property string $modified Modificado
@@ -40,12 +41,13 @@ class JurisdiccionesCompetentes extends BeforeModel {
      */
     public function rules() {
         return [
-            [['ciudad_id', 'entidad', 'codigo_entidad', 'especialidad', 'codigo_especialidad', 'despacho', 'nombre'], 'required'],
+            [['ciudad_id', 'entidad', 'codigo_entidad', 'especialidad', 'codigo_especialidad', 'despacho', 'nombre','email'], 'required'],
             [['ciudad_id', 'codigo_entidad', 'codigo_especialidad', 'despacho', 'delete'], 'integer'],
+            [['email'], 'email'],
             [['created', 'modified', 'deleted'], 'safe'],
-            [['entidad', 'especialidad', 'created_by', 'modified_by', 'deleted_by'], 'string', 'max' => 45],
+            [['entidad', 'especialidad', 'created_by', 'modified_by', 'deleted_by','email'], 'string', 'max' => 45],
             [['nombre'], 'string', 'max' => 100],
-            [['nombre', 'entidad', 'especialidad'], 'filter', 'filter' => 'strtoupper'],
+            [['nombre', 'entidad', 'especialidad','email'], 'filter', 'filter' => 'strtoupper'],
             [['ciudad_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ciudades::className(), 'targetAttribute' => ['ciudad_id' => 'id']],
         ];
     }
@@ -63,6 +65,7 @@ class JurisdiccionesCompetentes extends BeforeModel {
             'codigo_especialidad' => 'Código de especialidad',
             'despacho' => 'Despacho',
             'nombre' => 'Nombre',
+            'email' => 'Correo electrónico',
             'created' => 'Creado',
             'created_by' => 'Creado por',
             'modified' => 'Modificado',
