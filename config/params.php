@@ -768,30 +768,24 @@ return [
         'jur_comentario_radicado_3' => 'jur_comentario_radicado_3'
     ],
     'cartaLiquidacionDeuda' => [
-        "encabezado" => "%s <br /><br /> CIM – 23 - 27 <br /> Medellín, %s de %s de %s"
+        "encabezado" => "%s <br /><br /> CIM – 23 - 27 <br /> %s, %s de %s de %s"
         . "<br /><br /> Señores <br /> %s <br /> %s <br /> %s <br /> %s"
         . "<br /><br /> Cordial Saludo, <br /><br />",
-        "cuerpo" => "Mediante comunicación del (%s de %s de %s), %s., autorizó
+        "cuerpo" => "<p style='text-align: justify;'>Mediante comunicación del (%s de %s de %s), %s., autorizó
                     a CARTERA INTEGRAL S.A.S., para adelantar la gestión y cobro de las facturas que a la
-                    fecha adeuda a la mencionada sociedad.
-                    <br /><br />
-                    Anexamos el estado de cartera con corte al (%s de %s de %s), por valor de
+                    fecha adeuda a la mencionada sociedad.</p>
+                    <p style='text-align: justify;'>Anexamos el estado de cartera con corte al (%s de %s de %s), por valor de
                     (%s); para que sea analizado y se proceda con el pago de las facturas vencidas,
-                    se comparen los saldos pendientes y nos informen las observaciones a que de lugar.
-                    <br /><br />
-                    Si existen facturas canceladas y pendientes de cruzar por %s, le
+                    se comparen los saldos pendientes y nos informen las observaciones a que de lugar.</p>
+                    <p style='text-align: justify;'>Si existen facturas canceladas y pendientes de cruzar por %s, le
                     solicitamos enviarnos los soportes con la fecha de pago con el fin de realizar los ajustes
-                    necesarios.
-                    <br /><br />
-                    En caso tal de no haberla pagado en su totalidad, les solicitamos acercarse a la carrera
+                    necesarios.</p>
+                    <p style='text-align: justify;'>En caso tal de no haberla pagado en su totalidad, les solicitamos acercarse a la carrera
                     66B N° 32B – 29 de Medellín antes del (<b>%s de %s de %s</b>) para establecer la forma de pago de la acreencia
-                    relacionada.
-                    <br /><br />
-                    La no asistencia a esta convocatoria dentro de la fecha establecida dará lugar al cobro
-                    judicial de lo adeudado.
-                    <br /><br />
-                    Cualquier duda o aclaración, con mucho gusto será atendida.
-                    <br /><br />",
+                    relacionada.</p>
+                    <p style='text-align: justify;'>La no asistencia a esta convocatoria dentro de la fecha establecida dará lugar al cobro
+                    judicial de lo adeudado.</p>
+                    <p style='text-align: justify;'>Cualquier duda o aclaración, con mucho gusto será atendida.</p>",
         "pie" => "Atentamente,<br /> %s <br />LUIS ELKIN PÉREZ ORTIZ<br />"
         . "Director Operativo<br />eperez@carteraintegral.com.co<br />Tel. 4448131"
     ],

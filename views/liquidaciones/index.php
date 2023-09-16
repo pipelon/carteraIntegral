@@ -65,27 +65,35 @@ if (\Yii::$app->user->can('/liquidaciones/*') || \Yii::$app->user->can('/*')) {
                             , 'id', 'nombre')
                 ],
                 [
+                    'attribute' => 'ciudad',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return $data->ciudad == 1 ? "Medellín" : "Bogotá";
+                    },
+                    'filter' => ["1" => "Medellín", "2" => "Bogotá"]
+                ],
+                [
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Html::a("<span class='flaticon-search-magnifier-interface-symbol'></span> Vista previa",
-                        ["liquidaciones/vista-previa", "id" => $data->id],
-                        ["target" => "_blank"]);
+                                        ["liquidaciones/vista-previa", "id" => $data->id],
+                                        ["target" => "_blank"]);
                     },
                 ],
                 [
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Html::a("<span class='flaticon-search-magnifier-interface-symbol'></span> Generar Carta",
-                        ["liquidaciones/generar", "id" => $data->id, "tipo" => "carta"],
-                        ["target" => "_blank"]);
+                                        ["liquidaciones/generar", "id" => $data->id, "tipo" => "carta"],
+                                        ["target" => "_blank"]);
                     },
                 ],
-                            [
+                [
                     'format' => 'raw',
                     'value' => function ($data) {
                         return Html::a("<span class='flaticon-search-magnifier-interface-symbol'></span> Generar Liquidación",
-                        ["liquidaciones/generar", "id" => $data->id, "tipo" => "liquidacion"],
-                        ["target" => "_blank"]);
+                                        ["liquidaciones/generar", "id" => $data->id, "tipo" => "liquidacion"],
+                                        ["target" => "_blank"]);
                     },
                 ],
                 // 'created',

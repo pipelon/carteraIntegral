@@ -10,6 +10,7 @@ $out = json_decode(\app\components\LiquidacionesWidget::widget([
             "cliente" => $model->cliente,
             "deudor" => $model->deudor,
             "datos" => $model->datos,
+            "ciudad" => $model->ciudad,
         ]));
 ?>
 
@@ -68,7 +69,7 @@ $out = json_decode(\app\components\LiquidacionesWidget::widget([
         </div>
         <div class="row">
             <div class="col-md-2"><b>INTERÉS</b></div>
-            <div class="col-md-10"><?= round($out->liquidacion->tasa, 2); ?> %</div>
+            <div class="col-md-10"><?= number_format((float)$out->liquidacion->tasa, 2, '.', ''); ?> %</div>
         </div>
 
         <div class="row margin-top-30">

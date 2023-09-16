@@ -122,6 +122,12 @@ use kartik\file\FileInput;
 
             <div class="row-field">
                 <?=
+                $form->field($model, 'ciudad')->dropDownList(["1" => "Medellín", "2" => "Bogotá"], ['prompt' => '- Seleccion una ciudad -'])
+                ?>
+            </div>
+
+            <div class="row-field">
+                <?=
                 $form->field($model, 'estado_cuenta')->widget(FileInput::classname(), [
                     'options' => ['accept' => 'application/vnd.ms-excel, text/csv'],
                     'pluginOptions' => [

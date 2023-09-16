@@ -36,7 +36,7 @@ class Liquidaciones extends BeforeModel {
         return [
             [['cliente_id', 'deudor_id'], 'required'],
             [['estado_cuenta'], 'required', 'on' => 'create'],
-            [['cliente_id', 'deudor_id'], 'integer'],
+            [['cliente_id', 'deudor_id', 'ciudad'], 'integer'],
             [['created', 'modified'], 'safe'],
             [['datos'], 'string'],
             [['estado_cuenta'], 'string', 'max' => 255],
@@ -61,6 +61,7 @@ class Liquidaciones extends BeforeModel {
             'deudor_id' => 'Deudor ID',
             'datos' => 'Datos',
             'estado_cuenta' => 'Estado Cuenta',
+            'ciudad' => 'Ciudad a la que va dirigida la carta',
             'created' => 'Created',
             'created_by' => 'Created By',
             'modified' => 'Modified',

@@ -7,7 +7,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use \PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -17,6 +19,7 @@ class LiquidacionesWidget extends Widget {
     public $cliente;
     public $deudor;
     public $datos;
+    public $ciudad;
     public $carta;
     public $liquidacion;
     public $totalLiquidacion;
@@ -66,11 +69,11 @@ class LiquidacionesWidget extends Widget {
     }
 
     private function generarCarta() {
-        
+
         $options = new Options();
         //Y debes activar esta opción "TRUE"
         $options->set('isRemoteEnabled', true);
-        
+
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($this->carta);
         // Render the HTML as PDF
@@ -84,6 +87,7 @@ class LiquidacionesWidget extends Widget {
         // ENCAEBZADO CARTA
         $carta = sprintf(\Yii::$app->params["cartaLiquidacionDeuda"]["encabezado"],
                 \yii\bootstrap\Html::img("https://carteraintegral.com.co/ciles/web/images/logo-cartera-integral-grande.jpg", ["width" => "100px"]),
+                $this->ciudad == "1" ? "Medellín" : "Bogotá",
                 date("d"),
                 $this->meses[date("m")],
                 date("Y"),
@@ -93,7 +97,7 @@ class LiquidacionesWidget extends Widget {
                 $this->deudor->ciudad);
 
         // CUERPO
-        $en10Dias = date("Y-m-d", strtotime(date("Y-m-d") . "+ 10 days"));
+        $en10Dias = date("Y-m-d", strtotime(date("Y-m-d") . "+ 5 days"));
         $carta .= sprintf(\Yii::$app->params["cartaLiquidacionDeuda"]["cuerpo"],
                 date("d"),
                 $this->meses[date("m")],
@@ -115,7 +119,7 @@ class LiquidacionesWidget extends Widget {
     }
 
     private function generarLiquidacion() {
-
+        
         $spread = new Spreadsheet();
         $sheet = $spread->getActiveSheet();
 
@@ -145,15 +149,15 @@ class LiquidacionesWidget extends Widget {
 
         //INFO DEL CLIENTE Y DEUDOR
         $sheet->SetCellValue('A5', 'NOMBRE CLIENTE')->mergeCells('A5:B5');
-        $sheet->SetCellValue('C5', $this->cliente->nombre);
+        $sheet->SetCellValue('C5', $this->cliente->nombre)->mergeCells('C5:H5');
         $sheet->SetCellValue('A6', 'NOMBRE DEUDOR')->mergeCells('A6:B6');
-        $sheet->SetCellValue('C6', $this->deudor->nombre);
+        $sheet->SetCellValue('C6', $this->deudor->nombre)->mergeCells('C6:H6');
         $sheet->SetCellValue('A7', 'NIT')->mergeCells('A7:B7');
-        $sheet->SetCellValue('C7', $this->deudor->documento);
+        $sheet->SetCellValue('C7', $this->deudor->documento)->mergeCells('C7:H7');
         $sheet->SetCellValue('A8', 'FECHA LIQUIDACIÓN')->mergeCells('A8:B8');
-        $sheet->SetCellValue('C8', date("Y-m-d"));
-        $sheet->SetCellValue('A9', 'FECHA LIQUIDACIÓN')->mergeCells('A9:B9');
-        $sheet->SetCellValue('C9', round($this->liquidacion["tasa"], 2) . "%");
+        $sheet->SetCellValue('C8', date("Y-m-d"))->mergeCells('C8:H8');
+        $sheet->SetCellValue('A9', 'INTERÉS')->mergeCells('A9:B9');
+        $sheet->SetCellValue('C9', number_format((float)$this->liquidacion["tasa"], 2, '.', '') . "%")->mergeCells('C9:H9');
         $sheet->getStyle("A5:A9")->getFont()->setBold(true);
 
         //TABLA ENCABEZADO DE LIQUIDACION
@@ -195,16 +199,71 @@ class LiquidacionesWidget extends Widget {
             $rowCount++;
         }
 
+        //BORDES        
+        $sheet
+                ->getStyle("A1:J3")
+                ->getBorders()
+                ->getAllBorders()
+                ->setBorderStyle(Border::BORDER_THIN)
+                ->setColor(new Color('000000'));
+        $sheet
+                ->getStyle("A5:H9")
+                ->getBorders()
+                ->getAllBorders()
+                ->setBorderStyle(Border::BORDER_THIN)
+                ->setColor(new Color('000000'));        
+        $sheet
+                ->getStyle("A11:J" . ($rowCount - 1))
+                ->getBorders()
+                ->getAllBorders()
+                ->setBorderStyle(Border::BORDER_THIN)
+                ->setColor(new Color('000000'));
+        $sheet
+                ->getStyle("A" . ($rowCount - 1) . ":J" . ($rowCount - 1))
+                ->getBorders()
+                ->getOutline()
+                ->setBorderStyle(Border::BORDER_THICK)
+                ->setColor(new Color('000000'));
+        $sheet
+                ->getStyle("J" . ($rowCount - 1))
+                ->getBorders()
+                ->getOutline()
+                ->setBorderStyle(Border::BORDER_THICK)
+                ->setColor(new Color('000000'));
+        $sheet
+                ->getStyle("A1:J" . ($rowCount - 1))
+                ->getBorders()
+                ->getOutline()
+                ->setBorderStyle(Border::BORDER_THICK)
+                ->setColor(new Color('000000'));
+        
+        
+        //TEXTOS TOTALES
+        $sheet->SetCellValue("A" . ($rowCount - 2), "SUBTOTALES")->mergeCells("A" . ($rowCount - 2) . ":B" . ($rowCount - 2))
+                ->getStyle("A" . ($rowCount - 2) . ":B" . ($rowCount - 2))
+                ->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->getStyle("A" . ($rowCount - 2) . ":B" . ($rowCount - 2))
+                ->getFont()
+                ->setBold(true);
+        $sheet->SetCellValue("A" . ($rowCount - 1), "TOTAL DEUDA")->mergeCells("A" . ($rowCount - 1) . ":B" . ($rowCount - 1))
+                ->getStyle("A" . ($rowCount - 1) . ":B" . ($rowCount - 1))
+                ->getAlignment()
+                ->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+         $sheet->getStyle("A" . ($rowCount - 1) . ":B" . ($rowCount - 1))
+                ->getFont()
+                ->setBold(true);
+
         //FIRMA
         $objDrawingF = new Drawing();
         $objDrawingF->setName('Firma');
         $objDrawingF->setDescription('Firma');
         $objDrawingF->setPath("images/firma-elkin-2.jpg");
         $objDrawingF->setHeight(100);
-        $objDrawingF->setCoordinates("A{$rowCount}");
+        $objDrawingF->setCoordinates("A" . ($rowCount + 2));
         $objDrawingF->setWorksheet($sheet);
-        $sheet->SetCellValue("A" . ($rowCount + 5), "LUIS ELKIN PÉREZ ORTIZ");
-        $sheet->SetCellValue("A" . ($rowCount + 6), "Director Operativo");
+        $sheet->SetCellValue("A" . ($rowCount + 7), "LUIS ELKIN PÉREZ ORTIZ");
+        $sheet->SetCellValue("A" . ($rowCount + 8), "Director Operativo");
 
         // Write a new .xlsx file
         $writer = new Xlsx($spread);

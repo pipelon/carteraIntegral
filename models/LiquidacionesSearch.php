@@ -18,7 +18,7 @@ class LiquidacionesSearch extends Liquidaciones
     public function rules()
     {
         return [
-            [['id', 'cliente_id', 'deudor_id'], 'integer'],
+            [['id', 'cliente_id', 'deudor_id', 'ciudad'], 'integer'],
             [['estado_cuenta', 'datos', 'created', 'created_by', 'modified', 'modified_by'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class LiquidacionesSearch extends Liquidaciones
             'id' => $this->id,
             'cliente_id' => $this->cliente_id,
             'deudor_id' => $this->deudor_id,
+            'ciudad' => $this->ciudad,
             'datos' => $this->datos,
             'created' => $this->created,
             'modified' => $this->modified,
