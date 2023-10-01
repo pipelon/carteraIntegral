@@ -223,6 +223,15 @@ section.sidebar .treeview-menu > li > a {
 div.box.box-primary{
     border-top-color: #1c3655;
 }
+
+div.box.box-primary-yellow{
+    border-top-color: #eeea0b;
+}
+
+div.box.box-primary-red{
+    border-top-color: #f80606;
+}
+
 button.btn-primary,
 a.btn-primary{
     background-color: #1c3655;

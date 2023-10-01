@@ -98,6 +98,20 @@ return [
         'asunto' => 'CILES - Alertas:Ejecutivo Mandamiento de pago avance 60 días.',
         'descripcion' => 'Mandamiento de pago avance 60 días.'
     ],
+    'alertaEnvioMemoriales150' => [
+        'tipo_alerta_id' => 104,
+        'activo' => true,
+        'diasParaAlerta' => '150', //dias habiles
+        'asunto' => 'CILES - Alertas: Enviar memorial al juzgado.',
+        'descripcion' => 'Enviar memorial al juzgado.'
+    ],
+    'alertaEnvioMemoriales180' => [
+        'tipo_alerta_id' => 104,
+        'activo' => true,
+        'diasParaAlerta' => '180', //dias habiles
+        'asunto' => 'CILES - Alertas: Enviar memorial al juzgado.',
+        'descripcion' => 'Enviar memorial al juzgado.'
+    ],
     'alertaEjecutivo_Notificacion' => [
         'tipo_alerta_id' => 14,
         'activo' => true,

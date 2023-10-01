@@ -47,8 +47,21 @@ if ((in_array($userId, $colaboradores) ||
         <div class="form-group col-md-12">
             De:
             <p class="text-muted">
-                <i class="fa fa-user" style="color: #000;"></i> NOTIFICACIONESJUDICIALES@CARTERAINTEGRAL.COM.CO
+                <i class="fa fa-user" style="color: #000;"></i> <?=\Yii::$app->params['notificacionesJudicialesEmail']?>
             </p>
+            <?=
+                \yii\helpers\Html::a('<span class="flaticon-edit" ></span>', 'javascript:void(0)', [
+                    'title' => 'Modificar Remitente',
+                    'class' => 'btn btn-default pull-left edit-remitente'
+                 ]);
+            ?>
+        </div>
+        <div id = 'emailDe' class="form-group col-md-12">
+            <?php
+             
+            echo "<p class='text-muted'>Solo puede ser un remitente</p>" . 
+            yii\helpers\Html::textInput('emailDe', \Yii::$app->params['notificacionesJudicialesEmail'] , ['class' => 'form-group form-control col-md-12']);
+            ?>
         </div>
         <div class="form-group col-md-12">
             Para:
@@ -59,24 +72,34 @@ if ((in_array($userId, $colaboradores) ||
                 ?>
                 <?= !empty($emailPara) ? '('.$emailPara.')' : '-';  ?>
             </p>
-            <?= yii\helpers\Html::hiddenInput('emailPara', $emailPara ,
-                    ['class' => 'form-group form-control col-md-12']
-                ); 
+            <?=
+                \yii\helpers\Html::a('<span class="flaticon-edit" ></span>', 'javascript:void(0)', [
+                    'title' => 'Modificar destinatario',
+                    'class' => 'btn btn-default pull-left edit-destinatario'
+                 ]);
+            ?>
+        </div>
+        <div id = 'emailPara' class="form-group col-md-12">
+            <?php
+            
+            echo "<p class='text-muted'>Tenga en cuenta que se incluirán en destinatarios todos los emails en este cuadro</p>" . 
+                yii\helpers\Html::textarea('emailPara', $emailPara, 
+                ['class' => 'form-group form-control col-md-12', 'rows' => '3']
+            );
             ?>
         </div>
         <div class="form-group col-md-12">
             CC:
             <p class="text-muted">
-            <i class="fa fa-user" style="color: #000;"></i> <?= isset($model->deudor->nombre) ? $model->deudor->nombre.' - '.(isset($model->deudor->marca) ? $model->deudor->marca : ' - ').'('.(isset($model->deudor->email_representante_legal) ? $model->deudor->email_representante_legal : ' - ').')' : '-';  ?> <br />
-            <i class="fa fa-user" style="color: #000;"></i> <?= isset($model->deudor->nombre_codeudor_1) ? $model->deudor->nombre_codeudor_1.'('.$model->deudor->email_codeudor_1.')' : '-';  ?> <br />
-            <i class="fa fa-user" style="color: #000;"></i> <?= isset($model->deudor->nombre_codeudor_2) ? $model->deudor->nombre_codeudor_2.'('.$model->deudor->email_codeudor_2.')' : '-';  ?> <br />
                 <?php
-                $demandados = [];
+                $arrCCCopia = [];
+
                 foreach ($model->demandadosXProceso as $value) {
-                    echo "<i class='fa fa-user' style='color: #000;'></i> {$value->nombre} <br />";
+                    echo "<i class='fa fa-user' style='color: #000;'></i> {$value->nombre} ({$value->email}) <br />";
+                    $arrCCCopia[] = $value->email;
                 }
                 ?>
-                <i class="fa fa-user" style="color: #000;"></i> NOTIFICACIONESJUDICIALES@CARTERAINTEGRAL.COM.CO
+                <i class="fa fa-user" style="color: #000;"></i> <?=\Yii::$app->params['notificacionesJudicialesEmail']?>
             </p>
             <?=
                 \yii\helpers\Html::a('<span class="flaticon-edit" ></span>', 'javascript:void(0)', [
@@ -87,13 +110,13 @@ if ((in_array($userId, $colaboradores) ||
         </div>
         <div id = 'emailCC' class="form-group col-md-12">
             <?php
-            $arrCCCopia = [];
+            
 
-            if (isset($model->deudor->email_representante_legal)) $arrCCCopia[] = $model->deudor->email_representante_legal;
-            if (isset($model->deudor->email_codeudor_1)) $arrCCCopia[] = $model->deudor->email_codeudor_1;
-            if (isset($model->deudor->email_codeudor_2)) $arrCCCopia[] = $model->deudor->email_codeudor_2;
+            // if (isset($model->deudor->email_representante_legal)) $arrCCCopia[] = $model->deudor->email_representante_legal;
+            // if (isset($model->deudor->email_codeudor_1)) $arrCCCopia[] = $model->deudor->email_codeudor_1;
+            // if (isset($model->deudor->email_codeudor_2)) $arrCCCopia[] = $model->deudor->email_codeudor_2;
 
-            $arrCCCopia[] = 'NOTIFICACIONESJUDICIALES@CARTERAINTEGRAL.COM.CO';
+            $arrCCCopia[] = \Yii::$app->params['notificacionesJudicialesEmail'];
 
             $cc_copia = implode(';',$arrCCCopia);
             
@@ -186,19 +209,6 @@ if ((in_array($userId, $colaboradores) ||
         'options' => ['class' => 'form-group col-md-12'],
     ])->textarea(['rows' => 3,'value'=> "Se envía documentación al juzgado ".$model->jur_juzgado])
     ?>
-    <div class="col-sm-12 no-padding">
-        <?=
-        $form->field($model, 'jur_fecha_gestion_juridica')->widget(\kartik\date\DatePicker::classname(), [
-            'options' => ['placeholder' => date('Y-m-d')],
-            'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'todayHighlight' => true,
-                'todayBtn' => true,
-            ]
-        ]);
-        ?>
-    </div>
     <?=
     yii\helpers\Html::a(
         '<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Enviar email',
@@ -211,10 +221,14 @@ if ((in_array($userId, $colaboradores) ||
     ?>
     <?php yii\bootstrap\ActiveForm::end(); ?>
     <br /><br />
+     <!--mostrar resultado del envio de correo-->
+     <div id="resultado-envio-correo"></div>
 <?php endif; ?>
 
 <script type="text/javascript">
     $('#emailCC').hide();
+    $('#emailDe').hide();
+    $('#emailPara').hide();
     $('#asunto').hide();
     
     //editar copiados en correo
@@ -225,6 +239,16 @@ if ((in_array($userId, $colaboradores) ||
     //editar asunto del correo
     $(".edit-asunto").click(function() {
         $('#asunto').toggle();;
+    });
+
+    //editar remitente del correo
+    $(".edit-remitente").click(function() {
+        $('#emailDe').toggle();;
+    });
+
+    //editar destinatario del correo
+    $(".edit-destinatario").click(function() {
+        $('#emailPara').toggle();;
     });
 
     $(".enviar-email").click(function() {
@@ -238,7 +262,6 @@ if ((in_array($userId, $colaboradores) ||
          * GUARDO LA GESTION Y RECARGO EL DIV CON LA NUEVA INFO         * 
          */
         var form = $('#form_enviar_email');
-        var formData = form.serialize();
         var parametros = new FormData($('#form_enviar_email')[0]);
 
         $.ajax({
@@ -248,7 +271,12 @@ if ((in_array($userId, $colaboradores) ||
             contentType: false,
             processData: false,
             success: function(response) {
-                $('#ajax_enviar_memorial').html(response);
+                if (response.indexOf('ERROR:') >= 0){
+                    alerta ='<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+response+'</div>';
+                }else{
+                    alerta ='<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+response+'</div>';
+                }
+                $('#resultado-envio-correo').html(alerta);
             }
         });
     });

@@ -2,8 +2,11 @@
 
 namespace app\commands;
 
+
 use Yii;
 use yii\console\Controller;
+
+
 
 /**
  * Alertas controller
@@ -34,7 +37,20 @@ class AlertasController extends Controller
 
         //Para cada proceso
         foreach ($procesos as $proceso) {
+
             #=======================================================================
+            # ALERTAS ENVIO MEMORIAL - Diego Agosto2023 - Jaime Acevedo
+            #=======================================================================
+            #
+
+            //Estas alertas validará si se han trascurrido varios meses sin enviar el memorial al juzgado
+            $arraydeAlertas = $this->hallarAlertas('alertaEnvioMemoriales150',$proceso);
+            if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+            $arraydeAlertas = $this->hallarAlertas('alertaEnvioMemoriales180',$proceso);
+            if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
+
+            /* #=======================================================================
             # ALERTAS PREJURIDICAS
             #=======================================================================
             #
@@ -495,16 +511,8 @@ class AlertasController extends Controller
                 //Esta alerta validará si debe generarse el recurso de reposicion
                 $arraydeAlertas = $this->hallarAlertas('alertaLiquidacionEntidadesSalud_RecursoReposicion',$proceso);
                 if ($arraydeAlertas) $alertasPorProceso[$proceso->id]["alertas"][] = $arraydeAlertas;
-                
-
-                
-
-                
-                
-                
-
-
-        }
+ 
+        } */
 
             #=======================================================================
             # VALIDAR QUE HAYA ALERTAS Y ACUMULARLAS PARA DESPUES ENVIARLAS DE A UNA
@@ -537,6 +545,8 @@ class AlertasController extends Controller
             $this->insertarAlertasColaboradores($alertasPorProceso);
             //Enviar las alertas a cada colabroador
             $this->enviarEmail($alertasPorProceso);
+        }else{
+            echo "No hubo alertas para enviar";
         }
     }
     
@@ -626,6 +636,60 @@ class AlertasController extends Controller
 
         //si se encuentra el registro o registros se retorna el primero        
         return $estado_proceso->created;
+    }
+
+    /**
+     * Esta funcion se encargará de generar la alerta para el envío de los memoriales en los procesos
+     * jurídicos a los 6 meses de que se halla realizado la ultima gestion jurídica.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaEnvioMemoriales180($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesNotificacion = \Yii::$app->params['alertaEnvioMemoriales180']['diasParaAlerta'];
+
+        
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaNotificacion = $this->hallarFechaAlerta($proceso->jur_fecha_gestion_juridica, $diasHabilesNotificacion);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaNotificacion > $hoy) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Esta funcion se encargará de generar la alerta para el envío de los memoriales en los procesos
+     * jurídicos a los 5 meses de que se halla realizado la ultima gestion jurídica.
+     * 
+     * @author Diego Castano <proyectos@onicsoft.com.co>
+     * @copyright 2021 CARTERA INTEGRAL S.A.S.
+     * @link http://www.carteraintegral.com.co     
+     * @return boolean (Este metodo debe devolver un true o un false dependiente de si hay o no alertas)
+     */
+    private function alertaEnvioMemoriales150($proceso)
+    {
+        $hoy = date('Y-m-d');
+        // Se obtienen los dias para alertar
+        $diasHabilesNotificacion = \Yii::$app->params['alertaEnvioMemoriales150']['diasParaAlerta'];
+
+        
+        //Por cada proceso obtener la fecha de cuando se le debe enviar la alerta juridica            
+        $fechaNotificacion = $this->hallarFechaAlerta($proceso->jur_fecha_gestion_juridica, $diasHabilesNotificacion);
+
+        //Si no es tiempo de la alerta continuar con el siguiente proceso
+        if ($fechaNotificacion > $hoy) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -4250,6 +4314,10 @@ class AlertasController extends Controller
                     $modeloAlerta->proceso_id = $proceso;
                     $modeloAlerta->tipo_alerta_id = $alerta["tipo_alerta_id"];
                     $modeloAlerta->descripcion_alerta = $alerta["asunto"];
+                    $modeloAlerta->created = date('Y-m-d');
+                    $modeloAlerta->created_by = 'admin';
+                    $modeloAlerta->modified = date('Y-m-d');
+                    $modeloAlerta->modified_by = 'admin';
                     $modeloAlerta->save();
                 }
             }

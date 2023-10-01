@@ -776,73 +776,75 @@ class ProcesosController extends Controller {
 
 
     public function actionCargarEnviarNotificacion($id) {
-
+        $model = $this->findModel($id);
+        $out['archivos_cargados'] = [];
         try {
 
             $config = $errors = [];
             $input = 'file'; // the input name for files
-            if (empty($_FILES[$input])) {
-                return 'No hay archivos para cargar. Si cree que hay un error consulte con el administrador de la aplicación.';
-            }
-            $total = count($_FILES[$input]['name']); // multiple files
-            $path = 'uploads/'; // your upload path
-            for ($i = 0; $i < $total; $i++) {
-                $tmpFilePath = $_FILES[$input]['tmp_name'][$i]; // the temp file path
-                $fileName = $_FILES[$input]['name'][$i]; // the file name
-                $fileSize = $_FILES[$input]['size'][$i]; // the file size
-                
-                //Make sure we have a file path
-                if ($tmpFilePath != ""){
-                    //Setup our new file path
-                    $newFilePath = $path . $fileName;
-                    //$newFileUrl = 'http://localhost/uploads/' . $fileName;
+            if (!empty($_FILES[$input]['name'][0])) {
+                $total = count($_FILES[$input]['name']); // multiple files
+                $path = 'uploads/'; // your upload path
+                for ($i = 0; $i < $total; $i++) {
+                    $tmpFilePath = $_FILES[$input]['tmp_name'][$i]; // the temp file path
+                    $fileName = $_FILES[$input]['name'][$i]; // the file name
+                    $fileSize = $_FILES[$input]['size'][$i]; // the file size
                     
-                    //Upload the file into the new path
-                    //var_dump($tmpFilePath, $newFilePath); die;
-                    if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-                        //$fileId = $fileName . $i; // some unique key to identify the file
-                        //$preview[] = $newFileUrl;
-                        $config[] = [
-                            //'key' => $fileId,
-                            'caption' => $fileName,
-                            'size' => $fileSize,
-                            //'downloadUrl' => $newFileUrl, // the url to download the file
-                            //'url' => 'http://localhost/delete.php', // server api to delete the file based on key
-                        ];
+                    //Make sure we have a file path
+                    if ($tmpFilePath != ""){
+                        //Setup our new file path
+                        $newFilePath = $path . $fileName;
+                        
+                        //Upload the file into the new path
+                        if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                            //$fileId = $fileName . $i; // some unique key to identify the file
+                            //$preview[] = $newFileUrl;
+                            $config[] = [
+                                //'key' => $fileId,
+                                'caption' => $fileName,
+                                'size' => $fileSize,
+                                //'downloadUrl' => $newFileUrl, // the url to download the file
+                                //'url' => 'http://localhost/delete.php', // server api to delete the file based on key
+                            ];
+                        } else {
+                            $errors[] = $fileName;
+                        }
                     } else {
                         $errors[] = $fileName;
                     }
-                } else {
-                    $errors[] = $fileName;
                 }
-            }
-            $out = ['archivos_cargados' => $config];
-            if (!empty($errors)) {
-                $archivos = count($errors) === 1 ? 'archivo "' . $errors[0]  . '" ' : 'archivos: "' . implode('", "', $errors) . '" ';
-                $out['error'] = 'No se pudo cargar ' . $archivos . '. Intente luego.';
-                return 'Error cargando archivos: '. json_decode($out['error']);
+                $out = ['archivos_cargados' => $config];
+                if (!empty($errors)) {
+                    $archivos = count($errors) === 1 ? 'archivo "' . $errors[0]  . '" ' : 'archivos: "' . implode('", "', $errors) . '" ';
+                    $out['error'] = 'No se pudo cargar ' . $archivos . '. Intente luego.';
+                    return 'ERROR: Error cargando archivos: '. json_decode($out['error']);
+                }
             }
             //return json_encode($out);
         } catch (Exception $ex) {
-            return 'Error cargando archivos: '. $ex->getMessage();
+            return 'ERROR: Error cargando archivos: '. $ex->getMessage();
         }   
 
         //setear el tipo de carta
-        $codcarta = isset($get['codcarta']) ? $get['codcarta'] :'Autorizacion';
+
         $post = Yii::$app->request->post();
+        
         $pathNotificacionPdf = Yii::$app->basePath.'/web/pdfs/';
         $pathArchivosCargados = Yii::$app->basePath.'/web/uploads/';
         //procesar el post
         if (count($post)>0){//si hay data para procesar el post se valida si se puede enviar correo y si se puede guardar la gestion juridica
             //validaciones para enviar el correo
             $archivosCargados = $out['archivos_cargados'];
-            $emailCC = implode(';',explode(';',$post['emailCC']));
-        //enviar correo
+            $emailCC = [];
+            //$emailCC .= implode("','",explode(';',$post['emailCC']));
+            $emailCC = explode(';',$post['emailCC']);
+
+            //enviar correo
             try {
                 $message = Yii::$app->mailer->compose()
-                ->setFrom(\Yii::$app->params['notificacionesJudicialesEmail'])
+                ->setFrom($post['emailDe'])
                 ->setTo($post['emailPara'])
-                ->setCc(array('FELIPE@ONICSOFT.COM.CO','CODEUDOR1@ONICSOFT.COM.CO','CODEUDOR2@ONICSOFT.COM.CO','NOTIFICACIONESJUDICIALES@CARTERAINTEGRAL.COM.CO'))
+                ->setCc($emailCC)
                 ->setSubject($post['asunto'])
                 ->setTextBody($post['emailBody'])
                 // attach el archivo de la carta generada por el formulario 
@@ -852,12 +854,29 @@ class ProcesosController extends Controller {
                     $message->attach($pathArchivosCargados.$archivo['caption']);
                 }
                 $message->send();
-                return  'El correo se envió';
+                //return  'El correo se envió';
             } catch (Exception $ex) {
-                return 'El correo no se envió. Error: '. $ex->getMessage();
+                return 'ERROR: El correo no se envió. '. $ex->getMessage();
             }      
 
         }
+
+        //if (!empty($model->jur_gestion_juridica)) {
+
+            //SE GUARDA LA GESTION JURIDICA AUTOMATICAMENTE GENERADA
+            try {
+                $gestJur = new \app\models\GestionesJuridicas();
+                $gestJur->proceso_id = $model->id;
+                $gestJur->fecha_gestion = date('Y-m-d H:i:s');
+                $gestJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
+                $gestJur->descripcion_gestion = $post["Procesos"]["jur_gestion_juridica"];
+                $gestJur->save();
+            } catch (Exception $ex) {
+                return 'ERROR: No se guardó la gestión. '. $ex->getMessage();
+            } 
+
+            return 'Se envió el correo y se guardó la gestión';
+        //}
         
     }
 

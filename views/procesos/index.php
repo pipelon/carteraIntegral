@@ -597,12 +597,29 @@ $fullExportMenu = ExportMenu::widget(
         $lider = $proceso->jefe_id;
         //ID usuario logueado
         $userId = (int) \Yii::$app->user->id;
+        //alerta envío memorial. Se pintarán colores distintos en el borde de la box-primary
+        $fechaUltimaGestionJur = date('Y-m-d');
+        $hoy = date('Y-m-d');
+        
+        if (isset($proceso->gestionesJuridicas[0]['fecha_gestion'])){
+            $fechaUltimaGestionJur = date('Y-m-d',strtotime($proceso->gestionesJuridicas[0]['fecha_gestion']));            
+        }
+        //calcular numero de dias trascurridos desde la ultima gestion juridica
+        $dias = (strtotime($hoy) - strtotime($fechaUltimaGestionJur))/24/3600;
+
+        $boxBorderStyle = 'box-primary';
+
+        if ($dias>=150 && $dias < 180){
+            $boxBorderStyle = 'box-primary-yellow';
+        }elseif ($dias>=180){
+            $boxBorderStyle = 'box-primary-red';
+        }
         ?>
         <div class="col-md-12">
 
             <!-- PROCESO -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
+            <div class="box <?=$boxBorderStyle?>">
+                <div class="box-header with-border"> 
 
 
 
