@@ -839,7 +839,7 @@ $form = ActiveForm::begin(
             ?>
             <?php
                 //Esto debe mostrase solo a superadministradores y Lideres/colaboradres del proceso
-                if ((Yii::$app->user->identity->isSuperAdmin() || (Yii::$app->user->identity->getId() == $model->jefe_id) || in_array(Yii::$app->user->identity->getId(),$model->colaboradores)) && \Yii::$app->user->can('/procesos/update'))  :
+                if ((Yii::$app->user->identity->isSuperAdmin() || (Yii::$app->user->identity->getId() == $model->jefe_id) || in_array(Yii::$app->user->identity->getId(), $model->colaboradores ?? [])) && \Yii::$app->user->can('/procesos/update'))  :
 
             ?>
             <?=
