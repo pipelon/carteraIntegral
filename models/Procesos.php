@@ -110,6 +110,7 @@ class Procesos extends \yii\db\ActiveRecord {
     public $jur_gestiones_juridicas;
     public $jur_demandados;
     public $jur_fecha_gestion_juridica;
+    public $file;
 
     /**
      * {@inheritdoc}
@@ -124,7 +125,13 @@ class Procesos extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['cliente_id', 'deudor_id', 'jefe_id',
-            'estado_proceso_id'], 'required'],
+            'estado_proceso_id', 'prejur_fecha_recepcion', 'prejur_tipo_caso',
+            'prejur_valor_activacion', 'prejur_saldo_actual', 'prejur_acuerdo_pago',
+            'prejur_estudio_bienes', 'prejur_informe_castigo_enviado', 'prejur_carta_castigo_enviada',
+            'prejur_consulta_rama_judicial',
+            'prejur_consulta_entidad_reguladora', 'prejur_resultado_estudio_bienes',
+            'prejur_carta_enviada', 'prejur_llamada_realizada', 'prejur_visita_domiciliaria',
+            'carpeta'], 'required'],
             [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
             'estado_proceso_id', 'jur_departamento_id', 'jur_ciudad_id',
@@ -139,7 +146,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_demandados', 'jur_fecha_etapa_procesal', 'prejur_fecha_carta',
             'prejur_fecha_llamada', 'prejur_fecha_visita', 'jur_comentario_radicado_1',
             'jur_comentario_radicado_2', 'jur_comentario_radicado_3',
-            'jur_fecha_gestion_juridica', 'prejur_estudio_bienes', 'modified','file'], 'safe'],
+            'jur_fecha_gestion_juridica', 'prejur_estudio_bienes', 'modified', 'file'], 'safe'],
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'string'],
@@ -179,7 +186,7 @@ class Procesos extends \yii\db\ActiveRecord {
             [['prejur_consulta_rama_judicial', 'prejur_consulta_entidad_reguladora',
             'prejur_concepto_viabilidad', 'prejur_otros', 'estrec_pretenciones',
             'estrec_tiempo_recuperacion', 'estrec_comentarios'], 'filter', 'filter' => 'strtoupper'],
-            [['file'], 'file','extensions' => 'pdf,doc,docx,xls,xlsx']
+            [['file'], 'file', 'extensions' => 'pdf,doc,docx,xls,xlsx']
         ];
     }
 

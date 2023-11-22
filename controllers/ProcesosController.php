@@ -306,6 +306,7 @@ class ProcesosController extends Controller {
 
         if ($model->load(Yii::$app->request->post())) {
 
+            //var_dump($old_jur_etapas_procesal_id);exit;
             // SE GUARDA EL REGISTRO
             if ($model->save()) {
 

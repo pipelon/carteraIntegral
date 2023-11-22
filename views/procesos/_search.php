@@ -16,6 +16,17 @@ use yii\widgets\ActiveForm;
                 'method' => 'get',
     ]);
     ?>
+    <?php
+    $estadosProcesoList = yii\helpers\ArrayHelper::map(
+                    \app\models\EstadosProceso::find()
+                            ->where(['activo' => 1])
+                            ->orderBy(['nombre' => SORT_ASC])
+                            ->all()
+                    , 'id', 'nombre');
+    ?>
+    <?=
+    $form->field($model, 'estado_proceso_id')->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -'])
+    ?>
 
     <?=
     $form->field($model, 'buscador', [

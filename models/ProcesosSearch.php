@@ -19,7 +19,7 @@ class ProcesosSearch extends Procesos {
      */
     public function rules() {
         return [
-            [['buscador'], 'string', 'max' => 200]
+            [['buscador', 'estado_proceso_id'], 'string', 'max' => 200]
         ];
     }
 
@@ -69,6 +69,7 @@ class ProcesosSearch extends Procesos {
                 ->orFilterWhere(['like', 'jur_radicado', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado_2', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)])
+                ->orFilterWhere(['like', 'estado_proceso_id', trim($this->estado_proceso_id)])
                 ->orFilterWhere(['like', 'valores_activacion_juridico.valor', trim($this->buscador)]);
 
         if (Yii::$app->user->identity->isColaborador() &&
