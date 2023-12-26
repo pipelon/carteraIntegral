@@ -125,12 +125,12 @@ class Procesos extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['cliente_id', 'deudor_id', 'jefe_id',
-            'estado_proceso_id', 'prejur_fecha_recepcion', 'prejur_tipo_caso',
+            'estado_proceso_id', /*'prejur_fecha_recepcion', 'prejur_tipo_caso',
             'prejur_valor_activacion', 'prejur_saldo_actual', 'prejur_acuerdo_pago',
             'prejur_estudio_bienes', 'prejur_informe_castigo_enviado', 'prejur_carta_castigo_enviada',
             'prejur_consulta_rama_judicial',
             'prejur_consulta_entidad_reguladora', 'prejur_resultado_estudio_bienes',
-            'prejur_carta_enviada', 'prejur_llamada_realizada', 'prejur_visita_domiciliaria',
+            'prejur_carta_enviada', 'prejur_llamada_realizada', 'prejur_visita_domiciliaria',*/
             'carpeta'], 'required'],
             [['cliente_id', 'deudor_id', 'jefe_id', 'prejur_tipo_caso',
             'jur_tipo_proceso_id', 'jur_etapas_procesal_id',
