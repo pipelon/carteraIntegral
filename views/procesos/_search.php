@@ -25,7 +25,7 @@ use yii\widgets\ActiveForm;
                     , 'id', 'nombre');
     ?>
     <?=
-    $form->field($model, 'estado_proceso_id')->dropDownList($estadosProcesoList, ['prompt' => '- Seleccion un estado -'])
+    $form->field($model, 'estado_proceso_id')->checkboxList($estadosProcesoList, ['prompt' => '- Seleccion un estado -'])
     ?>
 
     <?=

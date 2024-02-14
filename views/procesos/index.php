@@ -562,6 +562,7 @@ $fullExportMenu = ExportMenu::widget(
                     'dataProvider' => $exportDataProvider,
                     'filterModel' => $searchModel,
                     'columns' => $exportColumns,
+                    'selectedColumns'=> [2, 7, 9, 22, 29, 30, 32, 35, 36, 37,51, 58],
                     'showConfirmAlert' => false,
                     'fontAwesome' => true,
                     'target' => '_blank',
