@@ -69,8 +69,7 @@ class ProcesosSearch extends Procesos {
                 ->orFilterWhere(['like', 'jurisdicciones_competentes.nombre', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado_2', trim($this->buscador)])
-                ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)])
-                ->orFilterWhere(['IN', 'estado_proceso_id', $this->estado_proceso_id])
+                ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)])                
                 ->orFilterWhere(['like', 'valores_activacion_juridico.valor', trim($this->buscador)]);
 
         if (Yii::$app->user->identity->isColaborador() &&
@@ -79,6 +78,9 @@ class ProcesosSearch extends Procesos {
                 !Yii::$app->user->identity->isSuperAdmin()) {
             $query->andFilterWhere(['like', 'procesos_x_colaboradores.user_id', \Yii::$app->user->id]);
         }
+        
+        //Estados
+        $query->andFilterWhere(['IN', 'estado_proceso_id', $this->estado_proceso_id]);
 
         // SI EL USUARIO LOGUEADO ES CLIENTE, SOLO VE SU INFO
         if (Yii::$app->user->identity->isCliente()) {

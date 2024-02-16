@@ -562,7 +562,7 @@ $fullExportMenu = ExportMenu::widget(
                     'dataProvider' => $exportDataProvider,
                     'filterModel' => $searchModel,
                     'columns' => $exportColumns,
-                    'selectedColumns'=> [2, 7, 9, 22, 29, 30, 32, 35, 36, 37,51, 58],
+                    'selectedColumns' => [2, 7, 9, 22, 29, 30, 32, 35, 36, 37, 51, 58],
                     'showConfirmAlert' => false,
                     'fontAwesome' => true,
                     'target' => '_blank',
@@ -601,28 +601,31 @@ $fullExportMenu = ExportMenu::widget(
         //alerta envío memorial. Se pintarán colores distintos en el borde de la box-primary
         $fechaUltimaGestionJur = date('Y-m-d');
         $hoy = date('Y-m-d');
-        
-        if (isset($proceso->gestionesJuridicas[0]['fecha_gestion'])){
-            $fechaUltimaGestionJur = date('Y-m-d',strtotime($proceso->gestionesJuridicas[0]['fecha_gestion']));            
+
+        // ESCAPAR LOS SALTOS DE LINEAS PARA LOS COMENTARIOS DE LOS RADICADOS
+        $proceso->jur_comentario_radicado_1 = str_replace(["\r\n", "\n", "\r"], " <br /> ", $proceso->jur_comentario_radicado_1);
+        $proceso->jur_comentario_radicado_2 = str_replace(["\r\n", "\n", "\r"], " <br /> ", $proceso->jur_comentario_radicado_2);
+        $proceso->jur_comentario_radicado_3 = str_replace(["\r\n", "\n", "\r"], " <br /> ", $proceso->jur_comentario_radicado_3);
+
+        if (isset($proceso->gestionesJuridicas[0]['fecha_gestion'])) {
+            $fechaUltimaGestionJur = date('Y-m-d', strtotime($proceso->gestionesJuridicas[0]['fecha_gestion']));
         }
         //calcular numero de dias trascurridos desde la ultima gestion juridica
-        $dias = (strtotime($hoy) - strtotime($fechaUltimaGestionJur))/24/3600;
+        $dias = (strtotime($hoy) - strtotime($fechaUltimaGestionJur)) / 24 / 3600;
 
         $boxBorderStyle = 'box-primary';
 
-        if ($dias>=150 && $dias < 180){
+        if ($dias >= 150 && $dias < 180) {
             $boxBorderStyle = 'box-primary-yellow';
-        }elseif ($dias>=180){
+        } elseif ($dias >= 180) {
             $boxBorderStyle = 'box-primary-red';
         }
         ?>
         <div class="col-md-12">
 
             <!-- PROCESO -->
-            <div class="box <?=$boxBorderStyle?>">
+            <div class="box <?= $boxBorderStyle ?>">
                 <div class="box-header with-border"> 
-
-
 
                     <!-- SI EL PROCESO ESTA EN JURIDICO SE DEBE MOSTARR EL NUMERO DEL RADICADO -->
                     <?php if ($proceso->estado_proceso_id == '5') : ?>
