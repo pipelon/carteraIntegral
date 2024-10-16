@@ -189,6 +189,7 @@ if ((in_array($userId, $colaboradores) ||
     $form = yii\bootstrap\ActiveForm::begin(
                     [
                         'id' => "form_jur",
+                        "action" => ["procesos/view-summary-juridico", "id" => $model->id],
                         'fieldConfig' => [
                             'template' => "{label}\n{input}\n{hint}\n{error}\n",
                             'options' => ['class' => 'form-group col-md-6'],

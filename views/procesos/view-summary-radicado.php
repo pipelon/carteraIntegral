@@ -15,10 +15,6 @@ yii\bootstrap\Modal::begin([
     <div class="col-md-12 invoice-col">
         <h4>Radicado: <?= $radicado; ?></h4>
         <p class="text-muted">
-            <b>Departamento: </b> <?= $depa; ?>            
-            <br />
-            <b>Ciudad: </b> <?= $ciu; ?>
-            <br />
             <b>Juzgado: </b> <?= $juz; ?>
             <br />
             <b>Año: </b> <?= $ano; ?>

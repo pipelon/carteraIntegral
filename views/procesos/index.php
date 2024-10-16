@@ -645,8 +645,8 @@ $fullExportMenu = ExportMenu::widget(
                                                 cache: false,
                                                 url     : '" . Url::to(['procesos/view-summary-radicado']) . "',
                                                 data: {
-                                                    'depa': '" . $proceso->jurDepartamento->nombre . "',
-                                                    'ciu': '" . $proceso->jurCiudad->nombre . "',                                                    
+                                                    'depa': '',
+                                                    'ciu': '',                                                    
                                                     'juz': '" . $proceso->jur_juzgado . "',
                                                     'ano': '" . $proceso->jur_anio_radicado . "',
                                                     'con': '" . $proceso->jur_consecutivo_proceso . "',
