@@ -69,16 +69,28 @@ class ProcesosSearch extends Procesos {
                 ->orFilterWhere(['like', 'jurisdicciones_competentes.nombre', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado', trim($this->buscador)])
                 ->orFilterWhere(['like', 'jur_radicado_2', trim($this->buscador)])
-                ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)])                
+                ->orFilterWhere(['like', 'jur_radicado_3', trim($this->buscador)])
                 ->orFilterWhere(['like', 'valores_activacion_juridico.valor', trim($this->buscador)]);
 
         if (Yii::$app->user->identity->isColaborador() &&
                 !Yii::$app->user->identity->isLider() &&
                 !Yii::$app->user->identity->isCliente() &&
                 !Yii::$app->user->identity->isSuperAdmin()) {
-            $query->andFilterWhere(['like', 'procesos_x_colaboradores.user_id', \Yii::$app->user->id]);
+            $query->andFilterWhere([
+                'procesos_x_colaboradores.user_id' => \Yii::$app->user->id,
+            ]);
         }
-        
+
+        if (Yii::$app->user->identity->isColaborador() &&
+                Yii::$app->user->identity->isLider() &&
+                !Yii::$app->user->identity->isCliente() &&
+                !Yii::$app->user->identity->isSuperAdmin()) {
+
+            $query->andFilterWhere([
+                'procesos_x_colaboradores.user_id' => \Yii::$app->user->id,
+            ]);
+        }
+
         //Estados
         $query->andFilterWhere(['IN', 'estado_proceso_id', $this->estado_proceso_id]);
 
