@@ -835,6 +835,7 @@ $form = ActiveForm::begin(
             $tipoProcesosList = yii\helpers\ArrayHelper::map(
                             \app\models\TipoProcesos::find()
                                     ->where(['activo' => 1])
+                                    ->orderBy("nombre ASC")
                                     ->all()
                             , 'id', 'nombre');
             ?>
@@ -848,6 +849,32 @@ $form = ActiveForm::begin(
                     'initialize' => true,
                     'placeholder' => '- Seleccione una etapa procesal -',
                     'url' => Url::to(['/etapas-procesales/etapasprocesalesporprocesoid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?=
+            $form->field($model, 'jur_etapas_procesal_cuaderno_ppal_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_etapas_procesal_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
+                'options' => ['id' => 'etapa-procesal-cuaderno-ppal-id'],
+                'data' => [$model->jur_etapas_procesal_cuaderno_ppal_id => $model->jurEtapasProcesal->nombre ?? 'default'],
+                'pluginOptions' => [
+                    'depends' => ['tipo-proceso-id'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una etapa procesal -',
+                    'url' => Url::to(['/etapas-procesales-cuaderno-ppal/etapasprocesalesporprocesoid']),
+                    'loadingText' => 'Cargando ...',
+                ]
+            ]);
+            ?>
+            <?=
+            $form->field($model, 'jur_etapas_procesal_medidas_cautelares_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_etapas_procesal_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
+                'options' => ['id' => 'etapa-procesal-medidas-cautelares-id'],
+                'data' => [$model->jur_etapas_procesal_medidas_cautelares_id => $model->jurEtapasProcesal->nombre ?? 'default'],
+                'pluginOptions' => [
+                    'depends' => ['tipo-proceso-id'],
+                    'initialize' => true,
+                    'placeholder' => '- Seleccione una etapa procesal -',
+                    'url' => Url::to(['/etapas-procesales-medidas-cautelares/etapasprocesalesporprocesoid']),
                     'loadingText' => 'Cargando ...',
                 ]
             ]);

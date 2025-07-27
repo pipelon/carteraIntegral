@@ -178,6 +178,8 @@ class Procesos extends \yii\db\ActiveRecord {
             [['deudor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Deudores::className(), 'targetAttribute' => ['deudor_id' => 'id']],
             [['estado_proceso_id'], 'exist', 'skipOnError' => true, 'targetClass' => EstadosProceso::className(), 'targetAttribute' => ['estado_proceso_id' => 'id']],
             [['jur_etapas_procesal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesales::className(), 'targetAttribute' => ['jur_etapas_procesal_id' => 'id']],
+            [['jur_etapas_procesal_cuaderno_ppal_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesalesCuadernoPpal::className(), 'targetAttribute' => ['jur_etapas_procesal_cuaderno_ppal_id' => 'id']],
+            [['jur_etapas_procesal_medidas_cautelares_id'], 'exist', 'skipOnError' => true, 'targetClass' => EtapasProcesalesMedidasCautelares::className(), 'targetAttribute' => ['jur_etapas_procesal_medidas_cautelares_id' => 'id']],
             [['jur_jurisdiccion_competent_id'], 'exist', 'skipOnError' => true, 'targetClass' => JurisdiccionesCompetentes::className(), 'targetAttribute' => ['jur_jurisdiccion_competent_id' => 'id']],
             [['plataforma_id'], 'exist', 'skipOnError' => true, 'targetClass' => Plataformas::className(), 'targetAttribute' => ['plataforma_id' => 'id']],
             [['prejur_tipo_caso'], 'exist', 'skipOnError' => true, 'targetClass' => TipoCasos::className(), 'targetAttribute' => ['prejur_tipo_caso' => 'id']],
@@ -259,6 +261,8 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_comentario_radicado_3' => 'Comentarios',
             'jur_tipo_proceso_id' => 'Tipo de proceso',
             'jur_etapas_procesal_id' => 'Etapa procesal',
+            'jur_etapas_procesal_cuaderno_ppal_id' => 'Etapa procesal (CUADERNO PRINCIPAL)',
+            'jur_etapas_procesal_medidas_cautelares_id' => 'Etapa procesal (CUADERNO DE MEDIDAS CAUTELARES)',
             'jur_fecha_etapa_procesal' => 'Fecha etapa procesal',
             'jur_documentos_activacion' => 'Documentos de activación',
             'jur_demandados' => 'Codeudores',
@@ -469,6 +473,24 @@ class Procesos extends \yii\db\ActiveRecord {
      */
     public function getJurEtapasProcesal() {
         return $this->hasOne(EtapasProcesales::className(), ['id' => 'jur_etapas_procesal_id']);
+    }
+    
+    /**
+     * Gets query for [[JurEtapasProcesal]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurEtapasProcesalCuadernoPpal() {
+        return $this->hasOne(EtapasProcesalesCuadernoPpal::className(), ['id' => 'jur_etapas_procesal_cuaderno_ppal_id']);
+    }
+    
+    /**
+     * Gets query for [[JurEtapasProcesal]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJurEtapasProcesalMedidasCautelares() {
+        return $this->hasOne(EtapasProcesalesMedidasCautelares::className(), ['id' => 'jur_etapas_procesal_medidas_cautelares_id']);
     }
 
     /**
