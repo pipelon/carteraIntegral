@@ -766,6 +766,7 @@ return [
         'jur_valor_activacion' => 'jur_valor_activacion',
         'jur_saldo_actual' => 'jur_saldo_actual',
         'jur_tipo_proceso_id' => 'jur_tipo_proceso_id',
+        'jur_tipo_credito' => 'jur_tipo_credito',
         'jur_etapas_procesal_id' => 'jur_etapas_procesal_id',
         'jur_departamento_id' => 'jur_departamento_id',
         'jur_ciudad_id' => 'jur_ciudad_id',

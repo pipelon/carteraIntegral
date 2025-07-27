@@ -812,6 +812,21 @@ $form = ActiveForm::begin(
               ])->checkboxList($listDeudores)
              */ ?>
             <!--</div>-->
+            <?=
+                    $form->field($model, 'jur_tipo_credito', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_tipo_credito']) . "{label}\n{input}\n{hint}\n{error}\n"])
+                    ->dropDownList([
+                        "FNG", 
+                        "FAG", 
+                        "TCM (MASTERCARD)", 
+                        "TCV (VISA)",
+                        "TCK ( AMERICAN)",
+                        "MONEDA LEGAL",
+                        "HIPOTECARIO",
+                        "PRENDARIO",
+                        "LEASING",
+                        "VENTA DIGITAL"
+                            ], ['prompt' => '- Seleccione un tipo de crédito -', 'id' => 'jur_tipo_credito'])
+            ?>
         </div>
 
         <!-- TIPO DE PROCESO -->
@@ -823,7 +838,7 @@ $form = ActiveForm::begin(
                                     ->all()
                             , 'id', 'nombre');
             ?>
-            <?= $form->field($model, 'jur_tipo_proceso_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_tipo_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->dropDownList($tipoProcesosList, ['prompt' => '- Seleccion un tipo de proceso -', 'id' => 'tipo-proceso-id']) ?>
+            <?= $form->field($model, 'jur_tipo_proceso_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_tipo_proceso_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->dropDownList($tipoProcesosList, ['prompt' => '- Seleccione un tipo de proceso -', 'id' => 'tipo-proceso-id']) ?>
             <?=
             $form->field($model, 'jur_etapas_procesal_id', ['template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_etapas_procesal_id']) . "{label}\n{input}\n{hint}\n{error}\n"])->widget(DepDrop::classname(), [
                 'options' => ['id' => 'etapa-procesal-id'],
@@ -838,17 +853,16 @@ $form = ActiveForm::begin(
             ]);
             ?>
             <?php
-                //Esto debe mostrase solo a superadministradores y Lideres/colaboradres del proceso
-                if ((Yii::$app->user->identity->isSuperAdmin() || (Yii::$app->user->identity->getId() == $model->jefe_id) || in_array(Yii::$app->user->identity->getId(), $model->colaboradores ?? [])) && \Yii::$app->user->can('/procesos/update'))  :
-
-            ?>
-            <?=
+            //Esto debe mostrase solo a superadministradores y Lideres/colaboradres del proceso
+            if ((Yii::$app->user->identity->isSuperAdmin() || (Yii::$app->user->identity->getId() == $model->jefe_id) || in_array(Yii::$app->user->identity->getId(), $model->colaboradores ?? [])) && \Yii::$app->user->can('/procesos/update')) :
+                ?>
+                <?=
                 Html::a("<span class='flaticon-list-3'></span> Enviar memorial",
                         ["procesos/vista-previa-notificacion", "id" => $model->id],
                         ["target" => "_self", "class" => "btn btn-primary pull-right"]);
-            ?>
-            <?php
-                endif;
+                ?>
+                <?php
+            endif;
             ?>
         </div>
         <div class="row-field">
@@ -1347,13 +1361,13 @@ $form = ActiveForm::begin(
                                     );
                                     ?>
                                 <?php endif; ?>
-    <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
+                                <?= Html::activeHiddenInput($mdlTarea, "[{$index}]jefe_id"); ?>
                             </div>
                         </div>
-<?php endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
-<?php DynamicFormWidget::end(); ?>
+            <?php DynamicFormWidget::end(); ?>
         </div>
     </div>
 </div>
@@ -1413,7 +1427,7 @@ $form = ActiveForm::begin(
         <?= Html::submitButton('<i class="flaticon-paper-plane" style="font-size: 15px"></i> ' . 'Guardar', ['class' => 'btn btn-primary']) ?>
         <?php if (\Yii::$app->user->can('/procesos/index') || \Yii::$app->user->can('/*')) : ?>        
             <?= Html::a('<i class="flaticon-up-arrow-1" style="font-size: 15px"></i> ' . 'Volver', ['index'], ['class' => 'btn btn-default pull-right']) ?>
-<?php endif; ?> 
+        <?php endif; ?> 
     </div>
 </div>
 

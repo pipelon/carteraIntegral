@@ -162,7 +162,7 @@ class Procesos extends \yii\db\ActiveRecord {
             'jur_jurisdiccion_competent_caso_especial_id_2',
             'jur_jurisdiccion_competent_caso_especial_id_3'], 'string', 'max' => 255],
             [['prejur_resultado_estudio_bienes'], 'string', 'max' => 12],
-            [['carpeta'], 'string', 'max' => 100],
+            [['carpeta', 'jur_tipo_credito'], 'string', 'max' => 100],
             [['estrec_probabilidad_recuperacion'], 'string', 'max' => 5],
             [['jur_consecutivo_proceso', 'jur_consecutivo_proceso_2', 'jur_consecutivo_proceso_3'], 'string', 'max' => 5, 'min' => 5],
             [['jur_anio_radicado', 'jur_anio_radicado_2', 'jur_anio_radicado_3'], 'string', 'max' => 5],
@@ -274,7 +274,8 @@ class Procesos extends \yii\db\ActiveRecord {
             'delete' => 'Borrado',
             'deleted' => 'Borrado',
             'deleted_by' => 'Borrado por',
-            'file' => 'Archivos creados'
+            'file' => 'Archivos creados',
+            'jur_tipo_credito' => 'Tipo de crédito',
         ];
     }
 
