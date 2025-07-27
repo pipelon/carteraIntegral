@@ -81,7 +81,7 @@ class ProcesosSearch extends Procesos {
             ]);
         }
 
-        if (Yii::$app->user->identity->isColaborador() &&
+        /*if (Yii::$app->user->identity->isColaborador() &&
                 Yii::$app->user->identity->isLider() &&
                 !Yii::$app->user->identity->isCliente() &&
                 !Yii::$app->user->identity->isSuperAdmin()) {
@@ -89,7 +89,7 @@ class ProcesosSearch extends Procesos {
             $query->andFilterWhere([
                 'procesos_x_colaboradores.user_id' => \Yii::$app->user->id,
             ]);
-        }
+        }*/
 
         //Estados
         $query->andFilterWhere(['IN', 'estado_proceso_id', $this->estado_proceso_id]);

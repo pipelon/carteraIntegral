@@ -732,6 +732,12 @@ $fullExportMenu = ExportMenu::widget(
 
                     <!-- BOTONES DE EDICIÓN, VISTA Y BORRADO -->
                     <div class="box-tools pull-right">
+                        <?php 
+                            if (isset($proceso->gestionesJuridicas[0]['fecha_gestion'])) {
+                                echo "<span>Última gestión jurídica: hace {$dias} dias.</span>";
+                            }
+                        
+                        ?>
                         <?php
                         //SI EL USUARIO PUEDE EDITAR
                         if ((in_array($userId, $colaboradores) ||
