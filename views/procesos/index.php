@@ -35,7 +35,7 @@ $exportColumns = [
         'attribute' => 'deudor_id',
         'format' => 'raw',
         'value' => function ($data) {
-            return $data->deudor->nombre . ' (' . $data->deudor->marca . ')';
+            return $data->deudor->documento . " - " . $data->deudor->nombre . ' (' . $data->deudor->marca . ')';
         },
     ],
     [
@@ -385,8 +385,7 @@ $exportColumns = [
 
 //COLUMNAS PARA EL EXPORTABLE SI SOY CLIENTE
 if (Yii::$app->user->identity->isCliente()) {
-    $exportColumns = [
-        'id',
+    $exportColumns = [        
         [
             'attribute' => 'cliente_id',
             'format' => 'raw',
@@ -398,7 +397,7 @@ if (Yii::$app->user->identity->isCliente()) {
             'attribute' => 'deudor_id',
             'format' => 'raw',
             'value' => function ($data) {
-                return $data->deudor->nombre . ' (' . $data->deudor->marca . ')';
+                return $data->deudor->documento . " - " . $data->deudor->nombre . ' (' . $data->deudor->marca . ')';
             },
         ],
         'prejur_fecha_recepcion:date',
@@ -732,11 +731,10 @@ $fullExportMenu = ExportMenu::widget(
 
                     <!-- BOTONES DE EDICIÓN, VISTA Y BORRADO -->
                     <div class="box-tools pull-right">
-                        <?php 
-                            if (isset($proceso->gestionesJuridicas[0]['fecha_gestion'])) {
-                                echo "<span>Última gestión jurídica: hace {$dias} dias.</span>";
-                            }
-                        
+                        <?php
+                        if (isset($proceso->gestionesJuridicas[0]['fecha_gestion'])) {
+                            echo "<span>Última gestión jurídica: hace {$dias} dias.</span>";
+                        }
                         ?>
                         <?php
                         //SI EL USUARIO PUEDE EDITAR
@@ -889,6 +887,13 @@ $fullExportMenu = ExportMenu::widget(
                                     echo '-';
                                 }
                                 ?>
+                                <br />
+                                <b>Etapa procesal (CUADERNO PRINCIPAL): </b>
+                                <?= isset($proceso->jurEtapasProcesalCuadernoPpal->nombre) ? $proceso->jurEtapasProcesalCuadernoPpal->nombre : '-'; ?>
+                                <br />
+                                <b>Etapa procesal (CUADERNO DE MEDIDAS CAUTELARES): </b>
+                                <?= isset($proceso->jurEtapasProcesalMedidasCautelares->nombre) ? $proceso->jurEtapasProcesalMedidasCautelares->nombre : '-'; ?>
+                                <br />
                             </p>
 
                         </div>

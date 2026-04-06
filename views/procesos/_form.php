@@ -879,6 +879,12 @@ $form = ActiveForm::begin(
                 ]
             ]);
             ?>
+            <?=
+            $form->field($model, 'jur_etapas_procesal_medidas_cautelares_comentarios', [
+                'template' => Yii::$app->utils->mostrarPopover(\Yii::$app->params['ayudas']['jur_etapas_procesal_medidas_cautelares_comentarios']) . "{label}\n{input}\n{hint}\n{error}\n",
+                'options' => ['class' => 'form-group col-md-12'],
+            ])->textarea(['rows' => 6])
+            ?>
             <?php
             //Esto debe mostrase solo a superadministradores y Lideres/colaboradres del proceso
             if ((Yii::$app->user->identity->isSuperAdmin() || (Yii::$app->user->identity->getId() == $model->jefe_id) || in_array(Yii::$app->user->identity->getId(), $model->colaboradores ?? [])) && \Yii::$app->user->can('/procesos/update')) :

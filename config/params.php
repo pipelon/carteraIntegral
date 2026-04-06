@@ -768,6 +768,7 @@ return [
         'jur_tipo_proceso_id' => 'jur_tipo_proceso_id',
         'jur_tipo_credito' => 'jur_tipo_credito',
         'jur_etapas_procesal_id' => 'jur_etapas_procesal_id',
+        'jur_etapas_procesal_medidas_cautelares_comentarios' => 'jur_etapas_procesal_medidas_cautelares_comentarios',
         'jur_departamento_id' => 'jur_departamento_id',
         'jur_ciudad_id' => 'jur_ciudad_id',
         'jur_jurisdiccion_competent_id' => 'jur_jurisdiccion_competent_id',
