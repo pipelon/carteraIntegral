@@ -188,6 +188,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface {
         return Users::find()
                         ->join('LEFT JOIN', 'auth_assignment', 'auth_assignment.user_id = id')
                         ->where(['auth_assignment.item_name' => $role])
+                        ->orderBy('name ASC')
                         ->all();
     }
 

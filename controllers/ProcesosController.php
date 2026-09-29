@@ -614,6 +614,10 @@ class ProcesosController extends Controller {
                         $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
                         $gestPreJur->descripcion_gestion = $model->prejur_gestion_prejuridica;
                         $gestPreJur->save();
+                        
+                        //LOG
+                        $mensaje = "Gestión prejurídica fue realizada por '{$gestPreJur->usuario_gestion}' en el proceso #{$gestPreJur->proceso_id}.";
+                        \Yii::info($mensaje, "cartera");
                     }
 
                     //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
@@ -659,6 +663,10 @@ class ProcesosController extends Controller {
                         $gestPreJur->usuario_gestion = Yii::$app->user->identity->fullName ?? 'Anónimo';
                         $gestPreJur->descripcion_gestion = $model->jur_gestion_juridica;
                         $gestPreJur->save();
+                        
+                        //LOG
+                        $mensaje = "Gestión jurídica fue realizada por '{$gestPreJur->usuario_gestion}' en el proceso #{$gestPreJur->proceso_id}.";
+                        \Yii::info($mensaje, "cartera");
                     }
 
                     //OBTENGO TODA LA INFORMACION DE NUEVO PARA MOSTRAR LA NUEVA GESTION
